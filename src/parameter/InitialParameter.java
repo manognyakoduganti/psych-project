@@ -48,7 +48,7 @@ public class InitialParameter extends HttpServlet {
 			ResultSet rs = BuildStaticParameters.stmt.executeQuery(sql);
 			int maximum_number = 0;
 			while(rs.next()) {
-				maximum_number = rs.getInt(0);
+				maximum_number = rs.getInt(1);
 			}
 			Set<Integer> uniqueSet = new HashSet<Integer>();
 			uniqueSet = generateRandomUniqueNumber(maximum_number);
@@ -68,7 +68,7 @@ public class InitialParameter extends HttpServlet {
 			String color[] = new String[2];
 			int i = 0;
 			while(rs1.next()){
-				color[i] = rs.getString(0);
+				color[i] = rs.getString(1);
 				i++;
 			}
 			
@@ -76,7 +76,7 @@ public class InitialParameter extends HttpServlet {
 			ResultSet rs2 = BuildStaticParameters.stmt.executeQuery(sql3);
 			int age = 0;
 			while (rs2.next()){
-				age = rs2.getInt(0);
+				age = rs2.getInt(1);
 			}
 			Float timeInterval = getTimeInterval(age);
 			

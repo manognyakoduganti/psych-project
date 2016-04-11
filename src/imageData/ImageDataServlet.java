@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import authentication.BuildStaticParameters;
+
 /**
  * Servlet implementation class ImageDataServlet
  */
@@ -63,30 +65,24 @@ public class ImageDataServlet extends HttpServlet {
 			 String userid = param[5];
 			 //String userid = "1";
 			 
-			 Class.forName("com.mysql.jdbc.Driver");
-			 // Pwd frm the db to be stored into this variable
-			
+			 if (BuildStaticParameters.conn == null) {
+					BuildStaticParameters.buildConnectionWithSQL();
+				}
 			 
-			 //out.println("Connecting to database... <br>");
-			 Connection conn = DriverManager.getConnection(DB_URL,USER,PASS);
 			 
-			 //out.println("Creating statement...<br>");
-			 Statement stmt = conn.createStatement();
+			 
 			 String sql;
 			 sql = "insert into response (respCorrectness,respTimeTaken,respActualResult,respUser,respBGColor) values ('"
 			 + correctness + "', '"  + responseTime +"','"+ actualResult + "','" + userid + "','" + bgColor +"' ) ";
 			 
-			 stmt.executeUpdate(sql);
+			 BuildStaticParameters.stmt.executeUpdate(sql);
 		
-			 //String json_res = new Gson().toJson("true");
+			
 			 
 			 response.setContentType("application/json");
 			 response.setCharacterEncoding("UTF-8");
 			 
 			 
-			 //out.println(username + " " + pwd + " " + success + "<br>");
-			 
-			 //out.println("</body></html>");
 			 
 			 response.getWriter().write("{\"result\":true}");
 			
