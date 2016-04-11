@@ -81,9 +81,9 @@ public class AuthenticatingUser extends HttpServlet {
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
 		try {
-			/*if (BuildStaticParameters.conn == null) {
+			if (BuildStaticParameters.conn == null) {
 				BuildStaticParameters.buildConnectionWithSQL();
-			}*/
+			}
 			response.setCharacterEncoding("UTF-8");
 			String result=loginOrInsertRecord(request);
 			response.getWriter().write(result);
