@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -36,7 +37,6 @@ public class Register extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
 		String type=request.getParameter("queryType");
 		String[] registerData = request.getParameterValues("param");
 		String result="";
@@ -58,7 +58,6 @@ public class Register extends HttpServlet {
 				fis.read(data);
 				fis.close();
 				String agreement=new String(data,"UTF-8");
-				//response.setCharacterEncoding("UTF-8");
 				response.getWriter().write(agreement);
 				return;
 			}
@@ -76,17 +75,17 @@ public class Register extends HttpServlet {
 				updateUserLogin.executeUpdate();
 				
 				String generatedID = "";
-				String sqlUserId = "select userId from userLogin where ulUserName = '" + registerData[0] + "'";
+				String sqlUserId = "select userLoginId from userLogin where ulUserName = '" + registerData[0] + "'";
 				ResultSet rs1 = BuildStaticParameters.stmt.executeQuery(sqlUserId);
 				while(rs1.next()) {
-					generatedID = rs1.getString("userId");
+					generatedID = rs1.getString("userLoginId");
 				}
 				
 				PreparedStatement updateUser = BuildStaticParameters.conn.prepareStatement(
 						"insert into user(userAge, userGender,userEthnicity,userDisability,userEducation,userMobileHandlingExperience,userPsycothereputicMedications,userColorblind,userDetails) values(?,?,?,?,?,?,?,?,?)");
 				updateUser.setString(1, registerData[2]);
-				updateUser.setString(2, registerData[4]);
-				updateUser.setString(3, registerData[3]);
+				updateUser.setString(2, registerData[3]);
+				updateUser.setString(3, registerData[4]);
 				updateUser.setString(4, registerData[5]);
 				updateUser.setString(5, registerData[9]);
 				updateUser.setString(6, registerData[6]);
@@ -104,7 +103,13 @@ public class Register extends HttpServlet {
 				return;
 				
 		} catch(Exception e) {
-			e.getStackTrace();
+			String sql = "delete from userLogin where ulUserName = '" + registerData[0] + "'";
+			result = "{\"status\":0,";
+			try {
+				BuildStaticParameters.stmt.executeUpdate(sql);
+			} catch (SQLException e1) {
+				response.getWriter().write(result + "\"message\":\""+e1.getMessage()+"\"}");;
+			}
 			response.getWriter().write(result + "\"message\":\""+e.getMessage()+"\"}");
 			return;
 		}

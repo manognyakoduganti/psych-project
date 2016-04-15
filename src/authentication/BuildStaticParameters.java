@@ -15,8 +15,9 @@ public class BuildStaticParameters {
 	public static void buildConnectionWithSQL() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
-			 stmt=BuildStaticParameters.conn.createStatement();
+			stmt=BuildStaticParameters.conn.createStatement();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

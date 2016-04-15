@@ -53,7 +53,7 @@ public class Questionnaire extends HttpServlet {
 				ResultSet rs = BuildStaticParameters.stmt.executeQuery(sqlRequest);
 				ArrayList<String> questions = new ArrayList<String>();
 				while(rs.next()) {
-					questions.add(rs.getString(0));
+					questions.add(rs.getString(1));
 				}
 				result = getQuestionJSON(questions);
 			} else if (reqType.equalsIgnoreCase("feedback")) {
@@ -65,7 +65,7 @@ public class Questionnaire extends HttpServlet {
 				
 				String questionType = sessionQuestion.equals("0")? "Start" : "End";
 				
-				String sql = "insert into questAns (qaSessionId, qaSessionDate, qaUserId, qaQestion, qaAnswer, qestionType) values (?,?,?,?,?,?)";
+				String sql = "insert into questAns (qaSessionId, qaSessionDate, qaUserId, qaQuestion, qaAnswer, questionType) values (?,?,?,?,?,?)";
 				PreparedStatement updateAnswers = BuildStaticParameters.conn.prepareStatement(sql);
 				for (int i = 0; i < 12; i++) {
 					updateAnswers.setString(1, sessionID);
@@ -79,25 +79,23 @@ public class Questionnaire extends HttpServlet {
 				result = "{\"save\":successful}";
 			}
 			response.getWriter().write(result);
-			BuildStaticParameters.stmt.close();
-			BuildStaticParameters.conn.close();
 		} catch (SQLException se) {
 			se.getStackTrace();
-			response.getWriter().write("{\"save\":\"unsuccessful\"}");
+			response.getWriter().write("{\"save1\":\"unsuccessful\", \"error\":" + se.getMessage() + " }");
 		} catch (Exception e) {
 			e.getStackTrace();
-			response.getWriter().write("{\"save\":\"unsuccessful\"}");
+			response.getWriter().write("{\"save2\":\"unsuccessful\", \"error\":" + e.getMessage() + " }");
 		}
 	}
 
 	private String getQuestionJSON(ArrayList<String> questions) {
 		String jsonString = "{questions: [";
-		int i = 1;
+		int i = 0;
 		for (String s:questions) {
-			if (i+1 > 12)
+			if (i+1 >= 12)
 				jsonString = jsonString + "{\"question\":\"" + s + "\"}";
 			else
-				jsonString =  jsonString + "\"question\":\"" + s + "\"},";
+				jsonString =  jsonString + "{\"question\":\"" + s + "\"},";
 			i++;
 		}
 		jsonString = jsonString + "]}";

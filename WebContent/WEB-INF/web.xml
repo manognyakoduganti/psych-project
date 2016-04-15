@@ -41,6 +41,7 @@
     <servlet-name>ImageFetcher</servlet-name>
     <servlet-class>imageData.ImageFetcher</servlet-class>
   </servlet>
+
   <servlet-mapping>
     <servlet-name>AuthenticatingUser</servlet-name>
     <url-pattern>/authentication/*</url-pattern>
@@ -48,7 +49,17 @@
 
 <servlet-mapping>
     <servlet-name>FetchInstruction</servlet-name>
-    <url-pattern>/parameter/*</url-pattern>
+    <url-pattern>/parameter/FetchInstruction/*</url-pattern>
+  </servlet-mapping>
+
+<servlet-mapping>
+    <servlet-name>InitialParameter</servlet-name>
+    <url-pattern>/parameter/InitialParameter/*</url-pattern>
+</servlet-mapping>
+
+<servlet-mapping>
+    <servlet-name>ParameterServlet</servlet-name>
+    <url-pattern>/parameter/ParameterServlet/*</url-pattern>
   </servlet-mapping>
 
 <servlet-mapping>
@@ -60,8 +71,6 @@
     <servlet-name>Register</servlet-name>
     <url-pattern>/registration/*</url-pattern>
   </servlet-mapping>
-
-
 
   <servlet-mapping>
     <servlet-name>ImageDataServlet</servlet-name>
