@@ -134,11 +134,11 @@ public class InitialParameter extends HttpServlet {
 	private String getJSONStringParameters(String[] colors, Float timeInterval, int sessionId) {
 		String result = "";
 		String time = timeInterval.toString();
-			result = "{\"positiveColor\":" + colors[0] + 
-					",\"negativeColor\":" + colors[1] + 
-					",\"timeInterval\":" + time +   
-					",\"totalGames\": 20" +
-					",\"sessionID\":" + sessionId + "}";
+			result = "{\"positiveColor\":\"" + colors[0] + 
+					"\",\"negativeColor\":\"" + colors[1] + 
+					"\",\"timeInterval\":\"" + time +   
+					"\",\"totalGames\": \"20\"" +
+					",\"sessionID\":\"" + sessionId + "\"}";
 		return result;
 	}
 
