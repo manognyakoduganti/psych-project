@@ -74,6 +74,11 @@
 
   <servlet-mapping>
     <servlet-name>ImageDataServlet</servlet-name>
-    <url-pattern>/imageData/*</url-pattern>
+    <url-pattern>/imageData/ImageDataServlet/*</url-pattern>
+  </servlet-mapping>
+	
+  <servlet-mapping>
+    <servlet-name>ImageFetcher</servlet-name>
+    <url-pattern>/imageData/ImageFetcher/*</url-pattern>
   </servlet-mapping>
 </web-app>

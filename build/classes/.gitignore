@@ -1,8 +1,5 @@
-/.DS_Store
-/AllTests.class
-/TestRunner.class
 /authentication/
-/imageData/
 /parameter/
-/questionnaire/
 /registration/
+/questionnaire/
+/imageData/
