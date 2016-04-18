@@ -137,7 +137,7 @@ public class InitialParameter extends HttpServlet {
 			result = "{\"positiveColor\":\"" + colors[0] + 
 					"\",\"negativeColor\":\"" + colors[1] + 
 					"\",\"timeInterval\":\"" + time +   
-					"\",\"totalGames\": \"20\"" +
+					"\",\"totalGames\": \"7\"" +
 					",\"sessionID\":\"" + sessionId + "\"}";
 		return result;
 	}
