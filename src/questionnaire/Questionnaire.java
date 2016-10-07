@@ -60,14 +60,22 @@ public class Questionnaire extends HttpServlet {
 				String[] questions = request.getParameterValues("question");
 				String[] answers = request.getParameterValues("answer");
 				String userID = request.getParameter("userID");
-				String sessionID = request.getParameter("sessionID");
+				// fix session ID 
+				String sessionID = "";
+				String sessionSql = "select usSessionNumber from userSession where usUserId = " + userID + " and usSessionDate in (select max(usSessionDate) from userSession where usUserId = " + userID + ")";
+				ResultSet rs = BuildStaticParameters.stmt.executeQuery(sessionSql);
+				if(rs.next()){
+					sessionID = rs.getString(1);
+				} else {
+					sessionID = "1";
+				}
 				String sessionDate = request.getParameter("sessionDate");
 				
 				String questionType = sessionQuestion.equals("0")? "Start" : "End";
 				
 				String sql = "insert into questAns (qaSessionId, qaSessionDate, qaUserId, qaQuestion, qaAnswer, questionType) values (?,?,?,?,?,?)";
 				PreparedStatement updateAnswers = BuildStaticParameters.conn.prepareStatement(sql);
-				for (int i = 0; i < 12; i++) {
+				for (int i = 0; i < questions.length; i++) {
 					updateAnswers.setString(1, sessionID);
 					updateAnswers.setString(2, sessionDate);
 					updateAnswers.setString(3, userID);
@@ -92,7 +100,7 @@ public class Questionnaire extends HttpServlet {
 		String jsonString = "{questions: [";
 		int i = 0;
 		for (String s:questions) {
-			if (i+1 >= 12)
+			if (i+1 >= questions.size())
 				jsonString = jsonString + "{\"question\":\"" + s + "\"}";
 			else
 				jsonString =  jsonString + "{\"question\":\"" + s + "\"},";

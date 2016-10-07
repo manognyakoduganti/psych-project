@@ -53,10 +53,11 @@ public class Register extends HttpServlet {
 				File file=new File(ctx.getRealPath("."));
 				
 				File f = new File(file.getParent()+"/appData/agreement.txt");
+				@SuppressWarnings("resource")
 				FileInputStream fis = new FileInputStream(f);
 				byte[] data = new byte[(int) file.length()];
 				fis.read(data);
-				fis.close();
+				
 				String agreement=new String(data,"UTF-8");
 				response.getWriter().write(agreement);
 				return;
@@ -94,7 +95,7 @@ public class Register extends HttpServlet {
 				updateUser.setString(9, generatedID);
 				updateUser.executeUpdate();
 				
-				result =  "{\"status\":1}";
+				result =  "{\"status\":1,\"userId\":" + generatedID + "}";
 				response.getWriter().write(result);
 				return;
 			}
@@ -108,7 +109,9 @@ public class Register extends HttpServlet {
 			try {
 				BuildStaticParameters.stmt.executeUpdate(sql);
 			} catch (SQLException e1) {
-				response.getWriter().write(result + "\"message\":\""+e1.getMessage()+"\"}");;
+				response.getWriter().write(result + "\"message\":\""+e1.getMessage()+"\"}");
+			} catch (Exception e2) {
+				response.getWriter().write(result + "\"message\":\""+e2.getMessage()+"\"}");
 			}
 			response.getWriter().write(result + "\"message\":\""+e.getMessage()+"\"}");
 			return;
