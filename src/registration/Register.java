@@ -5,6 +5,7 @@ import authentication.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,6 +38,7 @@ public class Register extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		
 		String type=request.getParameter("queryType");
 		String[] registerData = request.getParameterValues("param");
 		String result="";
@@ -50,8 +52,7 @@ public class Register extends HttpServlet {
 			if(type.equalsIgnoreCase("getAgreement")){
 				response.setContentType("plain/text");
 				ServletContext ctx=getServletContext();
-				File file=new File(ctx.getRealPath("."));
-				
+				File file=new File(ctx.getRealPath("/"));
 				File f = new File(file.getParent()+"/appData/agreement.txt");
 				@SuppressWarnings("resource")
 				FileInputStream fis = new FileInputStream(f);
@@ -102,7 +103,6 @@ public class Register extends HttpServlet {
 				result = "{\"status\":0,";
 				response.getWriter().write(result + "\"message\":\"user already exist\"}");
 				return;
-				
 		} catch(Exception e) {
 			String sql = "delete from userLogin where ulUserName = '" + registerData[0] + "'";
 			result = "{\"status\":0,";
