@@ -45,8 +45,8 @@ public class AdminAuthenticationTest {
 		PrintWriter printWriter = new PrintWriter(stringWriter);
 		
 		when(response.getWriter()).thenReturn(printWriter);
-		when(request.getSession()).thenReturn(session);
-		when(request.getParameter("email")).thenReturn("darshan");
+		when(request.getSession(false)).thenReturn(session);
+		when(request.getParameter("email")).thenReturn("patel.dars@husky.neu.edu");
 		when(request.getParameter("password")).thenReturn("abcd");
 		
 		adminAuthentication.doPost(request, response);
@@ -56,10 +56,11 @@ public class AdminAuthenticationTest {
 		JSONObject jsonObject = (JSONObject) obj;
 		
 		assertEquals((String) jsonObject.get("verified"), "1");
-		assertEquals((String) jsonObject.get("error"), "0");
 		
-		verify(session).setAttribute("email", "darshan");
+		verify(session).setAttribute("email", "patel.dars@husky.neu.edu");
 		verify(session).setAttribute("role", "GlobalAdministrator");
+		verify(session).setAttribute("firstname", "Darshan");
+		verify(session).setAttribute("lastname", "Patel");
 		
 	}
 	
@@ -74,9 +75,9 @@ public class AdminAuthenticationTest {
 		PrintWriter printWriter = new PrintWriter(stringWriter);
 		
 		when(response.getWriter()).thenReturn(printWriter);
-		when(request.getSession()).thenReturn(session);
-		when(request.getParameter("email")).thenReturn("darshan");
-		when(request.getParameter("password")).thenReturn("password1");
+		when(request.getSession(false)).thenReturn(session);
+		when(request.getParameter("email")).thenReturn("woeura#$%#$nssknlkj");
+		when(request.getParameter("password")).thenReturn("weoiru2l3kn4234908");
 		
 		adminAuthentication.doPost(request, response);
 		
