@@ -1,13 +1,13 @@
 package registration;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
+import org.junit.Test;
+import org.mockito.Mock;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.junit.Test;
-import org.mockito.Mock;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 public class RegisterTest {
 	

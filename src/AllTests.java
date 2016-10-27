@@ -1,9 +1,8 @@
+import authentication.AuthenticatingUserTest;
+import imageData.ImageDataServletTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
-
-import authentication.AuthenticatingUserTest;
-import imageData.ImageDataServletTest;
 import parameter.FetchInstructionTest;
 import parameter.InitialParameterTest;
 import questionnaire.QuestionnaireTest;
