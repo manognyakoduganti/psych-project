@@ -43,22 +43,21 @@ DROP TABLE IF EXISTS `location`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `location` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `locationCode` varchar(6) NOT NULL,
-  `name` varchar(200) NOT NULL UNIQUE,
+  `locCode` varchar(6) NOT NULL UNIQUE,
+  `locName` varchar(150) NOT NULL UNIQUE,
   `description` TEXT DEFAULT NULL,
-  `keywords` varchar(200) DEFAULT NULL,
+  `keywords` varchar(300) DEFAULT NULL,
   `addressLine1` varchar(200) NOT NULL,
   `addressLine2` varchar(200) DEFAULT NULL,
-  `city` varchar(200) NOT NULL,
+  `city` varchar(100) NOT NULL,
   `state` bigint(20) NOT NULL,
-  `zipcode` int(10) NOT NULL,
-  `phoneNumber` varchar(50) NOT NULL,
-  `faxNumber` varchar(50) DEFAULT NULL,
+  `zipcode` int(5) NOT NULL,
+  `phoneNumber` int(10) NOT NULL,
+  `faxNumber` int(10) DEFAULT NULL,
   `email` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `FKI_LOC_STATE` FOREIGN KEY (`state`) REFERENCES `fieldLookup` (`id`)
-)
-  ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 ##########################################################################
@@ -70,8 +69,8 @@ DROP TABLE IF EXISTS `admin`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `admin` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `firstname` varchar(50) NOT NULL,
-  `lastname` varchar(50) NOT NULL,
+  `firstName` varchar(50) NOT NULL,
+  `lastName` varchar(50) DEFAULT NULL,
   `email` varchar(200) NOT NULL UNIQUE,
   `password` varchar(30) NOT NULL,
   `locationId` bigint(20) NOT NULL,
