@@ -2,7 +2,7 @@
 <html lang="en" ng-app="PsychWebApp">
 
 <head>
-Hello
+ <%@ page isThreadSafe="false"  %>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
