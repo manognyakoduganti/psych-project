@@ -361,6 +361,3 @@ CREATE TABLE `imageResponse` (
   ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 ##########################################################################
-
-
-ALTER TABLE `fieldLookup` ADD UNIQUE `unique_index`(`fieldName`, `attribute`)
