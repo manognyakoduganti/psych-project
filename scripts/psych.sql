@@ -26,15 +26,13 @@ DROP TABLE IF EXISTS `fieldLookup`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `fieldLookup` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `groupId` bigint(20) NOT NULL,
   `groupName` varchar(200) NOT NULL,
   `fieldName` varchar(200) NOT NULL,
-  `attribute` varchar(200) NOT NULL,
   `description` TEXT DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-ALTER TABLE `fieldLookup` ADD UNIQUE `unique_index`(`fieldName`, `attribute`);
+ALTER TABLE `fieldLookup` ADD UNIQUE `unique_index`(`groupName`, `fieldName`);
 
 ##########################################################################
 
@@ -365,3 +363,5 @@ CREATE TABLE `imageResponse` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 ##########################################################################
 
+
+ALTER TABLE `fieldLookup` ADD UNIQUE `unique_index`(`fieldName`, `attribute`)
