@@ -21,7 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
 
-import constants.Constant;
+import common.Constant;
 
 public class AdminAuthenticationTest {
 	
@@ -47,7 +47,7 @@ public class AdminAuthenticationTest {
 		PrintWriter printWriter = new PrintWriter(stringWriter);
 		
 		when(response.getWriter()).thenReturn(printWriter);
-		when(request.getSession(false)).thenReturn(session);
+		when(request.getSession(true)).thenReturn(session);
 		when(request.getParameter(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
 		when(request.getParameter(Constant.PASSWORD)).thenReturn("abcd");
 		
@@ -77,7 +77,7 @@ public class AdminAuthenticationTest {
 		PrintWriter printWriter = new PrintWriter(stringWriter);
 		
 		when(response.getWriter()).thenReturn(printWriter);
-		when(request.getSession(false)).thenReturn(session);
+		when(request.getSession(true)).thenReturn(session);
 		when(request.getParameter(Constant.EMAIL)).thenReturn("woeura#$%#$nssknlkj");
 		when(request.getParameter(Constant.PASSWORD)).thenReturn("weoiru2l3kn4234908");
 		

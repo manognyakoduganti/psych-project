@@ -1,4 +1,4 @@
-package constants;
+package common;
 
 public class Constant {
 	
@@ -11,6 +11,6 @@ public class Constant {
 	public static String STATUS = "status";
 	
 	public static String YES = "1";
-	public static String NO = "1";
+	public static String NO = "0";
 
 }
