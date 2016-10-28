@@ -1,5 +1,6 @@
 package authentication;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import common.Constant;
 import common.DatabaseQuery;
@@ -41,12 +44,34 @@ public class AdminAuthentication extends HttpServlet {
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		
 		JSONObject returnJSON = new JSONObject();
-		String email = request.getParameter(Constant.EMAIL);
-		String password = request.getParameter(Constant.PASSWORD);
+		//String email = request.getParameter(Constant.EMAIL);
+		//String password = request.getParameter(Constant.PASSWORD);
+		
+		StringBuilder sb = new StringBuilder();
+        BufferedReader br = request.getReader();
+        String str = null;
+        while ((str = br.readLine()) != null) {
+            sb.append(str);
+        }
+        
+        JSONParser parser = new JSONParser();
+		Object obj;
+		String email="";
+		String password="";
+		
+		try {
+			obj = parser.parse(sb.toString());
+			JSONObject jsonObject = (JSONObject) obj;
+			email = (String) jsonObject.get(Constant.EMAIL);
+			password = (String) jsonObject.get(Constant.PASSWORD);
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		Connection dbConnection = null;
 		PreparedStatement preparedStatement = null;
-		
+		response.setContentType("application/json;charset=UTF-8");
 		String selectQuery = "SELECT FIRSTNAME, LASTNAME, EMAIL, ROLE FROM ADMIN WHERE EMAIL = ? AND PASSWORD = ?";
 		
 		try{
@@ -75,8 +100,7 @@ public class AdminAuthentication extends HttpServlet {
 			}else{
 				returnJSON.put(Constant.VERIFIED, Constant.NO);
 			}
-		
-			response.getWriter().write(returnJSON.toString());
+			response.getWriter().print(returnJSON);
 		}catch(SQLException e){
 			System.out.println(e.getMessage());
 		} finally {
