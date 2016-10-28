@@ -5,6 +5,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -46,10 +47,19 @@ public class AdminAuthenticationTest {
 		StringWriter stringWriter = new StringWriter();
 		PrintWriter printWriter = new PrintWriter(stringWriter);
 		
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(request.getReader()).thenReturn(bufferedReader);
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put(Constant.EMAIL, "patel.dars@husky.neu.edu");
+		jsonObj.put(Constant.PASSWORD, "abcd");
+		
+		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
+		
 		when(response.getWriter()).thenReturn(printWriter);
 		when(request.getSession(true)).thenReturn(session);
-		when(request.getParameter(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
-		when(request.getParameter(Constant.PASSWORD)).thenReturn("abcd");
+		//when(request.getParameter(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		//when(request.getParameter(Constant.PASSWORD)).thenReturn("abcd");
 		
 		adminAuthentication.doPost(request, response);
 		
@@ -78,8 +88,18 @@ public class AdminAuthenticationTest {
 		
 		when(response.getWriter()).thenReturn(printWriter);
 		when(request.getSession(true)).thenReturn(session);
-		when(request.getParameter(Constant.EMAIL)).thenReturn("woeura#$%#$nssknlkj");
-		when(request.getParameter(Constant.PASSWORD)).thenReturn("weoiru2l3kn4234908");
+		
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(request.getReader()).thenReturn(bufferedReader);
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put(Constant.EMAIL, "woeura#$%#$nssknlkj");
+		jsonObj.put(Constant.PASSWORD, "weoiru2l3kn4234908");
+		
+		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
+		
+		//when(request.getParameter(Constant.EMAIL)).thenReturn("woeura#$%#$nssknlkj");
+		//when(request.getParameter(Constant.PASSWORD)).thenReturn("weoiru2l3kn4234908");
 		
 		adminAuthentication.doPost(request, response);
 		
