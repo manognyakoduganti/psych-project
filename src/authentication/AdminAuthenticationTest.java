@@ -21,6 +21,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
 
+import constants.Constant;
+
 public class AdminAuthenticationTest {
 	
 	AdminAuthentication adminAuthentication;
@@ -46,8 +48,8 @@ public class AdminAuthenticationTest {
 		
 		when(response.getWriter()).thenReturn(printWriter);
 		when(request.getSession(false)).thenReturn(session);
-		when(request.getParameter("email")).thenReturn("patel.dars@husky.neu.edu");
-		when(request.getParameter("password")).thenReturn("abcd");
+		when(request.getParameter(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(request.getParameter(Constant.PASSWORD)).thenReturn("abcd");
 		
 		adminAuthentication.doPost(request, response);
 		
@@ -55,12 +57,12 @@ public class AdminAuthenticationTest {
 		Object obj = parser.parse(stringWriter.getBuffer().toString());
 		JSONObject jsonObject = (JSONObject) obj;
 		
-		assertEquals((String) jsonObject.get("verified"), "1");
+		assertEquals((String) jsonObject.get(Constant.VERIFIED), Constant.YES);
 		
-		verify(session).setAttribute("email", "patel.dars@husky.neu.edu");
-		verify(session).setAttribute("role", "GlobalAdministrator");
-		verify(session).setAttribute("firstname", "Darshan");
-		verify(session).setAttribute("lastname", "Patel");
+		verify(session).setAttribute(Constant.EMAIL, "patel.dars@husky.neu.edu");
+		verify(session).setAttribute(Constant.ROLE, "GlobalAdministrator");
+		verify(session).setAttribute(Constant.FIRST_NAME, "Darshan");
+		verify(session).setAttribute(Constant.LAST_NAME, "Patel");
 		
 	}
 	
@@ -76,8 +78,8 @@ public class AdminAuthenticationTest {
 		
 		when(response.getWriter()).thenReturn(printWriter);
 		when(request.getSession(false)).thenReturn(session);
-		when(request.getParameter("email")).thenReturn("woeura#$%#$nssknlkj");
-		when(request.getParameter("password")).thenReturn("weoiru2l3kn4234908");
+		when(request.getParameter(Constant.EMAIL)).thenReturn("woeura#$%#$nssknlkj");
+		when(request.getParameter(Constant.PASSWORD)).thenReturn("weoiru2l3kn4234908");
 		
 		adminAuthentication.doPost(request, response);
 		
@@ -85,7 +87,7 @@ public class AdminAuthenticationTest {
 		Object obj = parser.parse(stringWriter.getBuffer().toString());
 		JSONObject jsonObject = (JSONObject) obj;
 		
-		assertEquals((String) jsonObject.get("verified"), "0");
+		assertEquals((String) jsonObject.get(Constant.VERIFIED), Constant.NO);
 		
 	}
 	
