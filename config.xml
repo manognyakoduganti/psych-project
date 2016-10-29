@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration-file>
+    <database>
+ 	 <user>root</user>
+	  <password>Abcde@12345</password>
+	  <db-url>jdbc:mysql://localhost:3306/Psych</db-url>
+    </database>
+</configuration-file>
