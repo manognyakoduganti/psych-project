@@ -20,8 +20,10 @@
                 	console.log("Response received: " + response);
                 	console.log("verified received: " + response.verified);
                 	console.log("Data received: " + response.data);
-                        UserService.setCurrentUser = response.data;
+                	if(response.verified == '1') {
+                        UserService.setCurrentUser(user);
                         $location.url("/location");
+                	}
                     })
                 /*if(user) {
                    

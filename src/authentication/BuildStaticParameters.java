@@ -15,7 +15,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 public class BuildStaticParameters {
-	static final String configXML = "/home/sujith/Documents/courseware/msd/project/config.xml";
+	static final String configXML = "/Users/Darshan/Documents/config.xml";
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	static String DB_URL;
 	static String USER;
