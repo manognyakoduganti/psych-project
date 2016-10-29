@@ -14,6 +14,6 @@ import registration.RegisterTest;
 @SuiteClasses({
 	AdminAuthenticationTest.class,
 })
-public class AllTests {
+public class AllTest {
 
 }
