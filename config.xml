@@ -2,7 +2,7 @@
 <configuration-file>
     <database>
  	 <user>root</user>
-	  <password></password>
+	  <password> </password>
 	  <db-url>jdbc:mysql://localhost:3306/Psych</db-url>
     </database>
 </configuration-file>
