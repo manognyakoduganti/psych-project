@@ -1,4 +1,4 @@
-package db;
+package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,6 +31,7 @@ public class Authentication{
 				AdminDetails adminDetails = new AdminDetails();
 				adminDetails.setFirstName(rs.getString("FIRSTNAME"));
 				adminDetails.setLastName(rs.getString("LASTNAME"));
+				adminDetails.setUserId(rs.getString("ID"));
 				
 				int roleFieldID = rs.getInt("ROLE");
 				
