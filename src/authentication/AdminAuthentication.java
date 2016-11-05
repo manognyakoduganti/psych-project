@@ -18,8 +18,9 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import common.AdminDetails;
 import common.Constant;
-import common.DatabaseQuery;
+import db.Authentication;
 
 /**
  * Servlet implementation class AdminAuthentication
@@ -42,10 +43,8 @@ public class AdminAuthentication extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		
+		response.setContentType("application/json;charset=UTF-8");
 		JSONObject returnJSON = new JSONObject();
-		//String email = request.getParameter(Constant.EMAIL);
-		//String password = request.getParameter(Constant.PASSWORD);
 		
 		StringBuilder sb = new StringBuilder();
         BufferedReader br = request.getReader();
@@ -71,52 +70,27 @@ public class AdminAuthentication extends HttpServlet {
 		
 		Connection dbConnection = null;
 		PreparedStatement preparedStatement = null;
-		response.setContentType("application/json;charset=UTF-8");
+		
 		String selectQuery = "SELECT FIRSTNAME, LASTNAME, EMAIL, ROLE FROM ADMIN WHERE EMAIL = ? AND PASSWORD = ?";
 		
-		try{
+		AdminDetails adminDetails = Authentication.validateUser(email, password);
+		if(adminDetails != null){
+			HttpSession session = request.getSession(true);
+			session.setAttribute(Constant.FIRST_NAME, adminDetails.getFirstName());
+			session.setAttribute(Constant.LAST_NAME, adminDetails.getLastName());
+			session.setAttribute(Constant.ROLE, adminDetails.getRole());
+			session.setAttribute(Constant.EMAIL, email);
 			
-			dbConnection = BuildStaticParameters.getDBConnection();
-			preparedStatement = dbConnection.prepareStatement(selectQuery);
-			preparedStatement.setString(1, email);
-			preparedStatement.setString(2, password);
+			returnJSON.put(Constant.FIRST_NAME, adminDetails.getFirstName());
+			returnJSON.put(Constant.LAST_NAME, adminDetails.getLastName());
+			returnJSON.put(Constant.ROLE, adminDetails.getRole());
+			returnJSON.put(Constant.EMAIL, email);
 			
-			// execute select SQL stetement
-			ResultSet rs = preparedStatement.executeQuery();
-			
-			if(rs.first()) {
-				String firstName = rs.getString("FIRSTNAME");
-				String lastName = rs.getString("LASTNAME");
-				int roleFieldID = rs.getInt("ROLE");
-				String roleValue = DatabaseQuery.getFieldNameByFieldId(roleFieldID, dbConnection);
-				
-				HttpSession session = request.getSession(true);
-				session.setAttribute(Constant.FIRST_NAME, firstName);
-				session.setAttribute(Constant.LAST_NAME, lastName);
-				session.setAttribute(Constant.ROLE, roleValue);
-				session.setAttribute(Constant.EMAIL, email);
-				
-				returnJSON.put(Constant.VERIFIED, Constant.YES);
-			}else{
-				returnJSON.put(Constant.VERIFIED, Constant.NO);
-			}
-			response.getWriter().print(returnJSON);
-		}catch(SQLException e){
-			System.out.println(e.getMessage());
-		} finally {
-			
-			try{
-				if (preparedStatement != null) {
-					preparedStatement.close();
-				}
-				if (dbConnection != null) {
-					dbConnection.close();
-				}
-			}catch(SQLException e){
-				System.out.println(e.getMessage());
-			}
+			returnJSON.put(Constant.VERIFIED, Constant.YES);
+		}else{
+			returnJSON.put(Constant.VERIFIED, Constant.NO);
 		}
-		
+		response.getWriter().print(returnJSON);
 	}
 	
 	/**
