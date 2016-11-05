@@ -131,7 +131,7 @@ public class UserProfileUpdateTest {
 		
 		JSONObject jsonObj = new JSONObject();
 		
-		jsonObj.put(Constant.NEW_FIRST_NAME, "David");
+		jsonObj.put(Constant.NEW_FIRST_NAME, "Martin");
 		jsonObj.put(Constant.NEW_LAST_NAME, "Martin");
 		jsonObj.put(Constant.NEW_EMAIL, "sujtih.dars@husky.neu.edu");
 		jsonObj.put(Constant.NEW_PASSWORD, "23jsdf@awAer");

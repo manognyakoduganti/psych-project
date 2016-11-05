@@ -18,6 +18,7 @@ public class Constant {
 	public static String NEW_PASSWORD = "newPassword";
 	
 	public static String GLOBAL_ADMIN = "GlobalAdministrator";
+	public static String LOCAL_ADMIN = "LocalAdministrator";
 	
 	public static String OK_200 = "200";
 	public static String Created_201 = "201";
