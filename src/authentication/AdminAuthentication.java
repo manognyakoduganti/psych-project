@@ -20,7 +20,7 @@ import org.json.simple.parser.ParseException;
 
 import common.AdminDetails;
 import common.Constant;
-import db.Authentication;
+import dao.Authentication;
 
 /**
  * Servlet implementation class AdminAuthentication
