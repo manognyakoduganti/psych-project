@@ -79,6 +79,7 @@ public class AdminAuthentication extends HttpServlet {
 			session.setAttribute(Constant.FIRST_NAME, adminDetails.getFirstName());
 			session.setAttribute(Constant.LAST_NAME, adminDetails.getLastName());
 			session.setAttribute(Constant.ROLE, adminDetails.getRole());
+			session.setAttribute(Constant.USER_ID, adminDetails.getUserId());
 			session.setAttribute(Constant.EMAIL, email);
 			
 			returnJSON.put(Constant.FIRST_NAME, adminDetails.getFirstName());
@@ -86,9 +87,9 @@ public class AdminAuthentication extends HttpServlet {
 			returnJSON.put(Constant.ROLE, adminDetails.getRole());
 			returnJSON.put(Constant.EMAIL, email);
 			
-			returnJSON.put(Constant.VERIFIED, Constant.YES);
+			returnJSON.put(Constant.VERIFIED, Constant.OK_200);
 		}else{
-			returnJSON.put(Constant.VERIFIED, Constant.NO);
+			returnJSON.put(Constant.VERIFIED, Constant.UnAuthorized_401);
 		}
 		response.getWriter().print(returnJSON);
 	}

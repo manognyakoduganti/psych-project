@@ -67,7 +67,7 @@ public class AdminAuthenticationTest {
 		Object obj = parser.parse(stringWriter.getBuffer().toString());
 		JSONObject jsonObject = (JSONObject) obj;
 		
-		assertEquals((String) jsonObject.get(Constant.VERIFIED), Constant.YES);
+		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.OK_200);
 		
 		verify(session).setAttribute(Constant.EMAIL, "patel.dars@husky.neu.edu");
 		verify(session).setAttribute(Constant.ROLE, "GlobalAdministrator");
@@ -107,7 +107,7 @@ public class AdminAuthenticationTest {
 		Object obj = parser.parse(stringWriter.getBuffer().toString());
 		JSONObject jsonObject = (JSONObject) obj;
 		
-		assertEquals((String) jsonObject.get(Constant.VERIFIED), Constant.NO);
+		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.UnAuthorized_401);
 		
 	}
 	
