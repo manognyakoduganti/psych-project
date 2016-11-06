@@ -20,7 +20,7 @@ import org.json.simple.parser.ParseException;
 
 import common.AdminDetails;
 import common.Constant;
-import dao.Authentication;
+import dao.AuthenticationDAO;
 
 /**
  * Servlet implementation class AdminAuthentication
@@ -63,34 +63,30 @@ public class AdminAuthentication extends HttpServlet {
 			JSONObject jsonObject = (JSONObject) obj;
 			email = (String) jsonObject.get(Constant.EMAIL);
 			password = (String) jsonObject.get(Constant.PASSWORD);
+			
+			AdminDetails adminDetails = AuthenticationDAO.validateUser(email, password);
+			if(adminDetails != null){
+				HttpSession session = request.getSession(true);
+				session.setAttribute(Constant.FIRST_NAME, adminDetails.getFirstName());
+				session.setAttribute(Constant.LAST_NAME, adminDetails.getLastName());
+				session.setAttribute(Constant.ROLE, adminDetails.getRole());
+				session.setAttribute(Constant.USER_ID, adminDetails.getUserId());
+				session.setAttribute(Constant.EMAIL, email);
+				
+				returnJSON.put(Constant.FIRST_NAME, adminDetails.getFirstName());
+				returnJSON.put(Constant.LAST_NAME, adminDetails.getLastName());
+				returnJSON.put(Constant.ROLE, adminDetails.getRole());
+				returnJSON.put(Constant.EMAIL, email);
+				
+				returnJSON.put(Constant.STATUS, Constant.OK_200);
+			}else{
+				returnJSON.put(Constant.STATUS, Constant.UnAuthorized_401);
+			}
 		} catch (ParseException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
-		Connection dbConnection = null;
-		PreparedStatement preparedStatement = null;
-		
-		String selectQuery = "SELECT FIRSTNAME, LASTNAME, EMAIL, ROLE FROM ADMIN WHERE EMAIL = ? AND PASSWORD = ?";
-		
-		AdminDetails adminDetails = Authentication.validateUser(email, password);
-		if(adminDetails != null){
-			HttpSession session = request.getSession(true);
-			session.setAttribute(Constant.FIRST_NAME, adminDetails.getFirstName());
-			session.setAttribute(Constant.LAST_NAME, adminDetails.getLastName());
-			session.setAttribute(Constant.ROLE, adminDetails.getRole());
-			session.setAttribute(Constant.USER_ID, adminDetails.getUserId());
-			session.setAttribute(Constant.EMAIL, email);
-			
-			returnJSON.put(Constant.FIRST_NAME, adminDetails.getFirstName());
-			returnJSON.put(Constant.LAST_NAME, adminDetails.getLastName());
-			returnJSON.put(Constant.ROLE, adminDetails.getRole());
-			returnJSON.put(Constant.EMAIL, email);
-			
-			returnJSON.put(Constant.VERIFIED, Constant.OK_200);
-		}else{
-			returnJSON.put(Constant.VERIFIED, Constant.UnAuthorized_401);
-		}
 		response.getWriter().print(returnJSON);
 	}
 	

@@ -8,11 +8,11 @@ import java.sql.SQLException;
 import common.AdminDetails;
 
 
-public class Authentication{
+public class AuthenticationDAO{
 	
 	public static AdminDetails validateUser(String email, String password){
 		
-		String selectQuery = "SELECT FIRSTNAME, LASTNAME, EMAIL, ROLE FROM ADMIN WHERE EMAIL = ? AND PASSWORD = ?";
+		String selectQuery = "SELECT ID, FIRSTNAME, LASTNAME, EMAIL, ROLE FROM ADMIN WHERE EMAIL = ? AND PASSWORD = ?";
 		
 		
 		try{
@@ -31,11 +31,11 @@ public class Authentication{
 				AdminDetails adminDetails = new AdminDetails();
 				adminDetails.setFirstName(rs.getString("FIRSTNAME"));
 				adminDetails.setLastName(rs.getString("LASTNAME"));
-				adminDetails.setUserId(rs.getString("ID"));
+				adminDetails.setUserId(rs.getLong("ID"));
 				
 				int roleFieldID = rs.getInt("ROLE");
 				
-				String roleValue = Authentication.getFieldNameByFieldId(roleFieldID);
+				String roleValue = AuthenticationDAO.getFieldNameByFieldId(roleFieldID);
 				adminDetails.setRole(roleValue);
 				return adminDetails;
 				
