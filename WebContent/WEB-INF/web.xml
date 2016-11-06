@@ -84,7 +84,4 @@
     <servlet-name>ImageFetcher</servlet-name>
     <url-pattern>/imageData/ImageFetcher/*</url-pattern>
   </servlet-mapping>
-  <listener>
-    <listener-class>dao.ContextListener</listener-class>
-</listener>
 </web-app>
