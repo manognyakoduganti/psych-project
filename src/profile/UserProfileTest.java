@@ -24,9 +24,9 @@ import org.mockito.MockitoAnnotations;
 
 import common.Constant;
 
-public class UserProfileUpdateTest {
+public class UserProfileTest {
 	
-	UserProfileUpdate userProfileUpdate;
+	UserProfile userProfileUpdate;
 	HttpServletRequest request;
 	HttpServletResponse response;
 	HttpSession session;
@@ -34,7 +34,7 @@ public class UserProfileUpdateTest {
 	@Before
 	public void setUp() throws Exception {
 	  MockitoAnnotations.initMocks(this);
-	  userProfileUpdate = new UserProfileUpdate();
+	  userProfileUpdate = new UserProfile();
 	}
 	
 	@Test

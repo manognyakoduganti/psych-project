@@ -22,13 +22,13 @@ import fieldValidation.UserProfileVal;
  * Servlet implementation class UserProfile
  */
 @WebServlet("/UserProfile")
-public class UserProfileUpdate extends HttpServlet {
+public class UserProfile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserProfileUpdate() {
+    public UserProfile() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,6 +39,13 @@ public class UserProfileUpdate extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		response.setContentType("application/json;charset=UTF-8");
 		JSONObject returnJSON = new JSONObject();
 		
@@ -116,16 +123,7 @@ public class UserProfileUpdate extends HttpServlet {
 			returnJSON.put(Constant.STATUS, Constant.UnAuthorized_401);
 		}
 		
-		
 		response.getWriter().print(returnJSON);
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
 	}
 
 }
