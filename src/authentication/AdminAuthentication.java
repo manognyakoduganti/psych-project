@@ -43,6 +43,7 @@ public class AdminAuthentication extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		doPost(request, response);
 	}
 	
 	/**
@@ -72,6 +73,7 @@ public class AdminAuthentication extends HttpServlet {
 			password = (String) jsonObject.get(Constant.PASSWORD);
 			
 			AdminDetails adminDetails = AuthenticationDAO.validateUser(email, password);
+			
 			if(adminDetails != null){
 				HttpSession session = request.getSession(true);
 				session.setAttribute(Constant.FIRST_NAME, adminDetails.getFirstName());
@@ -92,6 +94,7 @@ public class AdminAuthentication extends HttpServlet {
 		} catch (ParseException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			returnJSON.put(Constant.STATUS, Constant.BadRequest_400);
 		}
 		
 		response.getWriter().print(returnJSON);
