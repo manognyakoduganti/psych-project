@@ -26,7 +26,7 @@
                         $rootScope.user = {
                         		firstName : response.firstName,
                         		lastName : response.lastName,
-                        		email : respone.email,
+                        		email : response.email,
                         		role: response.role
                         };
                 	}

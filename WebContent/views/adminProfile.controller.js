@@ -11,6 +11,7 @@
         $scope.$location = $location;
         var vm = this;
         var userData = $rootScope.user;
+        var email = $rootScope.user.email;
         
         vm.firstName = userData.firstName;
         vm.lastName = userData.lastName;
@@ -23,7 +24,8 @@
         			newFirstName : vm.firstName,
         			newLastName : vm.lastName,
         			newEmail : vm.email,
-        			newPassword : vm.password
+        			newPassword : vm.password,
+        			email : email
         	};
         	
         	if(vm.password === vm.retypePassword) {

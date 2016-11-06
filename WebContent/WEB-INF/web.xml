@@ -46,7 +46,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>AdminAuthentication</servlet-name>
-    <url-pattern>/adminAuthentication</url-pattern>
+    <url-pattern>/adminAuthentication/*</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>AuthenticatingUser</servlet-name>
@@ -84,4 +84,7 @@
     <servlet-name>ImageFetcher</servlet-name>
     <url-pattern>/imageData/ImageFetcher/*</url-pattern>
   </servlet-mapping>
+  <listener>
+    <listener-class>dao.ContextListener</listener-class>
+</listener>
 </web-app>

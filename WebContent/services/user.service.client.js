@@ -46,7 +46,7 @@
         }
         
         function updateProfile(userData) {
-        	if(user) {
+        	if(userData) {
         		
             	console.log("Data being sent: " + userData.firstName + " " + userData.lastName + " " + userData.email);
                 return $http ({
