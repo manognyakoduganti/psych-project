@@ -53,8 +53,8 @@ public class UserProfileUpdateTest {
 		JSONObject jsonObj = new JSONObject();
 		
 		String newFirstName = "Darshan";
-		String newLastName = "Darshan";
-		String newEmail = "Darshan";
+		String newLastName = "Patel";
+		String newEmail = "patel.dars@husky.neu.edu";
 		String newPassword = "Abcde@12345";
 		
 		jsonObj.put(Constant.NEW_FIRST_NAME, newFirstName);
