@@ -70,7 +70,7 @@ public class UserProfileTest {
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
 		when(session.getAttribute(Constant.USER_ID)).thenReturn(4l);
 		
-		userProfileUpdate.doPost(request, response);
+		userProfileUpdate.doPut(request, response);
 		
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(stringWriter.getBuffer().toString());
@@ -114,7 +114,7 @@ public class UserProfileTest {
 		//Not Valid Session 
 		when(request.getSession(false)).thenReturn(session);
 		
-		userProfileUpdate.doPost(request, response);
+		userProfileUpdate.doPut(request, response);
 		
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(stringWriter.getBuffer().toString());
@@ -153,7 +153,7 @@ public class UserProfileTest {
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
 		when(session.getAttribute(Constant.USER_ID)).thenReturn(4l);
 		
-		userProfileUpdate.doPost(request, response);
+		userProfileUpdate.doPut(request, response);
 		
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(stringWriter.getBuffer().toString());
