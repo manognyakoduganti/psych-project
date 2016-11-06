@@ -17,7 +17,7 @@ public class DBSource {
 
 	private static BasicDataSource connectionPool;
 	
-	static final String configXML = "config.xml";
+	static final String configXML = "./config.xml";
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	static String DB_URL;
 	static String USER;
@@ -45,7 +45,6 @@ public class DBSource {
 		    connectionPool.setUrl("jdbc:mysql://localhost:3306/Psych?useSSL=false");
 		    connectionPool.setInitialSize(2);
 		    
-		    
 		} catch (ParserConfigurationException | SAXException | IOException e1) {
 			e1.printStackTrace();
 		}
@@ -55,7 +54,6 @@ public class DBSource {
 	}
 
 	public static BasicDataSource getConnectionPool(){
-		
 		return connectionPool;
 	}
 }

@@ -14,7 +14,6 @@ public class AuthenticationDAO{
 		
 		String selectQuery = "SELECT ID, FIRSTNAME, LASTNAME, EMAIL, ROLE FROM ADMIN WHERE EMAIL = ? AND PASSWORD = ?";
 		
-		
 		try{
 			
 			Connection connection = DBSource.getConnectionPool().getConnection();
@@ -41,6 +40,10 @@ public class AuthenticationDAO{
 				
 			}
 		}catch(SQLException e){
+			System.out.println(e.getMessage());
+			return null;
+		} 
+		catch(Exception e){
 			System.out.println(e.getMessage());
 			return null;
 		} 
