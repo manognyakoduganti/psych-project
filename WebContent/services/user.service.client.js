@@ -11,7 +11,8 @@
         var service = {
             login: login,
             logout: logout,
-            setCurrentUser: setCurrentUser
+            setCurrentUser: setCurrentUser,
+            updateProfile: updateProfile
         };
 
         return service;
@@ -42,6 +43,20 @@
 
         function setCurrentUser(user) {
             $rootScope.currentUser = user;
+        }
+        
+        function updateProfile(userData) {
+        	if(user) {
+        		
+            	console.log("Data being sent: " + userData.firstName + " " + userData.lastName + " " + userData.email);
+                return $http ({
+                    method: 'PUT',
+                    url: 'http://localhost:8080/Psych_Server/userProfile',
+                    contentType: 'application/json',
+                    data: userData
+        		});
+                    
+            	}
         }
     }
 })();
