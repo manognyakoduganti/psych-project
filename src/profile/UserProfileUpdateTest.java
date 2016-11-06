@@ -52,10 +52,15 @@ public class UserProfileUpdateTest {
 		
 		JSONObject jsonObj = new JSONObject();
 		
-		jsonObj.put(Constant.NEW_FIRST_NAME, "Darshan");
-		jsonObj.put(Constant.NEW_LAST_NAME, "Patel");
-		jsonObj.put(Constant.NEW_EMAIL, "patel.dars@husky.neu.edu");
-		jsonObj.put(Constant.NEW_PASSWORD, "Abcde@12345");
+		String newFirstName = "Darshan";
+		String newLastName = "Darshan";
+		String newEmail = "Darshan";
+		String newPassword = "Abcde@12345";
+		
+		jsonObj.put(Constant.NEW_FIRST_NAME, newFirstName);
+		jsonObj.put(Constant.NEW_LAST_NAME, newLastName);
+		jsonObj.put(Constant.NEW_EMAIL, newEmail);
+		jsonObj.put(Constant.NEW_PASSWORD, newPassword);
 		jsonObj.put(Constant.EMAIL, "patel.dars@husky.neu.edu");
 		
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
@@ -63,6 +68,7 @@ public class UserProfileUpdateTest {
 		when(response.getWriter()).thenReturn(printWriter);
 		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(4l);
 		
 		userProfileUpdate.doPost(request, response);
 		
@@ -71,11 +77,13 @@ public class UserProfileUpdateTest {
 		JSONObject jsonObject = (JSONObject) obj;
 		
 		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.OK_200);
+		assertEquals((String) jsonObject.get(Constant.EMAIL), newEmail);
+		assertEquals((String) jsonObject.get(Constant.FIRST_NAME), newFirstName);
+		assertEquals((String) jsonObject.get(Constant.LAST_NAME), newLastName);
 		
-		verify(session).setAttribute(Constant.EMAIL, "patel.dars@husky.neu.edu");
-		verify(session).setAttribute(Constant.ROLE, "GlobalAdministrator");
-		verify(session).setAttribute(Constant.FIRST_NAME, "Darshan");
-		verify(session).setAttribute(Constant.LAST_NAME, "Patel");
+		verify(session).setAttribute(Constant.EMAIL, newEmail);
+		verify(session).setAttribute(Constant.FIRST_NAME, newFirstName);
+		verify(session).setAttribute(Constant.LAST_NAME, newLastName);
 		
 	}
 	
@@ -143,6 +151,7 @@ public class UserProfileUpdateTest {
 		//Not Valid Session 
 		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(4l);
 		
 		userProfileUpdate.doPost(request, response);
 		
