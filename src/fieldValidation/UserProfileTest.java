@@ -8,12 +8,12 @@ import org.mockito.MockitoAnnotations;
 
 public class UserProfileTest {
 	
-	UserProfile userProfile;
+	UserProfileVal userProfile;
 	
 	@Before
 	public void setUp() throws Exception {
 	  MockitoAnnotations.initMocks(this);
-	  userProfile = new UserProfile();
+	  userProfile = new UserProfileVal();
 	}
 	
 	@Test
@@ -29,13 +29,13 @@ public class UserProfileTest {
 		String correctName3 = "Hector Sausage-Hausen";
 	
 		
-		assertEquals(UserProfile.validateName(correctName1), true);
-		assertEquals(UserProfile.validateName(correctName2), true);
-		assertEquals(UserProfile.validateName(correctName3), true);
+		assertEquals(UserProfileVal.validateName(correctName1), true);
+		assertEquals(UserProfileVal.validateName(correctName2), true);
+		assertEquals(UserProfileVal.validateName(correctName3), true);
 		
-		assertEquals(UserProfile.validateName(badCharacter), false);
-		assertEquals(UserProfile.validateName(bigName), false);
-		assertEquals(UserProfile.validateName(numbers), false);
+		assertEquals(UserProfileVal.validateName(badCharacter), false);
+		assertEquals(UserProfileVal.validateName(bigName), false);
+		assertEquals(UserProfileVal.validateName(numbers), false);
 		
 	}
 	
@@ -49,12 +49,12 @@ public class UserProfileTest {
 		String correctPwd1 = "Abcde@12345";
 		String correctPwd2 = "Psych@C.M.1";
 		
-		assertEquals(UserProfile.validatePassword(correctPwd1), true);
-		assertEquals(UserProfile.validatePassword(correctPwd2), true);
+		assertEquals(UserProfileVal.validatePassword(correctPwd1), true);
+		assertEquals(UserProfileVal.validatePassword(correctPwd2), true);
 		
-		assertEquals(UserProfile.validatePassword(noUpperCase), false);
-		assertEquals(UserProfile.validatePassword(noNumber), false);
-		assertEquals(UserProfile.validatePassword(noSpecialChar), false);
+		assertEquals(UserProfileVal.validatePassword(noUpperCase), false);
+		assertEquals(UserProfileVal.validatePassword(noNumber), false);
+		assertEquals(UserProfileVal.validatePassword(noSpecialChar), false);
 		
 	}
 	
@@ -69,12 +69,12 @@ public class UserProfileTest {
 		String validEmail2 = "something@neu.edu";
 		String validEmail3 = "something.123_123@google.com";
 		
-		assertEquals(UserProfile.validateEmail(validEmail1), true);
-		assertEquals(UserProfile.validateEmail(validEmail2), true);
-		assertEquals(UserProfile.validateEmail(validEmail3), true);
+		assertEquals(UserProfileVal.validateEmail(validEmail1), true);
+		assertEquals(UserProfileVal.validateEmail(validEmail2), true);
+		assertEquals(UserProfileVal.validateEmail(validEmail3), true);
 		
-		assertEquals(UserProfile.validateEmail(normalName), false);
-		assertEquals(UserProfile.validateEmail(noDotCom), false);
-		assertEquals(UserProfile.validateEmail(noAt), false);
+		assertEquals(UserProfileVal.validateEmail(normalName), false);
+		assertEquals(UserProfileVal.validateEmail(noDotCom), false);
+		assertEquals(UserProfileVal.validateEmail(noAt), false);
 	}
 }

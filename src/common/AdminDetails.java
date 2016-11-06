@@ -6,7 +6,7 @@ public class AdminDetails {
 	private String lastName;
 	private String email;
 	private String role;
-	private String userId;
+	private Long userId;
 	
 	public String getFirstName() {
 		return firstName;
@@ -32,10 +32,10 @@ public class AdminDetails {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	public String getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
-	public void setUserId(String userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 

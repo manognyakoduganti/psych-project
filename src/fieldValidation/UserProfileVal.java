@@ -3,7 +3,7 @@ package fieldValidation;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class UserProfile {
+public class UserProfileVal {
 	static String nameRegex = "[a-zA-Z ,.'-]{1,50}$";
 	static Pattern namePattern = Pattern.compile(nameRegex);
 	
