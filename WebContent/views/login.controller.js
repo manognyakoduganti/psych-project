@@ -15,7 +15,7 @@
             if(user) {
 
 
-                UserService.login(user)
+                /*UserService.login(user)
                 .success(function(response) {
                 	console.log("Response received: " + response);
                 	console.log("verified received: " + response.verified);
@@ -24,12 +24,12 @@
                         UserService.setCurrentUser(user);
                         $location.url("/location");
                 	}
-                    })
-                /*if(user) {
+                    })*/
+               
                    
                     UserService.setCurrentUser(user);
                     $location.url("/location");
-                }*/
+               
             }
 
 

@@ -10,7 +10,7 @@
             $routeProvider
                 .when('/login', {
 
-                    templateUrl: "./Psych-CM-Project--MSD/PsychCM/public/adminLayout/views/login.view.html",
+                    templateUrl: "./views/login.view.html",
 
 
 
@@ -19,7 +19,7 @@
                 })
                 .when('/profile', {
 
-                    templateUrl: "./Psych-CM-Project--MSD/PsychCM/public/adminLayout/views/adminProfile.view.html",
+                    templateUrl: "./views/adminProfile.view.html",
 
 
 
@@ -28,7 +28,7 @@
                 })
                 .when('/location', {
 
-                    templateUrl: "./Psych-CM-Project--MSD/PsychCM/public/adminLayout/views/location.view.html",
+                    templateUrl: "./views/location.view.html",
 
 
 
@@ -37,7 +37,7 @@
                 })
                 .when('/targetgroup', {
 
-                    templateUrl: "./Psych-CM-Project--MSD/PsychCM/public/adminLayout/views/targetGroup.view.html",
+                    templateUrl: "./views/targetGroup.view.html",
 
 
 
