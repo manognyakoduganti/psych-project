@@ -29,13 +29,13 @@ public class UserProfileTest {
 		String correctName3 = "Hector Sausage-Hausen";
 	
 		
-		assertEquals(UserProfileVal.validateName(correctName1), true);
-		assertEquals(UserProfileVal.validateName(correctName2), true);
-		assertEquals(UserProfileVal.validateName(correctName3), true);
+		assertEquals(true, UserProfileVal.validateName(correctName1) );
+		assertEquals(true, UserProfileVal.validateName(correctName2));
+		assertEquals(true, UserProfileVal.validateName(correctName3));
 		
-		assertEquals(UserProfileVal.validateName(badCharacter), false);
-		assertEquals(UserProfileVal.validateName(bigName), false);
-		assertEquals(UserProfileVal.validateName(numbers), false);
+		assertEquals(false, UserProfileVal.validateName(badCharacter));
+		assertEquals(false, UserProfileVal.validateName(bigName));
+		assertEquals(false, UserProfileVal.validateName(numbers));
 		
 	}
 	
@@ -49,12 +49,12 @@ public class UserProfileTest {
 		String correctPwd1 = "Abcde@12345";
 		String correctPwd2 = "Psych@C.M.1";
 		
-		assertEquals(UserProfileVal.validatePassword(correctPwd1), true);
-		assertEquals(UserProfileVal.validatePassword(correctPwd2), true);
+		assertEquals(true, UserProfileVal.validatePassword(correctPwd1));
+		assertEquals(true, UserProfileVal.validatePassword(correctPwd2));
 		
-		assertEquals(UserProfileVal.validatePassword(noUpperCase), false);
-		assertEquals(UserProfileVal.validatePassword(noNumber), false);
-		assertEquals(UserProfileVal.validatePassword(noSpecialChar), false);
+		assertEquals(false, UserProfileVal.validatePassword(noUpperCase));
+		assertEquals(false, UserProfileVal.validatePassword(noNumber));
+		assertEquals(false, UserProfileVal.validatePassword(noSpecialChar));
 		
 	}
 	
@@ -69,12 +69,12 @@ public class UserProfileTest {
 		String validEmail2 = "something@neu.edu";
 		String validEmail3 = "something.123_123@google.com";
 		
-		assertEquals(UserProfileVal.validateEmail(validEmail1), true);
-		assertEquals(UserProfileVal.validateEmail(validEmail2), true);
-		assertEquals(UserProfileVal.validateEmail(validEmail3), true);
+		assertEquals(true, UserProfileVal.validateEmail(validEmail1));
+		assertEquals(true, UserProfileVal.validateEmail(validEmail2));
+		assertEquals(true, UserProfileVal.validateEmail(validEmail3));
 		
-		assertEquals(UserProfileVal.validateEmail(normalName), false);
-		assertEquals(UserProfileVal.validateEmail(noDotCom), false);
-		assertEquals(UserProfileVal.validateEmail(noAt), false);
+		assertEquals(false, UserProfileVal.validateEmail(normalName));
+		assertEquals(false, UserProfileVal.validateEmail(noDotCom));
+		assertEquals(false, UserProfileVal.validateEmail(noAt));
 	}
 }
