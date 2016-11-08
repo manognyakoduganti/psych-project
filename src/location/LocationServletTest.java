@@ -63,6 +63,7 @@ public class LocationServletTest {
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_1, "360 Huntington Avenue");
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_2, "");
 		jsonObj.put(Constant.LOCATION_CITY, "Boston");
+		jsonObj.put(Constant.LOCATION_CODE, "ABCD12");
 		jsonObj.put(Constant.LOCATION_STATE, 21);
 		jsonObj.put(Constant.LOCATION_ZIPCODE, "02115");
 		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "1234567891");
@@ -110,6 +111,7 @@ public class LocationServletTest {
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_1, "");
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_2, "");
 		jsonObj.put(Constant.LOCATION_CITY, "");
+		jsonObj.put(Constant.LOCATION_CODE, "");
 		jsonObj.put(Constant.LOCATION_STATE, "");
 		jsonObj.put(Constant.LOCATION_ZIPCODE, "");
 		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "");
@@ -162,6 +164,7 @@ public class LocationServletTest {
 		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "1234567891");
 		jsonObj.put(Constant.LOCATION_FAX_NUMBER, "1234567891");
 		jsonObj.put(Constant.LOCATION_EMAIL, "northeastern@neu.edu");
+		jsonObj.put(Constant.LOCATION_CODE, "ABCD12");
 		
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		
@@ -205,6 +208,7 @@ public class LocationServletTest {
 		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "1234567891");
 		jsonObj.put(Constant.LOCATION_FAX_NUMBER, "1234567891");
 		jsonObj.put(Constant.LOCATION_EMAIL, "northeastern@neu.edu");
+		jsonObj.put(Constant.LOCATION_CODE, "ABCD12");
 		
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		
@@ -252,6 +256,7 @@ public class LocationServletTest {
 		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "");
 		jsonObj.put(Constant.LOCATION_FAX_NUMBER, "");
 		jsonObj.put(Constant.LOCATION_EMAIL, "");
+		jsonObj.put(Constant.LOCATION_CODE, "");
 		
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		
@@ -299,6 +304,7 @@ public class LocationServletTest {
 		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "1234567891");
 		jsonObj.put(Constant.LOCATION_FAX_NUMBER, "1234567891");
 		jsonObj.put(Constant.LOCATION_EMAIL, "northeastern@neu.edu");
+		jsonObj.put(Constant.LOCATION_CODE, "ABCD12");
 		
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		
@@ -344,6 +350,7 @@ public class LocationServletTest {
 		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "1234567891");
 		jsonObj.put(Constant.LOCATION_FAX_NUMBER, "1234567891");
 		jsonObj.put(Constant.LOCATION_EMAIL, "northeastern@neu.edu");
+		jsonObj.put(Constant.LOCATION_CODE, "ABCD12");
 		
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		
@@ -391,6 +398,7 @@ public class LocationServletTest {
 		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "12asdlfkj34567891");
 		jsonObj.put(Constant.LOCATION_FAX_NUMBER, "1234567891");
 		jsonObj.put(Constant.LOCATION_EMAIL, "northeasteasdfljkrn@neu.edu");
+		jsonObj.put(Constant.LOCATION_CODE, "ABCD12");
 		
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		
