@@ -143,5 +143,42 @@ public class FetchCommonFieldServletTest {
 				Constant.UNAUTHORIZED_401, (String) jsonObject.get(Constant.STATUS));
 		
 	}
+	
+	@Test
+	public void testEmptyCommonFieldFetchRequest() throws ServletException, IOException, ParseException{
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(request.getReader()).thenReturn(bufferedReader);
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put(Constant.FIELD_NAME, "");
+		
+		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
+		
+		when(response.getWriter()).thenReturn(printWriter);
+		when(request.getSession(true)).thenReturn(session);
+		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn("1");
+		
+		fetchCommonFieldServlet.doGet(request, response);
+		
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(stringWriter.getBuffer().toString());
+		JSONObject jsonObject = (JSONObject) obj;
+		
+		assertEquals("System should have rejected the request",
+				Constant.BADREQUEST_400, (String) jsonObject.get(Constant.STATUS));
+		
+		
+	}
+	
 
 }
