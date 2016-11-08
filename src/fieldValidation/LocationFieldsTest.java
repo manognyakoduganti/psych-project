@@ -8,14 +8,6 @@ import org.mockito.MockitoAnnotations;
 
 public class LocationFieldsTest {
 	
-	LocationFieldsVal location;
-	
-	@Before
-	public void setUp() throws Exception {
-	  MockitoAnnotations.initMocks(this);
-	  location = new LocationFieldsVal();
-	}
-	
 	@Test
 	public void testValidateLocationName(){
 		
@@ -60,15 +52,15 @@ public class LocationFieldsTest {
 		String goodCode3 = "123456";
 	
 		
-		assertEquals(true, LocationFieldsVal.validateName(goodCode1));
-		assertEquals(true, LocationFieldsVal.validateName(goodCode2));
-		assertEquals(true, LocationFieldsVal.validateName(goodCode3));
+		assertEquals(true, LocationFieldsVal.validateLocationCode(goodCode1));
+		assertEquals(true, LocationFieldsVal.validateLocationCode(goodCode2));
+		assertEquals(true, LocationFieldsVal.validateLocationCode(goodCode3));
 		
-		assertEquals(false,  LocationFieldsVal.validateName(badCodeSpace));
-		assertEquals(false,  LocationFieldsVal.validateName(emtpyName));
-		assertEquals(false,  LocationFieldsVal.validateName(bigCode));
-		assertEquals(false,  LocationFieldsVal.validateName(specialChar));
-		assertEquals(false,  LocationFieldsVal.validateName(empty2));
+		assertEquals(false,  LocationFieldsVal.validateLocationCode(badCodeSpace));
+		assertEquals(false,  LocationFieldsVal.validateLocationCode(emtpyName));
+		assertEquals(false,  LocationFieldsVal.validateLocationCode(bigCode));
+		assertEquals(false,  LocationFieldsVal.validateLocationCode(specialChar));
+		assertEquals(false,  LocationFieldsVal.validateLocationCode(empty2));
 		
 	}
 	
@@ -85,12 +77,12 @@ public class LocationFieldsTest {
 		String goodCode2 = "12 - B @ Chapper hill";
 		String empty2 = " ";
 		
-		assertEquals(true, LocationFieldsVal.validateName(goodCode1));
-		assertEquals(true, LocationFieldsVal.validateName(goodCode2));
+		assertEquals(true, LocationFieldsVal.validateAddressLine1(goodCode1));
+		assertEquals(true, LocationFieldsVal.validateAddressLine1(goodCode2));
 		
-		assertEquals(false,  LocationFieldsVal.validateName(bigAddressLine1));
-		assertEquals(false,  LocationFieldsVal.validateName(emtpyName));
-		assertEquals(false,  LocationFieldsVal.validateName(empty2));
+		assertEquals(false,  LocationFieldsVal.validateAddressLine1(bigAddressLine1));
+		assertEquals(false,  LocationFieldsVal.validateAddressLine1(emtpyName));
+		assertEquals(false,  LocationFieldsVal.validateAddressLine1(empty2));
 		
 	}
 	
@@ -108,12 +100,12 @@ public class LocationFieldsTest {
 		String goodCode2 = "12 - B @ Chapper hill";
 	
 		
-		assertEquals(true, LocationFieldsVal.validateName(goodCode1));
-		assertEquals(true, LocationFieldsVal.validateName(goodCode2));
-		assertEquals(true,  LocationFieldsVal.validateName(emtpyName));
-		assertEquals(true,  LocationFieldsVal.validateName(empty2));
+		assertEquals(true, LocationFieldsVal.validateAddressLine2(goodCode1));
+		assertEquals(true, LocationFieldsVal.validateAddressLine2(goodCode2));
+		assertEquals(true,  LocationFieldsVal.validateAddressLine2(emtpyName));
+		assertEquals(true,  LocationFieldsVal.validateAddressLine2(empty2));
 		
-		assertEquals(false,  LocationFieldsVal.validateName(bigAddressLine2));
+		assertEquals(false,  LocationFieldsVal.validateAddressLine2(bigAddressLine2));
 		
 	}
 	
@@ -133,14 +125,14 @@ public class LocationFieldsTest {
 		String goodCode2 = "New York";
 	
 		
-		assertEquals(true, LocationFieldsVal.validateName(goodCode1));
-		assertEquals(true, LocationFieldsVal.validateName(goodCode2));
+		assertEquals(true, LocationFieldsVal.validateCity(goodCode1));
+		assertEquals(true, LocationFieldsVal.validateCity(goodCode2));
 		
-		assertEquals(false,  LocationFieldsVal.validateName(emtpyName));
-		assertEquals(false,  LocationFieldsVal.validateName(empty2));
-		assertEquals(false,  LocationFieldsVal.validateName(cityWithNumber));
-		assertEquals(false,  LocationFieldsVal.validateName(specialChars));
-		assertEquals(false,  LocationFieldsVal.validateName(bigName));
+		assertEquals(false,  LocationFieldsVal.validateCity(emtpyName));
+		assertEquals(false,  LocationFieldsVal.validateCity(empty2));
+		assertEquals(false,  LocationFieldsVal.validateCity(cityWithNumber));
+		assertEquals(false,  LocationFieldsVal.validateCity(specialChars));
+		assertEquals(false,  LocationFieldsVal.validateCity(bigName));
 		
 	}
 	
@@ -160,14 +152,14 @@ public class LocationFieldsTest {
 		String goodCode2 = "California";
 	
 		
-		assertEquals(true, LocationFieldsVal.validateName(goodCode1));
-		assertEquals(true, LocationFieldsVal.validateName(goodCode2));
+		assertEquals(true, LocationFieldsVal.validateState(goodCode1));
+		assertEquals(true, LocationFieldsVal.validateState(goodCode2));
 		
-		assertEquals(false,  LocationFieldsVal.validateName(emtpyName));
-		assertEquals(false,  LocationFieldsVal.validateName(empty2));
-		assertEquals(false,  LocationFieldsVal.validateName(number));
-		assertEquals(false,  LocationFieldsVal.validateName(specialChars));
-		assertEquals(false,  LocationFieldsVal.validateName(bigName));
+		assertEquals(false,  LocationFieldsVal.validateState(emtpyName));
+		assertEquals(false,  LocationFieldsVal.validateState(empty2));
+		assertEquals(false,  LocationFieldsVal.validateState(number));
+		assertEquals(false,  LocationFieldsVal.validateState(specialChars));
+		assertEquals(false,  LocationFieldsVal.validateState(bigName));
 		
 	}
 	
@@ -183,14 +175,14 @@ public class LocationFieldsTest {
 		String goodCode1 = "02120";
 		String goodCode2 = "12345";
 	
-		assertEquals(true, LocationFieldsVal.validateName(goodCode1));
-		assertEquals(true, LocationFieldsVal.validateName(goodCode2));
+		assertEquals(true, LocationFieldsVal.validateZipCode(goodCode1));
+		assertEquals(true, LocationFieldsVal.validateZipCode(goodCode2));
 		
-		assertEquals(false,  LocationFieldsVal.validateName(longNumber));
-		assertEquals(false,  LocationFieldsVal.validateName(specialChars));
-		assertEquals(false,  LocationFieldsVal.validateName(emtpyName));
-		assertEquals(false,  LocationFieldsVal.validateName(empty2));
-		assertEquals(false,  LocationFieldsVal.validateName(withChars));
+		assertEquals(false,  LocationFieldsVal.validateZipCode(longNumber));
+		assertEquals(false,  LocationFieldsVal.validateZipCode(specialChars));
+		assertEquals(false,  LocationFieldsVal.validateZipCode(emtpyName));
+		assertEquals(false,  LocationFieldsVal.validateZipCode(empty2));
+		assertEquals(false,  LocationFieldsVal.validateZipCode(withChars));
 		
 	}
 	
@@ -208,15 +200,15 @@ public class LocationFieldsTest {
 		String goodCode1 = "1234567891";
 		String goodCode2 = "2167864567";
 	
-		assertEquals(true, LocationFieldsVal.validateName(goodCode1));
-		assertEquals(true, LocationFieldsVal.validateName(goodCode2));
+		assertEquals(true, LocationFieldsVal.validatePhoneNumber(goodCode1));
+		assertEquals(true, LocationFieldsVal.validatePhoneNumber(goodCode2));
 		
-		assertEquals(false,  LocationFieldsVal.validateName(withSpec));
-		assertEquals(false,  LocationFieldsVal.validateName(digit11));
-		assertEquals(false,  LocationFieldsVal.validateName(digit9));
-		assertEquals(false,  LocationFieldsVal.validateName(emtpyName));
-		assertEquals(false,  LocationFieldsVal.validateName(empty2));
-		assertEquals(false,  LocationFieldsVal.validateName(withChars));
+		assertEquals(false,  LocationFieldsVal.validatePhoneNumber(withSpec));
+		assertEquals(false,  LocationFieldsVal.validatePhoneNumber(digit11));
+		assertEquals(false,  LocationFieldsVal.validatePhoneNumber(digit9));
+		assertEquals(false,  LocationFieldsVal.validatePhoneNumber(emtpyName));
+		assertEquals(false,  LocationFieldsVal.validatePhoneNumber(empty2));
+		assertEquals(false,  LocationFieldsVal.validatePhoneNumber(withChars));
 		
 	}
 	
