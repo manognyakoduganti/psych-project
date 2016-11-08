@@ -28,6 +28,7 @@ public class Constant {
 	public static String BADREQUEST_400 = "400";
 	
 	public static String KEYWORD_SEPERATOR= "|%$|";
+	public static String KEYWORD_SEPERATOR_PARSER= "\\|\\%\\$\\|";
 	
 	public static String ACCESS_CONTROL_ALLOW_METHODS = "POST, GET, OPTIONS, DELETE, PUT";
 	public static String ACCESS_CONTROL_ALLOW_ORIGIN = "*";

@@ -37,8 +37,8 @@ public class CommonFieldsTest {
 		assertEquals(true, CommonFieldsVal.validateDescription(goodDescription1));
 		assertEquals(true, CommonFieldsVal.validateDescription(goodDescription2));
 		
-		assertEquals(false, CommonFieldsVal.validateDescription(empty1));
-		assertEquals(false, CommonFieldsVal.validateDescription(empty2));
+		assertEquals(true, CommonFieldsVal.validateDescription(empty1));
+		assertEquals(true, CommonFieldsVal.validateDescription(empty2));
 		assertEquals(false, CommonFieldsVal.validateDescription(bigString));
 		
 	}
@@ -55,8 +55,8 @@ public class CommonFieldsTest {
 		assertEquals(true, CommonFieldsVal.validateKeywords(String.join(Constant.KEYWORD_SEPERATOR, goodKeywords1)));
 		assertEquals(true, CommonFieldsVal.validateKeywords(String.join(Constant.KEYWORD_SEPERATOR, goodKeywords2)));
 		
-		assertEquals(true, CommonFieldsVal.validateKeywords(String.join(Constant.KEYWORD_SEPERATOR, specialChars)));
-		assertEquals(true, CommonFieldsVal.validateKeywords(String.join(Constant.KEYWORD_SEPERATOR, empty)));
+		assertEquals(false, CommonFieldsVal.validateKeywords(String.join(Constant.KEYWORD_SEPERATOR, specialChars)));
+		assertEquals(false, CommonFieldsVal.validateKeywords(String.join(Constant.KEYWORD_SEPERATOR, empty)));
 		
 	}
 	
