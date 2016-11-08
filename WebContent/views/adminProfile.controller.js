@@ -34,6 +34,10 @@
                 	console.log("Response received: " + response);
                 	console.log("verified received: " + response.verified);
                 	console.log("Data received: " + response.data);
+                	$rootScope.user.firstName = response.firstName;
+                	$rootScope.user.lastName = response.lastName;
+                	$rootScope.user.email = response.email;
+                	
                 });
         	}
         }

@@ -37,12 +37,14 @@
     <script src="./app.js"></script>
     <script src="./config.js"></script>
     <script src="./views/main.controller.js"></script>
+    <script src="./services/user.service.client.js"></script>
+     <script src="./services/location.service.client.js"></script>
     <script src="./views/login.controller.js"></script>
     <script src="./views/adminProfile.controller.js"></script>
     <script src="./views/location.controller.js"></script>
     <script src="./views/targetGroup.controller.js"></script>
-    <script src="./services/user.service.client.js"></script>
     <script src="./views/navigation.controller.js"></script>
+    
 
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>

@@ -8,6 +8,9 @@
         .factory("UserService", UserService);
 
     function UserService($http, $rootScope) {
+    	
+    	var serverURL = "http://ec2-52-207-248-229.compute-1.amazonaws.com:8080/Psych-1/";
+    	var localServerURL = 'http://localhost:8080/Psych-1/';
         var service = {
             login: login,
             logout: logout,
@@ -24,7 +27,7 @@
         	console.log("Data being sent: " + user.email + " " + user.password);
             return $http ({
                 method: 'POST',
-                url: 'http://localhost:8080/Psych_Server/adminAuthentication',
+                url: serverURL + 'adminAuthentication',
                 contentType: 'application/json',
                 data: {
     				email: user.email,
