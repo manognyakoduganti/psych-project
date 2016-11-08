@@ -44,5 +44,35 @@ public class QuestionCategoryDAO {
 		}
 		
 	}
+	
+public static boolean deleteQuestionCategory(String name){
+		
+		String deleteQuery = "DELETE FROM QUESTIONCATEGORY WHERE NAME = ?";
+		
+		try{
+			
+			Connection connection = DBSource.getConnectionPool().getConnection();
+			
+			PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
+			
+			preparedStatement.setString(1, name);
+			
+			// execute select SQL stetement
+			int rowsAffected = preparedStatement.executeUpdate();
+			
+			if (rowsAffected == 1){
+				return true;
+			}
+			else{
+				return false;
+			}
+			
+			
+		}catch(SQLException e){
+			System.out.println(e.getMessage());
+			return false;
+		}
+		
+	}
 
 }

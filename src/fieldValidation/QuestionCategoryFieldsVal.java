@@ -8,7 +8,7 @@ public class QuestionCategoryFieldsVal {
 	static String nameRegex = "[a-zA-Z0-9\\s,.'-]{1,50}$";
 	static Pattern namePattern = Pattern.compile(nameRegex);
 	
-	static String descriptionRegex = ".{1,1000}$";
+	static String descriptionRegex = ".{0,1000}$";
 	static Pattern descriptionPattern = Pattern.compile(descriptionRegex);
 	
 	static String labelRegex = "[a-zA-Z0-9\\s]{1,30}$";

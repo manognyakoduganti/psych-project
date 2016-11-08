@@ -53,5 +53,9 @@ public class Constant {
 	public static String NEW_QUESTION_CATETORY_RESPONSE_TYPE = "newResponseType";
 	public static String NEW_QUESTION_CATETORY_START_LABEL = "newStartLabel";
 	public static String NEW_QUESTION_CATETORY_END_LABEL = "newEndLabel";
+	
+	public static String USER_MESSAGE = "userMessage";
+	public static String DEVELOPER_MESSAGE = "developerMessage";
+	public static String JSON_PARSE_ERROR = "Error parsing JSON: ";
 
 }
