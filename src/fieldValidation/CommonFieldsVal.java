@@ -28,4 +28,13 @@ public class CommonFieldsVal {
 		return true;
 	}
 	
+	static String keyRegex = "^[0-9]{1,20}$";
+	static Pattern keyPattern = Pattern.compile(keyRegex);
+	public static boolean validateFieldId(String key){
+		
+		Matcher matcher  = keyPattern.matcher(key.trim());
+		return matcher.find();
+		
+	}
+	
 }

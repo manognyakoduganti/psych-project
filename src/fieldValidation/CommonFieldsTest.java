@@ -60,6 +60,27 @@ public class CommonFieldsTest {
 		
 	}
 	
+	@Test
+	public void testValidateFieldKeys(){
+		
+		String badKey = "asdflakj23423l4kjsdf";
+		String badKeySpecialCharacter = "@#$ds234";
+		String empty1 = "";
+		String empty2 = " ";
+		
+		String goodKey1 =  "1";
+		String goodKey2 =  "1123123123";
+		String goodKey3 =  "22342342342342341";
 	
+		assertEquals(true, CommonFieldsVal.validateFieldId(goodKey1));
+		assertEquals(true, CommonFieldsVal.validateFieldId(goodKey2));
+		assertEquals(true, CommonFieldsVal.validateFieldId(goodKey3));
+		
+		assertEquals(false, CommonFieldsVal.validateFieldId(badKey));
+		assertEquals(false, CommonFieldsVal.validateFieldId(badKeySpecialCharacter));
+		assertEquals(false, CommonFieldsVal.validateFieldId(empty1));
+		assertEquals(false, CommonFieldsVal.validateFieldId(empty2));
+		
+	}
 
 }
