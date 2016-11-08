@@ -10,11 +10,11 @@
   </servlet>
   <servlet>
     <servlet-name>AdminAuthentication</servlet-name>
-    <servlet-class>authentication.AdminAuthentication</servlet-class>
+    <servlet-class>authentication.AdminAuthenticationServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>UserProfile</servlet-name>
-    <servlet-class>profile.UserProfile</servlet-class>
+    <servlet-class>profile.UserProfileServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>ImageDataServlet</servlet-name>
