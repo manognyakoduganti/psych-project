@@ -1,9 +1,16 @@
 package fieldValidation;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class LocationFieldsVal {
 	
+	static String locationCodeRegex = "[a-zA-Z0-9]{6}$";
+	static Pattern locationCodePattern = Pattern.compile(locationCodeRegex);
+	
 	public static boolean validateLocationCode(String locationCode){
-		return false;
+		Matcher matcher = locationCodePattern.matcher(locationCode.trim());
+		return matcher.matches();
 	}
 	
 	public static boolean validateAddressLine1(String addressLine1){

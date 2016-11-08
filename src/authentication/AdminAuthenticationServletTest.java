@@ -67,7 +67,8 @@ public class AdminAuthenticationServletTest {
 		Object obj = parser.parse(stringWriter.getBuffer().toString());
 		JSONObject jsonObject = (JSONObject) obj;
 		
-		assertEquals(Constant.OK_200, (String) jsonObject.get(Constant.STATUS));
+		assertEquals("System should have allowed the user to login as the credentials are valide",
+				Constant.OK_200, (String) jsonObject.get(Constant.STATUS));
 		
 		verify(session).setAttribute(Constant.EMAIL, "patel.dars@husky.neu.edu");
 		verify(session).setAttribute(Constant.ROLE, "GlobalAdministrator");
@@ -107,7 +108,8 @@ public class AdminAuthenticationServletTest {
 		Object obj = parser.parse(stringWriter.getBuffer().toString());
 		JSONObject jsonObject = (JSONObject) obj;
 		
-		assertEquals(Constant.UNAUTHORIZED_401, (String) jsonObject.get(Constant.STATUS));
+		assertEquals("System should have unauthorized the user to login",
+				Constant.UNAUTHORIZED_401, (String) jsonObject.get(Constant.STATUS));
 		
 	}
 	

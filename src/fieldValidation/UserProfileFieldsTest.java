@@ -27,7 +27,6 @@ public class UserProfileFieldsTest {
 		String correctName1 = "Mathias d'Arras";
 		String correctName2 = "Martin Luther King, Jr.";
 		String correctName3 = "Hector Sausage-Hausen";
-	
 		
 		assertEquals(true, UserProfileFieldsVal.validateName(correctName1) );
 		assertEquals(true, UserProfileFieldsVal.validateName(correctName2));

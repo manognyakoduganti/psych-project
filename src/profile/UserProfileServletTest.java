@@ -76,7 +76,8 @@ public class UserProfileServletTest {
 		Object obj = parser.parse(stringWriter.getBuffer().toString());
 		JSONObject jsonObject = (JSONObject) obj;
 		
-		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.OK_200);
+		assertEquals("System should have updated the user profie information", 
+				(String) jsonObject.get(Constant.STATUS), Constant.OK_200);
 		assertEquals((String) jsonObject.get(Constant.EMAIL), newEmail);
 		assertEquals((String) jsonObject.get(Constant.FIRST_NAME), newFirstName);
 		assertEquals((String) jsonObject.get(Constant.LAST_NAME), newLastName);
