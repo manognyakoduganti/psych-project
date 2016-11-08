@@ -63,7 +63,7 @@ public class LocationServletTest {
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_1, "360 Huntington Avenue");
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_2, "");
 		jsonObj.put(Constant.LOCATION_CITY, "Boston");
-		jsonObj.put(Constant.LOCATION_STATE, "MA");
+		jsonObj.put(Constant.LOCATION_STATE, 21);
 		jsonObj.put(Constant.LOCATION_ZIPCODE, "02115");
 		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "1234567891");
 		jsonObj.put(Constant.LOCATION_FAX_NUMBER, "1234567891");
@@ -75,6 +75,7 @@ public class LocationServletTest {
 		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
 		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1);
 		
 		locationServlet.doPost(request, response);
 		
@@ -121,6 +122,7 @@ public class LocationServletTest {
 		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
 		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1);
 		
 		locationServlet.doPost(request, response);
 		
@@ -155,7 +157,7 @@ public class LocationServletTest {
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_1, "360 Huntington Avenue");
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_2, "");
 		jsonObj.put(Constant.LOCATION_CITY, "Boston");
-		jsonObj.put(Constant.LOCATION_STATE, "MA");
+		jsonObj.put(Constant.LOCATION_STATE, 21);
 		jsonObj.put(Constant.LOCATION_ZIPCODE, "02115");
 		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "1234567891");
 		jsonObj.put(Constant.LOCATION_FAX_NUMBER, "1234567891");
@@ -198,7 +200,7 @@ public class LocationServletTest {
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_1, "360 Huntington Avenue");
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_2, "");
 		jsonObj.put(Constant.LOCATION_CITY, "Boston");
-		jsonObj.put(Constant.LOCATION_STATE, "MA");
+		jsonObj.put(Constant.LOCATION_STATE, 21);
 		jsonObj.put(Constant.LOCATION_ZIPCODE, "02115");
 		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "1234567891");
 		jsonObj.put(Constant.LOCATION_FAX_NUMBER, "1234567891");
@@ -210,6 +212,7 @@ public class LocationServletTest {
 		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
 		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1);
 		
 		locationServlet.doGet(request, response);
 		
@@ -256,6 +259,7 @@ public class LocationServletTest {
 		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
 		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1);
 		
 		locationServlet.doGet(request, response);
 		
@@ -290,7 +294,7 @@ public class LocationServletTest {
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_1, "360 Huntington Avenue");
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_2, "");
 		jsonObj.put(Constant.LOCATION_CITY, "Boston");
-		jsonObj.put(Constant.LOCATION_STATE, "MA");
+		jsonObj.put(Constant.LOCATION_STATE, 21);
 		jsonObj.put(Constant.LOCATION_ZIPCODE, "02115");
 		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "1234567891");
 		jsonObj.put(Constant.LOCATION_FAX_NUMBER, "1234567891");
@@ -335,7 +339,7 @@ public class LocationServletTest {
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_1, "360 Huntington Avenue");
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_2, "");
 		jsonObj.put(Constant.LOCATION_CITY, "Boston");
-		jsonObj.put(Constant.LOCATION_STATE, "MA");
+		jsonObj.put(Constant.LOCATION_STATE, 21);
 		jsonObj.put(Constant.LOCATION_ZIPCODE, "02115");
 		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "1234567891");
 		jsonObj.put(Constant.LOCATION_FAX_NUMBER, "1234567891");
@@ -347,7 +351,7 @@ public class LocationServletTest {
 		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
 		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
-		
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1);
 		
 		locationServlet.doPut(request, response);
 		
@@ -382,7 +386,7 @@ public class LocationServletTest {
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_1, "360 Huntington Aasdlfkjalskdjf venue");
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_2, "");
 		jsonObj.put(Constant.LOCATION_CITY, "SDF lskfj  213123 ");
-		jsonObj.put(Constant.LOCATION_STATE, "MsdflkasjdfA");
+		jsonObj.put(Constant.LOCATION_STATE, 21);
 		jsonObj.put(Constant.LOCATION_ZIPCODE, "02115");
 		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "12asdlfkj34567891");
 		jsonObj.put(Constant.LOCATION_FAX_NUMBER, "1234567891");
@@ -394,6 +398,7 @@ public class LocationServletTest {
 		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
 		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1);
 		
 		locationServlet.doPut(request, response);
 		
