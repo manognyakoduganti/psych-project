@@ -57,10 +57,10 @@ public class FetchCommonFieldServletTest {
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		
 		when(response.getWriter()).thenReturn(printWriter);
-		when(request.getSession(true)).thenReturn(session);
+		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
 		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
-		when(session.getAttribute(Constant.USER_ID)).thenReturn("1");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1);
 		
 		fetchCommonFieldServlet.doGet(request, response);
 		
@@ -94,10 +94,10 @@ public class FetchCommonFieldServletTest {
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		
 		when(response.getWriter()).thenReturn(printWriter);
-		when(request.getSession(true)).thenReturn(session);
+		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
 		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
-		when(session.getAttribute(Constant.USER_ID)).thenReturn("1");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1);
 		
 		fetchCommonFieldServlet.doGet(request, response);
 		
@@ -131,7 +131,7 @@ public class FetchCommonFieldServletTest {
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		
 		when(response.getWriter()).thenReturn(printWriter);
-		when(request.getSession(true)).thenReturn(null);
+		when(request.getSession(false)).thenReturn(null);
 		
 		fetchCommonFieldServlet.doGet(request, response);
 		
@@ -163,10 +163,10 @@ public class FetchCommonFieldServletTest {
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		
 		when(response.getWriter()).thenReturn(printWriter);
-		when(request.getSession(true)).thenReturn(session);
+		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
 		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
-		when(session.getAttribute(Constant.USER_ID)).thenReturn("1");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1);
 		
 		fetchCommonFieldServlet.doGet(request, response);
 		
