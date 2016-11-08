@@ -56,4 +56,8 @@ public class DBSource {
 	public static BasicDataSource getConnectionPool(){
 		return connectionPool;
 	}
+	
+	public static void closeConnectionPool() throws SQLException{
+		connectionPool.close();
+	}
 }
