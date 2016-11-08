@@ -56,7 +56,7 @@ public class UserProfileDAO {
 			// execute select SQL statement
 			ResultSet rs = preparedStatement.executeQuery();
 			if(rs.first()) {
-				return false;
+				return true;
 			}
 			return false;
 			
