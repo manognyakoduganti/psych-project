@@ -60,5 +60,9 @@ public class Constant {
 	public static String USER_MESSAGE = "userMessage";
 	public static String DEVELOPER_MESSAGE = "developerMessage";
 	public static String JSON_PARSE_ERROR = "Error parsing JSON: ";
+	
+	public static String FIELD_NAME = "fieldName";
+	public static String FIELD_ID = "fieldId";
+	public static String FIELD_VALUE = "fieldValue";
 
 }
