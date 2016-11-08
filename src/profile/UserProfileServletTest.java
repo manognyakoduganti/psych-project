@@ -68,7 +68,7 @@ public class UserProfileServletTest {
 		when(response.getWriter()).thenReturn(printWriter);
 		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
-		when(session.getAttribute(Constant.USER_ID)).thenReturn(4l);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
 		
 		userProfileUpdate.doPut(request, response);
 		
@@ -151,7 +151,7 @@ public class UserProfileServletTest {
 		//Not Valid Session 
 		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
-		when(session.getAttribute(Constant.USER_ID)).thenReturn(4l);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("sujith.mah@husky.neu.edu");
 		
 		userProfileUpdate.doPut(request, response);
 		
