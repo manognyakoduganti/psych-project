@@ -26,5 +26,7 @@ public class Constant {
 	public static String UnAuthorized_401 = "401";
 	public static String BadRequest_400 = "400";
 	
+	public static String KEYWORD_SEPERATOR= "|%$|";
+	
 
 }
