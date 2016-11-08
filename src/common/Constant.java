@@ -48,4 +48,10 @@ public class Constant {
 	public static String LOCATION_FAX_NUMBER = "locationFaxNumber";
 	public static String LOCATION_EMAIL = "locationEmail";
 
+	public static String NEW_QUESTION_CATETORY_NAME = "newQuestionCategoryName";
+	public static String NEW_QUESTION_CATETORY_NAME_CATEGORY = "newnewQuestionCategoryDescription";
+	public static String NEW_QUESTION_CATETORY_RESPONSE_TYPE = "newResponseType";
+	public static String NEW_QUESTION_CATETORY_START_LABEL = "newStartLabel";
+	public static String NEW_QUESTION_CATETORY_END_LABEL = "newEndLabel";
+
 }
