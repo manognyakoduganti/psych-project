@@ -11,6 +11,7 @@ public class Constant {
 	public static String VERIFIED = "verified";
 	public static String UPDATED = "updated";
 	public static String STATUS = "status";
+	public static String RESULTS = "results";
 	
 	public static String NEW_FIRST_NAME = "newFirstName";
 	public static String NEW_LAST_NAME = "newLastName";
@@ -35,6 +36,7 @@ public class Constant {
 	
 	
 	// Location Constant
+	public static String LOCATION_ID = "locationId";
 	public static String LOCATION_NAME = "locationName";
 	public static String LOCATION_DESCRIPTION = "locationDescription";
 	public static String LOCATION_KEYWORDS = "locationKeywords";
