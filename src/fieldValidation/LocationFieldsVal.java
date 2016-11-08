@@ -43,6 +43,15 @@ public class LocationFieldsVal {
 		return matcher.matches();
 	}
 	
+	
+	public static boolean validateFaxNumber(String faxNumber){
+		if(faxNumber.trim().equals("")){
+			return true;
+		}
+		Matcher matcher = phoneNumberPattern.matcher(faxNumber.trim());
+		return matcher.matches();
+	}
+	
 	static String zipcodeRegex = "^[0-9]{5}$";
 	static Pattern zipCodePattern = Pattern.compile(zipcodeRegex);
 	public static boolean validateZipCode(String zipCode){

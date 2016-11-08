@@ -188,7 +188,7 @@ public class LocationFieldsTest {
 	
 	
 	@Test
-	public void testValidateFaxPhoneNumber(){
+	public void testValidatePhoneNumber(){
 		
 		String digit11 = "12345678911";
 		String digit9 = "123456789";
@@ -209,6 +209,30 @@ public class LocationFieldsTest {
 		assertEquals(false,  LocationFieldsVal.validatePhoneNumber(emtpyName));
 		assertEquals(false,  LocationFieldsVal.validatePhoneNumber(empty2));
 		assertEquals(false,  LocationFieldsVal.validatePhoneNumber(withChars));
+		
+	}
+	@Test
+	public void testValidateFaxNumber(){
+		
+		String digit11 = "12345678911";
+		String digit9 = "123456789";
+		String emtpyName = "";
+		String empty2 = " ";
+		String withChars = "123456789A";
+		String withSpec = "123-456-7891";
+		
+		String goodCode1 = "1234567891";
+		String goodCode2 = "2167864567";
+	
+		assertEquals(true, LocationFieldsVal.validateFaxNumber(goodCode1));
+		assertEquals(true, LocationFieldsVal.validateFaxNumber(goodCode2));
+		assertEquals(true,  LocationFieldsVal.validateFaxNumber(emtpyName));
+		assertEquals(true,  LocationFieldsVal.validateFaxNumber(empty2));
+		
+		assertEquals(false,  LocationFieldsVal.validateFaxNumber(withSpec));
+		assertEquals(false,  LocationFieldsVal.validateFaxNumber(digit11));
+		assertEquals(false,  LocationFieldsVal.validateFaxNumber(digit9));
+		assertEquals(false,  LocationFieldsVal.validateFaxNumber(withChars));
 		
 	}
 	
