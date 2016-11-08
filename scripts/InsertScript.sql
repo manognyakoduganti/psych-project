@@ -61,3 +61,8 @@ insert into location (location.id, location.locCode, location.locName, location.
 insert into admin (admin.id, admin.firstName, admin.lastName, admin.email, admin.password, admin.locationId,
 admin.privilegeToReleaseFeedback, admin.privilegeToCustomizeTraining, role) values 
 (1, 'Darshan', 'Patel', 'patel.dars@husky.neu.edu', 'Abcde@12345', 5, true, true, 51);
+
+insert into admin (admin.id, admin.firstName, admin.lastName, admin.email, admin.password, admin.locationId,
+admin.privilegeToReleaseFeedback, admin.privilegeToCustomizeTraining, role) values 
+(2, 'Darshan', 'Patel', 'ddpatel.2012@gmail.com', 'Abc@123', 5, true, true, 51);
+
