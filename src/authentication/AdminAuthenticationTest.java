@@ -52,7 +52,7 @@ public class AdminAuthenticationTest {
 		
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put(Constant.EMAIL, "patel.dars@husky.neu.edu");
-		jsonObj.put(Constant.PASSWORD, "Abcde@12345");
+		jsonObj.put(Constant.PASSWORD, "Abcd@1234");
 		
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		

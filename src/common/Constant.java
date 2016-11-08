@@ -28,5 +28,12 @@ public class Constant {
 	
 	public static String KEYWORD_SEPERATOR= "|%$|";
 	
+	public static String ACCESS_CONTROL_ALLOW_METHODS = "POST, GET, OPTIONS, DELETE, PUT";
+	public static String ACCESS_CONTROL_ALLOW_ORIGIN = "*";
+	public static String ACCESS_CONTROL_ALLOW_HEADERS = "*";
+	public static Integer ACCESS_CONTROL_ALLOW_MAX_AGE = 30*60;
+	
+	
+	
 
 }
