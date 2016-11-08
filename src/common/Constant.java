@@ -21,10 +21,10 @@ public class Constant {
 	public static String LOCAL_ADMIN = "LocalAdministrator";
 	
 	public static String OK_200 = "200";
-	public static String Created_201 = "201";
-	public static String NoContent_204 = "204";
-	public static String UnAuthorized_401 = "401";
-	public static String BadRequest_400 = "400";
+	public static String CREATED_201 = "201";
+	public static String NOCONTENT_204 = "204";
+	public static String UNAUTHORIZED_401 = "401";
+	public static String BADREQUEST_400 = "400";
 	
 	public static String KEYWORD_SEPERATOR= "|%$|";
 	
@@ -34,6 +34,18 @@ public class Constant {
 	public static Integer ACCESS_CONTROL_ALLOW_MAX_AGE = 30*60;
 	
 	
-	
+	// Location Constant
+	public static String LOCATION_NAME = "locationName";
+	public static String LOCATION_DESCRIPTION = "locationDescription";
+	public static String LOCATION_KEYWORDS = "locationKeywords";
+	public static String LOCATION_CODE = "locationCode";
+	public static String LOCATION_ADDRESS_LINE_1 = "locationAddressLine1";
+	public static String LOCATION_ADDRESS_LINE_2 = "locationAddressLine2";
+	public static String LOCATION_CITY = "locationCity";
+	public static String LOCATION_STATE = "locationState";
+	public static String LOCATION_ZIPCODE = "locationZipCode";
+	public static String LOCATION_PHONE_NUMBER = "locationPhoneNumber";
+	public static String LOCATION_FAX_NUMBER = "locationFaxNumber";
+	public static String LOCATION_EMAIL = "locationEmail";
 
 }

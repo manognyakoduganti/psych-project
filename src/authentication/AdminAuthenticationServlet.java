@@ -90,12 +90,12 @@ public class AdminAuthenticationServlet extends HttpServlet {
 				
 				returnJSON.put(Constant.STATUS, Constant.OK_200);
 			}else{
-				returnJSON.put(Constant.STATUS, Constant.UnAuthorized_401);
+				returnJSON.put(Constant.STATUS, Constant.UNAUTHORIZED_401);
 			}
 		} catch (ParseException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-			returnJSON.put(Constant.STATUS, Constant.BadRequest_400);
+			returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
 		}
 		
 		response.getWriter().print(returnJSON);

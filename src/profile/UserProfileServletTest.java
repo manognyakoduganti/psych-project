@@ -120,7 +120,7 @@ public class UserProfileServletTest {
 		Object obj = parser.parse(stringWriter.getBuffer().toString());
 		JSONObject jsonObject = (JSONObject) obj;
 		
-		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.UnAuthorized_401);
+		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.UNAUTHORIZED_401);
 		
 	}
 	
@@ -159,7 +159,7 @@ public class UserProfileServletTest {
 		Object obj = parser.parse(stringWriter.getBuffer().toString());
 		JSONObject jsonObject = (JSONObject) obj;
 		
-		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.BadRequest_400);
+		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.BADREQUEST_400);
 		
 	}
 	

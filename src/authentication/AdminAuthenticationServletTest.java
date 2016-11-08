@@ -107,7 +107,7 @@ public class AdminAuthenticationServletTest {
 		Object obj = parser.parse(stringWriter.getBuffer().toString());
 		JSONObject jsonObject = (JSONObject) obj;
 		
-		assertEquals(Constant.UnAuthorized_401, (String) jsonObject.get(Constant.STATUS));
+		assertEquals(Constant.UNAUTHORIZED_401, (String) jsonObject.get(Constant.STATUS));
 		
 	}
 	
