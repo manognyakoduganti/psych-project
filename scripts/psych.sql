@@ -52,8 +52,8 @@ CREATE TABLE `location` (
   `city` varchar(100) NOT NULL,
   `state` bigint(20) NOT NULL,
   `zipcode` int(5) NOT NULL,
-  `phoneNumber` int(10) NOT NULL,
-  `faxNumber` int(10) DEFAULT NULL,
+  `phoneNumber` bigint(10) NOT NULL,
+  `faxNumber` bigint(10) DEFAULT NULL,
   `email` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `FKI_LOC_STATE` FOREIGN KEY (`state`) REFERENCES `fieldLookup` (`id`)
