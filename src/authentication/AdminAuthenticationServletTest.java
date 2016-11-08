@@ -24,9 +24,9 @@ import org.mockito.MockitoAnnotations;
 
 import common.Constant;
 
-public class AdminAuthenticationTest {
+public class AdminAuthenticationServletTest {
 	
-	AdminAuthentication adminAuthentication;
+	AdminAuthenticationServlet adminAuthentication;
 	HttpServletRequest request;
 	HttpServletResponse response;
 	HttpSession session;
@@ -34,7 +34,7 @@ public class AdminAuthenticationTest {
 	@Before
 	public void setUp() throws Exception {
 	  MockitoAnnotations.initMocks(this);
-	  adminAuthentication = new AdminAuthentication();
+	  adminAuthentication = new AdminAuthenticationServlet();
 	}
 	
 	@Test

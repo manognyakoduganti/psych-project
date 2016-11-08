@@ -27,13 +27,13 @@ import dao.AuthenticationDAO;
  * Servlet implementation class AdminAuthentication
  */
 @WebServlet("/AdminAuthentication")
-public class AdminAuthentication extends HttpServlet {
+public class AdminAuthenticationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AdminAuthentication() {
+    public AdminAuthenticationServlet() {
         super();
         // TODO Auto-generated constructor stub
     }

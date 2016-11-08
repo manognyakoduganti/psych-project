@@ -16,19 +16,19 @@ import org.json.simple.parser.ParseException;
 
 import common.Constant;
 import dao.UserProfileDAO;
-import fieldValidation.UserProfileVal;
+import fieldValidation.UserProfileFieldsVal;
 
 /**
  * Servlet implementation class UserProfile
  */
 @WebServlet("/UserProfile")
-public class UserProfile extends HttpServlet {
+public class UserProfileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserProfile() {
+    public UserProfileServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -81,16 +81,16 @@ public class UserProfile extends HttpServlet {
 				newFirstName = (String) jsonObject.get(Constant.NEW_FIRST_NAME);
 				newLastName = (String) jsonObject.get(Constant.NEW_LAST_NAME);
 			
-				if(UserProfileVal.validateEmail(newEmail) && UserProfileVal.validateName(newFirstName) && 
-						UserProfileVal.validateName(newLastName) && UserProfileVal.validatePassword(newPassword)){
+				if(UserProfileFieldsVal.validateEmail(newEmail) && UserProfileFieldsVal.validateName(newFirstName) && 
+						UserProfileFieldsVal.validateName(newLastName) && UserProfileFieldsVal.validatePassword(newPassword)){
 					
 					boolean isDuplicate = UserProfileDAO.isDuplicateEmail(newEmail, userId);
-					System.out.println("isDuplicate : " + isDuplicate);
+					//System.out.println("isDuplicate : " + isDuplicate);
 					if(!isDuplicate){
 						
-						System.out.println(newFirstName+ ":"+newLastName + ":"+newEmail + ":" + newPassword +" :" + email);
+						//System.out.println(newFirstName+ ":"+newLastName + ":"+newEmail + ":" + newPassword +" :" + email);
 						boolean isUpdated = UserProfileDAO.udpateUserProfile(newFirstName, newLastName, newEmail, newPassword, email);
-						System.out.println("isUpdated : " + isUpdated);
+						//System.out.println("isUpdated : " + isUpdated);
 						if(isUpdated){
 							
 							returnJSON.put(Constant.FIRST_NAME, newFirstName);

@@ -1,6 +1,6 @@
 package fieldValidation;
 
-public class LocationVal {
+public class LocationFieldsVal {
 	
 	public static boolean validateLocationCode(String locationCode){
 		return false;
