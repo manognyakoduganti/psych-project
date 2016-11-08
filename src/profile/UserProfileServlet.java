@@ -66,11 +66,12 @@ public class UserProfileServlet extends HttpServlet {
 		
 		HttpSession session = request.getSession(false);
 		
-		if(session != null && session.getAttribute(Constant.ROLE) != null && 
+		if(session != null && session.getAttribute(Constant.ROLE) != null &&
+				session.getAttribute(Constant.EMAIL) != null &&
 				(session.getAttribute(Constant.ROLE).equals(Constant.GLOBAL_ADMIN) ||
 				(session.getAttribute(Constant.ROLE).equals(Constant.LOCAL_ADMIN)))){
 			
-			Long userId= (Long)session.getAttribute(Constant.USER_ID);
+			String sessionEmail= (String) session.getAttribute(Constant.EMAIL);
 			
 			try {
 				obj = parser.parse(sb.toString());
@@ -84,7 +85,11 @@ public class UserProfileServlet extends HttpServlet {
 				if(UserProfileFieldsVal.validateEmail(newEmail) && UserProfileFieldsVal.validateName(newFirstName) && 
 						UserProfileFieldsVal.validateName(newLastName) && UserProfileFieldsVal.validatePassword(newPassword)){
 					
-					boolean isDuplicate = UserProfileDAO.isDuplicateEmail(newEmail, userId);
+					boolean isDuplicate = false;
+					if(!sessionEmail.equals(newEmail)){
+						isDuplicate = UserProfileDAO.isDuplicateEmail(newEmail);
+					}
+				
 					//System.out.println("isDuplicate : " + isDuplicate);
 					if(!isDuplicate){
 						

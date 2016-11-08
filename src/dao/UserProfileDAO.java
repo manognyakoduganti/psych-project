@@ -40,10 +40,10 @@ public class UserProfileDAO {
 		
 	}
 	
-	public static boolean isDuplicateEmail(String email, Long userId){
+	public static boolean isDuplicateEmail(String email){
 		
 		
-		String selectQuery = "SELECT * FROM ADMIN WHERE EMAIL = ? AND ID <> ?";
+		String selectQuery = "SELECT * FROM ADMIN WHERE EMAIL = ?";
 		
 		try{
 			
@@ -52,7 +52,6 @@ public class UserProfileDAO {
 			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
 			
 			preparedStatement.setString(1, email);
-			preparedStatement.setLong(2, userId);
 			
 			// execute select SQL statement
 			ResultSet rs = preparedStatement.executeQuery();
