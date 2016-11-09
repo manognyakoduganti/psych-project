@@ -18,6 +18,7 @@ import org.json.simple.parser.ParseException;
 
 import common.CommonFields;
 import common.Constant;
+import common.Sessions;
 import dao.FetchFieldDAO;
 import dao.UserProfileDAO;
 import fieldValidation.UserProfileFieldsVal;
@@ -48,50 +49,31 @@ public class FetchCommonFieldServlet extends HttpServlet {
 		response.setContentType("application/json;charset=UTF-8");
 		JSONObject returnJSON = new JSONObject();
 		
-		StringBuilder sb = new StringBuilder();
-        BufferedReader br = request.getReader();
-        String str = null;
-        while ((str = br.readLine()) != null) {
-            sb.append(str);
-        }
-        
-        JSONParser parser = new JSONParser();
-		Object obj;
+		
 		String fieldName="";
 		
 		HttpSession session = request.getSession(false);
 		
-		if(session != null && session.getAttribute(Constant.ROLE) != null &&
-				session.getAttribute(Constant.EMAIL) != null &&
-				session.getAttribute(Constant.USER_ID) != null &&
-				(session.getAttribute(Constant.ROLE).equals(Constant.GLOBAL_ADMIN) ||
-				(session.getAttribute(Constant.ROLE).equals(Constant.LOCAL_ADMIN)))){
+		if(Sessions.isValidAdminSession(session)){
 			
-			try {
-				obj = parser.parse(sb.toString());
-				JSONObject jsonObject = (JSONObject) obj;
-				fieldName = ((String) jsonObject.get(Constant.FIELD_NAME)).trim();
-			
-				if(fieldName.equals("")){
-					returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
-				}else{
-					List<CommonFields> fieldValueList = FetchFieldDAO.extractFieldValues(fieldName);
-					JSONArray fieldArray = new JSONArray();
-					int length = fieldValueList.size();
-					for(int i = 0; i< length; i++){
-						JSONObject commonFieldsJSON = new JSONObject();
-						CommonFields commonFields= fieldValueList.get(i);
-						commonFieldsJSON.put(Constant.FIELD_ID, commonFields.getFieldId());
-						commonFieldsJSON.put(Constant.FIELD_VALUE, commonFields.getFieldValue());
-						fieldArray.add(commonFieldsJSON);
-					}
-					
-					returnJSON.put(Constant.STATUS, Constant.OK_200);
-					returnJSON.put(Constant.RESULTS, fieldArray);
+			fieldName = request.getParameter(Constant.FIELD_NAME);
+		
+			if(fieldName.equals("")){
+				returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
+			}else{
+				List<CommonFields> fieldValueList = FetchFieldDAO.extractFieldValues(fieldName);
+				JSONArray fieldArray = new JSONArray();
+				int length = fieldValueList.size();
+				for(int i = 0; i< length; i++){
+					JSONObject commonFieldsJSON = new JSONObject();
+					CommonFields commonFields= fieldValueList.get(i);
+					commonFieldsJSON.put(Constant.FIELD_ID, commonFields.getFieldId());
+					commonFieldsJSON.put(Constant.FIELD_VALUE, commonFields.getFieldValue());
+					fieldArray.add(commonFieldsJSON);
 				}
-				
-			}catch(ParseException e){
-				e.printStackTrace();
+				System.out.println(fieldArray.size());
+				returnJSON.put(Constant.STATUS, Constant.OK_200);
+				returnJSON.put(Constant.RESULTS, fieldArray);
 			}
 		
 		}else{
