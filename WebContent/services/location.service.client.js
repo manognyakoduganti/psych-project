@@ -10,7 +10,9 @@
     	var service = {
     			createLocation : createLocation,
     			getAllLocations : getAllLocations,
-    			getAllStates : getAllStates
+    			getAllStates : getAllStates,
+    			updateLocation : updateLocation,
+    			checkDuplicate : checkDuplicate
     	};
     	
     	return service;
@@ -39,6 +41,23 @@
     			url : localServerURL + 'fetchField',
     			contentType: 'application/json',
     			params : {'fieldName' : 'State'}
+    		});
+    	}
+    	
+    	function updateLocation(updatedLocation) {
+    		return $http ({
+                method: 'PUT',
+                url: localServerURL + 'location',
+                contentType: 'application/json',
+                data: updatedLocation});
+    	}
+    	
+    	function checkDuplicate(param, value) {
+    		return $http ({
+    			method : 'GET',
+    			url : localServerURL + 'location',
+    			contentType: 'application/json',
+    			params : {param : value}
     		});
     	}
     }

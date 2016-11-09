@@ -4,5 +4,5 @@
 (function(){
     'use strict';
     angular
-        .module("PsychWebApp",["ngRoute"]);
+        .module("PsychWebApp",["ngRoute", "ngMessages"]);
 })();
