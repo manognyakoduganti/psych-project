@@ -51,11 +51,24 @@ public class Constant {
 	public static String LOCATION_FAX_NUMBER = "locationFaxNumber";
 	public static String LOCATION_EMAIL = "locationEmail";
 
-	public static String NEW_QUESTION_CATETORY_NAME = "newQuestionCategoryName";
-	public static String NEW_QUESTION_CATETORY_NAME_CATEGORY = "newnewQuestionCategoryDescription";
-	public static String NEW_QUESTION_CATETORY_RESPONSE_TYPE = "newResponseType";
-	public static String NEW_QUESTION_CATETORY_START_LABEL = "newStartLabel";
-	public static String NEW_QUESTION_CATETORY_END_LABEL = "newEndLabel";
+	public static String NEW_QUESTION_CATEGORY_NAME = "newQuestionCategoryName";
+	public static String NEW_QUESTION_CATEGORY_DESCRIPTION = "newQuestionCategoryDescription";
+	public static String NEW_QUESTION_CATEGORY_RESPONSE_TYPE = "newResponseType";
+	public static String NEW_QUESTION_CATEGORY_START_LABEL = "newStartLabel";
+	public static String NEW_QUESTION_CATEGORY_END_LABEL = "newEndLabel";
+
+	public static String QUESTION_CATEGORY_ID = "questionCategoryId";
+	public static String QUESTION_CATEGORY_NAME = "questionCategoryName";
+	public static String QUESTION_CATEGORY_DESCRIPTION = "questionCategoryDescription";
+	public static String QUESTION_CATEGORY_RESPONSE_TYPE = "responseType";
+	public static String QUESTION_CATEGORY_START_LABEL = "startLabel";
+	public static String QUESTION_CATEGORY_END_LABEL = "endLabel";
+	public static String RESPONSE_TYPE_FIELD_ID = "responseTypeFieldId";
+	
+	public static String FIELD_LOOKUP_ID = "fieldLookupId";
+	public static String FIELD_LOOKUP_GROUP_NAME = "fieldLookupGroupName";
+	public static String FIELD_LOOKUP_FIELD_NAME = "fieldLookupFieldName";
+	public static String FIELD_LOOKUP_DESCRIPTION = "fieldLookupDescription";
 	
 	public static String USER_MESSAGE = "userMessage";
 	public static String DEVELOPER_MESSAGE = "developerMessage";
