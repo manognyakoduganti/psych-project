@@ -434,7 +434,7 @@ public class LocationServletTest {
 		
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put(Constant.LOCATION_ID, "4");
-		jsonObj.put(Constant.LOCATION_NAME, "Northeastern University TEST &#$*#$");
+		jsonObj.put(Constant.LOCATION_NAME, "Northeastern University TEST");
 		jsonObj.put(Constant.LOCATION_DESCRIPTION, "");
 		String[] locationKeywords = new String[] { "Northeastern", "Psychology", "aoj3rlkj209lamsfm"};
 		jsonObj.put(Constant.LOCATION_KEYWORDS, String.join(Constant.KEYWORD_SEPERATOR, locationKeywords));
@@ -464,6 +464,130 @@ public class LocationServletTest {
 		
 		assertEquals("System shouldn't have updated the location information."
 				,Constant.BADREQUEST_400, (String) jsonObject.get(Constant.STATUS));
+		
+	}
+	
+	@Test
+	public void testValidDuplicateLocationName()  throws ServletException, IOException, ParseException{
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(request.getReader()).thenReturn(bufferedReader);
+		
+		when(request.getParameter(Constant.LOCATION_NAME)).thenReturn("Northeastern University");
+		
+		when(response.getWriter()).thenReturn(printWriter);
+		when(request.getSession(false)).thenReturn(session);
+		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1);
+		
+		locationServlet.doGet(request, response);
+		
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(stringWriter.getBuffer().toString());
+		JSONObject jsonObject = (JSONObject) obj;
+		
+		assertEquals(true, (String) jsonObject.get(Constant.STATUS));
+		
+	}
+	
+	@Test
+	public void testNotDuplicateLocationName()  throws ServletException, IOException, ParseException{
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(request.getReader()).thenReturn(bufferedReader);
+		
+		when(request.getParameter(Constant.LOCATION_NAME)).thenReturn("ASDFJA KASDFJAE RASJFASDF");
+		
+		when(response.getWriter()).thenReturn(printWriter);
+		when(request.getSession(false)).thenReturn(session);
+		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1);
+		
+		locationServlet.doGet(request, response);
+		
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(stringWriter.getBuffer().toString());
+		JSONObject jsonObject = (JSONObject) obj;
+		
+		assertEquals(false, (String) jsonObject.get(Constant.STATUS));
+		
+	}
+	
+	@Test
+	public void testDuplicateLocationCode()  throws ServletException, IOException, ParseException{
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(request.getReader()).thenReturn(bufferedReader);
+		
+		when(request.getParameter(Constant.LOCATION_CODE)).thenReturn("ABCD12");
+		
+		when(response.getWriter()).thenReturn(printWriter);
+		when(request.getSession(false)).thenReturn(session);
+		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1);
+		
+		locationServlet.doGet(request, response);
+		
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(stringWriter.getBuffer().toString());
+		JSONObject jsonObject = (JSONObject) obj;
+		
+		assertEquals(true, (String) jsonObject.get(Constant.STATUS));
+		
+	}
+	
+	@Test
+	public void testNotDuplicateLocationCode()  throws ServletException, IOException, ParseException{
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(request.getReader()).thenReturn(bufferedReader);
+		
+		when(request.getParameter(Constant.LOCATION_CODE)).thenReturn("ADNAJSDF");
+		
+		when(response.getWriter()).thenReturn(printWriter);
+		when(request.getSession(false)).thenReturn(session);
+		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1);
+		
+		locationServlet.doGet(request, response);
+		
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(stringWriter.getBuffer().toString());
+		JSONObject jsonObject = (JSONObject) obj;
+		
+		assertEquals(false, (String) jsonObject.get(Constant.STATUS));
 		
 	}
 
