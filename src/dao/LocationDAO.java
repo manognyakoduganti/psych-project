@@ -78,9 +78,11 @@ public class LocationDAO {
 		
 		String selectQuery = "SELECT * FROM LOCATION WHERE LOCNAME = ?";
 		
+		Connection connection = null;
+		
 		try{
 			
-			Connection connection = DBSource.getConnectionPool().getConnection();
+			connection = DBSource.getConnectionPool().getConnection();
 			
 			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
 			
@@ -95,8 +97,17 @@ public class LocationDAO {
 			
 		}catch(SQLException e){
 			System.out.println(e.getMessage());
-			return true;
+			try {
+				if (connection != null){
+					connection.close();
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			return false;
 		}
+		
 	}
 	
 	public static void deleteLocation(String name){
@@ -115,5 +126,41 @@ public class LocationDAO {
 		}
 	}
 
+	public static boolean isDuplicateLocationCode(String code){
+		
+		String selectQuery = "SELECT * FROM LOCATION WHERE LOCCODE = ?";
+		
+		Connection connection = null;
+		
+		try{
+			
+			connection = DBSource.getConnectionPool().getConnection();
+			
+			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+			
+			preparedStatement.setString(1, code);
+			
+			// execute select SQL statement
+			ResultSet rs = preparedStatement.executeQuery();
+			if(rs.first()) {
+				slf4jLogger.info("found !!");
+				return true;
+			}
+			return false;
+			
+		}catch(SQLException e){
+			System.out.println(e.getMessage());
+			try {
+				if (connection != null){
+					connection.close();
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			return false;
+		}
+		
+	}
 
 }

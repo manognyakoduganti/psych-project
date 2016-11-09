@@ -47,7 +47,38 @@ public class LocationServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		doPost(request, response);
+		boolean checkLocationName = false;
+		boolean checkLocaitonCode = false;
+		JSONObject returnJSON = new JSONObject();
+		
+		if((request.getParameter(Constant.LOCATION_NAME) != null) || (request.getParameter(Constant.LOCATION_CODE) != null)){
+			if(request.getParameter(Constant.LOCATION_NAME) != null){
+				checkLocationName= true;
+			}else{
+				checkLocaitonCode = true;
+			}
+		}
+		
+		if(checkLocationName){
+			
+			String locationName = request.getParameter(Constant.LOCATION_NAME);
+			returnJSON.put(Constant.RESULTS, LocationDAO.isDuplicateLocation(locationName));
+			
+		}else if(checkLocaitonCode){
+			
+			String locationCode = request.getParameter(Constant.LOCATION_CODE);
+			slf4jLogger.info("locationCode : "+locationCode + LocationDAO.isDuplicateLocationCode(locationCode));
+			returnJSON.put(Constant.RESULTS, LocationDAO.isDuplicateLocationCode(locationCode));
+			
+		}else{
+			
+		}
+		
+		response.getWriter().print(returnJSON);
+		response.addHeader("Access-Control-Allow-Origin", Constant.ACCESS_CONTROL_ALLOW_ORIGIN);
+		response.addHeader("Access-Control-Allow-Headers", Constant.ACCESS_CONTROL_ALLOW_HEADERS);
+		response.addHeader("Access-Control-Allow-Methods", Constant.ACCESS_CONTROL_ALLOW_METHODS);
+		response.addIntHeader("Access-Control-Max-Age", Constant.ACCESS_CONTROL_ALLOW_MAX_AGE);
 	}
 
 	/**
@@ -58,6 +89,8 @@ public class LocationServlet extends HttpServlet {
 		
 		slf4jLogger.info("Entered in doPos method of LocationServlet");
 		response.setContentType("application/json;charset=UTF-8");
+		
+		
 		JSONObject returnJSON = new JSONObject();
 		
 		StringBuilder sb = new StringBuilder();

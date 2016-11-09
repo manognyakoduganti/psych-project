@@ -494,7 +494,7 @@ public class LocationServletTest {
 		Object obj = parser.parse(stringWriter.getBuffer().toString());
 		JSONObject jsonObject = (JSONObject) obj;
 		
-		assertEquals(true, (String) jsonObject.get(Constant.STATUS));
+		assertEquals(true, (Boolean) jsonObject.get(Constant.RESULTS));
 		
 	}
 	
@@ -525,7 +525,7 @@ public class LocationServletTest {
 		Object obj = parser.parse(stringWriter.getBuffer().toString());
 		JSONObject jsonObject = (JSONObject) obj;
 		
-		assertEquals(false, (String) jsonObject.get(Constant.STATUS));
+		assertEquals(false, (Boolean) jsonObject.get(Constant.RESULTS));
 		
 	}
 	
@@ -556,7 +556,7 @@ public class LocationServletTest {
 		Object obj = parser.parse(stringWriter.getBuffer().toString());
 		JSONObject jsonObject = (JSONObject) obj;
 		
-		assertEquals(true, (String) jsonObject.get(Constant.STATUS));
+		assertEquals(true, (Boolean) jsonObject.get(Constant.RESULTS));
 		
 	}
 	
@@ -587,7 +587,7 @@ public class LocationServletTest {
 		Object obj = parser.parse(stringWriter.getBuffer().toString());
 		JSONObject jsonObject = (JSONObject) obj;
 		
-		assertEquals(false, (String) jsonObject.get(Constant.STATUS));
+		assertEquals(false, (Boolean)jsonObject.get(Constant.RESULTS));
 		
 	}
 
