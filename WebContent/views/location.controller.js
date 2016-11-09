@@ -5,11 +5,19 @@
     angular
         .module("PsychWebApp")
         .controller("LocationController", LocationController);
+    
 
     function LocationController(LocationService)
     {
     	var vm = this;
         vm.tab = 'search';
+        
+    	 
+	    LocationService
+	 		.getAllStates()
+	 		.success(function(response) {
+	 			vm.statesList = response;
+	 		});
 
         vm.setTab = function (tabId) {
             //console.log("Setting tab to " + tabId);
@@ -47,6 +55,26 @@
         			vm.isCreateSuccessful = true;
         			}
         		});
+        }
+        
+        vm.search = search;
+        
+        function search(locationSearch) {
+        	var locationParams = {
+        			locationName : newLocation.name,
+            		locationDescription : newLocation.description,
+            		locationKeywords : newLocation.keywords,
+            		locationCode : newLocation.code,
+            		locationAddress : newLocation.address,
+            		locationCity : newLocation.city,
+            		locationState : newLocation.state,
+            		locationZipcode : newLocation.zipcode,
+            		locationPhoneNumber : newLocation.phoneNo,
+            		locationFaxNumber : newLocation.faxNo,
+            		locationEmail : newLocation.email	
+        	};
+        	LocationService
+        		.getAllLocations(locationParams)
         }
     }
     
