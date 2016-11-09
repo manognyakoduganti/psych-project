@@ -2,6 +2,7 @@ package common;
 
 public class Location {
 	
+	Long id;
 	String name;
 	String desc;
 	String keywords;
@@ -87,5 +88,12 @@ public class Location {
 	public void setCode(String code) {
 		this.code = code;
 	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	
 }

@@ -78,6 +78,8 @@ public class LocationDAO {
 		
 		Connection connection = null;
 		
+		boolean isDuplicate = false;
+		
 		try{
 			
 			connection = DBSource.getConnectionPool().getConnection();
@@ -88,12 +90,11 @@ public class LocationDAO {
 			ResultSet rs = preparedStatement.executeQuery();
 			
 			if(rs.first()) {
-				connection.close();
-				return true;
+				isDuplicate = true;
+			}else{
+				isDuplicate = false;
 			}
 			connection.close();
-			return false;
-			
 		}catch(SQLException e){
 			System.out.println(e.getMessage());
 			try {
@@ -104,9 +105,10 @@ public class LocationDAO {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			return false;
+			isDuplicate = false;
 		}
 		
+		return isDuplicate;
 	}
 	
 	public static void deleteLocation(String name){
@@ -122,6 +124,7 @@ public class LocationDAO {
 			
 			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
 			preparedStatement.setString(1, name);
+			slf4jLogger.info("Delete query :" + preparedStatement.toString());
 			preparedStatement.executeUpdate();
 			connection.close();
 			
@@ -226,6 +229,59 @@ public class LocationDAO {
 			}
 		}
 		return jsonArray;
+	}
+	
+	public static boolean updateLocation(Location location){
+		
+		slf4jLogger.info("Entered into createLocation");
+		
+		String updateQuery = "UPDATE LOCATION SET location.locCode=?, location.locName=?, location.description=?, location.keywords=?, "
+				+ "location.addressLine1=?, location.addressLine2=?,  location.city=?, location.state=?, location.zipcode=?, location.phoneNumber=?, "
+				+ "location.faxNumber=?, location.email=? WHERE location.id = ?";
+		
+		Connection connection = null;
+		
+		try{
+			
+			connection = DBSource.getConnectionPool().getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
+			
+			preparedStatement.setString(1, location.getCode());
+			preparedStatement.setString(2, location.getName());
+			preparedStatement.setString(3, location.getDesc());
+			preparedStatement.setString(4, location.getKeywords());
+			preparedStatement.setString(5, location.getAddressLine1());
+			preparedStatement.setString(6, location.getAddressLine2());
+			preparedStatement.setString(7, location.getCity());
+			preparedStatement.setLong(8, location.getState());
+			preparedStatement.setLong(9, location.getZipCode());
+			preparedStatement.setLong(10, location.getPhoneNumber());
+			preparedStatement.setLong(11, location.getFaxNumber());
+			preparedStatement.setString(12, location.getEmail());
+			
+			preparedStatement.setLong(13, location.getId());
+			
+			slf4jLogger.info(preparedStatement.toString());
+			int updated = preparedStatement.executeUpdate();
+			connection.close();
+			if(updated == 1) {
+				return true;
+			}
+			return false;
+		}catch(SQLException e){
+			slf4jLogger.info("SQL Exception while extracting field information");
+			slf4jLogger.info(e.getMessage());
+			try {
+				if (connection != null){
+					connection.close();
+				}
+				
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			return false;
+		}
 	}
 
 }
