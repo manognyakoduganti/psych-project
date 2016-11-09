@@ -6,6 +6,7 @@ import org.junit.runners.Suite.SuiteClasses;
 import parameter.FetchInstructionTest;
 import parameter.InitialParameterTest;
 import questionnaire.QuestionCategoryServletTest;
+import questionnaire.QuestionServletTest;
 import questionnaire.QuestionnaireTest;
 import registration.RegisterTest;
 
@@ -17,7 +18,8 @@ import registration.RegisterTest;
 	InitialParameterTest.class,
 	QuestionnaireTest.class,
 	RegisterTest.class,
-	QuestionCategoryServletTest.class
+	QuestionCategoryServletTest.class,
+	QuestionServletTest.class
 })
 public class AllTests {
 

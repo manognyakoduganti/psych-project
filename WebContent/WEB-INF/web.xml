@@ -56,6 +56,10 @@
     <servlet-name>QuestionCategory</servlet-name>
     <servlet-class>questionnaire.QuestionCategoryServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>Question</servlet-name>
+    <servlet-class>questionnaire.QuestionServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>AdminAuthentication</servlet-name>
     <url-pattern>/adminAuthentication/*</url-pattern>
@@ -107,6 +111,10 @@
   <servlet-mapping>
     <servlet-name>QuestionCategory</servlet-name>
     <url-pattern>/questionCategory/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Question</servlet-name>
+    <url-pattern>/question/*</url-pattern>
   </servlet-mapping>
   <listener>
         <listener-class>dao.DBSourceRegistrationListener</listener-class>
