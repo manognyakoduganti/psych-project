@@ -19,7 +19,11 @@
     		if(location)
     			return $http ({
                     method: 'POST',
+<<<<<<< Updated upstream
                     url: localServerURL + 'createLocation',
+=======
+                    url: 'http://localhost:8080/Psych-1/createLocation',
+>>>>>>> Stashed changes
                     contentType: 'application/json',
                     data: location});
     		
