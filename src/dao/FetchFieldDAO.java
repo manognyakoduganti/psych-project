@@ -7,17 +7,27 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import common.CommonFields;
 
 public class FetchFieldDAO {
 	
+	private static Logger slf4jLogger = LoggerFactory.getLogger(FetchFieldDAO.class);
+	
 	public static List<CommonFields> extractFieldValues(String fieldName){
+		
 		String selectQuery = "SELECT ID, FIELDNAME FROM FIELDLOOKUP WHERE GROUPNAME = ?";
 		
 		List<CommonFields> fieldValueList = new ArrayList<CommonFields>();
+		
+		Connection connection = null;
+		
+		slf4jLogger.info("Entered into extractFieldValues");
+		
 		try{
-			
-			Connection connection = DBSource.getConnectionPool().getConnection();
+			connection = DBSource.getConnectionPool().getConnection();
 			
 			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
 			
@@ -32,15 +42,21 @@ public class FetchFieldDAO {
 				commonFields.setFieldValue(rs.getString("FIELDNAME"));
 				fieldValueList.add(commonFields);
 			}
+			connection.close();
 			
 		}catch(SQLException e){
-			System.out.println(e.getMessage());
-			return fieldValueList;
-		} 
-		catch(Exception e){
-			System.out.println(e.getMessage());
-			return fieldValueList;
-		} 
+			slf4jLogger.info("SQL Exception while extracting field information");
+			slf4jLogger.info(e.getMessage());
+			try {
+				if (connection != null){
+					connection.close();
+				}
+				
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
 		return fieldValueList;
 	}
 

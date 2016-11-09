@@ -13,34 +13,21 @@ import common.Location;
 public class LocationDAO {
 	
 	private static Logger slf4jLogger = LoggerFactory.getLogger(LocationDAO.class);
+	
 	public static boolean createLocation(Location location){
-		
+			
+		slf4jLogger.info("Entered into createLocation");
 		
 		String insertQuery = "INSERT INTO LOCATION (location.locCode, location.locName, location.description, location.keywords, "
 				+ "location.addressLine1, location.addressLine2,  location.city, location.state, location.zipcode, location.phoneNumber, "
 				+ "location.faxNumber, location.email) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
+		Connection connection = null;
+		
 		try{
 			
-			slf4jLogger.info("Withing DAO");
-			
-			Connection connection = DBSource.getConnectionPool().getConnection();
-			
+			connection = DBSource.getConnectionPool().getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
-			slf4jLogger.info("Connection got");
-			
-			slf4jLogger.info("location.getCode()"+location.getCode());
-			slf4jLogger.info("location.getName()"+location.getName());
-			slf4jLogger.info("location.getDesc()"+location.getDesc());
-			slf4jLogger.info("location.getKeywords()"+location.getKeywords());
-			slf4jLogger.info("location.getAddressLine1()"+location.getAddressLine1());
-			slf4jLogger.info("location.getAddressLine2()"+location.getAddressLine2());
-			slf4jLogger.info("location.getCity()"+location.getCity());
-			slf4jLogger.info("location.getState()"+location.getState());
-			slf4jLogger.info("location.getZipCode()"+location.getZipCode());
-			slf4jLogger.info("location.getPhoneNumber()"+location.getPhoneNumber());
-			slf4jLogger.info("location.getFaxNumber()"+location.getFaxNumber());
-			slf4jLogger.info("location.getEmail()"+location.getEmail());
 			
 			preparedStatement.setString(1, location.getCode());
 			preparedStatement.setString(2, location.getName());
@@ -57,24 +44,31 @@ public class LocationDAO {
 			
 			slf4jLogger.info(preparedStatement.toString());
 			int updated = preparedStatement.executeUpdate();
-			
+			connection.close();
 			if(updated == 1) {
 				return true;
 			}
 			return false;
 		}catch(SQLException e){
-			System.out.println(e.getMessage());
+			slf4jLogger.info("SQL Exception while extracting field information");
+			slf4jLogger.info(e.getMessage());
+			try {
+				if (connection != null){
+					connection.close();
+				}
+				
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			return false;
-		} 
-		catch(Exception e){
-			System.out.println(e.getMessage());
-			return false;
-		} 
-		
+		}
 	}
 	
 	
 	public static boolean isDuplicateLocation(String name){
+		
+		slf4jLogger.info("Entered into isDuplicateLocation");
 		
 		String selectQuery = "SELECT * FROM LOCATION WHERE LOCNAME = ?";
 		
@@ -83,16 +77,17 @@ public class LocationDAO {
 		try{
 			
 			connection = DBSource.getConnectionPool().getConnection();
-			
 			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
-			
 			preparedStatement.setString(1, name);
 			
 			// execute select SQL statement
 			ResultSet rs = preparedStatement.executeQuery();
+			
 			if(rs.first()) {
+				connection.close();
 				return true;
 			}
+			connection.close();
 			return false;
 			
 		}catch(SQLException e){
@@ -112,22 +107,36 @@ public class LocationDAO {
 	
 	public static void deleteLocation(String name){
 		
+		slf4jLogger.info("Entered into deleteLocation");
 		String selectQuery = "DELETE FROM LOCATION WHERE LOCNAME = ?";
+		
+		Connection connection = null;
 		
 		try{
 			
-			Connection connection = DBSource.getConnectionPool().getConnection();
+			connection = DBSource.getConnectionPool().getConnection();
+			
 			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
 			preparedStatement.setString(1, name);
 			preparedStatement.executeUpdate();
+			connection.close();
 			
 		}catch(SQLException e){
 			System.out.println(e.getMessage());
+			try {
+				if (connection != null){
+					connection.close();
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 
 	public static boolean isDuplicateLocationCode(String code){
 		
+		slf4jLogger.info("Entered into isDuplicateLocationCode");
 		String selectQuery = "SELECT * FROM LOCATION WHERE LOCCODE = ?";
 		
 		Connection connection = null;
@@ -143,9 +152,10 @@ public class LocationDAO {
 			// execute select SQL statement
 			ResultSet rs = preparedStatement.executeQuery();
 			if(rs.first()) {
-				slf4jLogger.info("found !!");
+				connection.close();
 				return true;
 			}
+			connection.close();
 			return false;
 			
 		}catch(SQLException e){

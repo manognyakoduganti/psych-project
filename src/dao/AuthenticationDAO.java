@@ -5,18 +5,26 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import common.AdminDetails;
 
 
 public class AuthenticationDAO{
 	
+	private static Logger slf4jLogger = LoggerFactory.getLogger(AuthenticationDAO.class);
+	
 	public static AdminDetails validateUser(String email, String password){
+		
+		slf4jLogger.info("Entered into validateUser");
 		
 		String selectQuery = "SELECT ID, FIRSTNAME, LASTNAME, EMAIL, ROLE FROM ADMIN WHERE EMAIL = ? AND PASSWORD = ?";
 		
+		Connection connection = null;
+		
 		try{
-			
-			Connection connection = DBSource.getConnectionPool().getConnection();
+			connection = DBSource.getConnectionPool().getConnection();
 			
 			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
 			
@@ -36,41 +44,66 @@ public class AuthenticationDAO{
 				
 				String roleValue = AuthenticationDAO.getFieldNameByFieldId(roleFieldID);
 				adminDetails.setRole(roleValue);
+				connection.close();
 				return adminDetails;
-				
 			}
+			
 		}catch(SQLException e){
-			System.out.println(e.getMessage());
-			return null;
-		} 
-		catch(Exception e){
-			System.out.println(e.getMessage());
-			return null;
-		} 
+			slf4jLogger.info("SQL Exception while finding user information");
+			slf4jLogger.info(e.getMessage());
+			try {
+				if (connection != null){
+					connection.close();
+				}
+				
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+	
 		return null;
-		
 	}
 	
 	public static String getFieldNameByFieldId(int fieldId) throws SQLException{
 		
+		Connection connection = null;
 		
-		Connection connection = DBSource.getConnectionPool().getConnection();
+		slf4jLogger.info("Entered into getFieldNameByFieldId");
 		
-		PreparedStatement preparedStatement = null;
+		try{
+			connection = DBSource.getConnectionPool().getConnection();
 		
-		String selectQuery = "SELECT FIELDNAME FROM FIELDLOOKUP WHERE ID = ?";
-
-		preparedStatement = connection.prepareStatement(selectQuery);
-		preparedStatement.setInt(1, fieldId);
-		
-		// execute select SQL statement
-		ResultSet rs = preparedStatement.executeQuery();
-		//System.out.println(rs.getFetchSize());
-		String fieldName = null;
-		while (rs.next()) {
-			fieldName = rs.getString("FIELDNAME");
+			PreparedStatement preparedStatement = null;
+			
+			String selectQuery = "SELECT FIELDNAME FROM FIELDLOOKUP WHERE ID = ?";
+	
+			preparedStatement = connection.prepareStatement(selectQuery);
+			preparedStatement.setInt(1, fieldId);
+			
+			// execute select SQL statement
+			ResultSet rs = preparedStatement.executeQuery();
+			//System.out.println(rs.getFetchSize());
+			String fieldName = null;
+			while (rs.next()) {
+				fieldName = rs.getString("FIELDNAME");
+			}
+			connection.close();
+			return fieldName;
+			
+		}catch(SQLException e){
+			slf4jLogger.info("SQL Exception while fetching field information");
+			slf4jLogger.info(e.getMessage());
+			try {
+				if (connection != null){
+					connection.close();
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
-		return fieldName;
+		return "";
 	}
 
 }
