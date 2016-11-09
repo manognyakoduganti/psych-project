@@ -199,23 +199,6 @@ public class LocationServletTest {
 		BufferedReader bufferedReader = mock(BufferedReader.class);
 		when(request.getReader()).thenReturn(bufferedReader);
 		
-		JSONObject jsonObj = new JSONObject();
-		jsonObj.put(Constant.LOCATION_NAME, "Northeastern University TEST");
-		jsonObj.put(Constant.LOCATION_DESCRIPTION, "");
-		String[] locationKeywords = new String[] { "Northeastern", "Psychology"};
-		jsonObj.put(Constant.LOCATION_KEYWORDS, String.join(Constant.KEYWORD_SEPERATOR, locationKeywords));
-		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_1, "360 Huntington Avenue");
-		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_2, "");
-		jsonObj.put(Constant.LOCATION_CITY, "Boston");
-		jsonObj.put(Constant.LOCATION_STATE, "21");
-		jsonObj.put(Constant.LOCATION_ZIPCODE, "02115");
-		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "1234567891");
-		jsonObj.put(Constant.LOCATION_FAX_NUMBER, "1234567891");
-		jsonObj.put(Constant.LOCATION_EMAIL, "northeastern@neu.edu");
-		jsonObj.put(Constant.LOCATION_CODE, "ABCD12");
-		
-		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
-		
 		when(response.getWriter()).thenReturn(printWriter);
 		when(request.getSession(false)).thenReturn(null);
 		
@@ -243,23 +226,6 @@ public class LocationServletTest {
 		BufferedReader bufferedReader = mock(BufferedReader.class);
 		when(request.getReader()).thenReturn(bufferedReader);
 		
-		JSONObject jsonObj = new JSONObject();
-		jsonObj.put(Constant.LOCATION_NAME, "Northeastern University");
-		jsonObj.put(Constant.LOCATION_DESCRIPTION, "");
-		String[] locationKeywords = new String[] { "Northeastern", "Psychology"};
-		jsonObj.put(Constant.LOCATION_KEYWORDS, String.join(Constant.KEYWORD_SEPERATOR, locationKeywords));
-		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_1, "360 Huntington Avenue");
-		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_2, "");
-		jsonObj.put(Constant.LOCATION_CITY, "Boston");
-		jsonObj.put(Constant.LOCATION_STATE, "21");
-		jsonObj.put(Constant.LOCATION_ZIPCODE, "02115");
-		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "1234567891");
-		jsonObj.put(Constant.LOCATION_FAX_NUMBER, "1234567891");
-		jsonObj.put(Constant.LOCATION_EMAIL, "northeastern@neu.edu");
-		jsonObj.put(Constant.LOCATION_CODE, "ABCD12");
-		
-		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
-		
 		when(response.getWriter()).thenReturn(printWriter);
 		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
@@ -275,53 +241,6 @@ public class LocationServletTest {
 		assertEquals("System should have successfully processed the search request with valid session and search parameter",
 				Constant.OK_200, (String) jsonObject.get(Constant.STATUS));
 		
-		assertTrue("System should have returned at least one location information.",((JSONArray)jsonObject.get(Constant.RESULTS)).size() >= 1);
-		
-	}
-	
-	@Test
-	public void testValidLocationSearchRequestAllFieldEmpty() throws ServletException, IOException, ParseException{
-		
-		request = mock(HttpServletRequest.class);
-		response = mock(HttpServletResponse.class);
-		session = mock(HttpSession.class);
-		
-		StringWriter stringWriter = new StringWriter();
-		PrintWriter printWriter = new PrintWriter(stringWriter);
-		
-		BufferedReader bufferedReader = mock(BufferedReader.class);
-		when(request.getReader()).thenReturn(bufferedReader);
-		
-		JSONObject jsonObj = new JSONObject();
-		jsonObj.put(Constant.LOCATION_NAME, "");
-		jsonObj.put(Constant.LOCATION_DESCRIPTION, "");
-		jsonObj.put(Constant.LOCATION_KEYWORDS, "");
-		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_1, "");
-		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_2, "");
-		jsonObj.put(Constant.LOCATION_CITY, "");
-		jsonObj.put(Constant.LOCATION_STATE, "");
-		jsonObj.put(Constant.LOCATION_ZIPCODE, "");
-		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "");
-		jsonObj.put(Constant.LOCATION_FAX_NUMBER, "");
-		jsonObj.put(Constant.LOCATION_EMAIL, "");
-		jsonObj.put(Constant.LOCATION_CODE, "");
-		
-		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
-		
-		when(response.getWriter()).thenReturn(printWriter);
-		when(request.getSession(false)).thenReturn(session);
-		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
-		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
-		when(session.getAttribute(Constant.USER_ID)).thenReturn(1);
-		
-		locationServlet.doGet(request, response);
-		
-		JSONParser parser = new JSONParser();
-		Object obj = parser.parse(stringWriter.getBuffer().toString());
-		JSONObject jsonObject = (JSONObject) obj;
-		
-		assertEquals("System should have successfully processed the search request with valid session and all empty parameter", 
-				Constant.OK_200, (String) jsonObject.get(Constant.STATUS));
 		assertTrue("System should have returned at least one location information.",((JSONArray)jsonObject.get(Constant.RESULTS)).size() >= 1);
 		
 	}
@@ -385,8 +304,8 @@ public class LocationServletTest {
 		when(request.getReader()).thenReturn(bufferedReader);
 		
 		JSONObject jsonObj = new JSONObject();
-		jsonObj.put(Constant.LOCATION_ID, "4");
-		jsonObj.put(Constant.LOCATION_NAME, "Northeastern University TEST");
+		jsonObj.put(Constant.LOCATION_ID, "1");
+		jsonObj.put(Constant.LOCATION_NAME, "Northeastern University Updated");
 		jsonObj.put(Constant.LOCATION_DESCRIPTION, "");
 		String[] locationKeywords = new String[] { "Northeastern", "Psychology"};
 		jsonObj.put(Constant.LOCATION_KEYWORDS, String.join(Constant.KEYWORD_SEPERATOR, locationKeywords));
@@ -433,10 +352,10 @@ public class LocationServletTest {
 		when(request.getReader()).thenReturn(bufferedReader);
 		
 		JSONObject jsonObj = new JSONObject();
-		jsonObj.put(Constant.LOCATION_ID, "4");
+		jsonObj.put(Constant.LOCATION_ID, "20");
 		jsonObj.put(Constant.LOCATION_NAME, "Northeastern University TEST");
 		jsonObj.put(Constant.LOCATION_DESCRIPTION, "");
-		String[] locationKeywords = new String[] { "Northeastern", "Psychology", "aoj3rlkj209lamsfm"};
+		String[] locationKeywords = new String[] {"Northeastern", "Psychology", "aoj3rlkj209lamsfm"};
 		jsonObj.put(Constant.LOCATION_KEYWORDS, String.join(Constant.KEYWORD_SEPERATOR, locationKeywords));
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_1, "360 Huntington Aasdlfkjalskdjf venue");
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_2, "");
@@ -446,7 +365,7 @@ public class LocationServletTest {
 		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "12asdlfkj34567891");
 		jsonObj.put(Constant.LOCATION_FAX_NUMBER, "1234567891");
 		jsonObj.put(Constant.LOCATION_EMAIL, "northeasteasdfljkrn@neu.edu");
-		jsonObj.put(Constant.LOCATION_CODE, "ABCD12");
+		jsonObj.put(Constant.LOCATION_CODE, "ABCDED12");
 		
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		
