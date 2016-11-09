@@ -12,6 +12,22 @@
     	var vm = this;
         vm.tab = 'search';
         
+        vm.newLocation = {
+        		name : '',
+        		description : '',
+        		keywords : '',
+        		code : '',
+        		address1 : '',
+        		address2 : '',
+        		city : '',
+        		state : '',
+        		zipcode : '',
+        		phoneNo : '',
+        		faxNo : '',
+        		email : ''
+        };
+        
+       
     	 
 	    LocationService
 	 		.getAllStates()
@@ -33,6 +49,7 @@
         
         function create(newLocation) {
         	
+        
         	var Location = {
         		locationName : newLocation.name,
         		locationDescription : newLocation.description,
@@ -48,6 +65,7 @@
         		locationEmail : newLocation.email
         		
         	};
+        	console.log(Location);
         	LocationService
         		.createLocation(Location)
         		.success(function(response) {
@@ -67,7 +85,7 @@
             		locationCode : newLocation.code,
             		locationAddress : newLocation.address,
             		locationCity : newLocation.city,
-            		locationState : newLocation.state,
+            		locationState : newLocation.state.toString(),
             		locationZipcode : newLocation.zipcode,
             		locationPhoneNumber : newLocation.phoneNo,
             		locationFaxNumber : newLocation.faxNo,
