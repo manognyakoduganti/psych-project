@@ -236,4 +236,26 @@ public class LocationFieldsTest {
 		
 	}
 	
+	@Test
+	public void testEmailValidation(){
+		
+		String normalName = "abcdef";
+		String noDotCom = "abcder@asdfsdf";
+		String noAt = "asdkflj.google.com";
+		
+		String blank = "";
+		String validEmail1 = "abcd@google.com";
+		String validEmail2 = "something@neu.edu";
+		String validEmail3 = "something.123_123@google.com";
+		
+		assertEquals(true, LocationFieldsVal.validateEmail(blank));
+		assertEquals(true, LocationFieldsVal.validateEmail(validEmail1));
+		assertEquals(true, LocationFieldsVal.validateEmail(validEmail2));
+		assertEquals(true, LocationFieldsVal.validateEmail(validEmail3));
+		
+		assertEquals(false, LocationFieldsVal.validateEmail(normalName));
+		assertEquals(false, LocationFieldsVal.validateEmail(noDotCom));
+		assertEquals(false, LocationFieldsVal.validateEmail(noAt));
+	}
+	
 }

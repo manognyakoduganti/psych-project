@@ -72,5 +72,13 @@ public class LocationFieldsVal {
 		Matcher matcher = cityPattern.matcher(city.trim());
 		return matcher.matches();
 	}
+	
+	public static boolean validateEmail(String email){
+		if(email.trim().equals("")){
+			return true;
+		}else{
+			return UserProfileFieldsVal.validateEmail(email);
+		}
+	}
 
 }
