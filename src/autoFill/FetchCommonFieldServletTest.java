@@ -51,11 +51,8 @@ public class FetchCommonFieldServletTest {
 		BufferedReader bufferedReader = mock(BufferedReader.class);
 		when(request.getReader()).thenReturn(bufferedReader);
 		
-		JSONObject jsonObj = new JSONObject();
-		jsonObj.put(Constant.FIELD_NAME, "State");
 		
-		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
-		
+		when(request.getParameter(Constant.FIELD_NAME)).thenReturn("State");
 		when(response.getWriter()).thenReturn(printWriter);
 		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
@@ -88,10 +85,7 @@ public class FetchCommonFieldServletTest {
 		BufferedReader bufferedReader = mock(BufferedReader.class);
 		when(request.getReader()).thenReturn(bufferedReader);
 		
-		JSONObject jsonObj = new JSONObject();
-		jsonObj.put(Constant.FIELD_NAME, "ASDFASDFSDFAJLERKAER");
-		
-		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
+		when(request.getParameter(Constant.FIELD_NAME)).thenReturn("ASDFASDFSDFAJLERKAER");
 		
 		when(response.getWriter()).thenReturn(printWriter);
 		when(request.getSession(false)).thenReturn(session);
@@ -125,11 +119,7 @@ public class FetchCommonFieldServletTest {
 		BufferedReader bufferedReader = mock(BufferedReader.class);
 		when(request.getReader()).thenReturn(bufferedReader);
 		
-		JSONObject jsonObj = new JSONObject();
-		jsonObj.put(Constant.FIELD_NAME, "ASDFASDFSDFAJLERKAER");
-		
-		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
-		
+		when(request.getParameter(Constant.FIELD_NAME)).thenReturn("ASDFASDFSDFAJLERKAER");
 		when(response.getWriter()).thenReturn(printWriter);
 		when(request.getSession(false)).thenReturn(null);
 		
@@ -157,11 +147,7 @@ public class FetchCommonFieldServletTest {
 		BufferedReader bufferedReader = mock(BufferedReader.class);
 		when(request.getReader()).thenReturn(bufferedReader);
 		
-		JSONObject jsonObj = new JSONObject();
-		jsonObj.put(Constant.FIELD_NAME, "");
-		
-		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
-		
+		when(request.getParameter(Constant.FIELD_NAME)).thenReturn("");
 		when(response.getWriter()).thenReturn(printWriter);
 		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
