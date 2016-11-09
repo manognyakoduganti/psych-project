@@ -4,9 +4,13 @@
         .module("PsychWebApp")
         .factory("LocationService", LocationService);
     
+    
     function LocationService($http) {
+    	var localServerURL = 'http://localhost:8080/Psych-1/';
     	var service = {
-    			createLocation : createLocation
+    			createLocation : createLocation,
+    			getAllLocations : getAllLocations,
+    			getAllStates : getAllStates
     	};
     	
     	return service;
@@ -15,10 +19,27 @@
     		if(location)
     			return $http ({
                     method: 'POST',
-                    url: 'http://localhost:8080/Psych_Server/createLocation',
+                    url: localServerURL + 'createLocation',
                     contentType: 'application/json',
                     data: location});
     		
+    	}
+    	
+    	function getAllLocations() {
+    		return $http ({
+                method: 'GET',
+                url: localServerURL + 'getAllLocations',
+                contentType: 'application/json'
+                });
+    	}
+    	
+    	function getAllStates() {
+    		return $http ({
+    			method : 'GET',
+    			url : localServerURL + 'fetchField',
+    			contentType: 'application/json',
+    			params : {'fieldName' : 'States'}
+    		});
     	}
     }
     
