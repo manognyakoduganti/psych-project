@@ -44,6 +44,10 @@
     <servlet-name>ImageFetcher</servlet-name>
     <servlet-class>imageData.ImageFetcher</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>FetchFields</servlet-name>
+    <servlet-class>autoFill.FetchCommonFieldServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>AdminAuthentication</servlet-name>
     <url-pattern>/adminAuthentication/*</url-pattern>
@@ -83,6 +87,10 @@
   <servlet-mapping>
     <servlet-name>ImageFetcher</servlet-name>
     <url-pattern>/imageData/ImageFetcher/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>FetchFields</servlet-name>
+    <url-pattern>/fetchField/*</url-pattern>
   </servlet-mapping>
   <listener>
         <listener-class>dao.DBSourceRegistrationListener</listener-class>
