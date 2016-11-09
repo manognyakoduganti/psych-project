@@ -64,7 +64,7 @@ public class LocationServletTest {
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_1, "360 Huntington Avenue");
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_2, "");
 		jsonObj.put(Constant.LOCATION_CITY, "Boston");
-		jsonObj.put(Constant.LOCATION_CODE, "ABCD12");
+		jsonObj.put(Constant.LOCATION_CODE, "AB12EF");
 		jsonObj.put(Constant.LOCATION_STATE, "21");
 		jsonObj.put(Constant.LOCATION_ZIPCODE, "02115");
 		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "1234567891");
@@ -117,7 +117,7 @@ public class LocationServletTest {
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_1, "360 Huntington Avenue");
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_2, "");
 		jsonObj.put(Constant.LOCATION_CITY, "Boston");
-		jsonObj.put(Constant.LOCATION_CODE, "ABCD12");
+		jsonObj.put(Constant.LOCATION_CODE, "ABBDE2");
 		jsonObj.put(Constant.LOCATION_STATE, "21");
 		jsonObj.put(Constant.LOCATION_ZIPCODE, "02115");
 		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "1234567891");
