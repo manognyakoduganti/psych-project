@@ -171,17 +171,17 @@
         var locationId = '';
         function search(locationSearch) {
         	var locationParams = {
-        			locationName : newLocation.name,
-            		locationDescription : newLocation.description,
-            		locationKeywords : newLocation.keywords,
-            		locationCode : newLocation.code,
-            		locationAddress : newLocation.address,
-            		locationCity : newLocation.city,
-            		locationState : newLocation.state.toString(),
-            		locationZipCode : newLocation.zipcode,
-            		locationPhoneNumber : newLocation.phoneNo,
-            		locationFaxNumber : newLocation.faxNo,
-            		locationEmail : newLocation.email	
+        			locationName : locationSearch.name,
+            		locationDescription : locationSearch.description,
+            		locationKeywords : locationSearch.keywords,
+            		locationCode : locationSearch.code,
+            		locationAddress : locationSearch.address,
+            		locationCity : locationSearch.city,
+            		locationState : locationSearch.state.toString(),
+            		locationZipCode : locationSearch.zipcode,
+            		locationPhoneNumber : locationSearch.phoneNo,
+            		locationFaxNumber : locationSearch.faxNo,
+            		locationEmail : locationSearch.email	
         	};
         	/*LocationService
         		.getAllLocations(locationParams)
