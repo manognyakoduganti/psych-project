@@ -24,6 +24,7 @@ import org.junit.Test;
 import org.mockito.MockitoAnnotations;
 
 import common.Constant;
+import dao.LocationDAO;
 
 public class LocationServletTest {
 	
@@ -64,7 +65,7 @@ public class LocationServletTest {
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_2, "");
 		jsonObj.put(Constant.LOCATION_CITY, "Boston");
 		jsonObj.put(Constant.LOCATION_CODE, "ABCD12");
-		jsonObj.put(Constant.LOCATION_STATE, 21);
+		jsonObj.put(Constant.LOCATION_STATE, "21");
 		jsonObj.put(Constant.LOCATION_ZIPCODE, "02115");
 		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "1234567891");
 		jsonObj.put(Constant.LOCATION_FAX_NUMBER, "1234567891");
@@ -88,6 +89,57 @@ public class LocationServletTest {
 				Constant.OK_200, (String) jsonObject.get(Constant.STATUS));
 		
 		// Delete the records after test is completed
+		
+	}
+	
+	@Test
+	public void testInValidDuplicateLocationCreateRequest() throws ServletException, IOException, ParseException{
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(request.getReader()).thenReturn(bufferedReader);
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put(Constant.LOCATION_NAME, "Northeastern University TEST");
+		jsonObj.put(Constant.LOCATION_DESCRIPTION, "Northeastern University is a private "
+				+ "institution that was founded in 1898. It has a total undergraduate enrollment of 13,697, "
+				+ "its setting is urban, and the campus size is 73 acres. It utilizes a semester-based academic "
+				+ "calendar. Northeastern University's ranking in the 2017 edition of Best Colleges is National "
+				+ "Universities, 39. Its tuition and fees are $47,655 (2016-17).");
+		String[] locationKeywords = new String[] { "Northeastern", "Psychology"};
+		jsonObj.put(Constant.LOCATION_KEYWORDS, String.join(Constant.KEYWORD_SEPERATOR, locationKeywords));
+		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_1, "360 Huntington Avenue");
+		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_2, "");
+		jsonObj.put(Constant.LOCATION_CITY, "Boston");
+		jsonObj.put(Constant.LOCATION_CODE, "ABCD12");
+		jsonObj.put(Constant.LOCATION_STATE, "21");
+		jsonObj.put(Constant.LOCATION_ZIPCODE, "02115");
+		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "1234567891");
+		jsonObj.put(Constant.LOCATION_FAX_NUMBER, "1234567891");
+		jsonObj.put(Constant.LOCATION_EMAIL, "northeastern@neu.edu");
+		
+		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
+		
+		when(response.getWriter()).thenReturn(printWriter);
+		when(request.getSession(false)).thenReturn(session);
+		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1);
+		
+		locationServlet.doPost(request, response);
+		
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(stringWriter.getBuffer().toString());
+		JSONObject jsonObject = (JSONObject) obj;
+		
+		assertEquals("System should not have processed the request to create location",
+				Constant.BADREQUEST_400, (String) jsonObject.get(Constant.STATUS));
 		
 	}
 	
@@ -136,7 +188,7 @@ public class LocationServletTest {
 				Constant.BADREQUEST_400, (String) jsonObject.get(Constant.STATUS));
 		
 		// Delete the records after test is completed
-		
+		LocationDAO.deleteLocation("Northeastern University TEST");
 	}
 	
 	@Test
@@ -159,7 +211,7 @@ public class LocationServletTest {
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_1, "360 Huntington Avenue");
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_2, "");
 		jsonObj.put(Constant.LOCATION_CITY, "Boston");
-		jsonObj.put(Constant.LOCATION_STATE, 21);
+		jsonObj.put(Constant.LOCATION_STATE, "21");
 		jsonObj.put(Constant.LOCATION_ZIPCODE, "02115");
 		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "1234567891");
 		jsonObj.put(Constant.LOCATION_FAX_NUMBER, "1234567891");
@@ -183,7 +235,7 @@ public class LocationServletTest {
 	}
 	
 	@Test
-	public void tesValidLocationSearchRequest() throws ServletException, IOException, ParseException{
+	public void testValidLocationSearchRequest() throws ServletException, IOException, ParseException{
 		
 		request = mock(HttpServletRequest.class);
 		response = mock(HttpServletResponse.class);
@@ -203,7 +255,7 @@ public class LocationServletTest {
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_1, "360 Huntington Avenue");
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_2, "");
 		jsonObj.put(Constant.LOCATION_CITY, "Boston");
-		jsonObj.put(Constant.LOCATION_STATE, 21);
+		jsonObj.put(Constant.LOCATION_STATE, "21");
 		jsonObj.put(Constant.LOCATION_ZIPCODE, "02115");
 		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "1234567891");
 		jsonObj.put(Constant.LOCATION_FAX_NUMBER, "1234567891");
@@ -232,7 +284,7 @@ public class LocationServletTest {
 	}
 	
 	@Test
-	public void tesValidLocationSearchRequestAllFieldEmpty() throws ServletException, IOException, ParseException{
+	public void testValidLocationSearchRequestAllFieldEmpty() throws ServletException, IOException, ParseException{
 		
 		request = mock(HttpServletRequest.class);
 		response = mock(HttpServletResponse.class);
@@ -299,7 +351,7 @@ public class LocationServletTest {
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_1, "360 Huntington Avenue");
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_2, "");
 		jsonObj.put(Constant.LOCATION_CITY, "Boston");
-		jsonObj.put(Constant.LOCATION_STATE, 21);
+		jsonObj.put(Constant.LOCATION_STATE, "21");
 		jsonObj.put(Constant.LOCATION_ZIPCODE, "02115");
 		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "1234567891");
 		jsonObj.put(Constant.LOCATION_FAX_NUMBER, "1234567891");
@@ -345,7 +397,7 @@ public class LocationServletTest {
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_1, "360 Huntington Avenue");
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_2, "");
 		jsonObj.put(Constant.LOCATION_CITY, "Boston");
-		jsonObj.put(Constant.LOCATION_STATE, 21);
+		jsonObj.put(Constant.LOCATION_STATE, "21");
 		jsonObj.put(Constant.LOCATION_ZIPCODE, "02115");
 		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "1234567891");
 		jsonObj.put(Constant.LOCATION_FAX_NUMBER, "1234567891");
@@ -393,7 +445,7 @@ public class LocationServletTest {
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_1, "360 Huntington Aasdlfkjalskdjf venue");
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_2, "");
 		jsonObj.put(Constant.LOCATION_CITY, "SDF lskfj  213123 ");
-		jsonObj.put(Constant.LOCATION_STATE, 21);
+		jsonObj.put(Constant.LOCATION_STATE, "21");
 		jsonObj.put(Constant.LOCATION_ZIPCODE, "02115");
 		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "12asdlfkj34567891");
 		jsonObj.put(Constant.LOCATION_FAX_NUMBER, "1234567891");
