@@ -27,7 +27,7 @@
         	console.log("Data being sent: " + user.email + " " + user.password);
             return $http ({
                 method: 'POST',
-                url: serverURL + 'adminAuthentication',
+                url: localServerURL + 'adminAuthentication',
                 contentType: 'application/json',
                 data: {
     				email: user.email,

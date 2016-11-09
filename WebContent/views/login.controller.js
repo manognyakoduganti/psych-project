@@ -12,9 +12,11 @@
         vm.login = login;
 
         function login(user) {
+        	console.log("email= " + vm.user.email);
+        	console.log("password= " + vm.user.password);
             if(user) {
 
-
+            	
                 UserService.login(user)
                 .success(function(response) {
                 	console.log("Response received: " + response);

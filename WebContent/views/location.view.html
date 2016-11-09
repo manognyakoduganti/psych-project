@@ -35,67 +35,67 @@ Licensed under MIT
                                 <div class="form-group">
                                     <label for="inputName2" class="col-sm-2 control-label">Location Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.firstName">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.searchLoc.name">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.lastName">
+                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.searchLoc.description">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Keywords:</label>
                                     <div class="col-sm-7">
-                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Keywords" ng-model="model.email">
+                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Keywords" ng-model="model.searchLoc.keywords">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Address:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Address" ng-model="model.email">
+                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Address" ng-model="model.searchLoc.address">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">City:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="City" ng-model="model.email">
+                                        <input type="text" class="form-control" id="inputEmail3" placeholder="City" ng-model="model.searchLoc.city">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">State:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="State" ng-model="model.email">
+                                        <input type="text" class="form-control" id="inputEmail3" placeholder="State" ng-model="model.searchLoc.state">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Zipcode:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Zipcode" ng-model="model.email">
+                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Zipcode" ng-model="model.searchLoc.zip">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Phone number:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.email">
+                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.searchLoc.phoneNo">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Email:</label>
                                     <div class="col-sm-7">
-                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.email">
+                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.searchLoc.email">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.search()">Search</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.search(model.search)">Search</button>
                                     </div>
                                 </div>
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
@@ -107,10 +107,10 @@ Licensed under MIT
     <table class="table table-striped table-bordered">
         <thead>
         <tr>
-            <th><span class="glyphicon glyphicon-triangle-bottom"></span> Location</th>
-            <th><span class="glyphicon glyphicon-triangle-bottom"></span> Description</th>
-            <th><span class="glyphicon glyphicon-triangle-bottom"></span> Keywords</th>
-            <th><span class="glyphicon glyphicon-triangle-bottom"></span> Email</th>
+            <th> Location</th>
+            <th> Description</th>
+            <th> Keywords</th>
+            <th> Email</th>
             <th> Actions</th>
         </tr>
      
@@ -185,7 +185,9 @@ Licensed under MIT
                                 <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-2 control-label">State:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="State" ng-model="model.newLocation.state" required="required">
+                                        <select name="states" ng-options='state.fieldId as state.fieldValue for state in model.statesList.results' class="form-control" id="inputEmail3" placeholder="State" ng-model="model.newLocation.state" required="required">
+                                        <option value="">Select State</option>
+                                        </select>
                                     </div>
                                 </div>
 
