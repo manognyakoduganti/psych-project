@@ -27,6 +27,7 @@ import org.mockito.MockitoAnnotations;
 
 import common.Constant;
 import dao.QuestionCategoryDAO;
+import questionnaire.QuestionCategoryServlet;
 
 public class QuestionCategoryServletTest {
 	

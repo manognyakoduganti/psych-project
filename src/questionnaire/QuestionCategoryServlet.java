@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -42,7 +43,37 @@ public class QuestionCategoryServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		response.addHeader("Access-Control-Allow-Origin", Constant.ACCESS_CONTROL_ALLOW_ORIGIN);
+		response.addHeader("Access-Control-Allow-Headers", Constant.ACCESS_CONTROL_ALLOW_HEADERS);
+		response.addHeader("Access-Control-Allow-Methods", Constant.ACCESS_CONTROL_ALLOW_METHODS);
+		response.addIntHeader("Access-Control-Max-Age", Constant.ACCESS_CONTROL_ALLOW_MAX_AGE);
+		
+		String name = request.getParameter("name");
+		
+		JSONObject returnJSON = new JSONObject();
+		
+		if (name != null){
+			
+			System.out.println("Name: " + name);
+			
+			boolean duplicate = QuestionCategoryDAO.checkDuplicate(name);
+			
+			returnJSON.put(Constant.STATUS, Constant.OK_200);
+			returnJSON.put(Constant.RESULTS, duplicate);
+			returnJSON.put(Constant.USER_MESSAGE, "Searched for duplicate successfully!");
+			returnJSON.put(Constant.DEVELOPER_MESSAGE, "Searched for duplicate successfully");
+		}
+		else{
+			
+			returnJSON = QuestionCategoryDAO.getAll();
+		}
+		
+		response.getWriter().print(returnJSON);
+		
+		//System.out.println(name);
+		
+		response.setContentType("application/json;charset=UTF-8");
 	}
 
 	/**
@@ -81,11 +112,11 @@ public class QuestionCategoryServlet extends HttpServlet {
 			try {
 				obj = parser.parse(sb.toString());
 				JSONObject jsonObject = (JSONObject) obj;
-				newName = (String) jsonObject.get(Constant.NEW_QUESTION_CATETORY_NAME);
-				newDescrition = (String) jsonObject.get(Constant.NEW_QUESTION_CATETORY_NAME_CATEGORY);
-				responseType = (long) jsonObject.get(Constant.NEW_QUESTION_CATETORY_RESPONSE_TYPE);
-				newStartLabel = (String) jsonObject.get(Constant.NEW_QUESTION_CATETORY_START_LABEL);
-				newEndLabel = (String) jsonObject.get(Constant.NEW_QUESTION_CATETORY_END_LABEL);
+				newName = (String) jsonObject.get(Constant.NEW_QUESTION_CATEGORY_NAME);
+				newDescrition = (String) jsonObject.get(Constant.NEW_QUESTION_CATEGORY_DESCRIPTION);
+				responseType = (long) jsonObject.get(Constant.NEW_QUESTION_CATEGORY_RESPONSE_TYPE);
+				newStartLabel = (String) jsonObject.get(Constant.NEW_QUESTION_CATEGORY_START_LABEL);
+				newEndLabel = (String) jsonObject.get(Constant.NEW_QUESTION_CATEGORY_END_LABEL);
 			
 				if(QuestionCategoryFieldsVal.validateName(newName) 
 						&& QuestionCategoryFieldsVal.validateDescription(newDescrition)
@@ -98,11 +129,11 @@ public class QuestionCategoryServlet extends HttpServlet {
 					//System.out.println("isUpdated : " + isUpdated);
 					if(isCreated){
 						
-						returnJSON.put(Constant.NEW_QUESTION_CATETORY_NAME, newName);
-						returnJSON.put(Constant.NEW_QUESTION_CATETORY_NAME_CATEGORY, newDescrition);
-						returnJSON.put(Constant.NEW_QUESTION_CATETORY_RESPONSE_TYPE, responseType);
-						returnJSON.put(Constant.NEW_QUESTION_CATETORY_START_LABEL, newStartLabel);
-						returnJSON.put(Constant.NEW_QUESTION_CATETORY_END_LABEL, newEndLabel);
+						returnJSON.put(Constant.NEW_QUESTION_CATEGORY_NAME, newName);
+						returnJSON.put(Constant.NEW_QUESTION_CATEGORY_DESCRIPTION, newDescrition);
+						returnJSON.put(Constant.NEW_QUESTION_CATEGORY_RESPONSE_TYPE, responseType);
+						returnJSON.put(Constant.NEW_QUESTION_CATEGORY_START_LABEL, newStartLabel);
+						returnJSON.put(Constant.NEW_QUESTION_CATEGORY_END_LABEL, newEndLabel);
 						
 						returnJSON.put(Constant.STATUS, Constant.OK_200);
 						returnJSON.put(Constant.USER_MESSAGE, "Added question successfully!");
@@ -113,6 +144,79 @@ public class QuestionCategoryServlet extends HttpServlet {
 						returnJSON.put(Constant.USER_MESSAGE, "Could not add to database.");
 						returnJSON.put(Constant.DEVELOPER_MESSAGE, "Failed at inserting record.");
 					}
+				}else{
+					returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
+					returnJSON.put(Constant.USER_MESSAGE, "Invalid data in fields");
+					returnJSON.put(Constant.DEVELOPER_MESSAGE, "Invalid data in fields");
+				}
+				
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
+				returnJSON.put(Constant.DEVELOPER_MESSAGE, Constant.JSON_PARSE_ERROR + sb.toString());
+			}
+			
+//		}else{
+//			returnJSON.put(Constant.STATUS, Constant.UNAUTHORIZED_401);
+//			returnJSON.put(Constant.USER_MESSAGE, Constant.UNAUTHORIZED_401);
+//			returnJSON.put(Constant.DEVELOPER_MESSAGE, Constant.UNAUTHORIZED_401);
+//		}
+		
+		response.getWriter().print(returnJSON);
+		response.addHeader("Access-Control-Allow-Origin", Constant.ACCESS_CONTROL_ALLOW_ORIGIN);
+		response.addHeader("Access-Control-Allow-Headers", Constant.ACCESS_CONTROL_ALLOW_HEADERS);
+		response.addHeader("Access-Control-Allow-Methods", Constant.ACCESS_CONTROL_ALLOW_METHODS);
+		response.addIntHeader("Access-Control-Max-Age", Constant.ACCESS_CONTROL_ALLOW_MAX_AGE);
+	}
+	
+	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		
+		response.setContentType("application/json;charset=UTF-8");
+		JSONObject returnJSON = new JSONObject();
+		
+		StringBuilder sb = new StringBuilder();
+        BufferedReader br = request.getReader();
+        String str = null;
+        while ((str = br.readLine()) != null) {
+            sb.append(str);
+        }
+        
+        JSONParser parser = new JSONParser();
+		Object obj;
+		
+		String newName;
+		String newDescrition;
+		long responseType; 
+		String newStartLabel;
+		String newEndLabel;
+		long id;
+		
+		HttpSession session = request.getSession(false);
+		
+//		if(session != null && session.getAttribute(Constant.ROLE) != null &&
+//				session.getAttribute(Constant.EMAIL) != null &&
+//				(session.getAttribute(Constant.ROLE).equals(Constant.GLOBAL_ADMIN) ||
+//				(session.getAttribute(Constant.ROLE).equals(Constant.LOCAL_ADMIN)))){
+			
+			try {
+				obj = parser.parse(sb.toString());
+				JSONObject jsonObject = (JSONObject) obj;
+				id = (long) jsonObject.get(Constant.QUESTION_CATEGORY_ID);
+				newName = (String) jsonObject.get(Constant.NEW_QUESTION_CATEGORY_NAME);
+				newDescrition = (String) jsonObject.get(Constant.NEW_QUESTION_CATEGORY_DESCRIPTION);
+				responseType = (long) jsonObject.get(Constant.NEW_QUESTION_CATEGORY_RESPONSE_TYPE);
+				newStartLabel = (String) jsonObject.get(Constant.NEW_QUESTION_CATEGORY_START_LABEL);
+				newEndLabel = (String) jsonObject.get(Constant.NEW_QUESTION_CATEGORY_END_LABEL);
+			
+				if(QuestionCategoryFieldsVal.validateName(newName) 
+						&& QuestionCategoryFieldsVal.validateDescription(newDescrition)
+						&& QuestionCategoryFieldsVal.validateLabel(newStartLabel)
+						&& QuestionCategoryFieldsVal.validateLabel(newEndLabel)){
+				
+					returnJSON = QuestionCategoryDAO.udpateQuestionCategory(new 
+							QuestionCategory(id, newName, newDescrition, responseType, newStartLabel, newEndLabel));
 				}else{
 					returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
 					returnJSON.put(Constant.USER_MESSAGE, "Invalid data in fields");
