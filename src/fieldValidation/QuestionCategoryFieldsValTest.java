@@ -32,13 +32,13 @@ public class QuestionCategoryFieldsValTest {
 		String correctName1 = "Fitness 1";
 	
 		
-		assertEquals(true, QuestionCategoryFieldsVal.validateName(correctName1));
-		assertEquals(true, QuestionCategoryFieldsVal.validateName(numbers));
+		assertEquals(true, QuestionCategoryFieldsVal.validateQuestionCategoryName(correctName1));
+		assertEquals(true, QuestionCategoryFieldsVal.validateQuestionCategoryName(numbers));
 		
-		assertEquals(false,  QuestionCategoryFieldsVal.validateName(empty2));
-		assertEquals(false,  QuestionCategoryFieldsVal.validateName(badCharacter));
-		assertEquals(false,  QuestionCategoryFieldsVal.validateName(bigName));
-		assertEquals(false,  QuestionCategoryFieldsVal.validateName(emtpyName));
+		assertEquals(false,  QuestionCategoryFieldsVal.validateQuestionCategoryName(empty2));
+		assertEquals(false,  QuestionCategoryFieldsVal.validateQuestionCategoryName(badCharacter));
+		assertEquals(false,  QuestionCategoryFieldsVal.validateQuestionCategoryName(bigName));
+		assertEquals(false,  QuestionCategoryFieldsVal.validateQuestionCategoryName(emtpyName));
 		
 	}
 	
@@ -70,10 +70,10 @@ public class QuestionCategoryFieldsValTest {
 		assertEquals(true, QuestionCategoryFieldsVal.validateDescription(correctName1));
 		assertEquals(true, QuestionCategoryFieldsVal.validateDescription(numbers));
 		
-		assertEquals(false,  QuestionCategoryFieldsVal.validateDescription(empty2));
+		assertEquals(true,  QuestionCategoryFieldsVal.validateDescription(empty2));
 		assertEquals(true,  QuestionCategoryFieldsVal.validateDescription(goodCharacter));
 		assertEquals(true,  QuestionCategoryFieldsVal.validateDescription(bigName));
-		assertEquals(false,  QuestionCategoryFieldsVal.validateDescription(emtpyName));
+		assertEquals(true,  QuestionCategoryFieldsVal.validateDescription(emtpyName));
 		assertEquals(false,  QuestionCategoryFieldsVal.validateDescription(largeDesc));
 		
 	}
@@ -99,6 +99,30 @@ public class QuestionCategoryFieldsValTest {
 		assertEquals(false,  QuestionCategoryFieldsVal.validateLabel(badCharacter));
 		assertEquals(false,  QuestionCategoryFieldsVal.validateLabel(bigName));
 		assertEquals(false,  QuestionCategoryFieldsVal.validateLabel(emtpyName));
+		
+	}
+	
+	@Test
+	public void testValidateQuestionName(){
+		
+		String bigName = "Thomaskjasdlkfok asldfiuk Sdfjaosiduf osudflkjasdfliu ASDKFJlasdjflksjdlfkj "
+				+ "lkasjdflkjlkj ksdjf lkjasd fjalksdjflkajsdlkfj lskjdflksjdl flskjflkjsdlkfj aklsjdflksj df" 
+				+ "lkasjdflkjlkj ksdjf lkjasd fjalksdjflkajsdlkfj lskjdflksjdl flskjflkjsdlkfj aklsjdflksj df"
+				+ "lkasjdflkjlkj ksdjf lkjasd fjalksdjflkajsdlkfj lskjdflksjdl flskjflkjsdlkfj aklsjdflksj df"
+				+ "lkasjdflkjlkj ksdjf lkjasd fjalksdjflkajsdlkfj lskjdflksjdl flskjflkjsdlkfj aklsjdflksj df";
+		String emtpyName = "";
+		String empty2 = " ";
+		
+		String numbers = "asd012987 laksjdf7034";
+		String correctName1 = "Fitness 1?";
+	
+		
+		assertEquals(true, QuestionCategoryFieldsVal.validateQuestionName(correctName1));
+		assertEquals(true, QuestionCategoryFieldsVal.validateQuestionName(numbers));
+		
+		assertEquals(false,  QuestionCategoryFieldsVal.validateQuestionName(empty2));
+		assertEquals(false,  QuestionCategoryFieldsVal.validateQuestionName(bigName));
+		assertEquals(false,  QuestionCategoryFieldsVal.validateQuestionName(emtpyName));
 		
 	}
 

@@ -185,7 +185,7 @@ public class QuestionCategoryDAO {
 			
 		}catch(SQLException e){
 			System.out.println(e.getMessage());
-			returnJSON.put(Constant.STATUS, Constant.OK_200);
+			returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
 			returnJSON.put(Constant.USER_MESSAGE, "Error in retrieving all question categories!");
 			returnJSON.put(Constant.DEVELOPER_MESSAGE, "Error retrieving all question categories: " + e.getMessage());
 			
