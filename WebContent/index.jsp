@@ -38,7 +38,8 @@
     <script src="./config.js"></script>
     <script src="./views/main.controller.js"></script>
     <script src="./services/user.service.client.js"></script>
-     <script src="./services/location.service.client.js"></script>
+    <script src="./services/location.service.client.js"></script>
+    <script src="./js/jLinq.js"></script> 
     <script src="./views/login.controller.js"></script>
     <script src="./views/adminProfile.controller.js"></script>
     <script src="./views/location.controller.js"></script>

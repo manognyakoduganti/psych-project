@@ -9,8 +9,80 @@
 
     function LocationController(LocationService)
     {
+    	var sampleLocations = {
+			"results": [
+			{
+			"locationName": "Northeastern University",
+			"locationFaxNumber": "1234567891",
+			"locationAddressLine1": "360 Huntington Ave",
+			"locationDescription": "Location Decription",
+			"locationAddressLine2": "",
+			"locationPhoneNumber": "1234567891",
+			"locationKeywords": "Keywords1|%$| Keywords2|%$| Keyword3",
+			"locationZipCode": "2120",
+			"locationId": "1",
+			"locationCode": "ABCD12",
+			"locationState": "Massachusetts",
+			"locationCity": "Boston",
+			"locationStateId": "21",
+			"locationEmail": "northeastern@google.com"
+			},
+			{
+			"locationName": "Mass General Hospital",
+			"locationFaxNumber": "6177262000",
+			"locationAddressLine1": "55 Fruit St",
+			"locationDescription": "Massachusetts General Hospital is the original and largest teaching hospital of Harvard Medical School and a biomedical research facility located in the West End neighborhood of Boston, Massachusetts.",
+			"locationAddressLine2": "",
+			"locationPhoneNumber": "6177262000",
+			"locationKeywords": "Boston |%$| General",
+			"locationZipCode": "2114",
+			"locationId": "2",
+			"locationCode": "CDEFGH",
+			"locationState": "Massachusetts",
+			"locationCity": "Boston",
+			"locationStateId": "21",
+			"locationEmail": "massgeneral@google.com"
+			},
+			{
+			"locationName": "Booston",
+			"locationFaxNumber": "2168016907",
+			"locationAddressLine1": "asdf",
+			"locationDescription": "",
+			"locationAddressLine2": "",
+			"locationPhoneNumber": "2168016907",
+			"locationKeywords": "",
+			"locationZipCode": "2120",
+			"locationId": "3",
+			"locationCode": "IESNA2",
+			"locationState": "Massachusetts",
+			"locationCity": "asldfkj",
+			"locationStateId": "21",
+			"locationEmail": "ddpatel.2012@gmail.com"
+			},
+			{
+			"locationName": "Northeastern University TEST",
+			"locationFaxNumber": "1234567891",
+			"locationAddressLine1": "360 Huntington Avenue",
+			"locationDescription": "Northeastern University is a private institution that was founded in 1898. It has a total undergraduate enrollment of 13,697, its setting is urban, and the campus size is 73 acres. It utilizes a semester-based academic calendar. Northeastern University's ranking in the 2017 edition of Best Colleges is National Universities, 39. Its tuition and fees are $47,655 (2016-17).",
+			"locationAddressLine2": "",
+			"locationPhoneNumber": "1234567891",
+			"locationKeywords": "Northeastern|%$|Psychology",
+			"locationZipCode": "2115",
+			"locationId": "5",
+			"locationCode": "ABBDE2",
+			"locationState": "Massachusetts",
+			"locationCity": "Boston",
+			"locationStateId": "21",
+			"locationEmail": "northeastern@neu.edu"
+			}
+			],
+			"status": "200"
+    	};
     	var vm = this;
         vm.tab = 'search';
+        vm.isLocationNameDuplicate = false;
+        vm.isLocationCodeDuplicate = false;
+        vm.isCreateSuccessful = false;
         
         vm.newLocation = {
         		name : '',
@@ -59,24 +131,44 @@
         		locationAddressLine2 : newLocation.address2,
         		locationCity : newLocation.city,
         		locationState : newLocation.state,
-        		locationZipcode : newLocation.zipcode,
+        		locationZipCode : newLocation.zipcode,
         		locationPhoneNumber : newLocation.phoneNo,
         		locationFaxNumber : newLocation.faxNo,
         		locationEmail : newLocation.email
         		
         	};
         	console.log(Location);
+        	
         	LocationService
-        		.createLocation(Location)
-        		.success(function(response) {
-        			if(response.status == '200') {
-        			vm.isCreateSuccessful = true;
+        		.checkDuplicate(locationName, newLocation.name)
+        		.then(function(response) {
+        			if(response.results === 'true') {
+        				LocationService
+        					.checkDuplicate(locationCode, newLocation.code)
+        					.then(function(response) {
+        						if(response.results === "true") {
+        							LocationService
+        			        		.createLocation(Location)
+        			        		.success(function(response) {
+        			        			if(response.results == '200') {
+        			        			vm.isCreateSuccessful = true;
+        			        			}
+        			        		});
+        						}
+        						
+        						else 
+        							vm.isLocationCodeDuplicate = true;
+        				});
         			}
-        		});
+        			
+        			else
+        				vm.isLocationNameDuplicate = true;
+        		})
+        	
         }
         
         vm.search = search;
-        
+        var locationId = '';
         function search(locationSearch) {
         	var locationParams = {
         			locationName : newLocation.name,
@@ -86,13 +178,44 @@
             		locationAddress : newLocation.address,
             		locationCity : newLocation.city,
             		locationState : newLocation.state.toString(),
-            		locationZipcode : newLocation.zipcode,
+            		locationZipCode : newLocation.zipcode,
             		locationPhoneNumber : newLocation.phoneNo,
             		locationFaxNumber : newLocation.faxNo,
             		locationEmail : newLocation.email	
         	};
-        	LocationService
+        	/*LocationService
         		.getAllLocations(locationParams)
+        		.success(function(response) {
+        			locationId = response.locationId;
+        		});*/
+        	var results = jlinq.from(sampleLocations.results).select();
+        	console.log(results);
+        }
+        
+        vm.update = update;
+        
+        function update(locationUpdate) {
+        	var locationUpdateParams = {
+        			locationId : locationUpdate.locationId,
+        			locationName : locationUpdate.name,
+            		locationDescription : locationUpdate.description,
+            		locationKeywords : locationUpdate.keywords,
+            		locationCode : locationUpdate.code,
+            		locationAddress : locationUpdate.address,
+            		locationCity : locationUpdate.city,
+            		locationState : locationUpdate.state.toString(),
+            		locationZipCode : locationUpdate.zipcode,
+            		locationPhoneNumber : locationUpdate.phoneNo,
+            		locationFaxNumber : locationUpdate.faxNo,
+            		locationEmail : locationUpdate.email	
+        	};
+        	
+        	LocationService
+    			.updateLocation(locationUpdateParams)
+    			.success(function(response) {
+    				vm.isUpdateSuccessful = true;
+    				
+    			});
         }
     }
     
