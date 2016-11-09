@@ -5,9 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import common.Constant;
 import common.Location;
 
 public class LocationDAO {
@@ -171,6 +175,57 @@ public class LocationDAO {
 			return false;
 		}
 		
+	}
+	
+	public static JSONArray fetchAllLocation(){
+		
+		slf4jLogger.info("Entered into isDuplicateLocationCode");
+		String selectQuery = "SELECT * FROM location join fieldlookup on location.state = fieldlookup.id";
+		
+		Connection connection = null;
+		JSONArray jsonArray = new JSONArray();
+		
+		try{
+			
+			connection = DBSource.getConnectionPool().getConnection();
+			
+			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+			
+			// execute select SQL statement
+			ResultSet rs = preparedStatement.executeQuery();
+			while(rs.next()) {
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put(Constant.LOCATION_ID,Long.toString(rs.getLong("id")));
+				jsonObject.put(Constant.LOCATION_NAME,rs.getString("locName"));
+				jsonObject.put(Constant.LOCATION_DESCRIPTION,rs.getString("description"));
+				jsonObject.put(Constant.LOCATION_KEYWORDS,rs.getString("keywords"));
+				jsonObject.put(Constant.LOCATION_CODE,rs.getString("locCode"));
+				jsonObject.put(Constant.LOCATION_ADDRESS_LINE_1,rs.getString("addressLine1"));
+				jsonObject.put(Constant.LOCATION_ADDRESS_LINE_2,rs.getString("addressLine2"));
+				jsonObject.put(Constant.LOCATION_CITY,rs.getString("city"));
+				jsonObject.put(Constant.LOCATION_STATE,rs.getString("fieldName"));
+				jsonObject.put(Constant.LOCATION_STATE_ID,Long.toString(rs.getLong("state")));
+				jsonObject.put(Constant.LOCATION_ZIPCODE,Long.toString(rs.getLong("zipcode")));
+				jsonObject.put(Constant.LOCATION_PHONE_NUMBER,Long.toString(rs.getLong("phoneNumber")));
+				jsonObject.put(Constant.LOCATION_FAX_NUMBER,Long.toString(rs.getLong("faxNumber")));
+				jsonObject.put(Constant.LOCATION_EMAIL,rs.getString("email"));
+				jsonArray.add(jsonObject);
+		
+			}
+			connection.close();
+			
+		}catch(SQLException e){
+			System.out.println(e.getMessage());
+			try {
+				if (connection != null){
+					connection.close();
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		return jsonArray;
 	}
 
 }

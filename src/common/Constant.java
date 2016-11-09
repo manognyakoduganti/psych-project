@@ -27,8 +27,8 @@ public class Constant {
 	public static String UNAUTHORIZED_401 = "401";
 	public static String BADREQUEST_400 = "400";
 	
-	public static String KEYWORD_SEPERATOR= "|%$|";
-	public static String KEYWORD_SEPERATOR_PARSER= "\\|\\%\\$\\|";
+	public static String KEYWORD_SEPERATOR= ",";
+	public static String KEYWORD_SEPERATOR_PARSER= ",";
 	
 	public static String ACCESS_CONTROL_ALLOW_METHODS = "POST, GET, OPTIONS, DELETE, PUT";
 	public static String ACCESS_CONTROL_ALLOW_ORIGIN = "*";
@@ -46,6 +46,7 @@ public class Constant {
 	public static String LOCATION_ADDRESS_LINE_2 = "locationAddressLine2";
 	public static String LOCATION_CITY = "locationCity";
 	public static String LOCATION_STATE = "locationState";
+	public static String LOCATION_STATE_ID = "locationStateId";
 	public static String LOCATION_ZIPCODE = "locationZipCode";
 	public static String LOCATION_PHONE_NUMBER = "locationPhoneNumber";
 	public static String LOCATION_FAX_NUMBER = "locationFaxNumber";

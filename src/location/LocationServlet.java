@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -47,31 +48,43 @@ public class LocationServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		boolean checkLocationName = false;
-		boolean checkLocaitonCode = false;
+		slf4jLogger.info("Entered in doGet method of LocationServlet");
+		boolean checkLocationNameDuplicate = false;
+		boolean checkLocaitonCodeDuplicate = false;
 		JSONObject returnJSON = new JSONObject();
 		
-		if((request.getParameter(Constant.LOCATION_NAME) != null) || (request.getParameter(Constant.LOCATION_CODE) != null)){
-			if(request.getParameter(Constant.LOCATION_NAME) != null){
-				checkLocationName= true;
-			}else{
-				checkLocaitonCode = true;
+		HttpSession session = request.getSession(false);
+		if(Sessions.isValidGlobalAdminSession(session)){
+			if((request.getParameter(Constant.LOCATION_NAME) != null) || (request.getParameter(Constant.LOCATION_CODE) != null)){
+				if(request.getParameter(Constant.LOCATION_NAME) != null){
+					checkLocationNameDuplicate= true;
+				}else{
+					checkLocaitonCodeDuplicate = true;
+				}
 			}
-		}
-		
-		if(checkLocationName){
 			
-			String locationName = request.getParameter(Constant.LOCATION_NAME);
-			returnJSON.put(Constant.RESULTS, LocationDAO.isDuplicateLocation(locationName));
-			
-		}else if(checkLocaitonCode){
-			
-			String locationCode = request.getParameter(Constant.LOCATION_CODE);
-			slf4jLogger.info("locationCode : "+locationCode + LocationDAO.isDuplicateLocationCode(locationCode));
-			returnJSON.put(Constant.RESULTS, LocationDAO.isDuplicateLocationCode(locationCode));
-			
+			if(checkLocationNameDuplicate){
+				// Check location name duplicate
+				
+				String locationName = request.getParameter(Constant.LOCATION_NAME);
+				returnJSON.put(Constant.RESULTS, LocationDAO.isDuplicateLocation(locationName));
+				returnJSON.put(Constant.STATUS, Constant.OK_200);
+				
+			}else if(checkLocaitonCodeDuplicate){
+				
+				String locationCode = request.getParameter(Constant.LOCATION_CODE);
+				slf4jLogger.info("locationCode : "+locationCode + LocationDAO.isDuplicateLocationCode(locationCode));
+				returnJSON.put(Constant.RESULTS, LocationDAO.isDuplicateLocationCode(locationCode));
+				returnJSON.put(Constant.STATUS, Constant.OK_200);
+				
+			}else{
+				//Extract all location information
+				JSONArray jsonArray = LocationDAO.fetchAllLocation();
+				returnJSON.put(Constant.RESULTS, jsonArray);
+				returnJSON.put(Constant.STATUS, Constant.OK_200);
+			}
 		}else{
-			
+			returnJSON.put(Constant.STATUS, Constant.UNAUTHORIZED_401);
 		}
 		
 		response.getWriter().print(returnJSON);
@@ -87,9 +100,8 @@ public class LocationServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		slf4jLogger.info("Entered in doPos method of LocationServlet");
+		slf4jLogger.info("Entered in doPost method of LocationServlet");
 		response.setContentType("application/json;charset=UTF-8");
-		
 		
 		JSONObject returnJSON = new JSONObject();
 		
@@ -157,14 +169,11 @@ public class LocationServlet extends HttpServlet {
 	
 	private boolean isValidInputData(JSONObject jsonObject){
 		
-		slf4jLogger.info("Validate Input");
+		slf4jLogger.info("Entered into isValidInputData");
 		try{
 		String name = ((String) jsonObject.get(Constant.LOCATION_NAME)).trim();
-		slf4jLogger.info("name"+name+" : "+LocationFieldsVal.validateName(name));
 		String desc = ((String) jsonObject.get(Constant.LOCATION_DESCRIPTION)).trim();
-		slf4jLogger.info("desc"+desc + ":"+CommonFieldsVal.validateDescription(desc));
 		String keywords = ((String) jsonObject.get(Constant.LOCATION_KEYWORDS)).trim();
-		slf4jLogger.info("keywords"+keywords+":" + CommonFieldsVal.validateKeywords(keywords));
 		String addressLine1 = ((String) jsonObject.get(Constant.LOCATION_ADDRESS_LINE_1)).trim();
 		String addressLine2 = ((String) jsonObject.get(Constant.LOCATION_ADDRESS_LINE_2)).trim();
 		String city = ((String) jsonObject.get(Constant.LOCATION_CITY)).trim();
@@ -181,13 +190,11 @@ public class LocationServlet extends HttpServlet {
 				LocationFieldsVal.validateAddressLine2(addressLine2) && LocationFieldsVal.validateCity(city) &&
 				LocationFieldsVal.validateZipCode(zipcode) && LocationFieldsVal.validatePhoneNumber(phoneNumber) &&
 				LocationFieldsVal.validateFaxNumber(faxNumber) && LocationFieldsVal.validateEmail(email)){
-			slf4jLogger.info("Location accepted");
 			return true;
 		}
 		return false;
 		}catch(Exception e){
-			e.printStackTrace();
-			slf4jLogger.info("Parsing issue **********");
+			slf4jLogger.info("Parsing issue in location details");
 			return false;
 		}
 		
@@ -197,7 +204,7 @@ public class LocationServlet extends HttpServlet {
 		
 		Location location = new Location();
 		
-		slf4jLogger.info("PArsing locaiton values");
+		slf4jLogger.info("Entered into parseLocation");
 		
 		String name = ((String) jsonObject.get(Constant.LOCATION_NAME)).trim();
 		String desc = ((String) jsonObject.get(Constant.LOCATION_DESCRIPTION)).trim();
@@ -226,7 +233,6 @@ public class LocationServlet extends HttpServlet {
 		location.setFaxNumber(Long.parseLong(faxNumber));
 		location.setEmail(email);
 		
-		slf4jLogger.info("PArsing locaiton values done");
 		return location;
 	}
 
