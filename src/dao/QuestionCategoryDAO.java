@@ -19,10 +19,10 @@ public class QuestionCategoryDAO {
 								+ "(name, description, responseType, startLabel, endLabel) "
 								+ "VALUES (?, ?, ?, ?, ?)";
 		
+		Connection connection = null;
 		
 		try{
-			
-			Connection connection = DBSource.getConnectionPool().getConnection();
+			connection = DBSource.getConnectionPool().getConnection();
 			
 			PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
 			
@@ -35,16 +35,20 @@ public class QuestionCategoryDAO {
 			// execute select SQL stetement
 			int rowsAffected = preparedStatement.executeUpdate();
 			
-			if (rowsAffected == 1){
-				return true;
-			}
-			else{
-				return false;
-			}
-			
+			connection.close();
+			return rowsAffected == 1;
 			
 		}catch(SQLException e){
 			System.out.println(e.getMessage());
+			try {
+				if (connection != null){
+					connection.close();
+				}
+				
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			return false;
 		}
 		
@@ -53,10 +57,11 @@ public class QuestionCategoryDAO {
 	public static boolean deleteQuestionCategory(String name){
 		
 		String deleteQuery = "DELETE FROM QUESTIONCATEGORY WHERE NAME = ?";
+		Connection connection = null;
 		
 		try{
 			
-			Connection connection = DBSource.getConnectionPool().getConnection();
+			connection = DBSource.getConnectionPool().getConnection();
 			
 			PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
 			
@@ -65,6 +70,8 @@ public class QuestionCategoryDAO {
 			// execute select SQL stetement
 			int rowsAffected = preparedStatement.executeUpdate();
 			
+			connection.close();
+			
 			if (rowsAffected == 1){
 				return true;
 			}
@@ -72,9 +79,17 @@ public class QuestionCategoryDAO {
 				return false;
 			}
 			
-			
 		}catch(SQLException e){
 			System.out.println(e.getMessage());
+			try {
+				if (connection != null){
+					connection.close();
+				}
+				
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			return false;
 		}
 		
@@ -84,9 +99,11 @@ public class QuestionCategoryDAO {
 	
 		String selectQuery = "SELECT * FROM QUESTIONCATEGORY WHERE NAME = ?";
 		
+		Connection connection = null;
+		
 		try{
 			
-			Connection connection = DBSource.getConnectionPool().getConnection();
+			connection = DBSource.getConnectionPool().getConnection();
 			
 			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
 			
@@ -94,17 +111,26 @@ public class QuestionCategoryDAO {
 			
 			// execute select SQL stetement
 			ResultSet rows = preparedStatement.executeQuery();
+			int count = 0;
 			
-			if (!rows.next()){
-				return false;
-			}
-			else{
-				return true;
+			while (rows.next()){
+				count++;
 			}
 			
+			connection.close();
+			
+			return count != 0;
 			
 		}catch(SQLException e){
 			System.out.println(e.getMessage());
+			if(connection != null){
+				try {
+					connection.close();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
 			return false;
 		}
 		
@@ -123,16 +149,17 @@ public class QuestionCategoryDAO {
 		JSONObject returnJSON = new JSONObject();
 		JSONArray results = new JSONArray();
 		
+		
+		Connection connection = null;
+		
 		try{
 			
-			Connection connection = DBSource.getConnectionPool().getConnection();
+			connection = DBSource.getConnectionPool().getConnection();
 			
 			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
 			
 			// execute select SQL stetement
 			ResultSet rows = preparedStatement.executeQuery();
-			
-			
 			
 			while (rows.next()){
 				JSONObject object = new JSONObject();
@@ -151,13 +178,27 @@ public class QuestionCategoryDAO {
 			returnJSON.put(Constant.STATUS, Constant.OK_200);
 			returnJSON.put(Constant.USER_MESSAGE, "Successfully retrieved all question categories!");
 			returnJSON.put(Constant.DEVELOPER_MESSAGE, "Successfully retrieved all question categories");
+			
+			connection.close();
+			
 			return returnJSON;
 			
 		}catch(SQLException e){
 			System.out.println(e.getMessage());
 			returnJSON.put(Constant.STATUS, Constant.OK_200);
 			returnJSON.put(Constant.USER_MESSAGE, "Error in retrieving all question categories!");
-			returnJSON.put(Constant.DEVELOPER_MESSAGE, "Error retrieving all question categories: " + e.getMessage()); 
+			returnJSON.put(Constant.DEVELOPER_MESSAGE, "Error retrieving all question categories: " + e.getMessage());
+			
+			try {
+				if (connection != null){
+					connection.close();
+				}
+				
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 			return returnJSON;
 		}
 		
@@ -168,10 +209,11 @@ public class QuestionCategoryDAO {
 		
 		JSONObject returnJSON = new JSONObject();
 
-		System.out.println("New fields: " + qc.getName() + " " + qc.getDescription());
+		Connection connection = null;
+		
 		try{
 		
-			Connection connection = DBSource.getConnectionPool().getConnection();
+			connection = DBSource.getConnectionPool().getConnection();
 			
 			PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
 			
@@ -182,10 +224,9 @@ public class QuestionCategoryDAO {
 			preparedStatement.setString(5, qc.getEndLabel());
 			preparedStatement.setLong(6, qc.getId());
 			
-			System.out.println("Prepared statement: " + preparedStatement.toString());
-			
 			// execute select SQL stetement
 			int rowsAffected = preparedStatement.executeUpdate();
+			
 			
 			if (rowsAffected == 1){
 				JSONObject updated = new JSONObject();
@@ -207,13 +248,26 @@ public class QuestionCategoryDAO {
 				returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
 				returnJSON.put(Constant.USER_MESSAGE, "Could not update question category");
 				returnJSON.put(Constant.DEVELOPER_MESSAGE, "Could not update question category, rowsAffected not 1.");
-			}		
+			}
+			
+			connection.close();
 		
 		}catch(SQLException e){
 			System.out.println(e.getMessage());
 			returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
 			returnJSON.put(Constant.USER_MESSAGE, "Could not update question category");
 			returnJSON.put(Constant.DEVELOPER_MESSAGE, "Could not update question category: " + e.getMessage());
+			
+			try {
+				if (connection != null){
+					connection.close();
+				}
+				
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 			return returnJSON;
 		}
 		
