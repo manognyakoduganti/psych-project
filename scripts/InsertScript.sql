@@ -72,3 +72,5 @@ insert into admin (admin.id, admin.firstName, admin.lastName, admin.email, admin
 admin.privilegeToReleaseFeedback, admin.privilegeToCustomizeTraining, role) values 
 (3, 'Test', 'Test', 'test@test.com', '123456', 5, true, true, 51);
 
+insert into questionCategory (id, name, description, responseType, startLabel, endLabel)
+	values (1,'Fitness', '', 53, 'Very Sad', 'Very Happy');
