@@ -5,9 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import common.UserProfile;
+
 public class UserProfileDAO {
 	
-	public static boolean udpateUserProfile(String newFirstName, String newLastName, String newEmail, String newPassword, String email){
+	public static boolean udpateUserProfile(UserProfile userProfile, String currentEmail){
 		
 		String selectQuery = "UPDATE ADMIN SET FIRSTNAME = ?, LASTNAME = ?,  EMAIL= ?,  PASSWORD = ? WHERE EMAIL = ?";
 		
@@ -17,11 +19,11 @@ public class UserProfileDAO {
 			
 			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
 			
-			preparedStatement.setString(1, newFirstName);
-			preparedStatement.setString(2, newLastName);
-			preparedStatement.setString(3, newEmail);
-			preparedStatement.setString(4, newPassword);
-			preparedStatement.setString(5, email);
+			preparedStatement.setString(1, userProfile.getFirstName());
+			preparedStatement.setString(2, userProfile.getLastName());
+			preparedStatement.setString(3, userProfile.getEmail());
+			preparedStatement.setString(4, userProfile.getPassword());
+			preparedStatement.setString(5, currentEmail);
 			
 			// execute select SQL statement
 			int affectedLines = preparedStatement.executeUpdate();

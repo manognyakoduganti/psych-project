@@ -15,7 +15,12 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import common.Constant;
+import common.Location;
+import common.Sessions;
+import common.UserProfile;
 import dao.UserProfileDAO;
+import fieldValidation.CommonFieldsVal;
+import fieldValidation.LocationFieldsVal;
 import fieldValidation.UserProfileFieldsVal;
 
 /**
@@ -60,61 +65,47 @@ public class UserProfileServlet extends HttpServlet {
 		Object obj;
 		String email="";
 		String newEmail="";
-		String newPassword="";
-		String newFirstName="";
-		String newLastName="";
 		
 		HttpSession session = request.getSession(false);
 		
-		if(session != null && session.getAttribute(Constant.ROLE) != null &&
-				session.getAttribute(Constant.EMAIL) != null &&
-				(session.getAttribute(Constant.ROLE).equals(Constant.GLOBAL_ADMIN) ||
-				(session.getAttribute(Constant.ROLE).equals(Constant.LOCAL_ADMIN)))){
+		if(Sessions.isValidAdminSession(session)){
 			
-			String sessionEmail= (String) session.getAttribute(Constant.EMAIL);
+			email= (String) session.getAttribute(Constant.EMAIL);
 			
 			try {
 				obj = parser.parse(sb.toString());
 				JSONObject jsonObject = (JSONObject) obj;
-				email = (String) jsonObject.get(Constant.EMAIL);
 				newEmail = (String) jsonObject.get(Constant.NEW_EMAIL);
-				newPassword = (String) jsonObject.get(Constant.NEW_PASSWORD);
-				newFirstName = (String) jsonObject.get(Constant.NEW_FIRST_NAME);
-				newLastName = (String) jsonObject.get(Constant.NEW_LAST_NAME);
-			
-				if(UserProfileFieldsVal.validateEmail(newEmail) && UserProfileFieldsVal.validateName(newFirstName) && 
-						UserProfileFieldsVal.validateName(newLastName) && UserProfileFieldsVal.validatePassword(newPassword)){
+				
+				boolean isUpdated = false;
+				if(isValidInputData(jsonObject)){
+					
+					UserProfile userProfile = parseLocation(jsonObject);
 					
 					boolean isDuplicate = false;
-					if(!sessionEmail.equals(newEmail)){
-						isDuplicate = UserProfileDAO.isDuplicateEmail(newEmail);
+					if(!email.equals(newEmail)){
+						isDuplicate = UserProfileDAO.isDuplicateEmail(userProfile.getEmail());
 					}
 				
-					//System.out.println("isDuplicate : " + isDuplicate);
 					if(!isDuplicate){
 						
-						//System.out.println(newFirstName+ ":"+newLastName + ":"+newEmail + ":" + newPassword +" :" + email);
-						boolean isUpdated = UserProfileDAO.udpateUserProfile(newFirstName, newLastName, newEmail, newPassword, email);
-						//System.out.println("isUpdated : " + isUpdated);
+						isUpdated = UserProfileDAO.udpateUserProfile(userProfile, email);
+						
 						if(isUpdated){
 							
-							returnJSON.put(Constant.FIRST_NAME, newFirstName);
-							returnJSON.put(Constant.LAST_NAME, newLastName);
+							returnJSON.put(Constant.FIRST_NAME, userProfile.getFirstName());
+							returnJSON.put(Constant.LAST_NAME, userProfile.getLastName());
 							returnJSON.put(Constant.EMAIL, newEmail);
 							
-							session.setAttribute(Constant.FIRST_NAME, newFirstName);
-							session.setAttribute(Constant.LAST_NAME, newLastName);
+							session.setAttribute(Constant.FIRST_NAME, userProfile.getFirstName());
+							session.setAttribute(Constant.LAST_NAME, userProfile.getLastName());
 							session.setAttribute(Constant.EMAIL, newEmail);
 							
 							returnJSON.put(Constant.STATUS, Constant.OK_200);
-							
-						}else{
-							returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
 						}
-					}else{
-						returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
 					}
-				}else{
+				}
+				if(!isUpdated){
 					returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
 				}
 				
@@ -133,6 +124,40 @@ public class UserProfileServlet extends HttpServlet {
 		response.addHeader("Access-Control-Allow-Headers", Constant.ACCESS_CONTROL_ALLOW_HEADERS);
 		response.addHeader("Access-Control-Allow-Methods", Constant.ACCESS_CONTROL_ALLOW_METHODS);
 		response.addIntHeader("Access-Control-Max-Age", Constant.ACCESS_CONTROL_ALLOW_MAX_AGE);
+	}
+	
+	private boolean isValidInputData(JSONObject jsonObject){
+		
+		String newEmail = (String) jsonObject.get(Constant.NEW_EMAIL);
+		String newPassword = (String) jsonObject.get(Constant.NEW_PASSWORD);
+		String newFirstName = (String) jsonObject.get(Constant.NEW_FIRST_NAME);
+		String newLastName = (String) jsonObject.get(Constant.NEW_LAST_NAME);
+
+	
+		if(UserProfileFieldsVal.validateEmail(newEmail) && UserProfileFieldsVal.validateName(newFirstName) && 
+				UserProfileFieldsVal.validateName(newLastName) && UserProfileFieldsVal.validatePassword(newPassword)){
+			return true;
+		}
+		return false;
+		
+	}
+	
+	private UserProfile parseLocation(JSONObject jsonObject){
+		
+		UserProfile userProfile = new UserProfile();
+		
+		String newEmail = (String) jsonObject.get(Constant.NEW_EMAIL);
+		String newPassword = (String) jsonObject.get(Constant.NEW_PASSWORD);
+		String newFirstName = (String) jsonObject.get(Constant.NEW_FIRST_NAME);
+		String newLastName = (String) jsonObject.get(Constant.NEW_LAST_NAME);
+		
+		//Mandatory Fields
+		userProfile.setEmail(newEmail);
+		userProfile.setFirstName(newFirstName);
+		userProfile.setLastName(newLastName);
+		userProfile.setPassword(newPassword);
+		
+		return userProfile;
 	}
 
 }
