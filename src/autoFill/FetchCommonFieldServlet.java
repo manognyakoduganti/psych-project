@@ -71,7 +71,6 @@ public class FetchCommonFieldServlet extends HttpServlet {
 					commonFieldsJSON.put(Constant.FIELD_VALUE, commonFields.getFieldValue());
 					fieldArray.add(commonFieldsJSON);
 				}
-				System.out.println(fieldArray.size());
 				returnJSON.put(Constant.STATUS, Constant.OK_200);
 				returnJSON.put(Constant.RESULTS, fieldArray);
 			}
