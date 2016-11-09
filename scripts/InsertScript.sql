@@ -53,6 +53,8 @@ insert into fieldlookup values (50, 'State', 'Wyoming', 'Wyoming');
 
 insert into fieldLookup values (51, 'Role', 'GlobalAdministrator', 'Global Administrator Description');
 insert into fieldLookup values (52, 'Role', 'LocalAdministrator', 'Local Administrator Description');
+insert into fieldLookup values (53, 'ResponseType', 'Categorical', 'Response type is tied to this field');
+insert into fieldLookup values (54, 'ResponseType', 'Continuous', 'Response type is tied to this field');
 
 insert into location (location.id, location.locCode, location.locName, location.description, location.keywords, location.addressLine1, location.addressLine2,  location.city, location.state, location.zipcode, location.phoneNumber, location.faxNumber, location.email)  values (1, 'ABCD12', 'Northeastern University', 'Location Decription', 'Keywords1|%$| Keywords2|%$| Keyword3', '360 Huntington Ave', '', 'Boston', 21, 02120, 1234567891, 1234567891, 'northeastern@google.com');
 
@@ -65,4 +67,8 @@ admin.privilegeToReleaseFeedback, admin.privilegeToCustomizeTraining, role) valu
 insert into admin (admin.id, admin.firstName, admin.lastName, admin.email, admin.password, admin.locationId,
 admin.privilegeToReleaseFeedback, admin.privilegeToCustomizeTraining, role) values 
 (2, 'Darshan', 'Patel', 'ddpatel.2012@gmail.com', 'Abc@123', 5, true, true, 51);
+
+insert into admin (admin.id, admin.firstName, admin.lastName, admin.email, admin.password, admin.locationId,
+admin.privilegeToReleaseFeedback, admin.privilegeToCustomizeTraining, role) values 
+(3, 'Test', 'Test', 'test@test.com', '123456', 5, true, true, 51);
 
