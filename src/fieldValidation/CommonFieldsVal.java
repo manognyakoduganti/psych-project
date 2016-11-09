@@ -18,6 +18,10 @@ public class CommonFieldsVal {
 	static String keywordsRegex = "^[a-zA-Z0-9 ]{1,30}$";
 	static Pattern keywordPattern = Pattern.compile(keywordsRegex);
 	public static boolean validateKeywords(String keywords){
+		
+		if(keywords.trim().equals("")){
+			return true;
+		}
 		String[] parts = keywords.split(Constant.KEYWORD_SEPERATOR_PARSER);
 		for(String part: parts){
 			Matcher matcher = keywordPattern.matcher(part.trim());

@@ -54,11 +54,7 @@ public class LocationServletTest {
 		
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put(Constant.LOCATION_NAME, "Northeastern University TEST");
-		jsonObj.put(Constant.LOCATION_DESCRIPTION, "Northeastern University is a private "
-				+ "institution that was founded in 1898. It has a total undergraduate enrollment of 13,697, "
-				+ "its setting is urban, and the campus size is 73 acres. It utilizes a semester-based academic "
-				+ "calendar. Northeastern University's ranking in the 2017 edition of Best Colleges is National "
-				+ "Universities, 39. Its tuition and fees are $47,655 (2016-17).");
+		jsonObj.put(Constant.LOCATION_DESCRIPTION, "");
 		String[] locationKeywords = new String[] { "Northeastern", "Psychology"};
 		jsonObj.put(Constant.LOCATION_KEYWORDS, String.join(Constant.KEYWORD_SEPERATOR, locationKeywords));
 		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_1, "360 Huntington Avenue");
@@ -69,7 +65,7 @@ public class LocationServletTest {
 		jsonObj.put(Constant.LOCATION_ZIPCODE, "02115");
 		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "1234567891");
 		jsonObj.put(Constant.LOCATION_FAX_NUMBER, "1234567891");
-		jsonObj.put(Constant.LOCATION_EMAIL, "northeastern@neu.edu");
+		jsonObj.put(Constant.LOCATION_EMAIL, "ssp@google.com");
 		
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		

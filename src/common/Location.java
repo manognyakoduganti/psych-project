@@ -88,6 +88,4 @@ public class Location {
 		this.code = code;
 	}
 	
-	
-	
 }
