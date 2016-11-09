@@ -70,7 +70,7 @@ admin.privilegeToReleaseFeedback, admin.privilegeToCustomizeTraining, role) valu
 
 insert into admin (admin.id, admin.firstName, admin.lastName, admin.email, admin.password, admin.locationId,
 admin.privilegeToReleaseFeedback, admin.privilegeToCustomizeTraining, role) values 
-(3, 'Test', 'Test', 'test@test.com', '123456', 5, true, true, 51);
+(3, 'Test', 'Test', 'test@test.com', '123456', 1, true, true, 51);
 
 insert into questionCategory (id, name, description, responseType, startLabel, endLabel)
 	values (1,'Fitness', '', 53, 'Very Sad', 'Very Happy');
