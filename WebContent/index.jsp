@@ -41,14 +41,14 @@ https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.4.5/angular-messages.j
     <script src="./views/main.controller.js"></script>
     <script src="./services/user.service.client.js"></script>
     <script src="./services/location.service.client.js"></script>
-    <script src="./services/question.service.client.js"></script>
+    <script src="./services/questionManagement.service.client.js"></script>
     <script src="./js/jLinq.js"></script> 
     <script src="./views/login.controller.js"></script>
     <script src="./views/adminProfile.controller.js"></script>
     <script src="./views/location.controller.js"></script>
     <script src="./views/targetGroup.controller.js"></script>
     <script src="./views/navigation.controller.js"></script>
-    <script src="./question.controller.js"></script>
+    <script src="./views/questionManagement.controller.js"></script>
     
 
     <!--[if lt IE 9]>

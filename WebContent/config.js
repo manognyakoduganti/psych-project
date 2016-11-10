@@ -44,7 +44,7 @@
                 .when('/questionManagement', {
 
                     templateUrl: "./views/questionManagement.view.html",
-                    controller: "QuestionController",
+                    controller: "QuestionManagementController",
                     controllerAs: "model",
                     resolve:{
                     	loggedin: RedirectToPageIfLoggedIn
