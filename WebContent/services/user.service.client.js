@@ -40,6 +40,12 @@
 
         function logout() {
             $rootScope.currentUser = null;
+            return $http ({
+                method: 'GET',
+                url: localServerURL + 'adminAuthentication?logout=yes',
+                contentType: 'application/json',
+                data: ""
+    		});
         }
 
         function setCurrentUser(user) {

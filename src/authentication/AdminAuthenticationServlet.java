@@ -49,12 +49,15 @@ public class AdminAuthenticationServlet extends HttpServlet {
 		JSONObject returnJSON = new JSONObject();
 		
 		String loggedIn="";
+		String logout="";
 		
 		HttpSession session = request.getSession(false);
 		Boolean valid = false;
 		if(Sessions.isValidAdminSession(session)){
 			
 			loggedIn = request.getParameter(Constant.LOGGED_IN);
+			
+			logout = request.getParameter(Constant.LOGOUT);
 			
 			if(loggedIn != null){
 				if(loggedIn.equals(Constant.YES)){
@@ -69,6 +72,12 @@ public class AdminAuthenticationServlet extends HttpServlet {
 					
 				}
 			}
+			
+			if(logout != null){
+				session.invalidate();
+				return;
+			}
+			
 			if(!valid){
 				returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
 			}

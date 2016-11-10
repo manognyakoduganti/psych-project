@@ -115,7 +115,6 @@
         };
         
        
-    	 
 	    LocationService
 	 		.getAllStates()
 	 		.success(function(response) {

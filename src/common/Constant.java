@@ -95,6 +95,7 @@ public class Constant {
 	public static String YES = "yes";
 	public static String NO = "no";
 	public static String LOGGED_IN = "loggedIn";
+	public static String LOGOUT = "logout";
 	
 	public static String TG_ID = "tgId";
 	public static String TG_NAME = "tgName";
