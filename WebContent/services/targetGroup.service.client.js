@@ -7,6 +7,7 @@
     
     function TargetGroupService($http) {
     	var localServerURL = 'http://localhost:8080/Psych-1/';
+    	var awsURL = 'http://ec2-54-175-16-62.compute-1.amazonaws.com:8080/Psych-1';
     	var service = {
     			createTargetGroup : createTargetGroup,
     			getAllTargetGroups : getAllTargetGroups,
@@ -20,7 +21,7 @@
     		if(targetGroup)
     			return $http ({
                     method: 'POST',
-                    url: localServerURL + 'targetGroup',
+                    url: awsURL + 'targetGroup',
                     contentType: 'application/json',
                     data: targetGroup});
     		
@@ -29,7 +30,7 @@
     	function getAllTargetGroups() {
     		return $http ({
                 method: 'GET',
-                url: localServerURL + 'targetGroup',
+                url: awsURL + 'targetGroup',
                 contentType: 'application/json'
                 });
     	}
@@ -37,7 +38,7 @@
     	function updateTargetGroup(updatedTargetGroup) {
     		return $http ({
                 method: 'PUT',
-                url: localServerURL + 'targetGroup',
+                url: awsURL + 'targetGroup',
                 contentType: 'application/json',
                 data: updatedTargetGroup});
     	}
@@ -45,7 +46,7 @@
     	function checkDuplicate(param, value) {
     		return $http ({
     			method : 'GET',
-    			url : localServerURL + 'targetGroup',
+    			url : awsURL + 'targetGroup',
     			contentType: 'application/json',
     			params : {param : value}
     		});

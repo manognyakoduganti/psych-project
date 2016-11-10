@@ -10,6 +10,7 @@
         vm.tab = 'search';
         vm.isCreateSuccessful = false;
         vm.isCreateFailed = false;
+        vm.isSearchClicked = false;
     	vm.createTargetGroup = {
     			name : '',
     			description : '',
@@ -69,7 +70,7 @@
 				.createTargetGroup(targetGroup)
 				.success(function(response) {
 					if(response.status === '200') {
-						vm.targetGroupCreateForm = {};
+						vm.createTargetGroup = {};
 						vm.regCode = response.tgRegCode;
 						vm.isCreateSuccessful = true;
 						
@@ -78,7 +79,15 @@
 						vm.isCreateFailed = true;
 						
 					});
-        }
+        	}
+        
+        vm.search = search;
+        
+        function search() {
+        	vm.isSearchClicked = true;
         }
 
+        }
+    
+   
 })();

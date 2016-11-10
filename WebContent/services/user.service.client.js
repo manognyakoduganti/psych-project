@@ -1,6 +1,7 @@
 /**
  * Created by surajnagaraj on 10/27/16.
  */
+
 (function() {
     'use strict';
     angular
@@ -9,7 +10,7 @@
 
     function UserService($http, $rootScope) {
     	
-    	var serverURL = "http://ec2-52-207-248-229.compute-1.amazonaws.com:8080/Psych-1/";
+    	var awsURL = 'http://ec2-54-175-16-62.compute-1.amazonaws.com:8080/Psych-1';
     	var localServerURL = 'http://localhost:8080/Psych-1/';
         var service = {
             login: login,
@@ -28,12 +29,14 @@
         	console.log("Data being sent: " + user.email + " " + user.password);
             return $http ({
                 method: 'POST',
-                url: localServerURL + 'adminAuthentication',
+                url: awsURL + 'adminAuthentication',
                 contentType: 'application/json',
                 data: {
     				email: user.email,
     				password: user.password
     		}});
+            
+           
                 
         	}
         }
@@ -42,7 +45,7 @@
             $rootScope.currentUser = null;
             return $http ({
                 method: 'GET',
-                url: localServerURL + 'adminAuthentication?logout=yes',
+                url: awsURL + 'adminAuthentication?logout=yes',
                 contentType: 'application/json',
                 data: ""
     		});
@@ -58,7 +61,7 @@
             	console.log("Data being sent: " + userData.firstName + " " + userData.lastName + " " + userData.email);
                 return $http ({
                     method: 'PUT',
-                    url: localServerURL + 'userProfile',
+                    url: awsURl + 'userProfile',
                     contentType: 'application/json',
                     data: userData
         		});
@@ -70,7 +73,7 @@
 
         	return $http ({
                 method: 'GET',
-                url: localServerURL + 'adminAuthentication?loggedIn=yes',
+                url: awsURL + 'adminAuthentication?loggedIn=yes',
                 contentType: 'application/json',
                 data: ""
     		});

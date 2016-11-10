@@ -143,6 +143,7 @@ vm.checkDuplicate = checkDuplicate;
     		.success(function(response) {
     			if(response.status == '200') {
     			vm.isCreateSuccessful = true;
+    			vm.newLocation = {};
     			
     			}
     			
@@ -231,7 +232,8 @@ vm.checkDuplicate = checkDuplicate;
         }
         
         vm.selectLocation = selectLocation;
-        
+        var updateLocationId = '';
+        var updateLocationCode = '';
         function selectLocation(index) {
         	var location = vm.locationSearchResults[index]
         	vm.locationUpdate = {
@@ -241,12 +243,19 @@ vm.checkDuplicate = checkDuplicate;
         			address1 : location.locationAddressLine1,
         			address2 : location.locationAddressLine2,
         			city : location.locationCity,
-        			state : location.locationStateId,
+        			state : parseInt(location.locationStateId),
         			zipCode : location.locationZipCode,
         			phoneNo : location.locationPhoneNumber,
-        			faxNo : location.locationFaxNumber
+        			faxNo : location.locationFaxNumber,
+        			email : location.locationEmail
         			
         	}
+        	updateLocationId = vm.locationSearchResults[index].locationId;
+        	updateLocationCode = vm.locationSearchResults[index].locationCode;
+        	
+        	
+        	
+        	console.log("modal location state value = " + vm.locationUpdate.state);
         	
         	
         }
@@ -255,24 +264,27 @@ vm.checkDuplicate = checkDuplicate;
         
         function update(locationUpdate) {
         	var locationUpdateParams = {
-        			locationId : locationUpdate.locationId,
+        			locationId : updateLocationId.toString(),
         			locationName : locationUpdate.name,
             		locationDescription : locationUpdate.description,
             		locationKeywords : locationUpdate.keywords,
-            		locationCode : locationUpdate.code,
-            		locationAddress : locationUpdate.address,
+            		locationCode : updateLocationCode,
+            		locationAddressLine1 : locationUpdate.address1,
+            		locationAddressLine2 : locationUpdate.address2,
             		locationCity : locationUpdate.city,
             		locationStateId : locationUpdate.state.toString(),
-            		locationZipCode : locationUpdate.zipcode,
+            		locationZipCode : locationUpdate.zipCode,
             		locationPhoneNumber : locationUpdate.phoneNo,
             		locationFaxNumber : locationUpdate.faxNo,
             		locationEmail : locationUpdate.email	
         	};
-        	
+        	console.log(locationUpdateParams);
         	LocationService
     			.updateLocation(locationUpdateParams)
     			.success(function(response) {
-    				vm.isUpdateSuccessful = true;
+    				console.log(response);
+    				if(response.status =='200')
+    					vm.isUpdateSuccessful = true;
     				
     			});
         }
