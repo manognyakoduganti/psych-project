@@ -192,8 +192,50 @@ public class LocationServletTest {
 		assertEquals("System should have ignored the request with bad parameter",
 				Constant.BADREQUEST_400, (String) jsonObject.get(Constant.STATUS));
 		
-		// Delete the records after test is completed
-		LocationDAO.deleteLocation("Northeastern University TEST");
+	}
+	
+	@Test
+	public void testInValidSessionLocationCreateRequest() throws ServletException, IOException, ParseException{
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(request.getReader()).thenReturn(bufferedReader);
+		
+		JSONObject jsonObj = new JSONObject();
+		
+		jsonObj.put(Constant.LOCATION_NAME, locationName);
+		jsonObj.put(Constant.LOCATION_DESCRIPTION, "");
+		String[] locationKeywords = new String[] { "Northeastern", "Psychology"};
+		jsonObj.put(Constant.LOCATION_KEYWORDS, String.join(Constant.KEYWORD_SEPERATOR, locationKeywords));
+		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_1, "360 Huntington Avenue");
+		jsonObj.put(Constant.LOCATION_ADDRESS_LINE_2, "");
+		jsonObj.put(Constant.LOCATION_CITY, "Boston");
+		jsonObj.put(Constant.LOCATION_CODE, "AB12EF");
+		jsonObj.put(Constant.LOCATION_STATE, "21");
+		jsonObj.put(Constant.LOCATION_ZIPCODE, "02115");
+		jsonObj.put(Constant.LOCATION_PHONE_NUMBER, "1234567891");
+		jsonObj.put(Constant.LOCATION_FAX_NUMBER, "1234567891");
+		jsonObj.put(Constant.LOCATION_EMAIL, "ssp@google.com");
+		
+		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
+		
+		when(response.getWriter()).thenReturn(printWriter);
+		when(request.getSession(false)).thenReturn(null);
+		
+		locationServlet.doPost(request, response);
+		
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(stringWriter.getBuffer().toString());
+		JSONObject jsonObject = (JSONObject) obj;
+		
+		assertEquals("System should have blocked the request with invalid session"
+				,Constant.UNAUTHORIZED_401, (String) jsonObject.get(Constant.STATUS));
+		
 	}
 	
 	@Test
