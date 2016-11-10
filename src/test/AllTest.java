@@ -7,9 +7,14 @@ import org.junit.runners.Suite.SuiteClasses;
 import authentication.AdminAuthenticationServletTest;
 import autoFill.FetchCommonFieldServletTest;
 import fieldValidation.LocationFieldsTest;
+import fieldValidation.QuestionCategoryFieldsValTest;
 import fieldValidation.UserProfileFieldsTest;
 import location.LocationServletTest;
 import profile.UserProfileServletTest;
+import questionnaire.QuestionCategoryServlet;
+import questionnaire.QuestionCategoryServletTest;
+import questionnaire.QuestionServletTest;
+import questionnaire.QuestionnaireTest;
 import targetGroup.TargetGroupServletTest;
 import training.TrainingServletTest;
 
@@ -22,7 +27,9 @@ import training.TrainingServletTest;
 	LocationFieldsTest.class,
 	LocationServletTest.class,
 	TargetGroupServletTest.class,
-	TrainingServletTest.class
+	TrainingServletTest.class,
+	QuestionCategoryFieldsValTest.class,
+	QuestionCategoryServletTest.class
 })
 public class AllTest {
 
