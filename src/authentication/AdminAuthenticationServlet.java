@@ -21,6 +21,7 @@ import org.json.simple.parser.ParseException;
 
 import common.AdminDetails;
 import common.Constant;
+import common.Sessions;
 import dao.AuthenticationDAO;
 
 /**
@@ -44,7 +45,42 @@ public class AdminAuthenticationServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		doPost(request, response);
+		response.setContentType("application/json;charset=UTF-8");
+		JSONObject returnJSON = new JSONObject();
+		
+		String loggedIn="";
+		
+		HttpSession session = request.getSession(false);
+		Boolean valid = false;
+		if(Sessions.isValidAdminSession(session)){
+			
+			loggedIn = request.getParameter(Constant.LOGGED_IN);
+			
+			if(loggedIn != null){
+				if(loggedIn.equals(Constant.YES)){
+					
+					returnJSON.put(Constant.FIRST_NAME, session.getAttribute(Constant.FIRST_NAME));
+					returnJSON.put(Constant.LAST_NAME, session.getAttribute(Constant.LAST_NAME));
+					returnJSON.put(Constant.ROLE,session.getAttribute(Constant.ROLE));
+					returnJSON.put(Constant.EMAIL, session.getAttribute(Constant.EMAIL));
+					returnJSON.put(Constant.USER_ID, session.getAttribute(Constant.USER_ID));
+					returnJSON.put(Constant.STATUS, Constant.OK_200);
+					valid = true;
+					
+				}
+			}
+			if(!valid){
+				returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
+			}
+			
+		}else{
+			returnJSON.put(Constant.STATUS, Constant.UNAUTHORIZED_401);
+		}
+		response.getWriter().print(returnJSON);
+		response.addHeader("Access-Control-Allow-Origin", Constant.ACCESS_CONTROL_ALLOW_ORIGIN);
+		response.addHeader("Access-Control-Allow-Headers", Constant.ACCESS_CONTROL_ALLOW_HEADERS);
+		response.addHeader("Access-Control-Allow-Methods", Constant.ACCESS_CONTROL_ALLOW_METHODS);
+		response.addIntHeader("Access-Control-Max-Age", Constant.ACCESS_CONTROL_ALLOW_MAX_AGE);
 	}
 	
 	/**

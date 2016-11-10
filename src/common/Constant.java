@@ -94,6 +94,7 @@ public class Constant {
 	
 	public static String YES = "yes";
 	public static String NO = "no";
+	public static String LOGGED_IN = "loggedIn";
 	
 	public static String TG_ID = "tgId";
 	public static String TG_NAME = "tgName";
@@ -103,5 +104,7 @@ public class Constant {
 	public static String TG_LOCATION_CODE = "tgLocationCode";
 	public static String TG_TRAINING_ID = "tgTrainingId";
 	public static String TG_REG_CODE = "tgRegCode";
+	public static String TG_LOCATION_NAME = "tgLocationName";
+	public static String TG_TRAINING_NAME = "tgTrainingName";
 
 }
