@@ -37,18 +37,10 @@
                 		console.log(response.status + " Unauthorized")
                 	}
                     })
-               
-                   
                     /*UserService.setCurrentUser(user);
-                    $location.url("/location");*/
-               
+                    $location.url("/location");*/  
             }
-
-
         }
-
-
-
     }
 
 })();

@@ -18,7 +18,7 @@
 			"locationDescription": "Location Decription",
 			"locationAddressLine2": "",
 			"locationPhoneNumber": "1234567891",
-			"locationKeywords": "Keywords1|%$| Keywords2|%$| Keyword3",
+			"locationKeywords": "Keywords1, Keywords2, Keyword3",
 			"locationZipCode": "2120",
 			"locationId": "1",
 			"locationCode": "ABCD12",
@@ -34,7 +34,7 @@
 			"locationDescription": "Massachusetts General Hospital is the original and largest teaching hospital of Harvard Medical School and a biomedical research facility located in the West End neighborhood of Boston, Massachusetts.",
 			"locationAddressLine2": "",
 			"locationPhoneNumber": "6177262000",
-			"locationKeywords": "Boston |%$| General",
+			"locationKeywords": "Boston, General",
 			"locationZipCode": "2114",
 			"locationId": "2",
 			"locationCode": "CDEFGH",
@@ -66,7 +66,7 @@
 			"locationDescription": "Northeastern University is a private institution that was founded in 1898. It has a total undergraduate enrollment of 13,697, its setting is urban, and the campus size is 73 acres. It utilizes a semester-based academic calendar. Northeastern University's ranking in the 2017 edition of Best Colleges is National Universities, 39. Its tuition and fees are $47,655 (2016-17).",
 			"locationAddressLine2": "",
 			"locationPhoneNumber": "1234567891",
-			"locationKeywords": "Northeastern|%$|Psychology",
+			"locationKeywords": "Northeastern, Psychology",
 			"locationZipCode": "2115",
 			"locationId": "5",
 			"locationCode": "ABBDE2",
@@ -83,6 +83,7 @@
         vm.isLocationNameDuplicate = false;
         vm.isLocationCodeDuplicate = false;
         vm.isCreateSuccessful = false;
+        vm.isSearchClicked = false;
         
         vm.newLocation = {
         		name : '',
@@ -91,6 +92,20 @@
         		code : '',
         		address1 : '',
         		address2 : '',
+        		city : '',
+        		state : '',
+        		zipcode : '',
+        		phoneNo : '',
+        		faxNo : '',
+        		email : ''
+        };
+        
+        vm.searchLoc = {
+        		name : '',
+        		description : '',
+        		keywords : '',
+        		code : '',
+        		address : '',
         		city : '',
         		state : '',
         		zipcode : '',
@@ -169,7 +184,13 @@
         
         vm.search = search;
         var locationId = '';
+        
         function search(locationSearch) {
+        	vm.isSearchClicked = true;
+        	
+        	
+        	
+        	
         	var locationParams = {
         			locationName : locationSearch.name,
             		locationDescription : locationSearch.description,
@@ -183,13 +204,28 @@
             		locationFaxNumber : locationSearch.faxNo,
             		locationEmail : locationSearch.email	
         	};
+        	var queryParams = {};
+        	for (var param in locationParams) {
+        		if(locationParams[param] != '')
+        			console.log("param= " + param);
+        			queryParams[param] = locationParams[param];
+        	}
+        	
+        	if(queryParams) {
+        		vm.locationSearchResults = jlinq.from(sampleLocations.results).select(queryParams);
+        		console.log(vm.locationSearchResults);
+        	}
+        	else {
+        		vm.locationSearchResults = jlinq.from(sampleLocations.results).select();
+        		console.log(vm.locationSearchResults);
+        	}
+        	
         	/*LocationService
         		.getAllLocations(locationParams)
         		.success(function(response) {
         			locationId = response.locationId;
         		});*/
-        	var results = jlinq.from(sampleLocations.results).select();
-        	console.log(results);
+        	
         }
         
         vm.update = update;

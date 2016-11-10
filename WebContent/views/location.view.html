@@ -67,8 +67,10 @@ Licensed under MIT
 
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">State:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="State" ng-model="model.searchLoc.state">
+                                    <div class="col-sm-7">                                     
+                                        <select name="states" ng-options='state.fieldId as state.fieldValue for state in model.statesList.results' class="form-control" id="inputEmail3" placeholder="State" ng-model="model.searchLoc.state" required="required">
+                                        <option value="">Select State</option>
+                                        </select>
                                     </div>
                                 </div>
 
@@ -82,32 +84,33 @@ Licensed under MIT
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Phone number:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.searchLoc.phoneNo">
+                                        <input type="number" max="10" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.searchLoc.phoneNo">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Email:</label>
                                     <div class="col-sm-7">
-                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.searchLoc.email">
+                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Email" ng-model="model.searchLoc.email">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.search(model.search)">Search</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.search(model.searchLoc)">Search</button>
                                     </div>
                                 </div>
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
                                  <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
                             </div>
-							<div>
+							<div ng-if="model.isSearchClicked">
+							
            		<h4>Search Results</h4>
            		<div class="table-responsive" id="formtable">
     <table class="table table-striped table-bordered">
         <thead>
         <tr>
-            <th> Location</th>
+            <th> Location Name</th>
             <th> Description</th>
             <th> Keywords</th>
             <th> Email</th>
@@ -116,12 +119,12 @@ Licensed under MIT
      
         </thead>
         <tbody>
-        <tr>
-            <td><a href=""> Test location </a></td>
-            <td> Testing </td>
-            <td> Testing </td>
+        <tr ng-repeat = "loc in model.locationSearchResults">
+            <td><a href=""> {{loc.locationName}} </a></td>
+            <td> {{loc.locationDescription}} </td>
+            <td> {{loc.locationKeywords}} </td>
             
-            <td> Testing@gmail.com </td>
+            <td> {{loc.locationEmail}} </td>
             <td>
                 <a href=""><span class="glyphicon glyphicon-pencil incrsize" data-toggle="modal"
                                                  data-target="#myModal"></span></a>
@@ -155,7 +158,7 @@ Licensed under MIT
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Keywords:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Keywords" ng-model="model.newLocation.keywords">
+                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Enter keywords separated by a comma" ng-model="model.newLocation.keywords">
                                     </div>
                                 </div>
                                 
@@ -211,21 +214,21 @@ Licensed under MIT
                                 <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Phone number:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.newLocation.phoneNo" required="required">
+                                        <input type="number" max="10" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.newLocation.phoneNo" required="required">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Fax number:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.newLocation.faxNo">
+                                        <input type="number" max="10" class="form-control" id="inputEmail3" placeholder="Fax Number" ng-model="model.newLocation.faxNo">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Email:</label>
                                     <div class="col-sm-7">
-                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.newLocation.email">
+                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Email" ng-model="model.newLocation.email">
                                     </div>
                                 </div>
 
@@ -301,7 +304,10 @@ Licensed under MIT
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">State:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="State" ng-model="model.locationUpdate.state">
+           
+                                        <select name="states" ng-options='state.fieldId as state.fieldValue for state in model.statesList.results' class="form-control" id="inputEmail3" placeholder="State" ng-model="model.locationUpdate.state" required="required">
+                                        <option value="">Select State</option>
+                                        </select>
                                     </div>
                                 </div>
 
@@ -315,21 +321,21 @@ Licensed under MIT
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Phone number:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.locationUpdate.phoneNo" required="required">
+                                        <input type="number" max="10" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.locationUpdate.phoneNo" required="required">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Fax number:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.locationUpdate.faxNo">
+                                        <input type="number" max="10" class="form-control" id="inputEmail3" placeholder="Fax Number" ng-model="model.locationUpdate.faxNo">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Email:</label>
                                     <div class="col-sm-7">
-                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.locationUpdate.email">
+                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Email" ng-model="model.locationUpdate.email">
                                     </div>
                                 </div>
 
