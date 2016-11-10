@@ -74,8 +74,10 @@ admin.privilegeToReleaseFeedback, admin.privilegeToCustomizeTraining, role) valu
 
 insert into questionCategory (id, name, description, responseType, startLabel, endLabel)
 	values (1,'Fitness', '', 53, 'Very Sad', 'Very Happy');
+
+insert into question(id, name, categoryId) values (1, 'How do you feel today?', 1);
 	
-insert training values (1, 'Test Training 1', 'First Training to test target group', '')
-insert training values (2, 'Test Training 2', 'Second Training to test target group', 'Hello Words, SecondKeyword')
+insert into training values (1, 'Test Training 1', 'First Training to test target group', '');
+insert into training values (2, 'Test Training 2', 'Second Training to test target group', 'Hello Words, SecondKeyword');
 
 insert into targetgroup (id, name, description, keywords, locationid, trainingid, registrationCode) values (1, 'Violence', 'Teen Violence', '', 1, 1, 'ABCD120001')
