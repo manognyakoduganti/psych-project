@@ -229,7 +229,7 @@ public class LocationServlet extends HttpServlet {
 		String addressLine2 = ((String) jsonObject.get(Constant.LOCATION_ADDRESS_LINE_2)).trim();
 		String city = ((String) jsonObject.get(Constant.LOCATION_CITY)).trim();
 		String code = ((String) jsonObject.get(Constant.LOCATION_CODE)).trim();
-		String state = ((String) jsonObject.get(Constant.LOCATION_STATE)).trim();
+		String state = ((String) jsonObject.get(Constant.LOCATION_STATE_ID)).trim();
 		String zipcode = ((String) jsonObject.get(Constant.LOCATION_ZIPCODE)).trim();
 		String phoneNumber = ((String) jsonObject.get(Constant.LOCATION_PHONE_NUMBER)).trim();
 		String faxNumber = ((String) jsonObject.get(Constant.LOCATION_FAX_NUMBER)).trim();
@@ -264,11 +264,12 @@ public class LocationServlet extends HttpServlet {
 		String addressLine2 = ((String) jsonObject.get(Constant.LOCATION_ADDRESS_LINE_2)).trim();
 		String city = ((String) jsonObject.get(Constant.LOCATION_CITY)).trim();
 		String code = ((String) jsonObject.get(Constant.LOCATION_CODE)).trim();
-		String state = ((String) jsonObject.get(Constant.LOCATION_STATE)).trim();
+		String state = ((String) jsonObject.get(Constant.LOCATION_STATE_ID)).trim();
 		String zipcode = ((String) jsonObject.get(Constant.LOCATION_ZIPCODE)).trim();
 		String phoneNumber = ((String) jsonObject.get(Constant.LOCATION_PHONE_NUMBER)).trim();
 		String faxNumber = ((String) jsonObject.get(Constant.LOCATION_FAX_NUMBER)).trim();
 		String email = ((String) jsonObject.get(Constant.LOCATION_EMAIL)).trim();
+		
 		
 		if(jsonObject.get(Constant.LOCATION_ID) != null && jsonObject.get(Constant.LOCATION_ID) != ""){
 			location.setId(Long.parseLong(((String) jsonObject.get(Constant.LOCATION_ID)).trim()));
@@ -285,9 +286,8 @@ public class LocationServlet extends HttpServlet {
 		location.setDesc(desc);
 		location.setKeywords(keywords);
 		location.setAddressLine2(addressLine2);
-		location.setFaxNumber(Long.parseLong(faxNumber));
+		location.setFaxNumber(faxNumber.trim().equals("")?0:Long.parseLong(faxNumber));
 		location.setEmail(email);
-		
 		return location;
 	}
 

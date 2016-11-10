@@ -43,7 +43,11 @@ public class LocationDAO {
 			preparedStatement.setLong(8, location.getState());
 			preparedStatement.setLong(9, location.getZipCode());
 			preparedStatement.setLong(10, location.getPhoneNumber());
-			preparedStatement.setLong(11, location.getFaxNumber());
+			if(location.getFaxNumber() == 0){
+				preparedStatement.setLong(11, location.getFaxNumber());
+			}else{
+				preparedStatement.setNull(11, java.sql.Types.BIGINT);
+			}
 			preparedStatement.setString(12, location.getEmail());
 			
 			slf4jLogger.info(preparedStatement.toString());
