@@ -59,6 +59,14 @@
   <servlet>
     <servlet-name>Question</servlet-name>
     <servlet-class>questionnaire.QuestionServlet</servlet-class>
+   </servlet>
+  <servlet>  
+    <servlet-name>TargetGroup</servlet-name>
+    <servlet-class>targetGroup.TargetGroupServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Training</servlet-name>
+    <servlet-class>training.TrainingServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>AdminAuthentication</servlet-name>
@@ -104,9 +112,17 @@
     <servlet-name>FetchFields</servlet-name>
     <url-pattern>/fetchField/*</url-pattern>
   </servlet-mapping>
-   <servlet-mapping>
+  <servlet-mapping>
     <servlet-name>Location</servlet-name>
     <url-pattern>/location/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Training</servlet-name>
+    <url-pattern>/training/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TargetGroup</servlet-name>
+    <url-pattern>/targetGroup/*</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>QuestionCategory</servlet-name>
@@ -117,6 +133,6 @@
     <url-pattern>/question/*</url-pattern>
   </servlet-mapping>
   <listener>
-        <listener-class>dao.DBSourceRegistrationListener</listener-class>
-    </listener>
+    <listener-class>dao.DBSourceRegistrationListener</listener-class>
+  </listener>
 </web-app>

@@ -79,7 +79,6 @@ public class Constant {
 	public static String FIELD_ID = "fieldId";
 	public static String FIELD_VALUE = "fieldValue";
 	
-	
 	public static String NEW_QUESTION_NAME = "newQuestionName";
 	public static String NEW_QUESTION_DESCRIPTION = "newQuestionDescription";
 	public static String NEW_QUESTION_CATEGORY_ID= "newQuestionCategoryId";
@@ -87,5 +86,22 @@ public class Constant {
 	
 	public static String QUESTION_NAME = "questionName";
 	public static String QUESTION_DESCRIPTION = "questionDescription";
+	public static String TRAINING_NAME = "trainingName";
+	public static String TRAINING_ID = "trainingId";
+	public static String TRAINING_DESCRIPTION = "trainingDescription";
+	public static String TRAINING_KEYWORDS = "trainingKeywords";
+	public static String TRAINING_DROPDOWN = "trainingDropdown";
+	
+	public static String YES = "yes";
+	public static String NO = "no";
+	
+	public static String TG_ID = "tgId";
+	public static String TG_NAME = "tgName";
+	public static String TG_DESCRIPTION = "tgDescription";
+	public static String TG_KEYWORDS = "tgKeywords";
+	public static String TG_LOCATION_ID = "tgLocationId";
+	public static String TG_LOCATION_CODE = "tgLocationCode";
+	public static String TG_TRAINING_ID = "tgTrainingId";
+	public static String TG_REG_CODE = "tgRegCode";
 
 }
