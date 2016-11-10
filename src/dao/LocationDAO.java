@@ -214,7 +214,12 @@ public class LocationDAO {
 				jsonObject.put(Constant.LOCATION_STATE_ID,Long.toString(rs.getLong("state")));
 				jsonObject.put(Constant.LOCATION_ZIPCODE,Long.toString(rs.getLong("zipcode")));
 				jsonObject.put(Constant.LOCATION_PHONE_NUMBER,Long.toString(rs.getLong("phoneNumber")));
-				jsonObject.put(Constant.LOCATION_FAX_NUMBER,Long.toString(rs.getLong("faxNumber")));
+				slf4jLogger.info(" rs.getLong : "+ rs.getLong("faxNumber"));
+				if( rs.getLong("faxNumber") != 0){
+					jsonObject.put(Constant.LOCATION_FAX_NUMBER,Long.toString(rs.getLong("faxNumber")));
+				}else{
+					jsonObject.put(Constant.LOCATION_FAX_NUMBER,"");
+				}
 				jsonObject.put(Constant.LOCATION_EMAIL,rs.getString("email"));
 				jsonArray.add(jsonObject);
 		
