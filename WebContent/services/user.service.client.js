@@ -15,7 +15,8 @@
             login: login,
             logout: logout,
             setCurrentUser: setCurrentUser,
-            updateProfile: updateProfile
+            updateProfile: updateProfile,
+            findIfUserLoggedIn: findIfUserLoggedIn
         };
 
         return service;
@@ -35,9 +36,6 @@
     		}});
                 
         	}
-
-
-
         }
 
         function logout() {
@@ -54,12 +52,22 @@
             	console.log("Data being sent: " + userData.firstName + " " + userData.lastName + " " + userData.email);
                 return $http ({
                     method: 'PUT',
-                    url: 'http://localhost:8080/Psych_Server/userProfile',
+                    url: localServerURL + 'userProfile',
                     contentType: 'application/json',
                     data: userData
         		});
                     
             	}
+        }
+        
+        function findIfUserLoggedIn() {
+
+        	return $http ({
+                method: 'GET',
+                url: localServerURL + 'adminAuthentication?loggedIn=yes',
+                contentType: 'application/json',
+                data: ""
+    		});
         }
     }
 })();
