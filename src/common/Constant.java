@@ -78,5 +78,14 @@ public class Constant {
 	public static String FIELD_NAME = "fieldName";
 	public static String FIELD_ID = "fieldId";
 	public static String FIELD_VALUE = "fieldValue";
+	
+	
+	public static String NEW_QUESTION_NAME = "newQuestionName";
+	public static String NEW_QUESTION_DESCRIPTION = "newQuestionDescription";
+	public static String NEW_QUESTION_CATEGORY_ID= "newQuestionCategoryId";
+	public static String QUESTION_ID = "questionId";
+	
+	public static String QUESTION_NAME = "questionName";
+	public static String QUESTION_DESCRIPTION = "questionDescription";
 
 }

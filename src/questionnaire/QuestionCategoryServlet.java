@@ -118,7 +118,7 @@ public class QuestionCategoryServlet extends HttpServlet {
 				newStartLabel = (String) jsonObject.get(Constant.NEW_QUESTION_CATEGORY_START_LABEL);
 				newEndLabel = (String) jsonObject.get(Constant.NEW_QUESTION_CATEGORY_END_LABEL);
 			
-				if(QuestionCategoryFieldsVal.validateName(newName) 
+				if(QuestionCategoryFieldsVal.validateQuestionCategoryName(newName) 
 						&& QuestionCategoryFieldsVal.validateDescription(newDescrition)
 						&& QuestionCategoryFieldsVal.validateLabel(newStartLabel)
 						&& QuestionCategoryFieldsVal.validateLabel(newEndLabel)){
@@ -136,13 +136,13 @@ public class QuestionCategoryServlet extends HttpServlet {
 						returnJSON.put(Constant.NEW_QUESTION_CATEGORY_END_LABEL, newEndLabel);
 						
 						returnJSON.put(Constant.STATUS, Constant.OK_200);
-						returnJSON.put(Constant.USER_MESSAGE, "Added question successfully!");
-						returnJSON.put(Constant.DEVELOPER_MESSAGE, "Added question successfully!");
+						returnJSON.put(Constant.USER_MESSAGE, "Added question category successfully!");
+						returnJSON.put(Constant.DEVELOPER_MESSAGE, "Added question category successfully!");
 						
 					}else{
 						returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
 						returnJSON.put(Constant.USER_MESSAGE, "Could not add to database.");
-						returnJSON.put(Constant.DEVELOPER_MESSAGE, "Failed at inserting record.");
+						returnJSON.put(Constant.DEVELOPER_MESSAGE, "Failed at inserting question category.");
 					}
 				}else{
 					returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
@@ -210,7 +210,7 @@ public class QuestionCategoryServlet extends HttpServlet {
 				newStartLabel = (String) jsonObject.get(Constant.NEW_QUESTION_CATEGORY_START_LABEL);
 				newEndLabel = (String) jsonObject.get(Constant.NEW_QUESTION_CATEGORY_END_LABEL);
 			
-				if(QuestionCategoryFieldsVal.validateName(newName) 
+				if(QuestionCategoryFieldsVal.validateQuestionCategoryName(newName) 
 						&& QuestionCategoryFieldsVal.validateDescription(newDescrition)
 						&& QuestionCategoryFieldsVal.validateLabel(newStartLabel)
 						&& QuestionCategoryFieldsVal.validateLabel(newEndLabel)){

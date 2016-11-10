@@ -5,19 +5,23 @@ import java.util.regex.Pattern;
 
 public class QuestionCategoryFieldsVal {
 	
-	static String nameRegex = "[a-zA-Z0-9\\s,.'-]{1,50}$";
-	static Pattern namePattern = Pattern.compile(nameRegex);
+	static String categoryNameRegex = "^[a-zA-Z0-9\\s,.'-]{1,50}$";
+	static Pattern categoryNamePattern = Pattern.compile(categoryNameRegex);
 	
 	static String descriptionRegex = ".{0,1000}$";
 	static Pattern descriptionPattern = Pattern.compile(descriptionRegex);
 	
-	static String labelRegex = "[a-zA-Z0-9\\s]{1,30}$";
+	static String labelRegex = "^[a-zA-Z0-9\\s]{1,30}$";
 	static Pattern labelPattern = Pattern.compile(labelRegex);
 	
-	public static boolean validateName(String name){
+	public static boolean validateQuestionCategoryName(String name){
 		
-		Matcher matcher = namePattern.matcher(name.trim());
+		Matcher matcher = categoryNamePattern.matcher(name.trim());
 		return matcher.matches();
+	}
+	
+	public static boolean validateQuestionName(String name){
+		return name.trim().length() > 0 && name.trim().length() <= 200;
 	}
 	
 	public static boolean validateDescription(String desc){

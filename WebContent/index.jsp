@@ -30,6 +30,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
     <!-- Angular JS routing CDN -->
     <script src="https://code.angularjs.org/1.4.5/angular-route.min.js"></script>
+    <script src="
+https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.4.5/angular-messages.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -38,7 +40,8 @@
     <script src="./config.js"></script>
     <script src="./views/main.controller.js"></script>
     <script src="./services/user.service.client.js"></script>
-     <script src="./services/location.service.client.js"></script>
+    <script src="./services/location.service.client.js"></script>
+    <script src="./js/jLinq.js"></script> 
     <script src="./views/login.controller.js"></script>
     <script src="./views/adminProfile.controller.js"></script>
     <script src="./views/location.controller.js"></script>
