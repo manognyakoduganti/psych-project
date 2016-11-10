@@ -90,7 +90,7 @@ public class Constant {
 	public static String TRAINING_ID = "trainingId";
 	public static String TRAINING_DESCRIPTION = "trainingDescription";
 	public static String TRAINING_KEYWORDS = "trainingKeywords";
-	public static String TRAINING_DROPDOWN = "trainingDropdown";
+	public static String TRAINING_DROPDOWN = "dropDown";
 	
 	public static String YES = "yes";
 	public static String NO = "no";
