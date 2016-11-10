@@ -68,7 +68,6 @@ public class TargetGroupServletTest {
 		jsonObj.put(Constant.TG_KEYWORDS, String.join(Constant.KEYWORD_SEPERATOR, locationKeywords));
 		jsonObj.put(Constant.TG_LOCATION_ID, "1");
 		jsonObj.put(Constant.TG_TRAINING_ID, "1");
-		jsonObj.put(Constant.TG_LOCATION_CODE, "ABCD12");
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		
 		when(response.getWriter()).thenReturn(printWriter);
@@ -111,7 +110,6 @@ public class TargetGroupServletTest {
 		jsonObj.put(Constant.TG_KEYWORDS, String.join(Constant.KEYWORD_SEPERATOR, locationKeywords));
 		jsonObj.put(Constant.TG_LOCATION_ID, "1");
 		jsonObj.put(Constant.TG_TRAINING_ID, "1");
-		jsonObj.put(Constant.TG_LOCATION_CODE, "ABCD12");
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		
 		when(response.getWriter()).thenReturn(printWriter);
@@ -153,7 +151,6 @@ public class TargetGroupServletTest {
 		jsonObj.put(Constant.TG_KEYWORDS, String.join(Constant.KEYWORD_SEPERATOR, locationKeywords));
 		jsonObj.put(Constant.TG_LOCATION_ID, "");
 		jsonObj.put(Constant.TG_TRAINING_ID, "");
-		jsonObj.put(Constant.TG_LOCATION_CODE, "");
 		
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		
@@ -250,7 +247,6 @@ public class TargetGroupServletTest {
 		jsonObj.put(Constant.TG_KEYWORDS, "");
 		jsonObj.put(Constant.TG_LOCATION_ID, "1");
 		jsonObj.put(Constant.TG_TRAINING_ID, "1");
-		jsonObj.put(Constant.TG_LOCATION_CODE, "ABCD12");
 		
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		
@@ -290,7 +286,6 @@ public class TargetGroupServletTest {
 		jsonObj.put(Constant.TG_KEYWORDS, String.join(Constant.KEYWORD_SEPERATOR, locationKeywords));
 		jsonObj.put(Constant.TG_LOCATION_ID, "1");
 		jsonObj.put(Constant.TG_TRAINING_ID, "1");
-		jsonObj.put(Constant.TG_LOCATION_CODE, "ABCD12");
 		
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		
@@ -332,7 +327,6 @@ public class TargetGroupServletTest {
 		jsonObj.put(Constant.TG_KEYWORDS, String.join(Constant.KEYWORD_SEPERATOR, locationKeywords));
 		jsonObj.put(Constant.TG_LOCATION_ID, "");
 		jsonObj.put(Constant.TG_TRAINING_ID, "");
-		jsonObj.put(Constant.TG_LOCATION_CODE, "");
 		
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		

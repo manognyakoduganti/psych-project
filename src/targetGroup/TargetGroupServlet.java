@@ -209,13 +209,13 @@ public class TargetGroupServlet extends HttpServlet {
 		String name = ((String) jsonObject.get(Constant.TG_NAME)).trim();
 		String desc = ((String) jsonObject.get(Constant.TG_DESCRIPTION)).trim();
 		String keywords = ((String) jsonObject.get(Constant.TG_KEYWORDS)).trim();
-		String locationCode = ((String) jsonObject.get(Constant.TG_LOCATION_CODE)).trim();
+		//String locationCode = ((String) jsonObject.get(Constant.TG_LOCATION_CODE)).trim();
 		String locationId = ((String) jsonObject.get(Constant.TG_LOCATION_ID)).trim();
 		String trainingId = ((String) jsonObject.get(Constant.TG_TRAINING_ID)).trim();
 
 		if(LocationFieldsVal.validateName(name) && CommonFieldsVal.validateDescription(desc) && 
 				CommonFieldsVal.validateKeywords(keywords) && CommonFieldsVal.validateFieldId(locationId) &&
-				 CommonFieldsVal.validateFieldId(trainingId) &&  LocationFieldsVal.validateLocationCode(locationCode)){
+				 CommonFieldsVal.validateFieldId(trainingId)){
 			return true;
 		}
 		return false;
