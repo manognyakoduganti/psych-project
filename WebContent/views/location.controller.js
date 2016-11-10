@@ -187,10 +187,7 @@
         
         function search(locationSearch) {
         	vm.isSearchClicked = true;
-        	
-        	
-        	
-        	
+        	console.log(locationSearch);
         	var locationParams = {
         			locationName : locationSearch.name,
             		locationDescription : locationSearch.description,
@@ -204,19 +201,39 @@
             		locationFaxNumber : locationSearch.faxNo,
             		locationEmail : locationSearch.email	
         	};
-        	var queryParams = {};
+        	
+        	var keys = [];
+        	var searchString = "";
+        	var searchList = [];
         	for (var param in locationParams) {
-        		if(locationParams[param] != '')
-        			console.log("param= " + param);
-        			queryParams[param] = locationParams[param];
+        		console.log(param + " " + locationParams[param]);
+        		if(locationParams[param] != ''){
+        			searchList.push(locationParams[param]);
+        			keys.push(param);
+        		}
         	}
         	
-        	if(queryParams) {
-        		vm.locationSearchResults = jlinq.from(sampleLocations.results).select(queryParams);
-        		console.log(vm.locationSearchResults);
+        	if(keys.length > 0) {
+        		var options = {
+            			shouldSort: true,
+            			tokenize: true,
+            			threshold: 0.3,
+            			location: 0,
+            			distance: 10,
+            			//maxPatternLength: 32,
+            			keys: keys
+            	}
+            	console.log(1);
+        		console.log(keys);
+        		console.log(searchList);
+            	var fuse = new Fuse(sampleLocations.results, options);
+
+            	var results = fuse.search(searchList.join(" "));
+        		vm.locationSearchResults = results;
         	}
         	else {
-        		vm.locationSearchResults = jlinq.from(sampleLocations.results).select();
+        		vm.locationSearchResults = sampleLocations.results;
+        		console.log("else");
         		console.log(vm.locationSearchResults);
         	}
         	
