@@ -74,3 +74,6 @@ admin.privilegeToReleaseFeedback, admin.privilegeToCustomizeTraining, role) valu
 
 insert into questionCategory (id, name, description, responseType, startLabel, endLabel)
 	values (1,'Fitness', '', 53, 'Very Sad', 'Very Happy');
+	
+insert training values (1, 'Test Training 1', 'First Training to test target group', '')
+insert training values (2, 'Test Training 2', 'Second Training to test target group', 'Hello Words, SecondKeyword')
