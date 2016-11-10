@@ -110,6 +110,8 @@ public class TargetGroupServlet extends HttpServlet {
 					boolean duplicated = TargetGroupDAO.isDuplicateTargetGroup(tgName);
 					if(!duplicated){
 						TargetGroup targetGroup = parseTargetGroup(jsonObject);
+						String locCode = LocationDAO.getLocationCodeByLocationId(targetGroup.getLocId());
+						targetGroup.setLocCode(locCode);
 						Long targetGroupCountPerLocation = TargetGroupDAO.getTargetGroupCountPerLocation(targetGroup.getLocId());
 						targetGroup.setTrainingCount(targetGroupCountPerLocation+1);
 						
@@ -233,7 +235,7 @@ public class TargetGroupServlet extends HttpServlet {
 		String name = ((String) jsonObject.get(Constant.TG_NAME)).trim();
 		String desc = ((String) jsonObject.get(Constant.TG_DESCRIPTION)).trim();
 		String keywords = ((String) jsonObject.get(Constant.TG_KEYWORDS)).trim();
-		String locationCode = ((String) jsonObject.get(Constant.TG_LOCATION_CODE)).trim();
+		//String locationCode = ((String) jsonObject.get(Constant.TG_LOCATION_CODE)).trim();
 		String locationId = ((String) jsonObject.get(Constant.TG_LOCATION_ID)).trim();
 		String trainingId = ((String) jsonObject.get(Constant.TG_TRAINING_ID)).trim();
 		
@@ -248,7 +250,7 @@ public class TargetGroupServlet extends HttpServlet {
 		targetGroup.setName(name);
 		targetGroup.setDesc(desc);
 		targetGroup.setKeywords(keywords);
-		targetGroup.setLocCode(locationCode);
+		//targetGroup.setLocCode(locationCode);
 		targetGroup.setLocId(Long.parseLong(locationId));
 		targetGroup.setTrainingId(Long.parseLong(trainingId));
 		

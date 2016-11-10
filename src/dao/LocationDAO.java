@@ -284,5 +284,40 @@ public class LocationDAO {
 		}
 	}
 	
+	public static String getLocationCodeByLocationId(Long locationId){
+		
+		slf4jLogger.info("Entered into isDuplicateLocationCode");
+		String selectQuery = "SELECT locCode FROM location WHERE id = ?";
+		
+		Connection connection = null;
+		String locationCode = null;
+		
+		try{
+			
+			connection = DBSource.getConnectionPool().getConnection();
+			
+			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+			
+			preparedStatement.setLong(1, locationId);
+			
+			// execute select SQL statement
+			ResultSet rs = preparedStatement.executeQuery();
+			if(rs.first()) {
+				locationCode = rs.getString("locCode");
+			}
+		}catch(SQLException e){
+			System.out.println(e.getMessage());
+			try {
+				if (connection != null){
+					connection.close();
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		return locationCode;
+	}
+	
 
 }
