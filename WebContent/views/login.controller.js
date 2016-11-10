@@ -10,6 +10,7 @@
     {
         var vm = this;
         vm.login = login;
+        vm.errorMessage = false;
 
         function login(user) {
         	console.log("email= " + vm.user.email);
@@ -35,6 +36,7 @@
                 	
                 	else {
                 		console.log(response.status + " Unauthorized")
+                		vm.errorMessage = true;
                 	}
                     })
                     /*UserService.setCurrentUser(user);

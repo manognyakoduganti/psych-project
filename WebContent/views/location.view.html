@@ -127,7 +127,7 @@ Licensed under MIT
             <td> {{loc.locationEmail}} </td>
             <td>
                 <a href=""><span class="glyphicon glyphicon-pencil incrsize" data-toggle="modal"
-                                                 data-target="#myModal"></span></a>
+                                                 data-target="#myModal" ng-click="model.selectLocation($index)"></span></a>
             </td>
         </tr>
         </tbody>
@@ -137,14 +137,14 @@ Licensed under MIT
 
                         </div>
                         <div class="tab-pane active" id="tab_default_2" ng-show="model.isSet('create')">
-                            <div class="form-horizontal" ng-form name="locationCreateForm">
+                            <div class="form-horizontal" ng-form name="model.locationCreateForm">
                                 <div class="form-group required">
                                     <label for="inputName2" class="col-sm-2 control-label">Location Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" name="createLocationName" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.newLocation.name" required="required">
-                                        <div ng-messages="locationCreateForm.createLocationName.$error">
+                                        <input type="text" name="createLocationName" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.newLocation.name" required="required" ng-change="model.checkDuplicate('locationName', model.newLocation.name)">
+                                        <div ng-messages="model.locationCreateForm.createLocationName.$error" style="color:maroon">
 									       
-									        <div ng-message-exp="model.isLocationNameDuplicate">The location name already exists. Please enter another name.</div>
+									        <div ng-message="locationNameError">The location name already exists. Please enter another name.</div>
 									      
 									    </div>
                                     </div>
@@ -165,10 +165,10 @@ Licensed under MIT
                                  <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Location Code:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" name="createLocationCode" class="form-control" id="inputEmail3" placeholder="Location Code" ng-model="model.newLocation.code">
-                                        <div ng-messages="locationCreateForm.createLocationCode.$error">
+                                        <input type="text" name="createLocationCode" class="form-control" id="inputEmail3" placeholder="Location Code" ng-model="model.newLocation.code" ng-change="model.checkDuplicate('locationCode', model.newLocation.code)">
+                                        <div ng-messages="model.locationCreateForm.createLocationCode.$error" style="color:maroon">
 									       
-									        <div ng-message-exp="model.isLocationCodeDuplicate">The location code already exists. Please enter another code.</div>
+									        <div ng-message="locationCodeError">The location code already exists. Please enter another code.</div>
 									      
 									    </div>
                                     </div>
@@ -214,14 +214,14 @@ Licensed under MIT
                                 <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Phone number:</label>
                                     <div class="col-sm-7">
-                                        <input type="number" max="10" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.newLocation.phoneNo" required="required">
+                                        <input type="text" max="10" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.newLocation.phoneNo" required="required">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Fax number:</label>
                                     <div class="col-sm-7">
-                                        <input type="number" max="10" class="form-control" id="inputEmail3" placeholder="Fax Number" ng-model="model.newLocation.faxNo">
+                                        <input type="text" max="10" class="form-control" id="inputEmail3" placeholder="Fax Number" ng-model="model.newLocation.faxNo">
                                     </div>
                                 </div>
 
@@ -237,8 +237,8 @@ Licensed under MIT
                                         <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.create(model.newLocation)">Create</button>
                                     </div>
                                 </div>
-                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
-                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                                 <div ng-show="model.isCreateSuccessful" class="alert alert-success" role="alert">Location created successfully.</div>
+                                 <div ng-show="model.isCreateFailed" class="alert alert-danger" role="alert">Failed to create location. Please check the information entered above.</div>
                             </div>
                         </div>
                     </div>

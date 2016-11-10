@@ -9,80 +9,10 @@
 
     function LocationController(LocationService)
     {
-    	var sampleLocations = {
-			"results": [
-			{
-			"locationName": "Northeastern University",
-			"locationFaxNumber": "1234567891",
-			"locationAddressLine1": "360 Huntington Ave",
-			"locationDescription": "Location Decription",
-			"locationAddressLine2": "",
-			"locationPhoneNumber": "1234567891",
-			"locationKeywords": "Keywords1, Keywords2, Keyword3",
-			"locationZipCode": "2120",
-			"locationId": "1",
-			"locationCode": "ABCD12",
-			"locationState": "Massachusetts",
-			"locationCity": "Boston",
-			"locationStateId": "21",
-			"locationEmail": "northeastern@google.com"
-			},
-			{
-			"locationName": "Mass General Hospital",
-			"locationFaxNumber": "6177262000",
-			"locationAddressLine1": "55 Fruit St",
-			"locationDescription": "Massachusetts General Hospital is the original and largest teaching hospital of Harvard Medical School and a biomedical research facility located in the West End neighborhood of Boston, Massachusetts.",
-			"locationAddressLine2": "",
-			"locationPhoneNumber": "6177262000",
-			"locationKeywords": "Boston, General",
-			"locationZipCode": "2114",
-			"locationId": "2",
-			"locationCode": "CDEFGH",
-			"locationState": "Massachusetts",
-			"locationCity": "Boston",
-			"locationStateId": "21",
-			"locationEmail": "massgeneral@google.com"
-			},
-			{
-			"locationName": "Booston",
-			"locationFaxNumber": "2168016907",
-			"locationAddressLine1": "asdf",
-			"locationDescription": "",
-			"locationAddressLine2": "",
-			"locationPhoneNumber": "2168016907",
-			"locationKeywords": "",
-			"locationZipCode": "2120",
-			"locationId": "3",
-			"locationCode": "IESNA2",
-			"locationState": "Massachusetts",
-			"locationCity": "asldfkj",
-			"locationStateId": "21",
-			"locationEmail": "ddpatel.2012@gmail.com"
-			},
-			{
-			"locationName": "Northeastern University TEST",
-			"locationFaxNumber": "1234567891",
-			"locationAddressLine1": "360 Huntington Avenue",
-			"locationDescription": "Northeastern University is a private institution that was founded in 1898. It has a total undergraduate enrollment of 13,697, its setting is urban, and the campus size is 73 acres. It utilizes a semester-based academic calendar. Northeastern University's ranking in the 2017 edition of Best Colleges is National Universities, 39. Its tuition and fees are $47,655 (2016-17).",
-			"locationAddressLine2": "",
-			"locationPhoneNumber": "1234567891",
-			"locationKeywords": "Northeastern, Psychology",
-			"locationZipCode": "2115",
-			"locationId": "5",
-			"locationCode": "ABBDE2",
-			"locationState": "Massachusetts",
-			"locationCity": "Boston",
-			"locationStateId": "21",
-			"locationEmail": "northeastern@neu.edu"
-			}
-			],
-			"status": "200"
-    	};
     	var vm = this;
         vm.tab = 'search';
         vm.isLocationNameDuplicate = false;
         vm.isLocationCodeDuplicate = false;
-        vm.isCreateSuccessful = false;
         vm.isSearchClicked = false;
         
         vm.newLocation = {
@@ -133,9 +63,44 @@
         
         vm.create = create;
         
+vm.checkDuplicate = checkDuplicate;
+        
+        function checkDuplicate(param, value){
+        	//console.log(param + " " + value);
+        	
+        	if (param == 'locationName'){
+        		LocationService
+        		.checkDuplicate(param, value)
+        		.then(function(response) {
+        			if(response.data.results == true) {
+        				vm.locationCreateForm.createLocationName.$error.locationNameError = true;
+        			}
+        			else{
+        				vm.locationCreateForm.createLocationName.$error.locationNameError = false;
+        			}
+        		})
+        	}
+        	
+        	if (param == 'locationCode'){
+        		LocationService
+        		.checkDuplicate(param, value)
+        		.then(function(response) {
+        			if(response.data.results == true) {
+        				vm.locationCreateForm.createLocationCode.$error.locationCodeError = true;
+        			}
+        			else{
+        				vm.locationCreateForm.createLocationCode.$error.locationCodeError = false;
+        			}
+        		})
+        	}
+        	
+        }
+        
         function create(newLocation) {
         	
-        
+        	vm.isCreateFailed = false;
+        	vm.isCreateSuccessful = false;
+        	
         	var Location = {
         		locationName : newLocation.name,
         		locationDescription : newLocation.description,
@@ -144,7 +109,7 @@
         		locationAddressLine1 : newLocation.address1,
         		locationAddressLine2 : newLocation.address2,
         		locationCity : newLocation.city,
-        		locationState : newLocation.state,
+        		locationStateId : newLocation.state.toString(),
         		locationZipCode : newLocation.zipcode,
         		locationPhoneNumber : newLocation.phoneNo,
         		locationFaxNumber : newLocation.faxNo,
@@ -153,21 +118,15 @@
         	};
         	console.log(Location);
         	
-        	LocationService
-        		.checkDuplicate(locationName, newLocation.name)
+        	/*LocationService
+        		.checkDuplicate('locationName', newLocation.name)
         		.then(function(response) {
         			if(response.results === 'true') {
         				LocationService
-        					.checkDuplicate(locationCode, newLocation.code)
+        					.checkDuplicate('locationCode', newLocation.code)
         					.then(function(response) {
         						if(response.results === "true") {
-        							LocationService
-        			        		.createLocation(Location)
-        			        		.success(function(response) {
-        			        			if(response.results == '200') {
-        			        			vm.isCreateSuccessful = true;
-        			        			}
-        			        		});
+        							
         						}
         						
         						else 
@@ -177,7 +136,20 @@
         			
         			else
         				vm.isLocationNameDuplicate = true;
-        		})
+        		})*/
+        	
+        	LocationService
+    		.createLocation(Location)
+    		.success(function(response) {
+    			if(response.status == '200') {
+    			vm.isCreateSuccessful = true;
+    			
+    			}
+    			
+    			else
+    				vm.isCreateFailed = true;
+    				
+    		});
         	
         }
         
@@ -185,62 +157,97 @@
         var locationId = '';
         
         function search(locationSearch) {
-        	vm.isSearchClicked = true;
-        	console.log(locationSearch);
-        	var locationParams = {
-        			locationName : locationSearch.name,
-            		locationDescription : locationSearch.description,
-            		locationKeywords : locationSearch.keywords,
-            		locationCode : locationSearch.code,
-            		locationAddress : locationSearch.address,
-            		locationCity : locationSearch.city,
-            		locationState : locationSearch.state.toString(),
-            		locationZipCode : locationSearch.zipcode,
-            		locationPhoneNumber : locationSearch.phoneNo,
-            		locationFaxNumber : locationSearch.faxNo,
-            		locationEmail : locationSearch.email	
-        	};
         	
-        	var keys = [];
-        	var searchString = "";
-        	var searchList = [];
-        	for (var param in locationParams) {
-        		console.log(param + " " + locationParams[param]);
-        		if(locationParams[param] != ''){
-        			searchList.push(locationParams[param]);
-        			keys.push(param);
-        		}
-        	}
+        	var locationsList = [];
         	
-        	if(keys.length > 0) {
-        		var options = {
-            			shouldSort: true,
-            			tokenize: true,
-            			threshold: 0.3,
-            			location: 0,
-            			distance: 10,
-            			//maxPatternLength: 32,
-            			keys: keys
-            	}
-            	console.log(1);
-        		console.log(keys);
-        		console.log(searchList);
-            	var fuse = new Fuse(sampleLocations.results, options);
-
-            	var results = fuse.search(searchList.join(" "));
-        		vm.locationSearchResults = results;
-        	}
-        	else {
-        		vm.locationSearchResults = sampleLocations.results;
-        		console.log("else");
-        		console.log(vm.locationSearchResults);
-        	}
-        	
-        	/*LocationService
-        		.getAllLocations(locationParams)
+        	LocationService
+        		.getAllLocations()
         		.success(function(response) {
-        			locationId = response.locationId;
-        		});*/
+        			locationsList = response.results;
+        		
+        			console.log(locationSearch);
+                	var locationParams = {
+                			locationName : locationSearch.name,
+                    		locationDescription : locationSearch.description,
+                    		locationKeywords : locationSearch.keywords,
+                    		locationCode : locationSearch.code,
+                    		locationAddress : locationSearch.address,
+                    		locationCity : locationSearch.city,
+                    		locationStateId : locationSearch.state.toString(),
+                    		locationZipCode : locationSearch.zipcode,
+                    		locationPhoneNumber : locationSearch.phoneNo,
+                    		locationFaxNumber : locationSearch.faxNo,
+                    		locationEmail : locationSearch.email	
+                	};
+                	
+                	var keys = [];
+                	var searchString = "";
+                	var searchList = [];
+                	for (var param in locationParams) {
+                		console.log(param + " " + locationParams[param]);
+                		if(locationParams[param] != ''){
+                			searchList.push(locationParams[param]);
+                			keys.push(param);
+                		}
+                	}
+                	
+                	if(keys.length > 0) {
+                		var options = {
+                    			shouldSort: true,
+                    			tokenize: true,
+                    			threshold: 0.3,
+                    			location: 0,
+                    			distance: 10,
+                    			//maxPatternLength: 32,
+                    			keys: keys
+                    	}
+                    	console.log(1);
+                		console.log(keys);
+                		console.log(searchList);
+                    	var fuse = new Fuse(locationsList, options);
+
+                    	var results = fuse.search(searchList.join(" "));
+                		vm.locationSearchResults = results;
+                	}
+                	else {
+                		vm.locationSearchResults = locationsList;
+                		console.log("else");
+                		console.log(vm.locationSearchResults);
+                	}
+                	
+                	vm.isSearchClicked = true;
+                	
+                	/*LocationService
+                		.getAllLocations(locationParams)
+                		.success(function(response) {
+                			locationId = response.locationId;
+                		});*/
+        		
+        		
+        		})
+        	
+        	
+        	
+        }
+        
+        vm.selectLocation = selectLocation;
+        
+        function selectLocation(index) {
+        	var location = vm.locationSearchResults[index]
+        	vm.locationUpdate = {
+        			name : location.locationName,
+        			description : location.locationDescription,
+        			keywords : location.locationKeywords,
+        			address1 : location.locationAddressLine1,
+        			address2 : location.locationAddressLine2,
+        			city : location.locationCity,
+        			state : location.locationStateId,
+        			zipCode : location.locationZipCode,
+        			phoneNo : location.locationPhoneNumber,
+        			faxNo : location.locationFaxNumber
+        			
+        	}
+        	
         	
         }
         
@@ -255,7 +262,7 @@
             		locationCode : locationUpdate.code,
             		locationAddress : locationUpdate.address,
             		locationCity : locationUpdate.city,
-            		locationState : locationUpdate.state.toString(),
+            		locationStateId : locationUpdate.state.toString(),
             		locationZipCode : locationUpdate.zipcode,
             		locationPhoneNumber : locationUpdate.phoneNo,
             		locationFaxNumber : locationUpdate.faxNo,

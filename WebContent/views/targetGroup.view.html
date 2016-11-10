@@ -61,15 +61,19 @@ Licensed under MIT
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Location:</label>
                                     <div class="col-sm-7">
-                                        <select name="locations" ng-model="model.email"></select>
+                                    <select name="locations" ng-options='loc.locationId as loc.locationName for loc in model.locationList' class="form-control" id="inputEmail3"  ng-model="model.searchTargetGroup.location" required="required">
+                                        <option value="">Select Location</option>
+                                    </select>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Training:</label>
                                     <div class="col-sm-7">
-                                        <select name="trainings" ng-model="model.email"></select>
-                                    </div>
+                                   <select name="trainings" ng-options='tr.trainingId as tr.trainingName for tr in model.trainingList' class="form-control" id="inputEmail3"  ng-model="model.createTargetGroup.training" required="required">
+                                        <option value="">Select Training</option>
+                                        </select>
+                                        </div>
                                 </div>
 
                                 <div class="form-group">
@@ -116,47 +120,56 @@ Licensed under MIT
 
                         </div>
                         <div class="tab-pane active" id="tab_default_2" ng-show="model.isSet('create')">
-                            <div class="form-horizontal">
+                            <div class="form-horizontal" ng-form name="model.targetGroupCreateForm">
                                 <div class="form-group required">
                                     <label for="inputName2" class="col-sm-2 control-label">Target Group Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.firstName" required="required">
+                                        <input type="text" name="createTargetGroupName" class="form-control" id="inputName2" placeholder="Name of the target group" ng-model="model.createTargetGroup.name" required="required">
+                                        <div ng-messages="targetGroupCreateForm.createTargetGroupName.$error">
+									       
+									        <div ng-message-exp="model.isTargetGroupNameDuplicate">The target group name already exists. Please enter another name.</div>
+									      
+									    </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.lastName">
+                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the target group" ng-model="model.createTargetGroup.description">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Keywords:</label>
                                     <div class="col-sm-7">
-                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Keywords" ng-model="model.email">
+                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Keywords" ng-model="model.createTargetGroup.keywords">
                                     </div>
                                 </div>
 
                                 <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Location:</label>
                                     <div class="col-sm-7">
-                                        <select name="locations" ng-model="model.email" required="required"></select>
+                                        <select name="locations" ng-options='loc.locationId as loc.locationName for loc in model.locationList' class="form-control" id="inputEmail3"  ng-model="model.createTargetGroup.location" required="required">
+                                        <option value="">Select Location</option>
+                                        </select>
                                     </div>
                                 </div>
 
                                 <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Training:</label>
                                     <div class="col-sm-7">
-                                        <select name="trainings" ng-model="model.email" required="required"></select>
+                                        <select name="trainings" ng-options='tr.trainingId as tr.trainingName for tr in model.trainingList' class="form-control" id="inputEmail3"  ng-model="model.createTargetGroup.training" required="required">
+                                        <option value="">Select Training</option>
+                                        </select>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.update()">Create</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.create(model.createTargetGroup)">Create</button>
                                     </div>
                                 </div>
-                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
-                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                                <div ng-show="model.isCreateSuccessful" class="alert alert-success" role="alert">Target Group successfully created with registration code : {{model.regCode}}</div>
+                                 <div ng-show="model.isCreateFailed" class="alert alert-danger" role="alert">Target Group creation failed ! Please check the information entered again.</div>
                             </div>
                         </div>
                     </div>

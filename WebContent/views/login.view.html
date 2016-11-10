@@ -7,7 +7,9 @@
 <section id="login">
     <div class="container">
         <div class="row">
+        
             <div class="col-xs-12 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 main">
+            <div ng-if="model.errorMessage" class="alert alert-danger" role="alert">Invalid credentials. Please ensure your email and password entered are correct.</div>
                 <h1>Log in to your account</h1>
                 <form role="form" action="javascript:;" method="post" id="login-form" autocomplete="off">
                     <div class="form-group">

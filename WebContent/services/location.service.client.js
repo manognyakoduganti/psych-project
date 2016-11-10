@@ -30,7 +30,7 @@
     	function getAllLocations() {
     		return $http ({
                 method: 'GET',
-                url: localServerURL + 'getAllLocations',
+                url: localServerURL + 'location',
                 contentType: 'application/json'
                 });
     	}
@@ -55,9 +55,9 @@
     	function checkDuplicate(param, value) {
     		return $http ({
     			method : 'GET',
-    			url : localServerURL + 'location',
-    			contentType: 'application/json',
-    			params : {param : value}
+    			url : localServerURL + 'location' + '?' + param + "=" + value,
+    			contentType: 'application/json'
+    			//params : {param : value}
     		});
     	}
     }
