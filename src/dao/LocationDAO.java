@@ -182,7 +182,7 @@ public class LocationDAO {
 	
 	public static JSONArray fetchAllLocation(){
 		
-		slf4jLogger.info("Entered into isDuplicateLocationCode");
+		slf4jLogger.info("Entered into fetchAllLocation");
 		String selectQuery = "SELECT * FROM location join fieldlookup on location.state = fieldlookup.id";
 		
 		Connection connection = null;
@@ -233,7 +233,7 @@ public class LocationDAO {
 	
 	public static boolean updateLocation(Location location){
 		
-		slf4jLogger.info("Entered into createLocation");
+		slf4jLogger.info("Entered into updateLocation");
 		
 		String updateQuery = "UPDATE LOCATION SET location.locCode=?, location.locName=?, location.description=?, location.keywords=?, "
 				+ "location.addressLine1=?, location.addressLine2=?,  location.city=?, location.state=?, location.zipcode=?, location.phoneNumber=?, "
@@ -283,5 +283,6 @@ public class LocationDAO {
 			return false;
 		}
 	}
+	
 
 }
