@@ -113,5 +113,84 @@ public class AdminAuthenticationServletTest {
 		
 	}
 	
+	@Test
+	public void testValidSessionPageRefresh() throws ServletException, IOException, ParseException{
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		
+		when(response.getWriter()).thenReturn(printWriter);
+		when(request.getSession(false)).thenReturn(session);
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put(Constant.EMAIL, "woeura#$%#$nssknlkj");
+		jsonObj.put(Constant.PASSWORD, "weoiru2l3kn4234908");
+		
+		when(request.getParameter(Constant.LOGGED_IN)).thenReturn(Constant.YES);
+		String email = "patel.dars@husky.neu.edu";
+		String role = "GlobalAdministrator";
+		String firstName = "Darshan";
+		String lastName = "Patel";
+		String userId = "1";
+		
+		when(session.getAttribute(Constant.EMAIL)).thenReturn(email);
+		when(session.getAttribute(Constant.ROLE)).thenReturn(role);
+		when(session.getAttribute(Constant.FIRST_NAME)).thenReturn(firstName);
+		when(session.getAttribute(Constant.LAST_NAME)).thenReturn(lastName);
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(userId);
+		
+		//when(request.getParameter(Constant.PASSWORD)).thenReturn("weoiru2l3kn4234908");
+		
+		adminAuthentication.doGet(request, response);
+		
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(stringWriter.getBuffer().toString());
+		JSONObject jsonObject = (JSONObject) obj;
+		
+		assertEquals("System should have unauthorized the user to login",
+				Constant.OK_200, (String) jsonObject.get(Constant.STATUS));
+		
+		assertEquals(email, (String) jsonObject.get(Constant.EMAIL));
+		assertEquals(role, (String) jsonObject.get(Constant.ROLE));
+		assertEquals(firstName, (String) jsonObject.get(Constant.FIRST_NAME));
+		assertEquals(lastName, (String) jsonObject.get(Constant.LAST_NAME));
+		assertEquals(userId, (String) jsonObject.get(Constant.USER_ID));
+		
+	}
+	
+	@Test
+	public void testInValidSessionPageRefresh() throws ServletException, IOException, ParseException{
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		
+		when(response.getWriter()).thenReturn(printWriter);
+		when(request.getSession(false)).thenReturn(null);
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put(Constant.EMAIL, "woeura#$%#$nssknlkj");
+		jsonObj.put(Constant.PASSWORD, "weoiru2l3kn4234908");
+		
+		when(request.getParameter(Constant.LOGGED_IN)).thenReturn(Constant.YES);
+		
+		adminAuthentication.doGet(request, response);
+		
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(stringWriter.getBuffer().toString());
+		JSONObject jsonObject = (JSONObject) obj;
+		
+		assertEquals("System shouldn't have unauthorized the user to login",
+				Constant.UNAUTHORIZED_401, (String) jsonObject.get(Constant.STATUS));
+		
+	}
+	
 
 }
