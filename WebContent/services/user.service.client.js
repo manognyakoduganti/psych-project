@@ -12,6 +12,8 @@
     	
     	var awsURL = 'http://ec2-54-175-16-62.compute-1.amazonaws.com:8080/Psych-1/';
     	var localServerURL = 'http://localhost:8080/Psych-1/';
+    	var serverURL = 'http://localhost:8080/Psych-1/';
+    	
         var service = {
             login: login,
             logout: logout,
@@ -29,7 +31,7 @@
         	console.log("Data being sent: " + user.email + " " + user.password);
             return $http ({
                 method: 'POST',
-                url: awsURL + 'adminAuthentication',
+                url: serverURL+ 'adminAuthentication',
                 contentType: 'application/json',
                 data: {
     				email: user.email,
@@ -45,7 +47,7 @@
             $rootScope.currentUser = null;
             return $http ({
                 method: 'GET',
-                url: awsURL + 'adminAuthentication?logout=yes',
+                url: serverURL + 'adminAuthentication?logout=yes',
                 contentType: 'application/json',
                 data: ""
     		});
@@ -61,7 +63,7 @@
             	console.log("Data being sent: " + userData.firstName + " " + userData.lastName + " " + userData.email);
                 return $http ({
                     method: 'PUT',
-                    url: awsURl + 'userProfile',
+                    url: serverURL + 'userProfile',
                     contentType: 'application/json',
                     data: userData
         		});
@@ -73,7 +75,7 @@
 
         	return $http ({
                 method: 'GET',
-                url: awsURL + 'adminAuthentication?loggedIn=yes',
+                url: serverURL + 'adminAuthentication?loggedIn=yes',
                 contentType: 'application/json',
                 data: ""
     		});
