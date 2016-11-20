@@ -120,17 +120,20 @@ Licensed under MIT
 
                         </div>
                         <div class="tab-pane active" id="tab_default_2" ng-show="model.isSet('create')">
-                            <div class="form-horizontal" ng-form name="model.targetGroupCreateForm">
+                           <div class="form-horizontal" ng-form name="model.targetGroupCreateForm">
                                 <div class="form-group required">
                                     <label for="inputName2" class="col-sm-2 control-label">Target Group Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" name="createTargetGroupName" class="form-control" id="inputName2" placeholder="Name of the target group" ng-model="model.createTargetGroup.name" required="required">
-                                        <div ng-messages="targetGroupCreateForm.createTargetGroupName.$error">
-									       
-									        <div ng-message-exp="model.isTargetGroupNameDuplicate">The target group name already exists. Please enter another name.</div>
-									      
+                                        <input type="text" name="createTargetGroupName" class="form-control" id="inputName2" placeholder="Name of the target group"  ng-pattern="/^[a-zA-Z0-9\s-,]{0,150}$/"  required="required" ng-maxlength="150" ng-minlength="2" ng-model="model.createTargetGroup.name"  >
+                                        <div ng-messages="model.targetGroupCreateForm.createTargetGroupName.$error" style="color:maroon">
+                                        <div ng-message="required">This field is required.</div>
+                                        <div ng-message="minlength">Minimum 2 characters</div>
+                                        <div ng-message="pattern">Can be alphanumeric with ',' '-' or space and max 150 characters</div>
+                                        <!-- >div ng-message="targetGroupCreateForm.createTargetGroupName.$error">	</div>                                       								       
+									    <div ng-message-exp="model.isTargetGroupNameDuplicate">The target group name already exists. Please enter another name.</div-->
+								
 									    </div>
-                                    </div>
+                                    </div >
                                 </div>
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
@@ -165,7 +168,7 @@ Licensed under MIT
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.create(model.createTargetGroup)">Create</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block"  ng-click="model.create(model.createTargetGroup)" ng-disabled="model.targetGroupCreateForm.$invalid">Create</button>
                                     </div>
                                 </div>
                                 <div ng-show="model.isCreateSuccessful" class="alert alert-success" role="alert">Target Group successfully created with registration code : {{model.regCode}}</div>
