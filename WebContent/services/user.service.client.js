@@ -8,18 +8,19 @@
         .module("PsychWebApp")
         .factory("UserService", UserService);
 
-    function UserService($http, $rootScope) {
+    function UserService($http, $rootScope, serverURL) {
     	
-    	var awsURL = 'http://ec2-54-175-16-62.compute-1.amazonaws.com:8080/Psych-1/';
+    	/*var awsURL = 'http://ec2-54-175-16-62.compute-1.amazonaws.com:8080/Psych-1/';
     	var localServerURL = 'http://localhost:8080/Psych-1/';
-    	var serverURL = 'http://localhost:8080/Psych-1/';
+    	var serverURL = 'http://localhost:8080/Psych-1/'; */
     	
         var service = {
             login: login,
             logout: logout,
             setCurrentUser: setCurrentUser,
             updateProfile: updateProfile,
-            findIfUserLoggedIn: findIfUserLoggedIn
+            findIfUserLoggedIn: findIfUserLoggedIn,
+            changePassword: changePassword
         };
 
         return service;
@@ -31,7 +32,7 @@
         	console.log("Data being sent: " + user.email + " " + user.password);
             return $http ({
                 method: 'POST',
-                url: serverURL+ 'adminAuthentication',
+                url: serverURL.url+ 'adminAuthentication',
                 contentType: 'application/json',
                 data: {
     				email: user.email,
@@ -47,7 +48,7 @@
             $rootScope.currentUser = null;
             return $http ({
                 method: 'GET',
-                url: serverURL + 'adminAuthentication?logout=yes',
+                url: serverURL.url + 'adminAuthentication?logout=yes',
                 contentType: 'application/json',
                 data: ""
     		});
@@ -63,7 +64,7 @@
             	console.log("Data being sent: " + userData.firstName + " " + userData.lastName + " " + userData.email);
                 return $http ({
                     method: 'PUT',
-                    url: serverURL + 'userProfile',
+                    url: serverURL.url + 'userProfile',
                     contentType: 'application/json',
                     data: userData
         		});
@@ -75,10 +76,19 @@
 
         	return $http ({
                 method: 'GET',
-                url: serverURL + 'adminAuthentication?loggedIn=yes',
+                url: serverURL.url + 'adminAuthentication?loggedIn=yes',
                 contentType: 'application/json',
                 data: ""
     		});
+        }
+        
+        function changePassword(password) {
+        	 return $http ({
+                 method: 'PUT',
+                 url: serverURL.url + 'changePassword',
+                 contentType: 'application/json',
+                 data: password
+     		});
         }
     }
 })();

@@ -83,11 +83,65 @@
         
         vm.search = search;
         
-        function search() {
-        	vm.isSearchClicked = true;
-        }
+        function search(targetGroupSearch) {
+        	
+        	var targetGroupList = [];
+        	
+        	TargetGroupService
+        		.getAllTargetGroups()
+        		.success(function(response) {
+        			targetGroupList = response.results;
+        		
+        			
+                	var targetGroupParams = {
+                			targetGroupName : search.targetGroupName,
+                    		targetGroupDescription : locationSearch.description,
+                    		targetGroupKeywords : locationSearch.keywords,
+                    		targetGroupLocation : locationSearch.code,
+                    		targetGroupTraining : locationSearch.address,
+               	
+                	};
+                	
+                	var keys = [];
+                	var searchString = "";
+                	var searchList = [];
+                	for (var param in locationParams) {
+                		console.log(param + " " + locationParams[param]);
+                		if(locationParams[param] != ''){
+                			searchList.push(locationParams[param]);
+                			keys.push(param);
+                		}
+                	}
+                	
+                	if(keys.length > 0) {
+                		var options = {
+                    			shouldSort: true,
+                    			tokenize: true,
+                    			threshold: 0.3,
+                    			location: 0,
+                    			distance: 10,
+                    			//maxPatternLength: 32,
+                    			keys: keys
+                    	}
+                    	console.log(1);
+                		console.log(keys);
+                		console.log(searchList);
+                    	var fuse = new Fuse(locationsList, options);
+
+                    	var results = fuse.search(searchList.join(" "));
+                		vm.locationSearchResults = results;
+                	}
+                	else {
+                		vm.locationSearchResults = locationsList;
+                		console.log("else");
+                		console.log(vm.locationSearchResults);
+                	}
+                	
+                	vm.isSearchClicked = true;
+        });
 
         }
+    }
     
    
 })();

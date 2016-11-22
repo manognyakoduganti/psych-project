@@ -6,21 +6,35 @@
             <div class="tabbable-panel">
                 <div class="tabbable-line">
                     <ul class="nav nav-tabs">
-                        <li ng-class="{active:model.isSet('search')}">
-                            <a href="" ng-click="model.setTab('search')">
+                        <li ng-class="{active:model.isSet('questionCategories')}">
+                            <a href="" ng-click="model.setTab('questionCategories')">
                                 Question Categories </a>
                         </li>
-                        <li ng-class="{active:model.isSet('create')}">
-                            <a href="" ng-click="model.setTab('create')">
+                        <li ng-class="{active:model.isSet('questions')}">
+                            <a href="" ng-click="model.setTab('questions')">
                                 Questions </a>
                         </li>
 
                     </ul>
                     <div class="tab-content">
-                        <div class="tab-pane active" id="tab_default_1" ng-show="model.isSet('search')">
+                    <!-- Tab content for question categories begins here -->
+		                  <div class="tabbable-panel" ng-show="model.isSet('questionCategories')">
+		                	<div class="tabbable-line">
+		                    <ul class="nav nav-tabs">
+		                    	<li ng-class="{active:model.isSet('searchQuestionCategories')}">
+		                            <a href="" ng-click="model.setSubTab('searchQuestionCategories')">
+		                                Search </a>
+		                        </li>
+		                        <li ng-class="{active:model.isSet('createQuestionCategories')}">
+		                            <a href="" ng-click="model.setSubTab('createQuestionCategories')">
+		                                Create </a>
+		                        </li>
+		                    
+		                       </ul>
+                        <div class="tab-pane active" id="tab_default_1" ng-show="model.isSetSubTab('searchQuestionCategories')">
                             <div class="form-horizontal">
                                 <div class="form-group">
-                                    <label for="inputName2" class="col-sm-2 control-label">Location Name:</label>
+                                    <label for="inputName2" class="col-sm-2 control-label">Category Name:</label>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.searchLoc.name">
                                     </div>
@@ -29,54 +43,6 @@
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.searchLoc.description">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Keywords:</label>
-                                    <div class="col-sm-7">
-                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Keywords" ng-model="model.searchLoc.keywords">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Address:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Address" ng-model="model.searchLoc.address">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">City:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="City" ng-model="model.searchLoc.city">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">State:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="State" ng-model="model.searchLoc.state">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Zipcode:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Zipcode" ng-model="model.searchLoc.zip">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Phone number:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.searchLoc.phoneNo">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Email:</label>
-                                    <div class="col-sm-7">
-                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.searchLoc.email">
                                     </div>
                                 </div>
 
@@ -94,21 +60,19 @@
     <table class="table table-striped table-bordered">
         <thead>
         <tr>
-            <th> Location</th>
+            <th> Category Name</th>
             <th> Description</th>
-            <th> Keywords</th>
-            <th> Email</th>
-            <th> Actions</th>
+            <th> Questions</th>
+            <th> </th>
         </tr>
      
         </thead>
         <tbody>
         <tr>
-            <td><a href=""> Test location </a></td>
+            <td><a href=""> Test Category </a></td>
             <td> Testing </td>
             <td> Testing </td>
-            
-            <td> Testing@gmail.com </td>
+           
             <td>
                 <a href=""><span class="glyphicon glyphicon-pencil incrsize" data-toggle="modal"
                                                  data-target="#myModal"></span></a>
@@ -120,15 +84,16 @@
            </div> 
 
                         </div>
-                        <div class="tab-pane active" id="tab_default_2" ng-show="model.isSet('create')">
+                        <div class="tab-pane active" id="tab_default_2" ng-show="model.isSetSubTab('createQuestionCategories')">
                             <div class="form-horizontal" ng-form name="locationCreateForm">
+                               
                                 <div class="form-group required">
-                                    <label for="inputName2" class="col-sm-2 control-label">Location Name:</label>
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Category Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" name="createLocationName" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.newLocation.name" required="required">
-                                        <div ng-messages="locationCreateForm.createLocationName.$error">
+                                        <input type="text" name="createLocationCode" class="form-control" id="inputEmail3" placeholder="Location Code" ng-model="model.newLocation.code">
+                                        <div ng-messages="locationCreateForm.createLocationCode.$error">
 									       
-									        <div ng-message-exp="model.isLocationNameDuplicate">The location name already exists. Please enter another name.</div>
+									        <div ng-message-exp="model.isLocationCodeDuplicate">The location code already exists. Please enter another code.</div>
 									      
 									    </div>
                                     </div>
@@ -139,15 +104,99 @@
                                         <input type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.newLocation.description">
                                     </div>
                                 </div>
+               
+
                                 <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Keywords:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Keywords" ng-model="model.newLocation.keywords">
+                                    <div class="col-sm-offset-2 col-sm-7">
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.create(model.newLocation)">Create</button>
                                     </div>
                                 </div>
-                                
-                                 <div class="form-group required">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Location Code:</label>
+                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
+                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tab content for questions begins here -->
+                	                  <div class="tabbable-panel" ng-show="model.isSet('questions')">
+		                	<div class="tabbable-line">
+		                    <ul class="nav nav-tabs">
+		                    	<li ng-class="{active:model.isSet('searchQuestions')}">
+		                            <a href="" ng-click="model.setSubTab('searchQuestions')">
+		                                Search </a>
+		                        </li>
+		                        <li ng-class="{active:model.isSet('createQuestions')}">
+		                            <a href="" ng-click="model.setSubTab('createQuestions')">
+		                                Create </a>
+		                        </li>
+		                    
+		                       </ul>
+                        <div class="tab-pane active" id="tab_default_1" ng-show="model.isSetSubTab('searchQuestions')">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-2 control-label">Question Name:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.searchLoc.name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-2 control-label">Description:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.searchLoc.description">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Question Category:</label>
+                                    <div class="col-sm-7">                                     
+                                        <select name="states" class="form-control" id="inputEmail3" placeholder="State" ng-model="model.searchLoc.state" required="required">
+                                        <option value="">Select Category</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-7">
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.search(model.search)">Search</button>
+                                    </div>
+                                </div>
+                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
+                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                            </div>
+							<div>
+           		<h4>Search Results</h4>
+           		<div class="table-responsive" id="formtable">
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th> Question Name</th>
+            <th> Description</th>
+            <th> Question Category</th>
+            <th> </th>
+        </tr>
+     
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href=""> Test Question </a></td>
+            <td> Testing </td>
+            <td> Testing </td>
+           
+            <td>
+                <a href=""><span class="glyphicon glyphicon-pencil incrsize" data-toggle="modal"
+                                                 data-target="#myModal"></span></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+           </div> 
+
+                        </div>
+                        <div class="tab-pane active" id="tab_default_2" ng-show="model.isSetSubTab('createQuestions')">
+                            <div class="form-horizontal" ng-form name="locationCreateForm">
+                               
+                                <div class="form-group required">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Question Name:</label>
                                     <div class="col-sm-7">
                                         <input type="text" name="createLocationCode" class="form-control" id="inputEmail3" placeholder="Location Code" ng-model="model.newLocation.code">
                                         <div ng-messages="locationCreateForm.createLocationCode.$error">
@@ -157,64 +206,22 @@
 									    </div>
                                     </div>
                                 </div>
-
-                                <div class="form-group required">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Address Line 1:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Address" ng-model="model.newLocation.address1" required="required">
-                                    </div>
-                                </div>
-
                                 <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Address Line 2:</label>
+                                    <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Address" ng-model="model.newLocation.address2">
+                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.newLocation.description">
                                     </div>
                                 </div>
-
-                                <div class="form-group required">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">City:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="City" ng-model="model.newLocation.city" required="required">
-                                    </div>
-                                </div>
-
-                                <div class="form-group required">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">State:</label>
-                                    <div class="col-sm-7">
-                                        <select name="states" ng-options='state.fieldId as state.fieldValue for state in model.statesList.results' class="form-control" id="inputEmail3" placeholder="State" ng-model="model.newLocation.state" required="required">
-                                        <option value="">Select State</option>
+                                
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Question Category:</label>
+                                    <div class="col-sm-7">                                     
+                                        <select name="states" class="form-control" id="inputEmail3" placeholder="State" ng-model="model.searchLoc.state" required="required">
+                                        <option value="">Select Category</option>
                                         </select>
                                     </div>
                                 </div>
-
-                                <div class="form-group required">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Zipcode:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Zipcode" ng-model="model.newLocation.zipcode" required="required">
-                                    </div>
-                                </div>
-
-                                <div class="form-group required">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Phone number:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.newLocation.phoneNo" required="required">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Fax number:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.newLocation.faxNo">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Email:</label>
-                                    <div class="col-sm-7">
-                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.newLocation.email">
-                                    </div>
-                                </div>
+               
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
@@ -241,12 +248,12 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Edit Location</h4>
+                    <h4 class="modal-title">Edit Question Category</h4>
                 </div>
                 <div class="modal-body">
                    <div class="form-horizontal" ng-form name="locationUpdateForm">
                                 <div class="form-group">
-                                    <label for="inputName2" class="col-sm-2 control-label">Location Name:</label>
+                                    <label for="inputName2" class="col-sm-2 control-label">Category Name:</label>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.locationUpdate.name">
                                     </div>
@@ -257,68 +264,7 @@
                                         <input type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.locationUpdate.description">
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Keywords:</label>
-                                    <div class="col-sm-7">
-                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Keywords" ng-model="model.locationUpdate.keywords">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Address Line 1:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Address" ng-model="model.locationUpdate.address1">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Address Line 2:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Address" ng-model="model.locationUpdate.address2">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">City:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="City" ng-model="model.locationUpdate.city">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">State:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="State" ng-model="model.locationUpdate.state">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Zipcode:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Zipcode" ng-model="model.locationUpdate.zipcode">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Phone number:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.locationUpdate.phoneNo" required="required">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Fax number:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.locationUpdate.faxNo">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Email:</label>
-                                    <div class="col-sm-7">
-                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.locationUpdate.email">
-                                    </div>
-                                </div>
+                        
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">

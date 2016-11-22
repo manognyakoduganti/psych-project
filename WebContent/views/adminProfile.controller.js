@@ -14,6 +14,7 @@
         var email = $rootScope.user.email;
         vm.isUpdateSuccessful = false;
         vm.isUpdateFailed = false;
+        vm.isChangePasswordSuccessful = false;
         
         vm.firstName = userData.firstName;
         vm.lastName = userData.lastName;
@@ -30,7 +31,7 @@
         			email : email
         	};
         	
-        	if(vm.password === vm.retypePassword) {
+        	
         		UserService.updateProfile(updateUserData)
                 .success(function(response) {
                 	if(response.status === '200') {
@@ -46,7 +47,25 @@
                 	else
                 		vm.isUpdateFailed = true;
                 });
+        	
+        vm.changePassword = changePassword;
+        
+        function changePassword() {
+        	if(vm.password === vm.retypePassword) {
+        		pwd = {
+        			newPassword : vm.password	
+        		};
+        		UserService
+        			.changePassword(pwd)
+        			.success(function(response) {
+        			if(response.status === '200')
+        				vm.isChangePasswordSuccessful = true;
+        			else
+        				vm.isChangePasswordSuccessful = false;
+        		});
         	}
+        }
+        	
         }
     }
 

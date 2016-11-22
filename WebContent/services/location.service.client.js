@@ -5,10 +5,10 @@
         .factory("LocationService", LocationService);
     
     
-    function LocationService($http) {
-    	var awsURL = 'http://ec2-54-175-16-62.compute-1.amazonaws.com:8080/Psych-1/';
+    function LocationService($http, serverURL) {
+    	/*var awsURL = 'http://ec2-54-175-16-62.compute-1.amazonaws.com:8080/Psych-1/';
     	var localServerURL = 'http://localhost:8080/Psych-1/';
-    	var serverURL = 'http://localhost:8080/Psych-1/';
+    	var serverURL = 'http://localhost:8080/Psych-1/';*/
     	
     	var service = {
     			createLocation : createLocation,
@@ -24,7 +24,7 @@
     		if(location)
     			return $http ({
                     method: 'POST',
-                    url: serverURL + 'location',
+                    url: serverURL.url + 'location',
                     contentType: 'application/json',
                     data: location});
     		
@@ -33,7 +33,7 @@
     	function getAllLocations() {
     		return $http ({
                 method: 'GET',
-                url: serverURL + 'location',
+                url: serverURL.url + 'location',
                 contentType: 'application/json'
                 });
     	}
@@ -41,7 +41,7 @@
     	function getAllStates() {
     		return $http ({
     			method : 'GET',
-    			url : serverURL + 'fetchField',
+    			url : serverURL.url + 'fetchField',
     			contentType: 'application/json',
     			params : {'fieldName' : 'State'}
     		});
@@ -50,7 +50,7 @@
     	function updateLocation(updatedLocation) {
     		return $http ({
                 method: 'PUT',
-                url: serverURL + 'location',
+                url: serverURL.url + 'location',
                 contentType: 'application/json',
                 data: updatedLocation});
     	}
@@ -58,7 +58,7 @@
     	function checkDuplicate(param, value) {
     		return $http ({
     			method : 'GET',
-    			url : serverURL + 'location' + '?' + param + "=" + value,
+    			url : serverURL.url + 'location' + '?' + param + "=" + value,
     			contentType: 'application/json'
     			//params : {param : value}
     		});

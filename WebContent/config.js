@@ -1,10 +1,13 @@
 /**
  * Created by surajnagaraj on 10/26/16.
  */
+//awsURL : http://ec2-54-175-16-62.compute-1.amazonaws.com:8080/Psych-1/
+//localURL : http://localhost:8080/Psych-1/
 (function(){
     'use strict';
     angular
         .module("PsychWebApp")
+        .constant("serverURL", { url : 'http://localhost:8080/Psych-1/'})
         .config(function($routeProvider, $httpProvider)
         {
             $routeProvider
@@ -17,6 +20,15 @@
                 .when('/profile', {
 
                     templateUrl: "./views/adminProfile.view.html",
+                    controller: "AdminProfileController",
+                    controllerAs: "model",
+                    resolve:{
+                    	loggedin: RedirectToPageIfLoggedIn
+                    }
+                })
+                .when('/password', {
+
+                    templateUrl: "./views/changePassword.view.html",
                     controller: "AdminProfileController",
                     controllerAs: "model",
                     resolve:{
