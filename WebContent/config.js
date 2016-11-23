@@ -62,6 +62,15 @@
                     	loggedin: RedirectToPageIfLoggedIn
                     }
                 })
+                 .when('/imageManagement', {
+
+                    templateUrl: "./views/imageManagement.view.html",
+                    controller: "ImageManagementController",
+                    controllerAs: "model",
+                    resolve:{
+                    	loggedin: RedirectToPageIfLoggedIn
+                    }
+                })
                 .otherwise({
                     redirectTo: '/login'
                 })

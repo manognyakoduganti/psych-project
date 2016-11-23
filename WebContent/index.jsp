@@ -51,7 +51,7 @@ https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.4.5/angular-messages.j
     <script src="./views/targetGroup.controller.js"></script>
     <script src="./views/navigation.controller.js"></script>
     <script src="./views/questionManagement.controller.js"></script>
-    
+    <script src="./views/imageManagement.controller.js"></script>
 
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
