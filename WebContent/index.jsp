@@ -45,6 +45,7 @@ https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.4.5/angular-messages.j
     <script src="./services/questionManagement.service.client.js"></script>
  	<script src="./services/targetGroup.service.client.js"></script>
     <script src="./services/training.service.client.js"></script>
+    <script src="./services/imageManagement.service.client.js"></script>
     <script src="./views/login.controller.js"></script>
     <script src="./views/adminProfile.controller.js"></script>
     <script src="./views/location.controller.js"></script>

@@ -10,7 +10,7 @@
     function ImageManagementController(ImageManagementService){
     	var vm = this;
     	vm.tab = 'imageCatergories';
-    	vm.subTab = 'SearchImageCatergories'
+    	vm.subTab = 'searchImageCatergories'
     	
     	vm.setTab = function (tabId) {
             //console.log("Setting tab to " + tabId);
