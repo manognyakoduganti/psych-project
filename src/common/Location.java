@@ -10,10 +10,10 @@ public class Location {
 	String addressLine1;
 	String addressLine2;
 	String city;
-	Long state;
-	Long zipCode;
-	Long phoneNumber;
-	Long faxNumber;
+	Long stateId;
+	String zipCode;
+	String phoneNumber;
+	String faxNumber;
 	String email;
 	
 	public String getName() {
@@ -52,28 +52,28 @@ public class Location {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	public Long getState() {
-		return state;
+	public Long getStateId() {
+		return stateId;
 	}
-	public void setState(Long state) {
-		this.state = state;
+	public void setStateId(Long stateId) {
+		this.stateId = stateId;
 	}
-	public Long getZipCode() {
+	public String getZipCode() {
 		return zipCode;
 	}
-	public void setZipCode(Long zipCode) {
+	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
 	}
-	public Long getPhoneNumber() {
+	public String getPhoneNumber() {
 		return phoneNumber;
 	}
-	public void setPhoneNumber(Long phoneNumber) {
+	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-	public Long getFaxNumber() {
+	public String getFaxNumber() {
 		return faxNumber;
 	}
-	public void setFaxNumber(Long faxNumber) {
+	public void setFaxNumber(String faxNumber) {
 		this.faxNumber = faxNumber;
 	}
 	public String getEmail() {

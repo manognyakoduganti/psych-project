@@ -7,7 +7,6 @@ import java.sql.SQLException;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,14 +39,10 @@ public class LocationDAO {
 			preparedStatement.setString(5, location.getAddressLine1());
 			preparedStatement.setString(6, location.getAddressLine2());
 			preparedStatement.setString(7, location.getCity());
-			preparedStatement.setLong(8, location.getState());
-			preparedStatement.setLong(9, location.getZipCode());
-			preparedStatement.setLong(10, location.getPhoneNumber());
-			if(location.getFaxNumber() == 0){
-				preparedStatement.setLong(11, location.getFaxNumber());
-			}else{
-				preparedStatement.setNull(11, java.sql.Types.BIGINT);
-			}
+			preparedStatement.setLong(8, location.getStateId());
+			preparedStatement.setString(9, location.getZipCode());
+			preparedStatement.setString(10, location.getPhoneNumber());
+			preparedStatement.setString(11, location.getFaxNumber());
 			preparedStatement.setString(12, location.getEmail());
 			
 			slf4jLogger.info(preparedStatement.toString());
@@ -212,14 +207,9 @@ public class LocationDAO {
 				jsonObject.put(Constant.LOCATION_CITY,rs.getString("city"));
 				jsonObject.put(Constant.LOCATION_STATE,rs.getString("fieldName"));
 				jsonObject.put(Constant.LOCATION_STATE_ID,Long.toString(rs.getLong("state")));
-				jsonObject.put(Constant.LOCATION_ZIPCODE,Long.toString(rs.getLong("zipcode")));
-				jsonObject.put(Constant.LOCATION_PHONE_NUMBER,Long.toString(rs.getLong("phoneNumber")));
-				slf4jLogger.info(" rs.getLong : "+ rs.getLong("faxNumber"));
-				if( rs.getLong("faxNumber") != 0){
-					jsonObject.put(Constant.LOCATION_FAX_NUMBER,Long.toString(rs.getLong("faxNumber")));
-				}else{
-					jsonObject.put(Constant.LOCATION_FAX_NUMBER,"");
-				}
+				jsonObject.put(Constant.LOCATION_ZIPCODE,rs.getString("zipcode"));
+				jsonObject.put(Constant.LOCATION_PHONE_NUMBER,rs.getString("phoneNumber"));
+				jsonObject.put(Constant.LOCATION_FAX_NUMBER,rs.getString("faxNumber"));
 				jsonObject.put(Constant.LOCATION_EMAIL,rs.getString("email"));
 				jsonArray.add(jsonObject);
 		
@@ -262,10 +252,10 @@ public class LocationDAO {
 			preparedStatement.setString(5, location.getAddressLine1());
 			preparedStatement.setString(6, location.getAddressLine2());
 			preparedStatement.setString(7, location.getCity());
-			preparedStatement.setLong(8, location.getState());
-			preparedStatement.setLong(9, location.getZipCode());
-			preparedStatement.setLong(10, location.getPhoneNumber());
-			preparedStatement.setLong(11, location.getFaxNumber());
+			preparedStatement.setLong(8, location.getStateId());
+			preparedStatement.setString(9, location.getZipCode());
+			preparedStatement.setString(10, location.getPhoneNumber());
+			preparedStatement.setString(11, location.getFaxNumber());
 			preparedStatement.setString(12, location.getEmail());
 			
 			preparedStatement.setLong(13, location.getId());

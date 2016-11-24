@@ -279,14 +279,14 @@ public class LocationServlet extends HttpServlet {
 		location.setName(name);
 		location.setAddressLine1(addressLine1);
 		location.setCity(city);
-		location.setState(Long.parseLong(state));
-		location.setZipCode(Long.parseLong(zipcode));
-		location.setPhoneNumber(Long.parseLong(phoneNumber));
+		location.setStateId(Long.parseLong(state));
+		location.setZipCode(zipcode);
+		location.setPhoneNumber(phoneNumber);
 		location.setCode(code);
 		location.setDesc(desc);
 		location.setKeywords(keywords);
 		location.setAddressLine2(addressLine2);
-		location.setFaxNumber(faxNumber.trim().equals("")?0:Long.parseLong(faxNumber));
+		location.setFaxNumber(faxNumber);
 		location.setEmail(email);
 		return location;
 	}
