@@ -114,7 +114,6 @@ public class TargetGroupServlet extends HttpServlet {
 						targetGroup.setLocCode(locCode);
 						Long targetGroupCountPerLocation = TargetGroupDAO.getTargetGroupCountPerLocation(targetGroup.getLocId());
 						targetGroup.setTrainingCount(targetGroupCountPerLocation+1);
-						
 						created = TargetGroupDAO.createTargetGroup(targetGroup);
 						returnJSON.put(Constant.STATUS, Constant.OK_200);
 						returnJSON.put(Constant.TG_REG_CODE, targetGroup.getRegCode());
@@ -176,6 +175,10 @@ public class TargetGroupServlet extends HttpServlet {
 				if(isValidInputData(jsonObject)){
 					TargetGroup targetGroup = parseTargetGroup(jsonObject);
 					updated = TargetGroupDAO.updateTargetGroup(targetGroup);
+					if(updated){
+						JSONArray jsonArray = TargetGroupDAO.fetchAllTargetGroup();
+						returnJSON.put(Constant.RESULTS, jsonArray);
+					}
 					returnJSON.put(Constant.STATUS, Constant.OK_200);
 				}
 				if(!updated){

@@ -131,6 +131,10 @@ public class LocationServlet extends HttpServlet {
 					if(!duplicated){
 						Location location = parseLocation(jsonObject);
 						created = LocationDAO.createLocation(location);
+						if(created){
+							JSONArray jsonArray = LocationDAO.fetchAllLocation();
+							returnJSON.put(Constant.RESULTS, jsonArray);
+						}
 						returnJSON.put(Constant.STATUS, Constant.OK_200);
 					}
 				}
