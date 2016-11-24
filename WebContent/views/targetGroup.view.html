@@ -42,26 +42,26 @@ Licensed under MIT
                                 <div class="form-group">
                                     <label for="inputName2" class="col-sm-2 control-label">Target Group Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.firstName">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.searchTg.tgName">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.lastName">
+                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.searchTg.tgDescription">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Keywords:</label>
                                     <div class="col-sm-7">
-                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Keywords" ng-model="model.email">
+                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Keywords" ng-model="model.searchTg.tgKeywords">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Location:</label>
                                     <div class="col-sm-7">
-                                    <select name="locations" ng-options='loc.locationId as loc.locationName for loc in model.locationList' class="form-control" id="inputEmail3"  ng-model="model.searchTargetGroup.location" required="required">
+                                    <select name="locations" ng-options='loc.locationId as loc.locationName for loc in model.locationList' class="form-control" id="inputEmail3"  ng-model="model.searchTg.tgLocation" required="required">
                                         <option value="">Select Location</option>
                                     </select>
                                     </div>
@@ -70,7 +70,7 @@ Licensed under MIT
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Training:</label>
                                     <div class="col-sm-7">
-                                   <select name="trainings" ng-options='tr.trainingId as tr.trainingName for tr in model.trainingList' class="form-control" id="inputEmail3"  ng-model="model.createTargetGroup.training" required="required">
+                                   <select name="trainings" ng-options='tr.trainingId as tr.trainingName for tr in model.trainingList' class="form-control" id="inputEmail3"  ng-model="model.searchTg.tgTraining" required="required">
                                         <option value="">Select Training</option>
                                         </select>
                                         </div>
@@ -78,7 +78,7 @@ Licensed under MIT
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.search()">Search</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.searchTargetGroups(model.searchTg)">Search</button>
                                     </div>
                                 </div>
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
@@ -91,8 +91,7 @@ Licensed under MIT
         <thead>
         <tr>
             <th> Target Group Name</th>
-            <th> Description</th>
-            <th> Keywords</th>
+            
             <th> Location</th>
             <th> Training</th>
             <th> Registration Code</th>
@@ -101,16 +100,18 @@ Licensed under MIT
      
         </thead>
         <tbody>
-        <tr>
-            <td><a href=""> Test target group </a></td>
-            <td> Testing </td>
-            <td> Testing </td>
-            <td> Testing</td>
-            <td> Testing</td>
-            <td> Testing</td>
+        <tr ng-repeat = "tg in model.targetGroupSearchResults">
+            <td><a href=""> {{tg.tgName}} </a></td>
+            
+            <td> {{tg.tgLocationName}} </td>
+            <td> {{tg.tgTrainingName}} </td>
+            <td> {{tg.tgRegCode}} </td>
             <td>
-                <a href=""><span class="glyphicon glyphicon-pencil incrsize" data-toggle="modal"
-                                                 data-target="#myModal"></span></a>
+                <a href="">
+                <span class="glyphicon glyphicon-pencil incrsize" data-toggle="modal"
+                                                 data-target="#myModal" ng-click="model.selectTargetGroup($index)">
+                                                 </span>
+                                                 </a>
             </td>
         </tr>
         </tbody>
@@ -195,49 +196,48 @@ Licensed under MIT
                 <div class="modal-body">
                    <div class="form-horizontal">
                                 <div class="form-group">
-                                    <label for="inputName2" class="col-sm-2 control-label">Name:</label>
+                                    <label for="inputName2" class="col-sm-2 control-label">Target Group Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.firstName">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.tgUpdate.tgName">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the target group" ng-model="model.lastName">
+                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the target group" ng-model="model.tgUpdate.tgDescription">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Keywords:</label>
                                     <div class="col-sm-7">
-                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Keywords" ng-model="model.email">
+                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Keywords" ng-model="model.tgUpdate.tgKeywords">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Location</label>
                                     <div class="col-sm-7">
-                                        <select name="trainings" ng-model="model.email" required="required"></select>
+                                        <select name="trainings" ng-options='loc.locationId as loc.locationName for loc in model.locationList' ng-model="model.tgUpdate.tgLocation" required="required">
+                                        <option value="">Select Location</option>
+                                        </select>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Training</label>
                                     <div class="col-sm-7">
-                                        <select name="trainings" ng-model="model.email" required="required"></select>
+                                        <select name="trainings" ng-options='tr.trainingId as tr.trainingName for tr in model.trainingList' ng-model="model.tgUpdate.tgTraining" required="required">
+                                        <option value="">Select Training</option>
+                                        </select>
                                     </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Registration Code</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Registration Code" ng-model="model.email">
-                                    </div>
-                                </div>
+              
 
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.update()">Update</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.update(model.tgUpdate)">Update</button>
                                     </div>
                                 </div>
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
@@ -247,7 +247,7 @@ Licensed under MIT
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" ng-click="model.update(model.selectedField)" class="btn btn-default" data-dismiss="modal">Ok</button>
+                   
                 </div>
             </div>
         </div>
