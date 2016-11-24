@@ -176,5 +176,146 @@ public class TrainingServletTest {
 		assertEquals(true, deleted);
 		
 	}
+	
+	
+	@Test
+	public void testInvalidInputCreateTraining() throws ServletException, IOException, ParseException{
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(request.getReader()).thenReturn(bufferedReader);
+		
+		JSONObject jsonObj = new JSONObject();
+		
+		Random random = new Random();
+		int randomNumber = random.nextInt(1000);
+		
+		JSONArray questions = new JSONArray();
+		questions.add(1);
+		questions.add(2);
+		questions.add(3);
+		questions.add(4);
+		
+		JSONArray images = new JSONArray();
+		
+		JSONObject image1 = new JSONObject();
+		image1.put(Constant.TRG_IMAGE_MAP_IMAGE_CAT, 1);
+		image1.put(Constant.TRG_IMAGE_MAP_IMAGE_TYPE, 55);
+		image1.put(Constant.TRG_IMAGE_MAP_NO_OF_IMAGES, 2);
+		image1.put(Constant.TRG_IMAGE_MAP_DURATION, 2000);
+		
+		JSONObject image2 = new JSONObject();
+		image2.put(Constant.TRG_IMAGE_MAP_IMAGE_CAT, 1);
+		image2.put(Constant.TRG_IMAGE_MAP_IMAGE_TYPE, 56);
+		image2.put(Constant.TRG_IMAGE_MAP_NO_OF_IMAGES, 2);
+		image2.put(Constant.TRG_IMAGE_MAP_DURATION, 3000);
+		
+		
+		images.add(image1);
+		images.add(image2);
+		
+		String newTrainingName = "";
+		String newTrainingDescription = "TrainingTestName";
+		String newTrainingKeywords = "TrainingKeyword1,Trainingkeyword2";
+		
+		jsonObj.put(Constant.TRG_NEW_NAME, newTrainingName);
+		jsonObj.put(Constant.TRG_NEW_DESCRIPTION, newTrainingDescription);
+		jsonObj.put(Constant.TRG_NEW_KEYWORDS, newTrainingKeywords);
+		jsonObj.put(Constant.TRG_NEW_QUESTIONS, questions);
+		jsonObj.put(Constant.TRG_NEW_IMAGES, images);
+		
+		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
+		
+		when(response.getWriter()).thenReturn(printWriter);
+		when(request.getSession(false)).thenReturn(session);
+		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(4l);
+		
+		trainingServlet.doPost(request, response);
+		
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(stringWriter.getBuffer().toString());
+		JSONObject jsonObject = (JSONObject) obj;
+		
+		//System.out.println(jsonObject.get(Constant.DEVELOPER_MESSAGE));
+		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.BADREQUEST_400);		
+	}
+	
+	@Test
+	public void testValidInputUpdateTraining() throws ServletException, IOException, ParseException{
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(request.getReader()).thenReturn(bufferedReader);
+		
+		JSONObject jsonObj = new JSONObject();
+		
+		Random random = new Random();
+		int randomNumber = random.nextInt(1000);
+		
+		JSONArray questions = new JSONArray();
+		questions.add(1);
+		questions.add(2);
+		questions.add(3);
+		questions.add(4);
+		
+		JSONArray images = new JSONArray();
+		
+		JSONObject image1 = new JSONObject();
+		image1.put(Constant.TRG_IMAGE_MAP_IMAGE_CAT, 1);
+		image1.put(Constant.TRG_IMAGE_MAP_IMAGE_TYPE, 55);
+		image1.put(Constant.TRG_IMAGE_MAP_NO_OF_IMAGES, 2);
+		image1.put(Constant.TRG_IMAGE_MAP_DURATION, 2000);
+		
+		JSONObject image2 = new JSONObject();
+		image2.put(Constant.TRG_IMAGE_MAP_IMAGE_CAT, 1);
+		image2.put(Constant.TRG_IMAGE_MAP_IMAGE_TYPE, 56);
+		image2.put(Constant.TRG_IMAGE_MAP_NO_OF_IMAGES, 2);
+		image2.put(Constant.TRG_IMAGE_MAP_DURATION, 3000);
+		
+		
+		images.add(image1);
+		images.add(image2);
+		
+		String newTrainingName = "Northeastern University";
+		String newTrainingDescription = "TrainingTestName";
+		String newTrainingKeywords = "TrainingKeyword1,Trainingkeyword2";
+		
+		jsonObj.put(Constant.TRAINING_ID, 1);
+		jsonObj.put(Constant.TRG_NEW_NAME, newTrainingName);
+		jsonObj.put(Constant.TRG_NEW_DESCRIPTION, newTrainingDescription);
+		jsonObj.put(Constant.TRG_NEW_KEYWORDS, newTrainingKeywords);
+		jsonObj.put(Constant.TRG_NEW_QUESTIONS, questions);
+		jsonObj.put(Constant.TRG_NEW_IMAGES, images);
+		
+		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
+		
+		when(response.getWriter()).thenReturn(printWriter);
+		when(request.getSession(false)).thenReturn(session);
+		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(4l);
+		
+		trainingServlet.doPut(request, response);
+		
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(stringWriter.getBuffer().toString());
+		JSONObject jsonObject = (JSONObject) obj;
+		
+		//System.out.println(jsonObject.get(Constant.DEVELOPER_MESSAGE));
+		System.out.println(jsonObject.get(Constant.DEVELOPER_MESSAGE));
+		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.OK_200);		
+	}
 
 }
