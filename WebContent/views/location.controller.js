@@ -7,7 +7,7 @@
         .controller("LocationController", LocationController);
     
 
-    function LocationController(LocationService)
+    function LocationController(LocationService, $window)
     {
     	var vm = this;
         vm.tab = 'search';
@@ -143,7 +143,20 @@ vm.checkDuplicate = checkDuplicate;
     		.success(function(response) {
     			if(response.status == '200') {
     			vm.isCreateSuccessful = true;
-    			vm.newLocation = {};
+    			vm.newLocation = {
+    	        		name : '',
+    	        		description : '',
+    	        		keywords : '',
+    	        		code : '',
+    	        		address1 : '',
+    	        		address2 : '',
+    	        		city : '',
+    	        		state : '',
+    	        		zipcode : '',
+    	        		phoneNo : '',
+    	        		faxNo : '',
+    	        		email : ''
+    	        };
     			
     			}
     			
@@ -283,8 +296,15 @@ vm.checkDuplicate = checkDuplicate;
     			.updateLocation(locationUpdateParams)
     			.success(function(response) {
     				console.log(response);
-    				if(response.status =='200')
+    				if(response.status =='200') {
     					vm.isUpdateSuccessful = true;
+    					$window.alert('Location has been updated successfully');
+    					vm.locationSearchResults = response.results;
+    				}
+    				
+    				else {
+    					$window.alert('Location update failed');
+    				}
     				
     			});
         }

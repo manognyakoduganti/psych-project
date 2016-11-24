@@ -4,7 +4,7 @@
         .module("PsychWebApp")
         .controller("TargetGroupController", TargetGroupController);
 
-    function TargetGroupController(LocationService, TargetGroupService, TrainingService)
+    function TargetGroupController(LocationService, TargetGroupService, TrainingService, $window)
     {
     	var vm = this;
         vm.tab = 'search';
@@ -17,6 +17,14 @@
     			keywords : '',
     			location : '',
     			training : ''
+    	};
+    	
+    	vm.searchTg = {
+    			tgName : '',
+    			tgDescription : '',
+    			tgKeywords : '',
+    			tgLocation : '',
+    			tgTraining : ''
     	};
        
 
@@ -81,34 +89,35 @@
 					});
         	}
         
-        vm.search = search;
+        vm.searchTargetGroups = searchTargetGroups;
         
-        function search(targetGroupSearch) {
-        	
+        function searchTargetGroups(tg) {
+        	console.log("TargetGroup Search Params= " + tg);
         	var targetGroupList = [];
         	
         	TargetGroupService
         		.getAllTargetGroups()
         		.success(function(response) {
+        			console.log('targetGroupList = ' + response.results);
         			targetGroupList = response.results;
         		
         			
                 	var targetGroupParams = {
-                			targetGroupName : search.targetGroupName,
-                    		targetGroupDescription : locationSearch.description,
-                    		targetGroupKeywords : locationSearch.keywords,
-                    		targetGroupLocation : locationSearch.code,
-                    		targetGroupTraining : locationSearch.address,
+                			tgName : tg.tgName,
+                    		tgDescription : tg.tgDescription,
+                    		tgKeywords : tg.tgKeywords,
+                    		tgLocation : tg.tgLocation,
+                    		tgTraining : tg.tgTraining,
                	
                 	};
                 	
                 	var keys = [];
                 	var searchString = "";
                 	var searchList = [];
-                	for (var param in locationParams) {
-                		console.log(param + " " + locationParams[param]);
-                		if(locationParams[param] != ''){
-                			searchList.push(locationParams[param]);
+                	for (var param in targetGroupParams) {
+                		console.log(param + " " + targetGroupParams[param]);
+                		if(targetGroupParams[param] != ''){
+                			searchList.push(targetGroupParams[param]);
                 			keys.push(param);
                 		}
                 	}
@@ -126,22 +135,68 @@
                     	console.log(1);
                 		console.log(keys);
                 		console.log(searchList);
-                    	var fuse = new Fuse(locationsList, options);
+                    	var fuse = new Fuse(targetGroupList, options);
 
                     	var results = fuse.search(searchList.join(" "));
-                		vm.locationSearchResults = results;
+                		vm.targetGroupSearchResults = results;
                 	}
                 	else {
-                		vm.locationSearchResults = locationsList;
+                		vm.targetGroupSearchResults = targetGroupList;
                 		console.log("else");
-                		console.log(vm.locationSearchResults);
+                		console.log(vm.targetGroupSearchResults);
                 	}
                 	
                 	vm.isSearchClicked = true;
         });
 
         }
+        
+        vm.selectTargetGroup = selectTargetGroup;
+        var updateTgId = '';
+        function selectTargetGroup(index) {
+        	var targetGroup = vm.targetGroupSearchResults[index];
+        	console.log("tgLocationId = " + targetGroup.tgLocationId);
+        	vm.tgUpdate = {
+        		tgName : targetGroup.tgName,
+        		tgDescription : targetGroup.tgDescription,
+        		tgKeywords : targetGroup.tgKeywords,
+        		tgLocation : targetGroup.tgLocationId,
+        		tgTraining : targetGroup.tgTrainingId
+        	};
+        	updateTgId = vm.targetGroupSearchResults[index].tgId;
+        	
+        }
+        
+        vm.update = update;
+        
+        function update(tgUpdate) {
+        	var tgUpdateParams = {
+        			tgName : tgUpdate.tgName,
+    				tgDescription : tgUpdate.tgDescription,
+    				tgKeywords : tgUpdate.tgKeywords,
+    				tgLocationId : tgUpdate.tgLocation.toString(),
+    				tgTrainingId : tgUpdate.tgTraining.toString(),
+    				tgId : updateTgId
+        	};
+        	//console.log(locationUpdateParams);
+        	TargetGroupService
+    			.updateTargetGroup(tgUpdateParams)
+    			.success(function(response) {
+    				console.log(response);
+    				if(response.status =='200') {
+    					vm.isUpdateSuccessful = true;
+    					$window.alert('Target Group has been updated successfully');
+    					vm.targetGroupSearchResults = response.results;
+    				}
+    				
+    				else {
+    					$window.alert('Target Group update failed');
+    				}
+    				
+    			});
+        }
     }
+
     
    
 })();
