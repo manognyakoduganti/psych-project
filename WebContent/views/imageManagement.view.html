@@ -8,11 +8,11 @@
                     <ul class="nav nav-tabs">
                         <li ng-class="{active:model.isSet('imageCatergories')}">
                             <a href="" ng-click="model.setTab('imageCatergories')">
-                                images Categories </a>
+                                Image Categories </a>
                         </li>
                         <li ng-class="{active:model.isSet('images')}">
                             <a href="" ng-click="model.setTab('images')">
-                                images </a>
+                                Images </a>
                         </li>
 
                     </ul>
@@ -21,8 +21,8 @@
 		                  <div class="tabbable-panel" ng-show="model.isSet('imageCatergories')">
 		                	<div class="tabbable-line">
 		                    <ul class="nav nav-tabs">
-		                    	<li ng-class="{active:model.isSet('SearchImageCatergories')}">
-		                            <a href="" ng-click="model.setSubTab('SearchImageCatergories')">
+		                    	<li ng-class="{active:model.isSet('searchImageCatergories')}">
+		                            <a href="" ng-click="model.setSubTab('searchImageCatergories')">
 		                                Search </a>
 		                        </li>
 		                        <li ng-class="{active:model.isSet('createImageCategories')}">
@@ -31,7 +31,7 @@
 		                        </li>
 		                    
 		                       </ul>
-                        <div class="tab-pane active" id="tab_default_1" ng-show="model.isSetSubTab('SearchImageCatergories')">
+                        <div class="tab-pane active" id="tab_default_1" ng-show="model.isSetSubTab('searchImageCatergories')">
                             <div class="form-horizontal">
                                 <div class="form-group">
                                     <label for="inputName2" class="col-sm-2 control-label">Category Name:</label>
@@ -62,7 +62,7 @@
         <tr>
             <th> Category Name</th>
             <th> Description</th>
-            <th> images</th>
+            <th> Images</th>
             <th> </th>
         </tr>
      
@@ -221,11 +221,15 @@
                                         </select>
                                     </div>
                                 </div>
+                                
+                                <input type="file" file-upload multiple/>
+                                
+                             
                
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.create(model.newLocation)">Create</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.save()">Create</button>
                                     </div>
                                 </div>
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
