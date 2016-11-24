@@ -131,10 +131,6 @@ public class LocationServlet extends HttpServlet {
 					if(!duplicated){
 						Location location = parseLocation(jsonObject);
 						created = LocationDAO.createLocation(location);
-						if(created){
-							JSONArray jsonArray = LocationDAO.fetchAllLocation();
-							returnJSON.put(Constant.RESULTS, jsonArray);
-						}
 						returnJSON.put(Constant.STATUS, Constant.OK_200);
 					}
 				}
@@ -196,6 +192,10 @@ public class LocationServlet extends HttpServlet {
 				if(isValidInputData(jsonObject)){
 					Location location = parseLocation(jsonObject);
 					updated = LocationDAO.updateLocation(location);
+					if(updated){
+						JSONArray jsonArray = LocationDAO.fetchAllLocation();
+						returnJSON.put(Constant.RESULTS, jsonArray);
+					}
 					returnJSON.put(Constant.STATUS, Constant.OK_200);
 				}
 				if(!updated){
