@@ -55,6 +55,9 @@ insert into fieldLookup values (51, 'Role', 'GlobalAdministrator', 'Global Admin
 insert into fieldLookup values (52, 'Role', 'LocalAdministrator', 'Local Administrator Description');
 insert into fieldLookup values (53, 'ResponseType', 'Categorical', 'Response type is tied to this field');
 insert into fieldLookup values (54, 'ResponseType', 'Continuous', 'Response type is tied to this field');
+insert into fieldLookup values (55, 'ImageType', 'Postive', 'Image type is tied to this field');
+insert into fieldLookup values (56, 'ImageType', 'Negative', 'Image type is tied to this field');
+insert into fieldLookup values (57, 'ImageType', 'Neutral', 'Image type is tied to this field');
 
 insert into location (location.id, location.locCode, location.locName, location.description, location.keywords, location.addressLine1, location.addressLine2,  location.city, location.state, location.zipcode, location.phoneNumber, location.faxNumber, location.email)  values (1, 'ABCD12', 'Northeastern University', 'Location Decription', 'Keywords1, Keywords2, Keyword3', '360 Huntington Ave', '', 'Boston', 21, 02120, 1234567891, 1234567891, 'northeastern@google.com');
 
@@ -75,9 +78,28 @@ admin.privilegeToReleaseFeedback, admin.privilegeToCustomizeTraining, role) valu
 insert into questionCategory (id, name, description, responseType, startLabel, endLabel)
 	values (1,'Fitness', '', 53, 'Very Sad', 'Very Happy');
 
-insert into question(id, name, categoryId) values (1, 'How do you feel today?', 1);
-	
-insert into training values (1, 'Test Training 1', 'First Training to test target group', '');
-insert into training values (2, 'Test Training 2', 'Second Training to test target group', 'Hello Words, SecondKeyword');
+insert into questionCategory (id, name, description, responseType, startLabel, endLabel)
+	values (2,'QuestionCategory2', '', 53, 'StartLabel2', 'EndLabel2');
 
+insert into imageCategory(id, name, description) values (1, "ImageCategory1", "ImageCategoryDescription1");
+insert into imageCategory(id, name, description) values (2, "ImageCategory2", "ImageCategoryDescription2");
+insert into imageCategory(id, name, description) values (3, "ImageCategory3", "ImageCategoryDescription3");
+
+insert into question(id, name, categoryId) values (1, 'Question1?', 1);
+insert into question(id, name, categoryId) values (2, 'Question2?', 2);
+insert into question(id, name, categoryId) values (3, 'Question3?', 1);
+insert into question(id, name, categoryId) values (4, 'Question4?', 1);
+
+insert into image (id, name, description, categoryId, intensity, imageType, imageLoc) values
+(1, "ImageName1", "ImageDescription1", 1, 4, 55, "imagelocation/1");
+
+insert into image (id, name, description, categoryId, intensity, imageType, imageLoc) values
+(2, "ImageName2", "ImageDescription2", 1, 7, 3, "imagelocation/2");
+
+insert into image (id, name, description, categoryId, intensity, imageType, imageLoc) values
+(3, "ImageName3", "ImageDescription3", 1, 5, 56, "imagelocation/3");
+
+insert into image (id, name, description, categoryId, intensity, imageType, imageLoc) values
+(4, "ImageName4", "ImageDescription1", 1, 2, 56, "imagelocation/4");
+	
 insert into targetgroup (id, name, description, keywords, locationid, trainingid, registrationCode) values (1, 'Violence', 'Teen Violence', '', 1, 1, 'ABCD120001')
