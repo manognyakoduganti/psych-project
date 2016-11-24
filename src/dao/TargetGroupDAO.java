@@ -182,7 +182,8 @@ public class TargetGroupDAO {
 		
 		slf4jLogger.info("Entered into fetchAllTargetGroup");
 		
-		String selectQuery = "SELECT tg.id,  tg.name, tg.description, tg.keywords, tg.locationid, tg.trainingid, loc.locName, train.name FROM "
+		String selectQuery = "SELECT tg.id,  tg.name, tg.description, tg.keywords, tg.locationid, tg.trainingid, loc.locName, train.name, "
+				+ "tg.registrationCode FROM "
 				+ "targetgroup as tg join location as loc on loc.id = tg.locationId join training as train on train.id = tg.trainingId";
 		
 		Connection connection = null;
@@ -207,6 +208,7 @@ public class TargetGroupDAO {
 				jsonObject.put(Constant.TG_TRAINING_ID, Long.toString(rs.getLong(6)));
 				jsonObject.put(Constant.TG_LOCATION_NAME, rs.getString(7));
 				jsonObject.put(Constant.TG_TRAINING_NAME, rs.getString(8));
+				jsonObject.put(Constant.TG_REG_CODE, rs.getString(9));
 				jsonArray.add(jsonObject);
 		
 			}
