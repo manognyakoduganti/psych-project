@@ -85,6 +85,8 @@ insert into imageCategory(id, name, description) values (1, "ImageCategory1", "I
 insert into imageCategory(id, name, description) values (2, "ImageCategory2", "ImageCategoryDescription2");
 insert into imageCategory(id, name, description) values (3, "ImageCategory3", "ImageCategoryDescription3");
 
+insert into imageCategory(id, name, description) values (4, "Drug", "Images related to Drug usage");
+
 insert into question(id, name, categoryId) values (1, 'Question1?', 1);
 insert into question(id, name, categoryId) values (2, 'Question2?', 2);
 insert into question(id, name, categoryId) values (3, 'Question3?', 1);
