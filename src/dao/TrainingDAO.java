@@ -61,9 +61,6 @@ public class TrainingDAO {
 	
 	public static boolean deleteTraining(long trainingId){
 		
-		deleteTrainingImageMap(trainingId);
-		deleteTrainingQuestionMap(trainingId);
-		
 		String deleteQuery = "DELETE FROM TRAINING WHERE ID = ?;";
 		Connection connection = null;
 		
@@ -102,86 +99,6 @@ public class TrainingDAO {
 		}
 	}
 	
-	
-	public static boolean deleteTrainingQuestionMap(long trainingId){
-		
-		String deleteQuery = "DELETE FROM TRAININGQUESTIONMAP WHERE TRAININGID = ?";
-		Connection connection = null;
-		
-		try{
-			
-			connection = DBSource.getConnectionPool().getConnection();
-			
-			PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
-			
-			preparedStatement.setLong(1, trainingId);
-			
-			int rowsAffected = preparedStatement.executeUpdate();
-			
-			connection.close();
-			
-			if (rowsAffected >= 1){
-				return true;
-			}
-			else{
-				return false;
-			}
-			
-		}catch(SQLException e){
-			System.out.println(e.getMessage());
-			try {
-				if (connection != null){
-					connection.close();
-				}
-				
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			return false;
-		}
-	}
-		
-		
-	public static boolean deleteTrainingImageMap(long trainingId){
-		
-		String deleteQuery = "DELETE FROM TRAININGIMAGEMAP WHERE TRAININGID = ?";
-		Connection connection = null;
-		
-		try{
-			
-			connection = DBSource.getConnectionPool().getConnection();
-			
-			PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
-			
-			preparedStatement.setLong(1, trainingId);
-			
-			// execute select SQL stetement
-			int rowsAffected = preparedStatement.executeUpdate();
-			
-			connection.close();
-			
-			if (rowsAffected >= 1){
-				return true;
-			}
-			else{
-				return false;
-			}
-			
-		}catch(SQLException e){
-			System.out.println(e.getMessage());
-			try {
-				if (connection != null){
-					connection.close();
-				}
-				
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			return false;
-		}
-	}
 	
 	public static JSONObject createTraining(Training training){
 		String insertSelect = "INSERT INTO TRAINING (NAME, DESCRIPTION, KEYWORDS) VALUES (?,?,?);";
