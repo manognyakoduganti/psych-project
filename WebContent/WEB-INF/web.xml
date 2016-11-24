@@ -59,14 +59,22 @@
   <servlet>
     <servlet-name>Question</servlet-name>
     <servlet-class>questionnaire.QuestionServlet</servlet-class>
-   </servlet>
-  <servlet>  
+  </servlet>
+  <servlet>
     <servlet-name>TargetGroup</servlet-name>
     <servlet-class>targetGroup.TargetGroupServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>Training</servlet-name>
     <servlet-class>training.TrainingServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ImageCategory</servlet-name>
+    <servlet-class>imageData.ImageCategoryServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ImageUpload</servlet-name>
+    <servlet-class>imageData.ImageUploadServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>AdminAuthentication</servlet-name>
@@ -131,6 +139,14 @@
   <servlet-mapping>
     <servlet-name>Question</servlet-name>
     <url-pattern>/question/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ImageUpload</servlet-name>
+    <url-pattern>/imageUpload/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ImageCategory</servlet-name>
+    <url-pattern>/imageCategory/*</url-pattern>
   </servlet-mapping>
   <listener>
     <listener-class>dao.DBSourceRegistrationListener</listener-class>
