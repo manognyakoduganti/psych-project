@@ -120,5 +120,10 @@ public class Constant {
 	public static String TRG_IMAGE_MAP_IMAGE_TYPE = "imageTypeId";
 	public static String TRG_IMAGE_MAP_NO_OF_IMAGES = "noOfImages";
 	public static String TRG_IMAGE_MAP_DURATION = "duration";
+	
+	public static String IMAGE_CATEGORY_ID = "imageCategoryId";
+	public static String IMAGE_CATEGORY_NAME = "imageCategoryName";
+	public static String IMAGE_CATEGORY_DESCRIPTION = "imageCategoryDescription";
+	
 
 }
