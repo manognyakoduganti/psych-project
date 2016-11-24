@@ -2,6 +2,8 @@ package training;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,12 +20,17 @@ import org.slf4j.LoggerFactory;
 
 import common.Constant;
 import common.Location;
+import common.Question;
 import common.Sessions;
+import common.Training;
+import common.TrainingImage;
 import dao.LocationDAO;
+import dao.QuestionDAO;
 import dao.TargetGroupDAO;
 import dao.TrainingDAO;
 import fieldValidation.CommonFieldsVal;
 import fieldValidation.LocationFieldsVal;
+import fieldValidation.QuestionCategoryFieldsVal;
 import location.LocationServlet;
 
 /**
@@ -75,7 +82,90 @@ public class TrainingServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		response.setContentType("application/json;charset=UTF-8");
+		JSONObject returnJSON = new JSONObject();
 		
+		StringBuilder sb = new StringBuilder();
+        BufferedReader br = request.getReader();
+        String str = null;
+        while ((str = br.readLine()) != null) {
+            sb.append(str);
+        }
+        
+        JSONParser parser = new JSONParser();
+		Object obj;
+		
+		String newName;
+		String newDescrition;
+		String newKeywords;
+		ArrayList<Long> questions = new ArrayList<Long>();
+		ArrayList<TrainingImage> images = new ArrayList<TrainingImage>();
+		
+		HttpSession session = request.getSession(false);
+		
+//		if(session != null && session.getAttribute(Constant.ROLE) != null &&
+//				session.getAttribute(Constant.EMAIL) != null &&
+//				(session.getAttribute(Constant.ROLE).equals(Constant.GLOBAL_ADMIN) ||
+//				(session.getAttribute(Constant.ROLE).equals(Constant.LOCAL_ADMIN)))){
+			
+			try {
+				obj = parser.parse(sb.toString());
+				JSONObject jsonObject = (JSONObject) obj;
+				newName = (String) jsonObject.get(Constant.TRG_NEW_NAME);
+				newDescrition = (String) jsonObject.get(Constant.TRG_NEW_DESCRIPTION);
+				newKeywords = (String) jsonObject.get(Constant.TRG_NEW_KEYWORDS);
+				JSONArray questionsArray = (JSONArray) jsonObject.get(Constant.TRG_NEW_QUESTIONS);
+				JSONArray imageArray = (JSONArray) jsonObject.get(Constant.TRG_NEW_IMAGES);
+				
+				
+				if(QuestionCategoryFieldsVal.validateQuestionName(newName) 
+						&& CommonFieldsVal.validateDescription(newDescrition)
+						&& CommonFieldsVal.validateKeywords(newKeywords)){
+				
+						
+					//System.out.println(newFirstName+ ":"+newLastName + ":"+newEmail + ":" + newPassword +" :" + email);
+					for (int i = 0; i < imageArray.size(); i++){
+						JSONObject image = (JSONObject) imageArray.get(i);
+						long imageCategoryId = (long) image.get(Constant.TRG_IMAGE_MAP_IMAGE_CAT);
+						long imageTypeId = (long) image.get(Constant.TRG_IMAGE_MAP_IMAGE_TYPE);
+						int imageCount = (int)(long) image.get(Constant.TRG_IMAGE_MAP_NO_OF_IMAGES);
+						int duration = (int)(long) image.get(Constant.TRG_IMAGE_MAP_DURATION);
+						
+						images.add(new TrainingImage(imageCategoryId, imageTypeId, imageCount, duration));
+					}
+					
+					for (int j = 0; j < questionsArray.size(); j++){
+						long questionId = (long) questionsArray.get(j);
+						questions.add(questionId);
+					}
+					
+					
+					returnJSON  = TrainingDAO.createTraining(new Training(1, newName, newDescrition, newKeywords, questions, images));
+					//System.out.println("isUpdated : " + isUpdated);
+				}else{
+					returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
+					returnJSON.put(Constant.USER_MESSAGE, "Invalid data in fields");
+					returnJSON.put(Constant.DEVELOPER_MESSAGE, "Invalid data in fields");
+				}
+				
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
+				returnJSON.put(Constant.DEVELOPER_MESSAGE, Constant.JSON_PARSE_ERROR + sb.toString());
+			}
+			
+//		}else{
+//			returnJSON.put(Constant.STATUS, Constant.UNAUTHORIZED_401);
+//			returnJSON.put(Constant.USER_MESSAGE, Constant.UNAUTHORIZED_401);
+//			returnJSON.put(Constant.DEVELOPER_MESSAGE, Constant.UNAUTHORIZED_401);
+//		}
+		
+		response.getWriter().print(returnJSON);
+		response.addHeader("Access-Control-Allow-Origin", Constant.ACCESS_CONTROL_ALLOW_ORIGIN);
+		response.addHeader("Access-Control-Allow-Headers", Constant.ACCESS_CONTROL_ALLOW_HEADERS);
+		response.addHeader("Access-Control-Allow-Methods", Constant.ACCESS_CONTROL_ALLOW_METHODS);
+		response.addIntHeader("Access-Control-Max-Age", Constant.ACCESS_CONTROL_ALLOW_MAX_AGE);
 	}
 	
 }
