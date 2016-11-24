@@ -272,8 +272,8 @@ CREATE TABLE `trainingQuestionMap` (
   `trainingId` bigint(20) NOT NULL,
   `questionId` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
-  CONSTRAINT `FKI_TRAIN_QUE_MAP_QUE` FOREIGN KEY (`questionId`) REFERENCES `question` (`id`),
-  CONSTRAINT `FKI_TRAIN_QUE_MAP_TRAIN` FOREIGN KEY (`trainingId`) REFERENCES `training` (`id`)
+  CONSTRAINT `FKI_TRAIN_QUE_MAP_QUE` FOREIGN KEY (`questionId`) REFERENCES `question` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FKI_TRAIN_QUE_MAP_TRAIN` FOREIGN KEY (`trainingId`) REFERENCES `training` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 )
   ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -293,9 +293,9 @@ CREATE TABLE `trainingImageMap` (
   `noOfImages` int NOT NULL,
   `imageType` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
-  CONSTRAINT `FKI_TRAIN_IMG_MAP_IMG_CAT` FOREIGN KEY (`imageCategoryId`) REFERENCES `imageCategory` (`id`),
-  CONSTRAINT `FKI_TRAIN_IMG_MAP_TRAIN` FOREIGN KEY (`trainingId`) REFERENCES `training` (`id`),
-  CONSTRAINT `FKI_TRAIN_IMG_MAP_IMG_TYPE` FOREIGN KEY (`imageType`) REFERENCES `fieldLookup` (`id`)
+  CONSTRAINT `FKI_TRAIN_IMG_MAP_IMG_CAT` FOREIGN KEY (`imageCategoryId`) REFERENCES `imageCategory` (`id`)  ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FKI_TRAIN_IMG_MAP_TRAIN` FOREIGN KEY (`trainingId`) REFERENCES `training` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FKI_TRAIN_IMG_MAP_IMG_TYPE` FOREIGN KEY (`imageType`) REFERENCES `fieldLookup` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 )
   ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
