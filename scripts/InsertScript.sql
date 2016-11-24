@@ -103,3 +103,6 @@ insert into image (id, name, description, categoryId, intensity, imageType, imag
 (4, "ImageName4", "ImageDescription1", 1, 2, 56, "imagelocation/4");
 	
 insert into targetgroup (id, name, description, keywords, locationid, trainingid, registrationCode) values (1, 'Violence', 'Teen Violence', '', 1, 1, 'ABCD120001')
+
+insert into training values (1, 'Test Training 1', 'First Training to test target group', '');
+insert into training values (2, 'Test Training 2', 'Second Training to test target group', 'Hello Words, SecondKeyword');
