@@ -52,7 +52,7 @@ public class LocationFieldsVal {
 		return matcher.matches();
 	}
 	
-	static String zipcodeRegex = "^[0-9]{5}$";
+	static String zipcodeRegex = "^[0-9]{5}(?:-[0-9]{4})?$";
 	static Pattern zipCodePattern = Pattern.compile(zipcodeRegex);
 	public static boolean validateZipCode(String zipCode){
 		Matcher matcher = zipCodePattern.matcher(zipCode.trim());
