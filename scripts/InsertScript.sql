@@ -89,12 +89,20 @@ insert into question(id, name, categoryId) values (1, 'Question1?', 1);
 insert into question(id, name, categoryId) values (2, 'Question2?', 2);
 insert into question(id, name, categoryId) values (3, 'Question3?', 1);
 insert into question(id, name, categoryId) values (4, 'Question4?', 1);
+insert into question(id, name, categoryId) values (5, 'Question5?', 1);
+insert into question(id, name, categoryId) values (6, 'Question6?', 1);
+insert into question(id, name, categoryId) values (7, 'Question7?', 2);
+insert into question(id, name, categoryId) values (8, 'Question8?', 1);
+insert into question(id, name, categoryId) values (9, 'Question9?', 2);
+insert into question(id, name, categoryId) values (10, 'Question10?', 1);
+insert into question(id, name, categoryId) values (11, 'Question11?', 1);
+insert into question(id, name, categoryId) values (12, 'Question12?', 1);
 
 insert into image (id, name, description, categoryId, intensity, imageType, imageLoc) values
 (1, "ImageName1", "ImageDescription1", 1, 4, 55, "imagelocation/1");
 
 insert into image (id, name, description, categoryId, intensity, imageType, imageLoc) values
-(2, "ImageName2", "ImageDescription2", 1, 7, 3, "imagelocation/2");
+(2, "ImageName2", "ImageDescription2", 1, 3, 55, "imagelocation/2");
 
 insert into image (id, name, description, categoryId, intensity, imageType, imageLoc) values
 (3, "ImageName3", "ImageDescription3", 1, 5, 56, "imagelocation/3");
@@ -106,3 +114,33 @@ insert into targetgroup (id, name, description, keywords, locationid, trainingid
 
 insert into training values (1, 'Test Training 1', 'First Training to test target group', '');
 insert into training values (2, 'Test Training 2', 'Second Training to test target group', 'Hello Words, SecondKeyword');
+insert into trainingQuestionMap (trainingId, questionId) values (1, 1);
+insert into trainingQuestionMap (trainingId, questionId) values (1, 2);
+insert into trainingQuestionMap (trainingId, questionId) values (1, 3);
+insert into trainingQuestionMap (trainingId, questionId) values (1, 4);
+insert into trainingQuestionMap (trainingId, questionId) values (1, 5);
+insert into trainingQuestionMap (trainingId, questionId) values (1, 6);
+insert into trainingQuestionMap (trainingId, questionId) values (1, 7);
+insert into trainingQuestionMap (trainingId, questionId) values (1, 8);
+insert into trainingQuestionMap (trainingId, questionId) values (1, 9);
+insert into trainingQuestionMap (trainingId, questionId) values (1, 10);
+insert into trainingQuestionMap (trainingId, questionId) values (1, 11);
+
+insert into trainingQuestionMap (trainingId, questionId) values (2, 1);
+insert into trainingQuestionMap (trainingId, questionId) values (2, 2);
+insert into trainingQuestionMap (trainingId, questionId) values (2, 3);
+insert into trainingQuestionMap (trainingId, questionId) values (2, 4);
+insert into trainingQuestionMap (trainingId, questionId) values (2, 5);
+insert into trainingQuestionMap (trainingId, questionId) values (2, 6);
+insert into trainingQuestionMap (trainingId, questionId) values (2, 7);
+insert into trainingQuestionMap (trainingId, questionId) values (2, 8);
+insert into trainingQuestionMap (trainingId, questionId) values (2, 9);
+insert into trainingQuestionMap (trainingId, questionId) values (2, 10);
+insert into trainingQuestionMap (trainingId, questionId) values (2, 11);
+insert into trainingQuestionMap (trainingId, questionId) values (2, 12);
+
+
+insert into trainingImageMap (trainingId, imageCategoryId, duration, noOfImages, imageType) 
+values (1, 1, 1000, 2, 55);
+insert into trainingImageMap (trainingId, imageCategoryId, duration, noOfImages, imageType) 
+values (1, 1, 3000, 2, 56);
