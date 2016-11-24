@@ -107,5 +107,18 @@ public class Constant {
 	public static String TG_REG_CODE = "tgRegCode";
 	public static String TG_LOCATION_NAME = "tgLocationName";
 	public static String TG_TRAINING_NAME = "tgTrainingName";
+	
+	public static String NEW_TRAINING_ID = "newTrainingId";
+	public static String TRG_NEW_IMAGES = "newTrainingImages";
+	public static String TRG_NEW_QUESTIONS = "newTrainingQuestions";
+	public static String TRG_NEW_NAME = "newTrainingName";
+	public static String TRG_NEW_DESCRIPTION = "newTrainingDescription";
+	public static String TRG_NEW_KEYWORDS = "newTrainingKeywords";
+	
+	
+	public static String TRG_IMAGE_MAP_IMAGE_CAT = "imageCategoryId";
+	public static String TRG_IMAGE_MAP_IMAGE_TYPE = "imageTypeId";
+	public static String TRG_IMAGE_MAP_NO_OF_IMAGES = "noOfImages";
+	public static String TRG_IMAGE_MAP_DURATION = "duration";
 
 }

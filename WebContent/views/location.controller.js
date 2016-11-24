@@ -209,9 +209,10 @@ vm.checkDuplicate = checkDuplicate;
                 		var options = {
                     			shouldSort: true,
                     			tokenize: true,
+                    			//matchAllTokens: true,
                     			threshold: 0.3,
-                    			location: 0,
-                    			distance: 10,
+                    			//location: 0,
+                    			//distance: 10,
                     			//maxPatternLength: 32,
                     			keys: keys
                     	}
