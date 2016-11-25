@@ -5,6 +5,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.json.simple.JSONObject;
+
+import common.Constant;
+import common.ParticipantDetails;
+import dao.ParticipantDAO;
+
 import java.io.IOException;
 import java.sql.ResultSet;
 
@@ -30,41 +37,41 @@ public class AuthenticatingUser extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		response.setContentType("application/json");
-		String results = "";
-		String id="-1";
-		try {
-			if (BuildStaticParameters.conn == null) {
-				BuildStaticParameters.buildConnectionWithSQL();
-			}
-			response.setCharacterEncoding("UTF-8");
-			
-			String username = request.getParameter("username");
-
-			String password = request.getParameter("password");
-			String result = "0";
-			String sql;
-			sql = "select userLoginId from userLogin where ulUserName = '" + username + "'and ulPassword = '" + password + "'";
-			ResultSet rs = BuildStaticParameters.stmt.executeQuery(sql);
-			
-			while(rs.next()){
-				result = "1";
-				id=rs.getString(1);
-			}
-			
-			results = ("{\"success\":"+result+",\"userId\":"+id+"}");
-			response.getWriter().write(results);
-		} catch (Exception e) {
-			e.printStackTrace();
-			response.getWriter().write("{\"success\":\"0\",\"userId\":"+id+"}");
-		}
-	}
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doGet(request, response);
+		JSONObject returnJSON = new JSONObject();
+		response.setContentType("application/json");
+		String id="-1";
+		try {
+			response.setCharacterEncoding("UTF-8");
+			String result = "0";
+			ParticipantDetails participantDetails = parseInput(request);			
+			ParticipantDAO.validateParticipant(participantDetails);
+			if(participantDetails.getId() != null){				
+				returnJSON.put(Constant.SUCCESS, "1");
+				returnJSON.put(Constant.USER_ID, Long.toString(participantDetails.getId()));
+				returnJSON.put(Constant.TG_ID, Long.toString(participantDetails.getTargetGroupId()));
+			    response.getWriter().print(returnJSON);
+			    return;
+			}
+			returnJSON.put(Constant.SUCCESS, "0");
+			returnJSON.put(Constant.USER_ID,id);
+		    response.getWriter().print(returnJSON);
+		} catch (Exception e) {
+			e.printStackTrace();
+			returnJSON.put(Constant.SUCCESS, "0");
+			returnJSON.put(Constant.USER_ID,id);
+			response.getWriter().print(returnJSON);
+		}
+		
 	}
+	private ParticipantDetails parseInput(HttpServletRequest request){
+			
+			ParticipantDetails participantDetails = new ParticipantDetails();
+			participantDetails.setUsername(request.getParameter(Constant.USERNAME));
+			participantDetails.setPassword(request.getParameter(Constant.PARTICIPANT_PASSWORD));
+			return participantDetails;
+			
+		}
 
 }

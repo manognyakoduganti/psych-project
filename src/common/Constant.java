@@ -125,8 +125,21 @@ public class Constant {
 	public static String IMAGE_CATEGORY_NAME = "imageCategoryName";
 	public static String IMAGE_CATEGORY_DESCRIPTION = "imageCategoryDescription";
 	
-	
 	public static String TARGET_GROUP_ID = "targetGroupId";
+	public static String USERNAME = "userName";
+	public static String PARTICIPANT_PASSWORD = "password";
+	public static String AGE = "age";
+	public static String ETHNICITY = "ethnicity";
+	public static String GENDER = "gender";
+	public static String DISABILITY = "disabiltiy";
+	public static String MOBILE_EXPE = "mobileExp";
+	public static String PSYCOMEDS = "psycoMeds";
+	public static String COLOR = "color";
+	public static String EDUCATION = "education";
+	public static String REGCODE = "regCode";
+	public static String PARTICIPANTID = "participantId";
+	public static String MESSAGE = "message";
+	public static String SUCCESS = "success";
 	
 
 }

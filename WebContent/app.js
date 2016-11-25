@@ -5,5 +5,5 @@
 (function(){
     'use strict';
     angular
-        .module("PsychWebApp",["ngRoute", "ngMessages"])
+        .module("PsychWebApp",["ngRoute", "ngMessages", "ngSanitize", "ui.select"])
 })();

@@ -1,6 +1,10 @@
 package registration;
 
 import authentication.BuildStaticParameters;
+import common.Constant;
+import common.ParticipantDetails;
+import dao.ParticipantDAO;
+import dao.TargetGroupDAO;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -8,6 +12,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.json.simple.JSONObject;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -37,19 +44,13 @@ public class Register extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		
-		String type=request.getParameter("queryType");
-		String[] registerData = request.getParameterValues("param");
-		String result="";
-		
+		String type = request.getParameter("queryType");
+		JSONObject returnJSON = new JSONObject();
 		try {
 			response.setCharacterEncoding("UTF-8");
-			if (BuildStaticParameters.conn == null) {
-				BuildStaticParameters.buildConnectionWithSQL();
-			}
-			
-			if(type.equalsIgnoreCase("getAgreement")){
+			if(type != null && type.equalsIgnoreCase("getAgreement")){
 				response.setContentType("plain/text");
-				ServletContext ctx=getServletContext();
+				ServletContext ctx = getServletContext();
 				File file=new File(ctx.getRealPath("/"));
 				File f = new File(file.getParent()+"/appData/agreement.txt");
 				@SuppressWarnings("resource")
@@ -62,56 +63,9 @@ public class Register extends HttpServlet {
 				return;
 			}
 			
-			response.setContentType("application/json");
-			String sql = "select ulUserName from userLogin where "
-					+ "ulUserName ='" + registerData[0] + "'";
-			ResultSet rs = BuildStaticParameters.stmt.executeQuery(sql);
-			
-			if(!rs.next()){
-				PreparedStatement updateUserLogin = BuildStaticParameters.conn.prepareStatement
-					      ("insert into userLogin (ulUserName,ulPassword) values(?,?)");
-				updateUserLogin.setString(1,registerData[0]);
-				updateUserLogin.setString(2,registerData[1]);
-				updateUserLogin.executeUpdate();
-				
-				String generatedID = "";
-				String sqlUserId = "select userLoginId from userLogin where ulUserName = '" + registerData[0] + "'";
-				ResultSet rs1 = BuildStaticParameters.stmt.executeQuery(sqlUserId);
-				while(rs1.next()) {
-					generatedID = rs1.getString("userLoginId");
-				}
-				
-				PreparedStatement updateUser = BuildStaticParameters.conn.prepareStatement(
-						"insert into user(userAge, userGender,userEthnicity,userDisability,userEducation,userMobileHandlingExperience,userPsycothereputicMedications,userColorblind,userDetails) values(?,?,?,?,?,?,?,?,?)");
-				updateUser.setString(1, registerData[2]);
-				updateUser.setString(2, registerData[3]);
-				updateUser.setString(3, registerData[4]);
-				updateUser.setString(4, registerData[5]);
-				updateUser.setString(5, registerData[9]);
-				updateUser.setString(6, registerData[6]);
-				updateUser.setString(7, registerData[7]);
-				updateUser.setString(8, registerData[8]);
-				updateUser.setString(9, generatedID);
-				updateUser.executeUpdate();
-				
-				result =  "{\"status\":1,\"userId\":" + generatedID + "}";
-				response.getWriter().write(result);
-				return;
-			}
-				result = "{\"status\":0,";
-				response.getWriter().write(result + "\"message\":\"user already exist\"}");
-				return;
-		} catch(Exception e) {
-			String sql = "delete from userLogin where ulUserName = '" + registerData[0] + "'";
-			result = "{\"status\":0,";
-			try {
-				BuildStaticParameters.stmt.executeUpdate(sql);
-			} catch (SQLException e1) {
-				response.getWriter().write(result + "\"message\":\""+e1.getMessage()+"\"}");
-			} catch (Exception e2) {
-				response.getWriter().write(result + "\"message\":\""+e2.getMessage()+"\"}");
-			}
-			response.getWriter().write(result + "\"message\":\""+e.getMessage()+"\"}");
+		}catch(Exception e){
+			returnJSON.put(Constant.MESSAGE, e.getMessage());
+			response.getWriter().print(returnJSON);
 			return;
 		}
 		
@@ -122,7 +76,67 @@ public class Register extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		
+		response.setContentType("application/json");
+		ParticipantDetails participantDetails = parseInput(request);
+		JSONObject returnJSON = new JSONObject();
+		try{
+			Long targetGroupId = TargetGroupDAO.getTargetGroupIdByRegCode(participantDetails.getRegCode());
+			if(targetGroupId != null){
+				participantDetails.setTargetGroupId(targetGroupId);
+				boolean isDuplicate = ParticipantDAO.isUserDuplicate(participantDetails.getUsername());
+				if(!isDuplicate){
+					ParticipantDAO.insertUserDetails(participantDetails);
+					
+					returnJSON.put(Constant.STATUS, "1");
+					returnJSON.put(Constant.PARTICIPANTID, participantDetails.getId());
+					returnJSON.put(Constant.MESSAGE, "Successfully Registered");
+				//	result =  "{\"status\":1,\"userId\":" + participantDetails.getId() + ",\"message\":\"Successfully Registered.\"}";
+					response.getWriter().print(returnJSON);
+					return;
+				}else{
+					
+					returnJSON.put(Constant.STATUS, "0");
+					returnJSON.put(Constant.MESSAGE, "User Already Exists");
+					response.getWriter().print(returnJSON);
+					return;
+				}
+			}else{
+				returnJSON.put(Constant.STATUS, "0");
+				returnJSON.put(Constant.MESSAGE, "Invalid Registration Code");
+				response.getWriter().print(returnJSON);
+				return;
+			}
+		
+			
+		} catch(Exception e) {
+		
+			ParticipantDAO.deleteParticipant(request.getParameter(Constant.USERNAME));
+			returnJSON.put(Constant.STATUS, "0");
+			returnJSON.put(Constant.MESSAGE, e.getMessage());
+			response.getWriter().print(returnJSON);
+			return;
+		}
 	}
+		
 
+	private ParticipantDetails parseInput(HttpServletRequest request){
+		
+		ParticipantDetails participantDetails = new ParticipantDetails();
+		
+		participantDetails.setUsername(request.getParameter(Constant.USERNAME));
+		participantDetails.setPassword(request.getParameter(Constant.PARTICIPANT_PASSWORD));
+		participantDetails.setAge(request.getParameter(Constant.AGE));
+		participantDetails.setGender(request.getParameter(Constant.GENDER));
+		participantDetails.setEthnicity( request.getParameter(Constant.ETHNICITY));
+		participantDetails.setDisability(request.getParameter(Constant.DISABILITY));
+		participantDetails.setEducation(request.getParameter(Constant.EDUCATION));
+		participantDetails.setMobileHandlingExperience(request.getParameter(Constant.MOBILE_EXPE));
+		participantDetails.setPsycothereputicMedications(request.getParameter(Constant.PSYCOMEDS));
+		participantDetails.setColorblind(request.getParameter(Constant.COLOR));
+		participantDetails.setRegCode(request.getParameter(Constant.REGCODE));
+		return participantDetails;
+		
+	}
+	
 }

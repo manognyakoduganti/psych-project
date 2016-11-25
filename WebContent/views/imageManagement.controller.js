@@ -31,13 +31,14 @@
         	return vm.subTab === tabId;
         };
         
-        $scope.files = [];
+        $scope.file = {};
 
         //listen for the file selected event
         $scope.$on("fileSelected", function (event, args) {
             $scope.$apply(function () {            
                 //add the file object to the scope's files collection
-                $scope.files.push(args.file);
+                $scope.file = args.file;
+                console.log('file= ' + $scope.file.name);
             });
        
         
@@ -64,15 +65,13 @@
                     // in the value '[Object object]' on the server.
                     formData.append("model", angular.toJson(data.model));
                     //now add all of the assigned files
-                    for (var i = 0; i < data.files; i++) {
-                        //add each file to the form data and iteratively name them
-                        formData.append("file" + i, data.files[i]);
-                    }
+                    var fd = new FormData();
+                    formData.append('file', $scope.file);
                     return formData;
                 },
                 //Create an object that contains the model and files which will be transformed
                 // in the above transformRequest method
-                data: { model: 'filename', files: $scope.files }
+                data: { model: '12387lkasdj flkjas dlkfjalskdj flkajsldkfj lsdj flksjdlkf ls', files: $scope.file }
             }).
             success(function (data, status, headers, config) {
             	console.log("Success!!");
@@ -82,6 +81,7 @@
             	console.log("Failed!!");
                 alert("failed!");
             });
+            console.log('files sent: ' + $scope.file);
             };   
         })
     }

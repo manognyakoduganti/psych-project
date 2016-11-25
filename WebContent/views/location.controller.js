@@ -63,7 +63,7 @@
         
         vm.create = create;
         
-vm.checkDuplicate = checkDuplicate;
+        vm.checkDuplicate = checkDuplicate;
         
         function checkDuplicate(param, value){
         	//console.log(param + " " + value);

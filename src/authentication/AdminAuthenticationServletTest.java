@@ -1,9 +1,9 @@
 package authentication;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -189,6 +189,77 @@ public class AdminAuthenticationServletTest {
 		
 		assertEquals("System shouldn't have unauthorized the user to login",
 				Constant.UNAUTHORIZED_401, (String) jsonObject.get(Constant.STATUS));
+		
+	}
+	
+	@Test
+	public void testInValidPageRefreshRequest() throws ServletException, IOException, ParseException{
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		
+		when(response.getWriter()).thenReturn(printWriter);
+
+		String email = "patel.dars@husky.neu.edu";
+		String role = "GlobalAdministrator";
+		String firstName = "Darshan";
+		String lastName = "Patel";
+		String userId = "1";
+		
+		when(request.getSession(false)).thenReturn(session);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn(email);
+		when(session.getAttribute(Constant.ROLE)).thenReturn(role);
+		when(session.getAttribute(Constant.FIRST_NAME)).thenReturn(firstName);
+		when(session.getAttribute(Constant.LAST_NAME)).thenReturn(lastName);
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(userId);
+		
+		adminAuthentication.doGet(request, response);
+		
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(stringWriter.getBuffer().toString());
+		JSONObject jsonObject = (JSONObject) obj;
+		
+		assertEquals("System shouldn't have unauthorized the user to login",
+				Constant.BADREQUEST_400, (String) jsonObject.get(Constant.STATUS));
+		
+	}
+	
+	@Test
+	public void testValidLogoutRequest() throws ServletException, IOException, ParseException{
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		
+		when(response.getWriter()).thenReturn(printWriter);
+		when(request.getSession(false)).thenReturn(session);
+		
+		JSONObject jsonObj = new JSONObject();
+		
+		String email = "patel.dars@husky.neu.edu";
+		String role = "GlobalAdministrator";
+		String firstName = "Darshan";
+		String lastName = "Patel";
+		String userId = "1";
+		
+		when(session.getAttribute(Constant.EMAIL)).thenReturn(email);
+		when(session.getAttribute(Constant.ROLE)).thenReturn(role);
+		when(session.getAttribute(Constant.FIRST_NAME)).thenReturn(firstName);
+		when(session.getAttribute(Constant.LAST_NAME)).thenReturn(lastName);
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(userId);
+		
+		when(request.getParameter(Constant.LOGOUT)).thenReturn(Constant.YES);
+		
+		adminAuthentication.doGet(request, response);
+		
+		verify(session).invalidate();
 		
 	}
 	
