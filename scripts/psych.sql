@@ -129,6 +129,11 @@ CREATE TABLE `targetGroup` (
 
 /*participant table*/
 
+##########################################################################
+
+
+/*participant table*/
+
 DROP TABLE IF EXISTS `participant`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -144,12 +149,12 @@ CREATE TABLE `participant` (
   `mobileHandlingExperience` varchar(200) DEFAULT NULL,
   `psycothereputicMedications` varchar(200) NOT NULL,
   `colorblind` varchar(200) DEFAULT NULL,
-  `targetGroupId` varchar(50) NOT NULL,
-  `userDetails` bigint(20) DEFAULT NULL,
+  `targetGroupId` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `FKI_PART_REGISTRATION_CODE` FOREIGN KEY (`targetGroupId`) REFERENCES `targetGroup` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
 /*
 CONSTRAINT `FKI_PART_GENDER` FOREIGN KEY (`gender`) REFERENCES `fieldLookup` (`id`),
   CONSTRAINT `FKI_PART_ETHNICITY` FOREIGN KEY (`ethnicity`) REFERENCES `fieldLookup` (`id`),
@@ -157,30 +162,6 @@ CONSTRAINT `FKI_PART_GENDER` FOREIGN KEY (`gender`) REFERENCES `fieldLookup` (`i
   CONSTRAINT `FKI_PART_MARITAL_STATUS` FOREIGN KEY (`maritalStatus`) REFERENCES `fieldLookup` (`id`),
   CONSTRAINT `FKI_PART_EMPLOYMENT_STATUS` FOREIGN KEY (`employmentStatus`) REFERENCES `fieldLookup` (`id`),
   CONSTRAINT `FKI_PART_HOUSEHOLD_INCOME` FOREIGN KEY (`householdIncome`) REFERENCES `fieldLookup` (`id`),*/
-
-
-##########################################################################
-
-/*targetGroup table*/
-
-DROP TABLE IF EXISTS `targetGroup`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `targetGroup` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(200) NOT NULL UNIQUE,
-  `description` TEXT DEFAULT NULL,
-  `keywords` varchar(200) DEFAULT NULL,
-  `locationId` bigint(20) NOT NULL,
-  `trainingId` bigint(20) NOT NULL,
-  `registrationCode` varchar(50) NOT NULL UNIQUE,
-  `default` BOOL DEFAULT FALSE,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `FKI_TRG_GRP_TRAINING` FOREIGN KEY (`trainingId`) REFERENCES `training` (`id`),
-  CONSTRAINT `FKI_TRG_GRP_LOCATION` FOREIGN KEY (`locationId`) REFERENCES `location` (`id`)
-)
-  ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 ##########################################################################
 
