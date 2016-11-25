@@ -272,4 +272,37 @@ public class TargetGroupDAO {
 		}
 	}
 	
+	public static Long getTargetGroupIdByRegCode(String regCode){
+		
+		slf4jLogger.info("Entered into getTargetGroupIdByRegCode");
+		
+		String selectQuery = "SELECT * FROM targetgroup WHERE registrationCode = ?";
+		Connection connection = null;
+		try{
+			
+			connection = DBSource.getConnectionPool().getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+			preparedStatement.setString(1, regCode);
+			
+			// execute select SQL statement
+			ResultSet rs = preparedStatement.executeQuery();
+			Long id = null;
+			if(rs.first()) {
+				id = rs.getLong("id");
+			}
+			connection.close();
+			return id;
+		}catch(SQLException e){
+			try {
+				if (connection != null){
+					connection.close();
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		return null;
+	}
+	
 }
