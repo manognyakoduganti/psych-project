@@ -137,27 +137,26 @@ CREATE TABLE `participant` (
   `username` varchar(200) NOT NULL UNIQUE,
   `password` varchar(200) NOT NULL,
   `age` int(3) DEFAULT NULL,
-  `gender` bigint(20) DEFAULT NULL,
-  `ethnicity` bigint(20) DEFAULT NULL,
+  `gender` varchar(20) DEFAULT NULL,
+  `ethnicity` varchar(200) DEFAULT NULL,
   `disability` varchar(200) DEFAULT NULL,
-  `education` bigint(20) NOT NULL,
-  `maritalStatus` bigint(20) NOT NULL,
-  `employmentStatus` bigint(20) NOT NULL,
-  `householdIncome` bigint(20) NOT NULL,
+  `education` varchar(200) NOT NULL,
   `mobileHandlingExperience` varchar(200) DEFAULT NULL,
   `psycothereputicMedications` varchar(200) NOT NULL,
   `colorblind` varchar(200) DEFAULT NULL,
-  `registrationCode` varchar(50) NOT NULL,
+  `targetGroupId` varchar(50) NOT NULL,
+  `userDetails` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  CONSTRAINT `FKI_PART_GENDER` FOREIGN KEY (`gender`) REFERENCES `fieldLookup` (`id`),
+  CONSTRAINT `FKI_PART_REGISTRATION_CODE` FOREIGN KEY (`targetGroupId`) REFERENCES `targetGroup` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*
+CONSTRAINT `FKI_PART_GENDER` FOREIGN KEY (`gender`) REFERENCES `fieldLookup` (`id`),
   CONSTRAINT `FKI_PART_ETHNICITY` FOREIGN KEY (`ethnicity`) REFERENCES `fieldLookup` (`id`),
   CONSTRAINT `FKI_PART_EDUCATION` FOREIGN KEY (`education`) REFERENCES `fieldLookup` (`id`),
   CONSTRAINT `FKI_PART_MARITAL_STATUS` FOREIGN KEY (`maritalStatus`) REFERENCES `fieldLookup` (`id`),
   CONSTRAINT `FKI_PART_EMPLOYMENT_STATUS` FOREIGN KEY (`employmentStatus`) REFERENCES `fieldLookup` (`id`),
-  CONSTRAINT `FKI_PART_HOUSEHOLD_INCOME` FOREIGN KEY (`householdIncome`) REFERENCES `fieldLookup` (`id`),
-  CONSTRAINT `FKI_PART_REGISTRATION_CODE` FOREIGN KEY (`registrationCode`) REFERENCES `targetGroup` (`registrationCode`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  CONSTRAINT `FKI_PART_HOUSEHOLD_INCOME` FOREIGN KEY (`householdIncome`) REFERENCES `fieldLookup` (`id`),*/
 
 
 ##########################################################################
