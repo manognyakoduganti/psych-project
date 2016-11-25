@@ -125,5 +125,8 @@ public class Constant {
 	public static String IMAGE_CATEGORY_NAME = "imageCategoryName";
 	public static String IMAGE_CATEGORY_DESCRIPTION = "imageCategoryDescription";
 	
+	
+	public static String TARGET_GROUP_ID = "targetGroupId";
+	
 
 }

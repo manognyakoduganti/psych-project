@@ -212,8 +212,41 @@ public class QuestionServletTest {
 		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.BADREQUEST_400);
 	}
 	
+//	@Test
+//	public void testGetAllQuestions() throws ServletException, IOException, ParseException{
+//		
+//		request = mock(HttpServletRequest.class);
+//		response = mock(HttpServletResponse.class);
+//		session = mock(HttpSession.class);
+//		
+//		StringWriter stringWriter = new StringWriter();
+//		PrintWriter printWriter = new PrintWriter(stringWriter);
+//		
+//		BufferedReader bufferedReader = mock(BufferedReader.class);
+//		when(request.getReader()).thenReturn(bufferedReader);
+//		
+//		
+//		
+//		when(response.getWriter()).thenReturn(printWriter);
+//		when(request.getSession(false)).thenReturn(session);
+//		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
+//		when(session.getAttribute(Constant.USER_ID)).thenReturn(4l);
+//		
+//		questionServlet.doGet(request, response);
+//		
+//		JSONParser parser = new JSONParser();
+//		Object obj = parser.parse(stringWriter.getBuffer().toString());
+//		JSONObject jsonObject = (JSONObject) obj;
+//		
+//		System.out.println(jsonObject.get(Constant.DEVELOPER_MESSAGE));
+//		System.out.println(jsonObject.get(Constant.RESULTS));
+//		JSONArray results = (JSONArray) jsonObject.get(Constant.RESULTS);
+//		assertTrue(results.size() >= 0);
+//		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.OK_200);
+//	}
+	
 	@Test
-	public void testGetAllQuestions() throws ServletException, IOException, ParseException{
+	public void testGetAllQuestionsByTargetGroupId() throws ServletException, IOException, ParseException{
 		
 		request = mock(HttpServletRequest.class);
 		response = mock(HttpServletResponse.class);
@@ -229,6 +262,7 @@ public class QuestionServletTest {
 		
 		when(response.getWriter()).thenReturn(printWriter);
 		when(request.getSession(false)).thenReturn(session);
+		when(request.getParameter(Constant.TARGET_GROUP_ID)).thenReturn("1");
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
 		when(session.getAttribute(Constant.USER_ID)).thenReturn(4l);
 		
@@ -241,7 +275,44 @@ public class QuestionServletTest {
 		System.out.println(jsonObject.get(Constant.DEVELOPER_MESSAGE));
 		System.out.println(jsonObject.get(Constant.RESULTS));
 		JSONArray results = (JSONArray) jsonObject.get(Constant.RESULTS);
-		assertTrue(results.size() >= 0);
+		assertTrue(results.size() > 0);
+		
+		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.OK_200);
+	}
+	
+	@Test
+	public void testGetAllQuestionsByTargetGroupIdNotInTable() throws ServletException, IOException, ParseException{
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(request.getReader()).thenReturn(bufferedReader);
+		
+		
+		
+		when(response.getWriter()).thenReturn(printWriter);
+		when(request.getSession(false)).thenReturn(session);
+		when(request.getParameter(Constant.TARGET_GROUP_ID)).thenReturn("1000000000");
+		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(4l);
+		
+		questionServlet.doGet(request, response);
+		
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(stringWriter.getBuffer().toString());
+		JSONObject jsonObject = (JSONObject) obj;
+		
+		System.out.println(jsonObject.get(Constant.DEVELOPER_MESSAGE));
+		System.out.println(jsonObject.get(Constant.RESULTS));
+		JSONArray results = (JSONArray) jsonObject.get(Constant.RESULTS);
+		
+		assertTrue(results.size() == 0);
+		
 		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.OK_200);
 	}
 

@@ -176,7 +176,7 @@ public class QuestionDAO {
 	}
 	
 	
-public static JSONObject getAll(){
+	public static JSONObject getAll(){
 		
 		String selectQuery = "SELECT A.ID AS qId, A.NAME AS qName, A.DESCRIPTION AS qDescription," +
 								"B.NAME AS catName " + 
@@ -276,6 +276,74 @@ public static JSONObject getAll(){
 				}
 			}
 			return false;
+		}
+	}
+	
+	public static JSONObject getAllQuestionsByTargetGroupId(Long targetGroupId){
+		
+		String selectQuery = "SELECT D.NAME AS questionName, F.FIELDNAME AS responseType, "
+				+ "D.ID AS questionId, E.STARTLABEL AS startLabel, E.ENDLABEL AS endLabel "
+				+ "FROM PSYCH.TARGETGROUP AS A INNER JOIN PSYCH.TRAINING AS B ON A.TRAININGID = B.ID "
+				+ "INNER JOIN PSYCH.TRAININGQUESTIONMAP AS C ON B.ID = C.TRAININGID "
+				+ "INNER JOIN PSYCH.QUESTION AS D ON D.ID = C.QUESTIONID "
+				+ "INNER JOIN PSYCH.QUESTIONCATEGORY AS E ON E.ID = D.CATEGORYID "
+				+ "INNER JOIN PSYCH.FIELDLOOKUP AS F ON F.ID = E.RESPONSETYPE "
+				+ "WHERE A.ID = ?;";
+
+			JSONObject returnJSON = new JSONObject();
+			JSONArray results = new JSONArray();
+			
+			
+			Connection connection = null;
+			
+			try{
+			
+			connection = DBSource.getConnectionPool().getConnection();
+			
+			
+			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+			preparedStatement.setLong(1, targetGroupId);
+			
+			// execute select SQL stetement
+			ResultSet rows = preparedStatement.executeQuery();
+			
+			while (rows.next()){
+				JSONObject object = new JSONObject();
+				
+				object.put(Constant.QUESTION_ID, rows.getString("questionId"));
+				object.put(Constant.QUESTION_NAME, rows.getString("questionName"));
+				object.put(Constant.QUESTION_CATEGORY_START_LABEL, rows.getString("startLabel"));
+				object.put(Constant.QUESTION_CATEGORY_END_LABEL, rows.getString("endLabel"));
+				object.put(Constant.QUESTION_CATEGORY_RESPONSE_TYPE, rows.getString("responseType"));
+				
+				results.add(object);
+			}
+			returnJSON.put(Constant.RESULTS, results);
+			returnJSON.put(Constant.STATUS, Constant.OK_200);
+			returnJSON.put(Constant.USER_MESSAGE, "Successfully retrieved all questions for targetGroupId!");
+			returnJSON.put(Constant.DEVELOPER_MESSAGE, "Successfully retrieved all questions for targetGroupId");
+			
+			connection.close();
+			
+			return returnJSON;
+			
+			}catch(SQLException e){
+			System.out.println(e.getMessage());
+			returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
+			returnJSON.put(Constant.USER_MESSAGE, "Error in retrieving all questions for targetGroupId!");
+			returnJSON.put(Constant.DEVELOPER_MESSAGE, "Error retrieving all questions for targetGroupId: " + e.getMessage());
+			
+			try {
+			if (connection != null){
+				connection.close();
+			}
+			
+			} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			}
+			
+			return returnJSON;
 		}
 	}
 }

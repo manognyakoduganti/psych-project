@@ -2,6 +2,8 @@ package questionnaire;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Enumeration;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -45,7 +47,13 @@ public class QuestionServlet extends HttpServlet {
 		response.addHeader("Access-Control-Allow-Methods", Constant.ACCESS_CONTROL_ALLOW_METHODS);
 		response.addIntHeader("Access-Control-Max-Age", Constant.ACCESS_CONTROL_ALLOW_MAX_AGE);
 		
+		
 		String name = request.getParameter("name");
+		
+		String targetGroupId = request.getParameter(Constant.TARGET_GROUP_ID);
+		System.out.println(request.toString());
+		System.out.println("question servlet");
+		System.out.println(targetGroupId);
 		
 		JSONObject returnJSON = new JSONObject();
 		
@@ -57,6 +65,9 @@ public class QuestionServlet extends HttpServlet {
 			returnJSON.put(Constant.RESULTS, duplicate);
 			returnJSON.put(Constant.USER_MESSAGE, "Searched for duplicate successfully!");
 			returnJSON.put(Constant.DEVELOPER_MESSAGE, "Searched for duplicate successfully");
+		}
+		else if(targetGroupId != null){
+			returnJSON = QuestionDAO.getAllQuestionsByTargetGroupId(Long.parseLong(targetGroupId));
 		}
 		else{
 			
