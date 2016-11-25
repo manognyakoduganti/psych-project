@@ -147,3 +147,6 @@ insert into trainingImageMap (trainingId, imageCategoryId, duration, noOfImages,
 values (1, 1, 1000, 2, 55);
 insert into trainingImageMap (trainingId, imageCategoryId, duration, noOfImages, imageType) 
 values (1, 1, 3000, 2, 56);
+
+INSERT INTO participant (username, password, age, gender, ethnicity, disability,education,mobileHandlingExperience,psycothereputicMedications,colorblind,targetGroupId)
+ values ('parasar', 'parasar', 26, 'male', 'Asian', 'true', 'graduate', 'average', 'none', 'true' ,1)
