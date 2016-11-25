@@ -53,7 +53,8 @@ public class ImageCategoryServletTest {
 		testInValidDuplicateImageCategoryCreateRequest(); // Record deleted after test 
 		testInValidImageCategoryDuplicateSearchRequest();
 	}
-	@Test
+	
+	
 	public void testValidImageCategoryCreate() throws ServletException, IOException, ParseException{
 		
 		request = mock(HttpServletRequest.class);
@@ -86,7 +87,7 @@ public class ImageCategoryServletTest {
 		JSONObject jsonObject = (JSONObject) obj;
 		
 		//System.out.println(jsonObject.get(Constant.DEVELOPER_MESSAGE));
-		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.OK_200);
+		assertEquals(Constant.OK_200, (String) jsonObject.get(Constant.STATUS));
 		
 	}
 	
@@ -125,7 +126,7 @@ public class ImageCategoryServletTest {
 				Constant.BADREQUEST_400, (String) jsonObject.get(Constant.STATUS));
 		
 		// Delete the records after test is completed
-		boolean deleted = ImageCategoryDAO.deleteImageCategory(jsonObject.get(Constant.IMAGE_CATEGORY_NAME).toString());
+		boolean deleted = ImageCategoryDAO.deleteImageCategory(imageCategoryName);
 		
 		assertEquals(true, deleted);
 	}
@@ -259,7 +260,7 @@ public class ImageCategoryServletTest {
 		
 	}
 	
-	@Test
+	
 	public void testValidImageCategoryDuplicateSearchRequest() throws ServletException, IOException, ParseException{
 		
 		request = mock(HttpServletRequest.class);
@@ -278,7 +279,7 @@ public class ImageCategoryServletTest {
 		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
 		when(session.getAttribute(Constant.USER_ID)).thenReturn(1);
 		
-		when(request.getParameter("name")).thenReturn(imageCategoryName);
+		when(request.getParameter(Constant.IMAGE_CATEGORY_NAME)).thenReturn(imageCategoryName);
 		imageCategoryServlet.doGet(request, response);
 		
 		JSONParser parser = new JSONParser();
@@ -286,10 +287,9 @@ public class ImageCategoryServletTest {
 		JSONObject jsonObject = (JSONObject) obj;
 		
 		assertEquals((Boolean) jsonObject.get(Constant.RESULTS), true);
-		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.OK_200);
+		assertEquals(Constant.OK_200, (String) jsonObject.get(Constant.STATUS));
 	}
 	
-	@Test
 	public void testInValidImageCategoryDuplicateSearchRequest() throws ServletException, IOException, ParseException{
 		
 		request = mock(HttpServletRequest.class);
@@ -308,7 +308,7 @@ public class ImageCategoryServletTest {
 		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
 		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
 		
-		when(request.getParameter("name")).thenReturn("#$%@DSSFD");
+		when(request.getParameter(Constant.IMAGE_CATEGORY_NAME)).thenReturn("#$%@DSSFD");
 		imageCategoryServlet.doGet(request, response);
 		
 		JSONParser parser = new JSONParser();
@@ -333,6 +333,7 @@ public class ImageCategoryServletTest {
 		when(request.getReader()).thenReturn(bufferedReader);
 		
 		when(response.getWriter()).thenReturn(printWriter);
+		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
 		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
 		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
@@ -348,7 +349,7 @@ public class ImageCategoryServletTest {
 		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.OK_200);
 	}
 	
-	@Test
+	
 	public void testValidImageCategoryDuplicateSearchRequestForUpdate() throws ServletException, IOException, ParseException{
 		
 		request = mock(HttpServletRequest.class);
@@ -367,9 +368,9 @@ public class ImageCategoryServletTest {
 		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
 		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
 		
-		when(request.getParameter("name")).thenReturn(imageCategoryName);
+		when(request.getParameter(Constant.IMAGE_CATEGORY_NAME)).thenReturn(imageCategoryName);
 		Long id = ImageCategoryDAO.getImageCategoryIdByName(imageCategoryName);
-		when(request.getParameter("id")).thenReturn(Long.toString(id));
+		when(request.getParameter(Constant.IMAGE_CATEGORY_ID)).thenReturn(Long.toString(id));
 		imageCategoryServlet.doGet(request, response);
 		
 		JSONParser parser = new JSONParser();
