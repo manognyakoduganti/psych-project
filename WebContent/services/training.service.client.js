@@ -11,7 +11,8 @@
     	var serverURL = 'http://localhost:8080/Psych-1/';*/
     	
     	var service = {
-    			getAllTrainings : getAllTrainings
+    			getAllTrainings : getAllTrainings,
+    			getTrainingById: getTrainingById
     	};
     	
     	return service;
@@ -22,6 +23,24 @@
     			url : serverURL.url + 'training',
     			contentType: 'application/json',
     			params : {'dropDown' : 'yes'}
+    		});
+    	}
+    	
+    	function getTrainingById(id){
+    		return $http ({
+    			method : 'GET',
+    			url : serverURL.url + 'training',
+    			contentType: 'application/json',
+    			params : {trainingId : id}
+    		});
+    	}
+    	
+    	function updateTraining(newTraining){
+    		return $http ({
+    			method : 'POST',
+    			url : serverURL.url + 'training',
+    			contentType: 'application/json',
+    			data: newTraining
     		});
     	}
     }

@@ -219,9 +219,9 @@ public class TrainingDAO {
 				returnJSON.put(Constant.STATUS, Constant.OK_200);
 				returnJSON.put(Constant.USER_MESSAGE, "Added training successfully!");
 				returnJSON.put(Constant.DEVELOPER_MESSAGE, "Added training successfully!");
-				returnJSON.put(Constant.NEW_TRAINING_ID, lastId);
-				returnJSON.put(Constant.TRG_NEW_NAME, training.getName());
-				returnJSON.put(Constant.TRG_NEW_DESCRIPTION, training.getDescription());
+				returnJSON.put(Constant.TRAINING_ID, lastId);
+				returnJSON.put(Constant.TRAINING_NAME, training.getName());
+				returnJSON.put(Constant.TRAINING_DESCRIPTION, training.getDescription());
 				
 				boolean insertTrainingQuestionMap = createTrainingQuestionMap(training, lastId);
 				boolean insertTrainingImageMap = createTrainingImageMap(training, lastId);
@@ -388,9 +388,9 @@ public class TrainingDAO {
 			returnJSON.put(Constant.STATUS, Constant.OK_200);
 			returnJSON.put(Constant.USER_MESSAGE, "Updated training successfully!");
 			returnJSON.put(Constant.DEVELOPER_MESSAGE, "Updated training successfully!");
-			returnJSON.put(Constant.NEW_TRAINING_ID, training.getId());
-			returnJSON.put(Constant.TRG_NEW_NAME, training.getName());
-			returnJSON.put(Constant.TRG_NEW_DESCRIPTION, training.getDescription());
+			returnJSON.put(Constant.TRAINING_ID, training.getId());
+			returnJSON.put(Constant.TRAINING_NAME, training.getName());
+			returnJSON.put(Constant.TRAINING_DESCRIPTION, training.getDescription());
 			
 			boolean insertTrainingQuestionMap = createTrainingQuestionMap(training, training.getId());
 			boolean insertTrainingImageMap = createTrainingImageMap(training, training.getId());
@@ -418,6 +418,193 @@ public class TrainingDAO {
 		}
 		
 		return returnJSON;
+	}
+	
+	public static JSONObject fetchTrainingDetailsById(Long trainingId){
+		
+		JSONObject returnJSON = new JSONObject();
+		
+			
+		slf4jLogger.info("Entered into fetchTrainingDetailsById: TrainingId: " + trainingId);
+		
+		String selectQuery = "SELECT A.ID AS tId, A.NAME AS tName, "
+				+ "A.DESCRIPTION AS tDescription, A.KEYWORDS AS tKeywords "
+				+ "FROM PSYCH.TRAINING AS A WHERE A.ID = ?;";
+		
+		Connection connection = null;
+		JSONArray jsonArray = new JSONArray();
+		
+		try{
+			
+			connection = DBSource.getConnectionPool().getConnection();
+			
+			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+			preparedStatement.setLong(1, trainingId);
+			
+			// execute select SQL statement
+			ResultSet rs = preparedStatement.executeQuery();
+			while(rs.next()) {
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put(Constant.TRAINING_NAME, rs.getString("tName"));
+				jsonObject.put(Constant.TRAINING_ID, rs.getLong("tId"));
+				jsonObject.put(Constant.TRAINING_DESCRIPTION, rs.getString("tDescription"));
+				jsonObject.put(Constant.TRAINING_KEYWORDS, rs.getString("tKeywords"));
+				jsonArray.add(jsonObject);
+			}
+			
+			if (jsonArray.size() != 1){
+				returnJSON.put(Constant.RESULTS, new JSONObject());
+				returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
+				returnJSON.put(Constant.USER_MESSAGE, "Could not get the training requested.");
+				returnJSON.put(Constant.DEVELOPER_MESSAGE, "Could not get training for trainingId: " + trainingId
+						+ "Rows returned: " + jsonArray.size());
+				
+				return returnJSON;
+			}
+			
+			JSONObject results = new JSONObject();
+			
+			returnJSON.put(Constant.USER_MESSAGE, "Retrieved the training requested successfully!");
+			returnJSON.put(Constant.DEVELOPER_MESSAGE, "Retrieved the training requested successfully!");
+			
+			connection.close();
+			
+			JSONObject trainingDetails = (JSONObject) jsonArray.get(0);
+			
+			
+			results.put(Constant.TRAINING_ID, trainingDetails.get(Constant.TRAINING_ID));
+			results.put(Constant.TRAINING_DESCRIPTION, trainingDetails.get(Constant.TRAINING_DESCRIPTION));
+			results.put(Constant.TRAINING_NAME, trainingDetails.get(Constant.TRAINING_NAME));
+			results.put(Constant.TRAINING_KEYWORDS, trainingDetails.get(Constant.TRAINING_KEYWORDS));
+			
+			results.put(Constant.TRAINING_QUESTIONS, getQuestionsForTrainingById(trainingId));
+			results.put(Constant.TRAINING_IMAGES, getImagesForTrainingById(trainingId));
+			
+			returnJSON.put(Constant.RESULTS, results);
+			
+			
+		}catch(SQLException e){
+			System.out.println(e.getMessage());
+			try {
+				if (connection != null){
+					connection.close();
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}		
+		
+		return returnJSON;
+	}
+	
+	
+	public static JSONArray getQuestionsForTrainingById(Long trainingId){
+		JSONArray results = new JSONArray();
+		
+		Connection connection = null;
+		
+		
+		String selectQuery = "SELECT A.ID AS tId, C.ID AS qId, C.NAME AS qName, "
+				+ "IFNULL(C.DESCRIPTION, '') AS qDescription, D.NAME AS qCategory "
+				+ "FROM PSYCH.TRAINING AS A "
+				+ "INNER JOIN PSYCH.TRAININGQUESTIONMAP AS B ON A.ID = B.TRAININGID "
+				+ "INNER JOIN PSYCH.QUESTION C ON B.QUESTIONID = C.ID "
+				+ "INNER JOIN PSYCH.QUESTIONCATEGORY AS D ON D.ID = C.CATEGORYID "
+				+ "WHERE A.ID = ?;";
+		
+		try{
+			
+			connection = DBSource.getConnectionPool().getConnection();
+			
+			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+			preparedStatement.setLong(1, trainingId);
+			
+			// execute select SQL statement
+			ResultSet rs = preparedStatement.executeQuery();
+			while(rs.next()) {
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put(Constant.QUESTION_NAME,rs.getString("qName"));
+				jsonObject.put(Constant.TRAINING_ID,rs.getLong("tId"));
+				jsonObject.put(Constant.QUESTION_ID,rs.getLong("qId"));
+				jsonObject.put(Constant.QUESTION_DESCRIPTION, rs.getString("qDescription"));
+				jsonObject.put(Constant.QUESTION_CATEGORY_NAME, rs.getString("qCategory"));
+				results.add(jsonObject);
+			}
+			
+			connection.close();
+			
+		}catch(SQLException e){
+			System.out.println(e.getMessage());
+			try {
+				if (connection != null){
+					connection.close();
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				return results;
+			}
+			return results;
+		}		
+		
+		return results;
+	}
+	
+	public static JSONArray getImagesForTrainingById(Long trainingId){
+		JSONArray results = new JSONArray();
+		
+		Connection connection = null;
+		
+		
+		String selectQuery = "SELECT A.ID AS tId, C.ID AS imageCategoryId, "
+				+ "C.NAME AS imageCategoryName, D.ID AS imageTypeId, "
+				+ "D.FIELDNAME AS imageType, B.DURATION AS duration, "
+				+ "B.NOOFIMAGES AS noOfImages "
+				+ "FROM PSYCH.TRAINING AS A "
+				+ "INNER JOIN PSYCH.TRAININGIMAGEMAP AS B ON A.ID = B.TRAININGID "
+				+ "INNER JOIN PSYCH.IMAGECATEGORY AS C ON B.IMAGECATEGORYID = C.ID "
+				+ "INNER JOIN PSYCH.FIELDLOOKUP AS D ON B.IMAGETYPE = D.ID "
+				+ "WHERE A.ID = ?;";
+		
+		try{
+			
+			connection = DBSource.getConnectionPool().getConnection();
+			
+			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+			preparedStatement.setLong(1, trainingId);
+			
+			// execute select SQL statement
+			ResultSet rs = preparedStatement.executeQuery();
+			while(rs.next()) {
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put(Constant.TRAINING_ID,rs.getLong("tId"));
+				jsonObject.put(Constant.IMAGE_CATEGORY_ID,Long.toString(rs.getLong("imageCategoryId")));
+				jsonObject.put(Constant.IMAGE_CATEGORY_NAME, rs.getString("imageCategoryName"));
+				jsonObject.put(Constant.TRG_IMAGE_MAP_IMAGE_TYPE, rs.getString("imageTypeId"));
+				jsonObject.put(Constant.TRG_IMAGE_MAP_IMAGE_TYPE_FIELD_NAME, rs.getString("imageType"));
+				jsonObject.put(Constant.TRG_IMAGE_MAP_DURATION, rs.getInt("duration"));
+				jsonObject.put(Constant.TRG_IMAGE_MAP_NO_OF_IMAGES, rs.getInt("noOfImages"));
+				results.add(jsonObject);
+			}
+			
+			connection.close();
+			
+		}catch(SQLException e){
+			System.out.println(e.getMessage());
+			try {
+				if (connection != null){
+					connection.close();
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				return results;
+			}
+			return results;
+		}		
+		
+		return results;
 	}
 	
 }

@@ -57,6 +57,8 @@ public class TrainingServlet extends HttpServlet {
 		slf4jLogger.info("Entered in doGet method of TargetGroupServlet");
 		JSONObject returnJSON = new JSONObject();
 		
+		String trainingId = request.getParameter(Constant.TRAINING_ID);
+		
 		HttpSession session = request.getSession(false);
 		if(Sessions.isValidGlobalAdminSession(session)){
 			if((request.getParameter(Constant.TRAINING_DROPDOWN) != null && 
@@ -65,6 +67,10 @@ public class TrainingServlet extends HttpServlet {
 				returnJSON.put(Constant.RESULTS, TrainingDAO.fetchAllTrainingName());
 				returnJSON.put(Constant.STATUS, Constant.OK_200);
 				
+			}
+			else if (trainingId != null){
+				returnJSON = TrainingDAO.fetchTrainingDetailsById(Long.parseLong(trainingId));
+				returnJSON.put(Constant.STATUS, Constant.OK_200);
 			}
 		}else{
 			returnJSON.put(Constant.STATUS, Constant.UNAUTHORIZED_401);
@@ -111,11 +117,11 @@ public class TrainingServlet extends HttpServlet {
 			try {
 				obj = parser.parse(sb.toString());
 				JSONObject jsonObject = (JSONObject) obj;
-				newName = (String) jsonObject.get(Constant.TRG_NEW_NAME);
-				newDescrition = (String) jsonObject.get(Constant.TRG_NEW_DESCRIPTION);
-				newKeywords = (String) jsonObject.get(Constant.TRG_NEW_KEYWORDS);
-				JSONArray questionsArray = (JSONArray) jsonObject.get(Constant.TRG_NEW_QUESTIONS);
-				JSONArray imageArray = (JSONArray) jsonObject.get(Constant.TRG_NEW_IMAGES);
+				newName = (String) jsonObject.get(Constant.TRAINING_NAME);
+				newDescrition = (String) jsonObject.get(Constant.TRAINING_DESCRIPTION);
+				newKeywords = (String) jsonObject.get(Constant.TRAINING_KEYWORDS);
+				JSONArray questionsArray = (JSONArray) jsonObject.get(Constant.TRAINING_QUESTIONS);
+				JSONArray imageArray = (JSONArray) jsonObject.get(Constant.TRAINING_IMAGES);
 				
 				
 				if(QuestionCategoryFieldsVal.validateQuestionName(newName) 
@@ -204,11 +210,11 @@ public class TrainingServlet extends HttpServlet {
 				obj = parser.parse(sb.toString());
 				JSONObject jsonObject = (JSONObject) obj;
 				id = (Long) jsonObject.get(Constant.TRAINING_ID);
-				newName = (String) jsonObject.get(Constant.TRG_NEW_NAME);
-				newDescrition = (String) jsonObject.get(Constant.TRG_NEW_DESCRIPTION);
-				newKeywords = (String) jsonObject.get(Constant.TRG_NEW_KEYWORDS);
-				JSONArray questionsArray = (JSONArray) jsonObject.get(Constant.TRG_NEW_QUESTIONS);
-				JSONArray imageArray = (JSONArray) jsonObject.get(Constant.TRG_NEW_IMAGES);
+				newName = (String) jsonObject.get(Constant.TRAINING_NAME);
+				newDescrition = (String) jsonObject.get(Constant.TRAINING_DESCRIPTION);
+				newKeywords = (String) jsonObject.get(Constant.TRAINING_KEYWORDS);
+				JSONArray questionsArray = (JSONArray) jsonObject.get(Constant.TRAINING_QUESTIONS);
+				JSONArray imageArray = (JSONArray) jsonObject.get(Constant.TRAINING_IMAGES);
 				
 				
 				if(QuestionCategoryFieldsVal.validateQuestionName(newName) 
