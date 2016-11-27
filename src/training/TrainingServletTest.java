@@ -121,10 +121,13 @@ public class TrainingServletTest {
 		int randomNumber = random.nextInt(1000);
 		
 		JSONArray questions = new JSONArray();
-		questions.add(1);
-		questions.add(2);
-		questions.add(3);
-		questions.add(4);
+		JSONObject question = new JSONObject();
+		question.put(Constant.QUESTION_ID, 1);
+		questions.add(question);
+		
+		JSONObject question2 = new JSONObject();
+		question2.put(Constant.QUESTION_ID, 2);
+		questions.add(question2);
 		
 		JSONArray images = new JSONArray();
 		
@@ -197,10 +200,13 @@ public class TrainingServletTest {
 		int randomNumber = random.nextInt(1000);
 		
 		JSONArray questions = new JSONArray();
-		questions.add(1);
-		questions.add(2);
-		questions.add(3);
-		questions.add(4);
+		JSONObject question = new JSONObject();
+		question.put(Constant.QUESTION_ID, 1);
+		questions.add(question);
+		
+		JSONObject question2 = new JSONObject();
+		question2.put(Constant.QUESTION_ID, 2);
+		questions.add(question2);
 		
 		JSONArray images = new JSONArray();
 		
@@ -266,10 +272,13 @@ public class TrainingServletTest {
 		int randomNumber = random.nextInt(1000);
 		
 		JSONArray questions = new JSONArray();
-		questions.add(1);
-		questions.add(2);
-		questions.add(3);
-		questions.add(4);
+		JSONObject question = new JSONObject();
+		question.put(Constant.QUESTION_ID, 1);
+		questions.add(question);
+		
+		JSONObject question2 = new JSONObject();
+		question2.put(Constant.QUESTION_ID, 2);
+		questions.add(question2);
 		
 		JSONArray images = new JSONArray();
 		
@@ -337,10 +346,13 @@ public class TrainingServletTest {
 		int randomNumber = random.nextInt(1000);
 		
 		JSONArray questions = new JSONArray();
-		questions.add(1);
-		questions.add(2);
-		questions.add(3);
-		questions.add(4);
+		JSONObject question = new JSONObject();
+		question.put(Constant.QUESTION_ID, 1);
+		questions.add(question);
+		
+		JSONObject question2 = new JSONObject();
+		question2.put(Constant.QUESTION_ID, 2);
+		questions.add(question2);
 		
 		JSONArray images = new JSONArray();
 		

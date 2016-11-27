@@ -15,7 +15,9 @@
     			getTrainingById: getTrainingById,
     			getQuestionCategories: getQuestionCategories,
     			getQuestions: getQuestions,
-    			getAllImageCategories: getAllImageCategories
+    			getAllImageCategories: getAllImageCategories,
+    			updateTraining: updateTraining,
+    			createTraining: createTraining
     	};
     	
     	return service;
@@ -69,6 +71,24 @@
     			method : 'GET',
     			url : serverURL.url + 'imageCategory',
     			contentType: 'application/json'
+    		});
+    	}
+    	
+    	function updateTraining(updatedTraining){
+    		return $http ({
+    			method : 'PUT',
+    			url : serverURL.url + 'training',
+    			contentType: 'application/json',
+    			data: updatedTraining
+    		});
+    	}
+    	
+    	function createTraining(newTraining){
+    		return $http ({
+    			method : 'POST',
+    			url : serverURL.url + 'training',
+    			contentType: 'application/json',
+    			data: newTraining
     		});
     	}
     }

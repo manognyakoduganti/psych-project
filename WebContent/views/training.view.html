@@ -128,47 +128,105 @@
 	                         </div>
 	                     </div>
 					</div>
+					<div ng-show="model.isUpdateSuccessful" class="alert alert-success" role="alert">Training updated successfully.</div>
+                    <div ng-show="model.updateFailed" class="alert alert-danger" role="alert">Failed to update training. Please check the information entered above.</div>
            		</div>
                         </div>
                         <div class="tab-pane active" id="tab_default_2" ng-show="model.isSet('create')">
-                            <div class="form-horizontal">
-		                        <div class="form-group">
+                        	<h4>Training Details</h4>
+                            <div class="form-horizontal" ng-form name="model.selectedTrainingDetails">
+		                        <div class="form-group required">
 		                            <label for="inputName2" class="col-sm-2 control-label">Training Name:</label>
 		                            <div class="col-sm-7">
-		                                <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.createTraining.trainingName">
+		                                <input type="text" name="newTrainingName" class="form-control" id="inputName2" placeholder="Name of the training" ng-maxlength="150" required="required" ng-model="model.selectedTrainingDetails.trainingName">
+		                                <div ng-messages="model.selectedTrainingDetails.newTrainingName.$error" style="color:maroon">
+									       	<div ng-message="required">This field is required.</div>
+									        <div ng-message="maxlength">Your field is too long. Max allowed: 150 chars</div>
+									    </div>
 		                            </div>
 		                        </div>
 		                        <div class="form-group">
 		                            <label for="inputName3" class="col-sm-2 control-label">Description:</label>
 		                            <div class="col-sm-7">
-		                                <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.createTraining.trainingDescription"></textarea>
+		                                <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the training" ng-model="model.selectedTrainingDetails.trainingDescription"></textarea>
 		                            </div>
 		                        </div>
 		                        <div class="form-group">
 		                            <label for="inputEmail3" class="col-sm-2 control-label">Keywords:</label>
 		                            <div class="col-sm-7">
-		                                <textarea type="text" class="form-control" id="inputEmail3" placeholder="Keywords" ng-model="model.createTraining.trainingKeywords">
+		                                <textarea type="text" class="form-control" id="inputEmail3" placeholder="Keywords" ng-model="model.selectedTrainingDetails.trainingKeywords">
 		                                </textarea>
 		                            </div>
 		                        </div>
-		                        <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.create(model.newLocation)" ng-disabled="model.locationCreateForm.$invalid">Create</button>
-                                    </div>
-                                </div>
-		                    </div>
-                                 <div ng-show="model.isCreateSuccessful" class="alert alert-success" role="alert">Location created successfully.</div>
-                                 <div ng-show="model.isCreateFailed" class="alert alert-danger" role="alert">Failed to create location. Please check the information entered above.</div>
+                                
+		                    <h4>Questions asked in this training</h4>
+	           				<table class="table table-striped table-bordered">
+					        <thead>
+					        <tr>
+					            <th> Question</th>
+					            <th> Question Category</th>
+					            <th> Actions</th>
+					        </tr>
+					        </thead>
+					        <tbody>
+					        <tr ng-repeat = "trainingQuestion in model.selectedTrainingDetails.trainingQuestions">
+					            <td> {{trainingQuestion.questionName}} </td>
+					            <td> {{trainingQuestion.questionCategoryName}} </td>
+					            
+					            <td>
+					                <a><span class="glyphicon glyphicon-remove incrsize" ng-click="model.removeTrainingQuestion($index)"></span></a>
+					            </td>
+					        </tr>
+					        </tbody>
+					    </table>
+					    <div class="form-group">
+                            <div class="col-sm-2">
+                                <button type="submit" class="btn btn-default btn-info btn-block" data-toggle="modal" data-target="#addQuestionModal" ng-click="model.initTrainingQuestions()">Add Question</button>
+                            </div>
+                        </div>
+					    
+					    
+					    <h4>Images shown in this training</h4>
+	           			<table class="table table-striped table-bordered">
+					        <thead>
+					        <tr>
+					            <th>Image Category</th>
+					            <th>Image Type</th>
+					            <th>Duration</th>
+					            <th>Number of Images</th>
+					            <th> Actions</th>
+					        </tr>
+					        </thead>
+					        <tbody>
+					        <tr ng-repeat = "trainingImage in model.selectedTrainingDetails.trainingImages">
+					            <td> {{trainingImage.imageCategoryName}} </td>
+					            <td> {{trainingImage.imageType}} </td>
+					            <td> <input type="text" ng-model="trainingImage.duration" class="form-control ng-pristine ng-untouched ng-valid"></td>
+					            <td> <input type="text" ng-model="trainingImage.noOfImages" class="form-control ng-pristine ng-untouched ng-valid"></td>
+					            <td>
+					                <a><span class="glyphicon glyphicon-remove incrsize" ng-click="model.removeTrainingImage($index)"></span></a>
+					            </td>
+					        </tr>
+					        </tbody>
+					    </table> 
+					    <div class="form-group">
+                            <div class="col-sm-2">
+                                <button type="submit" class="btn btn-default btn-info btn-block" data-toggle="modal" data-target="#addImagesModal" ng-click="model.initTrainingImages()">Add Images</button>
+                            </div>
+                        </div>
+					    <div class="form-group">
+	                         <div class="col-sm-offset-2 col-sm-7">
+	                             <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.createTraining()">Create Training</button>
+	                         </div>
+	                     </div>
+					</div>
+                                 <div ng-show="model.createSuccessful" class="alert alert-success" role="alert">Training created successfully.</div>
+                                 <div ng-show="model.createFailed" class="alert alert-danger" role="alert">Failed to update training. Please check the information entered above.</div>
+					</div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-           
-
-        </div>
-    </div>
     <!-- Modal view content -->
        <div id="addQuestionModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -252,7 +310,7 @@
                                 <div class="form-group required">
                                     <label for="inputName2" class="col-sm-3 control-label">Image Type:</label>
                                     <div class="col-sm-7">
-                                        <ui-select ng-model="model.imageTypes.selected" theme="select2" style="min-width: 300px;" title="Choose a question" ng-change="model.checkDuplicate()">
+                                        <ui-select ng-model="model.imageTypes.selected" theme="select2" style="min-width: 300px;" title="Choose a question">
 										    <ui-select-match placeholder="Select an image type in the list or search...">{{$select.selected.fieldValue}}</ui-select-match>
 										    <ui-select-choices repeat="imageType in model.imageTypes | propsFilter: {fieldValue: $select.search}">
 										      <div ng-bind-html="imageType.fieldValue | highlight: $select.search"></div>
@@ -260,12 +318,25 @@
 										  </ui-select>
                                     </div>
                                 </div>
+                                <div class="form-group required">
+		                            <label for="inputName2" class="col-sm-3 control-label">Duration:</label>
+		                            <div class="col-sm-7">
+		                                <input type="number" class="form-control" id="inputName2" placeholder="Duration" ng-model="model.addImageDuration">
+		                            </div>
+		                        </div>
+		                        <div class="form-group required">
+		                            <label for="inputName2" class="col-sm-3 control-label">Image Count:</label>
+		                            <div class="col-sm-7">
+		                                <input type="number" class="form-control" id="inputName2" placeholder="Image Count" ng-model="model.addImageCount">
+		                            </div>
+		                        </div>
+                                
                                 <div class="col-sm-offset-3 col-sm-7">
-                                	<small ng-if="model.duplicateQuestionMessage" style="color:maroon">Images already in training</small>
+                                	<small ng-if="model.duplicateImageMessage" style="color:maroon">Images already in training</small>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-offset-3 col-sm-3">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.addQuestionToTraining()">Add</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.addImageToTraining()">Add</button>
                                     </div>
                                 </div>
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
