@@ -7,8 +7,23 @@ public class ImageFieldsVal {
 
 	static String imageCategoryNameRegex = "^[a-zA-Z0-9 ,.'&-]{1,30}$";
 	static Pattern imageCategoryNamePattern = Pattern.compile(imageCategoryNameRegex);
-	public static boolean validateImageCategoryName(String locName){
-		Matcher matcher = imageCategoryNamePattern.matcher(locName.trim());
+	public static boolean validateImageCategoryName(String name){
+		Matcher matcher = imageCategoryNamePattern.matcher(name.trim());
+		return matcher.matches();
+	}
+	
+	
+	static String imageNameRegex = "^[a-zA-Z0-9 ,.'&-]{1,30}$";
+	static Pattern imageNamePattern = Pattern.compile(imageNameRegex);
+	public static boolean validateImageName(String name){
+		Matcher matcher = imageNamePattern.matcher(name.trim());
+		return matcher.matches();
+	}
+	
+	static String imageIntensityRegex = "^[1-9]{1}$";
+	static Pattern imageIntesityPattern = Pattern.compile(imageIntensityRegex);
+	public static boolean validateImageIntensity(String intensity){
+		Matcher matcher = imageIntesityPattern.matcher(intensity.trim());
 		return matcher.matches();
 	}
 }

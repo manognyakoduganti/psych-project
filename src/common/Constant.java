@@ -139,5 +139,17 @@ public class Constant {
 	public static String MESSAGE = "message";
 	public static String SUCCESS = "success";
 	
+	public static String IMAGE_NAME = "imageName";
+	public static String IMAGE_DESCRIPTION = "imageDescription";
+	public static String IMAGE_CATEGORY = "imageCategory";
+	public static String IMAGE_INTENSITY = "imageIntensity";
+	public static String IMAGE_TYPE = "imageType";
+	public static String IMAGE_TYPE_ID = "imageTypeId";
+	public static String IMAGE_FILE = "imageFile";
+	public static String IMAGE_UUID = "imageUUID";
+	public static String IMAGE_PATH = "imagePath";
+	
+	public static String IMAGE_FOLDER = "ImageFolder";
+	
 
 }
