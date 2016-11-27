@@ -78,7 +78,13 @@
 				.createTargetGroup(targetGroup)
 				.success(function(response) {
 					if(response.status === '200') {
-						vm.createTargetGroup = {};
+						vm.createTargetGroup = {
+				    			name : '',
+				    			description : '',
+				    			keywords : '',
+				    			location : '',
+				    			training : ''
+				    	};
 						vm.regCode = response.tgRegCode;
 						vm.isCreateSuccessful = true;
 						
