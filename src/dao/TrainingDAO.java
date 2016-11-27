@@ -40,7 +40,7 @@ public class TrainingDAO {
 			while(rs.next()) {
 				JSONObject jsonObject = new JSONObject();
 				jsonObject.put(Constant.TRAINING_NAME,rs.getString("name"));
-				jsonObject.put(Constant.TRAINING_ID,Long.toString(rs.getLong("id")));
+				jsonObject.put(Constant.TRAINING_ID, rs.getLong("id"));
 				jsonArray.add(jsonObject);
 			}
 			connection.close();
@@ -579,9 +579,9 @@ public class TrainingDAO {
 			while(rs.next()) {
 				JSONObject jsonObject = new JSONObject();
 				jsonObject.put(Constant.TRAINING_ID,rs.getLong("tId"));
-				jsonObject.put(Constant.IMAGE_CATEGORY_ID,Long.toString(rs.getLong("imageCategoryId")));
+				jsonObject.put(Constant.IMAGE_CATEGORY_ID, rs.getLong("imageCategoryId"));
 				jsonObject.put(Constant.IMAGE_CATEGORY_NAME, rs.getString("imageCategoryName"));
-				jsonObject.put(Constant.TRG_IMAGE_MAP_IMAGE_TYPE, rs.getString("imageTypeId"));
+				jsonObject.put(Constant.TRG_IMAGE_MAP_IMAGE_TYPE, rs.getLong("imageTypeId"));
 				jsonObject.put(Constant.TRG_IMAGE_MAP_IMAGE_TYPE_FIELD_NAME, rs.getString("imageType"));
 				jsonObject.put(Constant.TRG_IMAGE_MAP_DURATION, rs.getInt("duration"));
 				jsonObject.put(Constant.TRG_IMAGE_MAP_NO_OF_IMAGES, rs.getInt("noOfImages"));

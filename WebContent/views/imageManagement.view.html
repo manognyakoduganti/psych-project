@@ -12,7 +12,7 @@
                         </li>
                         <li ng-class="{active:model.isSet('images')}">
                             <a href="" ng-click="model.setTab('images')">
-                                Images </a>
+                                Image </a>
                         </li>
 
                     </ul>
@@ -21,8 +21,8 @@
 		                  <div class="tabbable-panel" ng-show="model.isSet('imageCatergories')">
 		                	<div class="tabbable-line">
 		                    <ul class="nav nav-tabs">
-		                    	<li ng-class="{active:model.isSet('searchImageCatergories')}">
-		                            <a href="" ng-click="model.setSubTab('searchImageCatergories')">
+		                    	<li ng-class="{active:model.isSet('SearchImageCatergories')}">
+		                            <a href="" ng-click="model.setSubTab('SearchImageCatergories')">
 		                                Search </a>
 		                        </li>
 		                        <li ng-class="{active:model.isSet('createImageCategories')}">
@@ -31,24 +31,24 @@
 		                        </li>
 		                    
 		                       </ul>
-                        <div class="tab-pane active" id="tab_default_1" ng-show="model.isSetSubTab('searchImageCatergories')">
+                        <div class="tab-pane active" id="tab_default_1" ng-show="model.isSetSubTab('SearchImageCatergories')">
                             <div class="form-horizontal">
                                 <div class="form-group">
                                     <label for="inputName2" class="col-sm-2 control-label">Category Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.searchLoc.name">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the Image Category" ng-model="model.searchIc.imageCategoryName">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.searchLoc.description">
+                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the Image Category" ng-model="model.searchIc.imageCategoryDescription">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.search(model.search)">Search</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.searchImageCategory(model.searchIc)">Search</button>
                                     </div>
                                 </div>
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
@@ -62,20 +62,20 @@
         <tr>
             <th> Category Name</th>
             <th> Description</th>
-            <th> Images</th>
+            
             <th> </th>
         </tr>
      
         </thead>
         <tbody>
-        <tr>
-            <td><a href=""> Test Category </a></td>
-            <td> Testing </td>
-            <td> Testing </td>
+        <tr ng-repeat = "Ic in model.imageCategorySearchResults">
+            <td><a href=""> {{Ic.imageCategoryName}} </a></td>
+            <td> {{Ic.imageCategoryDescription}} </td>
+            
            
             <td>
                 <a href=""><span class="glyphicon glyphicon-pencil incrsize" data-toggle="modal"
-                                                 data-target="#myModal"></span></a>
+                                                 data-target="#myModal" ng-click="model.selectImageCategory($index)"></span></a>
             </td>
         </tr>
         </tbody>
@@ -90,7 +90,7 @@
                                 <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Category Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" name="createLocationCode" class="form-control" id="inputEmail3" placeholder="Location Code" ng-model="model.newLocation.code">
+                                        <input type="text" name="createLocationCode" class="form-control" id="inputEmail3" placeholder="Name of the image category" ng-model="model.createIc.imageCategoryName">
                                         <div ng-messages="locationCreateForm.createLocationCode.$error">
 									       
 									        <div ng-message-exp="model.isLocationCodeDuplicate">The location code already exists. Please enter another code.</div>
@@ -101,14 +101,14 @@
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.newLocation.description">
+                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the image category" ng-model="model.createIc.imageCategoryDescription">
                                     </div>
                                 </div>
                
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.create(model.newLocation)">Create</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.createImageCategory(model.createIc)">Create</button>
                                     </div>
                                 </div>
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
@@ -136,13 +136,13 @@
                                 <div class="form-group">
                                     <label for="inputName2" class="col-sm-2 control-label">image Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.searchLoc.name">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of image" ng-model="model.searchLoc.name">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.searchLoc.description">
+                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the image" ng-model="model.searchLoc.description">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -153,6 +153,33 @@
                                         </select>
                                     </div>
                                 </div>
+                                    <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Intensity:</label>
+                                    <div class="col-sm-7">                                     
+                                        <select name="Intensity" class="form-control" id="inputEmail3" placeholder="State" ng-model="model.searchLoc.state" required="required">
+                                        <option value="">3</option>
+                                        <option value="">1</option>
+                                        <option value="">2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                       <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Image Type:</label>
+                                    <div class="col-sm-7">                                     
+                                        <select name="imageType" class="form-control" id="inputEmail3" placeholder="State" ng-model="model.searchLoc.state" required="required">
+                                        <option value="">Select Category</option>
+                                        <option value="">Positive</option>
+                                          <option value="">Negative</option>
+                                        <option value="">Neutral</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                  <label for="inputEmail3" class="col-sm-2 control-label">Select Image :</label>
+                                  <div class="col-sm-7"> 
+                                <div> <input type='file' onchange="readURL(this);" /></div>
+                                </div>
+                               </div>
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
@@ -196,12 +223,11 @@
                             <div class="form-horizontal" ng-form name="locationCreateForm">
                                
                                 <div class="form-group required">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">images Name:</label>
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Images Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" name="createLocationCode" class="form-control" id="inputEmail3" placeholder="Location Code" ng-model="model.newLocation.code">
-                                        <div ng-messages="locationCreateForm.createLocationCode.$error">
-									       
-									        <div ng-message-exp="model.isLocationCodeDuplicate">The location code already exists. Please enter another code.</div>
+                                        <input type="text" name="createImageName" class="form-control" id="inputEmail3" placeholder="Image Name" ng-model="model.newLocation.code">
+                                        <div ng-messages="locationCreateForm.createImageName.$error">
+								
 									      
 									    </div>
                                     </div>
@@ -209,7 +235,7 @@
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.newLocation.description">
+                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the Image" ng-model="model.newLocation.description">
                                     </div>
                                 </div>
                                 
@@ -221,15 +247,38 @@
                                         </select>
                                     </div>
                                 </div>
-                                
-                                <input type="file" file-upload multiple/>
-                                
-                             
+                                  <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Intensity:</label>
+                                    <div class="col-sm-7">                                     
+                                        <select name="Intensity" class="form-control" id="inputEmail3" placeholder="State" ng-model="model.searchLoc.state" required="required">
+                                        <option value="">3</option>
+                                        <option value="">1</option>
+                                        <option value="">2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                       <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Image Type:</label>
+                                    <div class="col-sm-7">                                     
+                                        <select name="imageType" class="form-control" id="inputEmail3" placeholder="State" ng-model="model.searchLoc.state" required="required">
+                                        <option value="">Select Category</option>
+                                        <option value="">Positive</option>
+                                          <option value="">Negative</option>
+                                        <option value="">Neutral</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                  <label for="inputEmail3" class="col-sm-2 control-label">Select Image :</label>
+                                  <div class="col-sm-7"> 
+                                <div> <input type='file' onchange="readURL(this);" /></div>
+                                </div>
+                               </div>
                
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.save()">Create</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.create(model.newLocation)">Create</button>
                                     </div>
                                 </div>
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
@@ -259,20 +308,20 @@
                                 <div class="form-group">
                                     <label for="inputName2" class="col-sm-2 control-label">Category Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.locationUpdate.name">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the Image" ng-model="model.updateIc.imageCategoryName">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.locationUpdate.description">
+                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the Image" ng-model="model.updateIc.imageCategoryDescription">
                                     </div>
                                 </div>
                         
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.update(model.locationUpdate)">Update</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.updateImageCategory(model.updateIc)">Update</button>
                                     </div>
                                 </div>
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
@@ -282,7 +331,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" ng-click="model.update(model.selectedField)" class="btn btn-default" data-dismiss="modal">Ok</button>
+                   
                 </div>
             </div>
         </div>

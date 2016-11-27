@@ -141,7 +141,8 @@ public class TrainingServlet extends HttpServlet {
 					}
 					
 					for (int j = 0; j < questionsArray.size(); j++){
-						long questionId = (long) questionsArray.get(j);
+						JSONObject question = (JSONObject) questionsArray.get(j);
+						long questionId = (long) question.get(Constant.QUESTION_ID);
 						questions.add(questionId);
 					}
 					
@@ -232,9 +233,11 @@ public class TrainingServlet extends HttpServlet {
 						
 						images.add(new TrainingImage(imageCategoryId, imageTypeId, imageCount, duration));
 					}
+					System.out.println(questionsArray);
 					
 					for (int j = 0; j < questionsArray.size(); j++){
-						long questionId = (long) questionsArray.get(j);
+						JSONObject question = (JSONObject) questionsArray.get(j);
+						long questionId = (long) question.get(Constant.QUESTION_ID);
 						questions.add(questionId);
 					}
 					
