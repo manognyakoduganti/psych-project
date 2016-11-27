@@ -3,7 +3,6 @@ package imageData;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.BufferedReader;
@@ -27,9 +26,6 @@ import org.mockito.MockitoAnnotations;
 
 import common.Constant;
 import dao.ImageCategoryDAO;
-import dao.LocationDAO;
-import dao.QuestionCategoryDAO;
-import questionnaire.QuestionCategoryServlet;
 
 public class ImageCategoryServletTest {
 	
