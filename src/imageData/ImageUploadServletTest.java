@@ -4,14 +4,19 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -50,6 +55,8 @@ public class ImageUploadServletTest {
 	@Test
 	public void testValidImageUploadRequest() throws Exception {
 	
+		generateTestImage("/tmp/input");
+		
 		request = mock(HttpServletRequest.class);
 		response = mock(HttpServletResponse.class);
 		session = mock(HttpSession.class);
@@ -81,7 +88,7 @@ public class ImageUploadServletTest {
         when(imageFileItem.getName()).thenReturn("");
         when(imageFileItem.getFieldName()).thenReturn(Constant.IMAGE_FILE);
         when(imageFileItem.isFormField()).thenReturn(false);
-        when(imageFileItem.getInputStream()).thenReturn(new FileInputStream("/opt/test.jpg"));
+        when(imageFileItem.getInputStream()).thenReturn(new FileInputStream("/tmp/input/test.jpg"));
         
         FileItem imageName = mock(FileItem.class);
         when(imageName.getName()).thenReturn("Test Iamge");
@@ -128,7 +135,7 @@ public class ImageUploadServletTest {
 	}
 	
 	
-	@Test
+	
 	public void testInValidImageCreateRequest() throws Exception {
 	
 		request = mock(HttpServletRequest.class);
@@ -205,6 +212,44 @@ public class ImageUploadServletTest {
 		JSONObject jsonObject = (JSONObject) obj;
 		
 		assertEquals(Constant.BADREQUEST_400, (String) jsonObject.get(Constant.STATUS));
+
+	}
+	
+	@Test
+	public void generateTestImage(String folderPath){
+		
+		try {
+			
+			File f = new File(folderPath);
+			if(f.mkdir()){
+				System.out.println("Directory Created");
+			}
+			
+			int width = 100;
+			int height = 100;
+			BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+	        // Create a graphics which can be used to draw into the buffered image
+	        Graphics2D g2d = bufferedImage.createGraphics();
+	        // fill all the image with white
+	        g2d.setColor(Color.white);
+	        g2d.fillRect(0, 0, width, height);
+	        // create a circle with black
+	        g2d.setColor(Color.black);
+	        g2d.fillOval(0, 0, width, height);
+	        // create a string with yellow
+	        g2d.setColor(Color.yellow);
+	        g2d.drawString("Psych Psych", 50, 120);
+	 
+	        // Disposes of this graphics context and releases any system resources that it is using.
+	        g2d.dispose();
+	 
+	        // Save as JPEG
+	        File file = new File(f.toString()+"/test.jpg");
+			ImageIO.write(bufferedImage, "jpg", file);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
