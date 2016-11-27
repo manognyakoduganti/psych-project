@@ -7,7 +7,7 @@
         .controller("TrainingController", TrainingController);
     
 
-    function TrainingController(TrainingService, $window)
+    function TrainingController(TrainingService, $window, FieldLookupService)
     {
     	var vm = this;
         vm.tab = 'search';
@@ -15,6 +15,8 @@
         vm.isSelected = false;
         vm.questionsDropDown = [];
         vm.duplicateQuestionMessage = false;
+        vm.imageCategories = [];
+        vm.imageTypes = [];
         
         vm.setTab = function (tabId) {
             //console.log("Setting tab to " + tabId);
@@ -129,7 +131,7 @@
         					questionCategoryName: vm.questionsDropDown.selected.questionCategoryName,
         					questionDescription: vm.questionsDropDown.selected.questionDescription,
         					questionCategoryId: vm.questionsDropDown.selected.questionCategoryId,
-        					questionId: vm.questionsDropDown.selected.questionId
+        					questionName: vm.questionsDropDown.selected.questionName
         			}
         			console.log(newTrainingQuestion);
         			
@@ -139,6 +141,21 @@
         			vm.duplicateQuestionMessage = true;
         		}
         	}
+        }
+        
+        vm.initTrainingImages = function(){
+        	
+        	TrainingService
+    		.getAllImageCategories()
+    		.success(function(response){
+    			vm.imageCategories = response.results;
+    		});
+    		
+        	FieldLookupService
+    		.fetchFields()
+    		.success(function(response){
+    			vm.imageTypes = response.results;
+    		});
         }
         
         

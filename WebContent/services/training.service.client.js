@@ -14,7 +14,8 @@
     			getAllTrainings : getAllTrainings,
     			getTrainingById: getTrainingById,
     			getQuestionCategories: getQuestionCategories,
-    			getQuestions: getQuestions
+    			getQuestions: getQuestions,
+    			getAllImageCategories: getAllImageCategories
     	};
     	
     	return service;
@@ -58,6 +59,15 @@
     		return $http ({
     			method : 'GET',
     			url : serverURL.url + 'question',
+    			contentType: 'application/json'
+    		});
+    	}
+    	
+    	
+    	function getAllImageCategories(){
+    		return $http ({
+    			method : 'GET',
+    			url : serverURL.url + 'imageCategory',
     			contentType: 'application/json'
     		});
     	}

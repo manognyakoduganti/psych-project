@@ -89,7 +89,7 @@
 					    </table>
 					    <div class="form-group">
                             <div class="col-sm-2">
-                                <button type="submit" class="btn btn-default btn-info btn-block" data-toggle="modal" data-target="#myModal" ng-click="model.initTrainingQuestions()">Add Question</button>
+                                <button type="submit" class="btn btn-default btn-info btn-block" data-toggle="modal" data-target="#addQuestionModal" ng-click="model.initTrainingQuestions()">Add Question</button>
                             </div>
                         </div>
 					    
@@ -117,7 +117,11 @@
 					        </tr>
 					        </tbody>
 					    </table> 
-					    
+					    <div class="form-group">
+                            <div class="col-sm-2">
+                                <button type="submit" class="btn btn-default btn-info btn-block" data-toggle="modal" data-target="#addImagesModal" ng-click="model.initTrainingImages()">Add Images</button>
+                            </div>
+                        </div>
 					    <div class="form-group">
 	                         <div class="col-sm-offset-2 col-sm-7">
 	                             <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.updateTraining()">Update Training</button>
@@ -166,7 +170,7 @@
         </div>
     </div>
     <!-- Modal view content -->
-       <div id="myModal" class="modal fade" role="dialog">
+       <div id="addQuestionModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -220,7 +224,62 @@
             </div>
         </div>
     </div>
-</div>
+    
+    
+    <div id="addImagesModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Images</h4>
+                </div>
+                <div class="modal-body">
+                   <div class="form-horizontal" ng-form name="trainingQuestionsAddForm">
+                                <div class="form-group required">
+                                    <label for="inputName2" class="col-sm-3 control-label">Image Category:</label>
+                                    <div class="col-sm-7">
+                                    	<ui-select ng-model="model.imageCategories.selected" theme="select2" style="min-width: 300px;" title="Choose a question category">
+										    <ui-select-match placeholder="Select an image category in the list or search it...">{{$select.selected.imageCategoryName}}</ui-select-match>
+										    <ui-select-choices repeat="imageCategory in model.imageCategories | propsFilter: {imageCategoryName: $select.search}">
+										      <div ng-bind-html="imageCategory.imageCategoryName | highlight: $select.search"></div>
+										    </ui-select-choices>
+										  </ui-select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group required">
+                                    <label for="inputName2" class="col-sm-3 control-label">Image Type:</label>
+                                    <div class="col-sm-7">
+                                        <ui-select ng-model="model.imageTypes.selected" theme="select2" style="min-width: 300px;" title="Choose a question" ng-change="model.checkDuplicate()">
+										    <ui-select-match placeholder="Select an image type in the list or search...">{{$select.selected.fieldValue}}</ui-select-match>
+										    <ui-select-choices repeat="imageType in model.imageTypes | propsFilter: {fieldValue: $select.search}">
+										      <div ng-bind-html="imageType.fieldValue | highlight: $select.search"></div>
+										    </ui-select-choices>
+										  </ui-select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-offset-3 col-sm-7">
+                                	<small ng-if="model.duplicateQuestionMessage" style="color:maroon">Images already in training</small>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-3 col-sm-3">
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.addQuestionToTraining()">Add</button>
+                                    </div>
+                                </div>
+                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
+                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                            </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+             
+                </div>
+            </div>
+        </div>
+    </div>
 <br>
 <br>
 

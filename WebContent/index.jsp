@@ -47,6 +47,7 @@
     <script src="./app.js"></script>
     <script src="./config.js"></script>
     <script src="./views/main.controller.js"></script>
+    <script src="./services/fieldlookup.service.client.js"></script>
     <script src="./services/user.service.client.js"></script>
     <script src="./services/location.service.client.js"></script>
     <script src="./services/questionManagement.service.client.js"></script>

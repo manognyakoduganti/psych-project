@@ -58,7 +58,7 @@ public class FetchCommonFieldServlet extends HttpServlet {
 			
 			fieldName = request.getParameter(Constant.FIELD_NAME);
 		
-			if(fieldName.equals("")){
+			if(fieldName == null || fieldName.equals("")){
 				returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
 			}else{
 				List<CommonFields> fieldValueList = FetchFieldDAO.extractFieldValues(fieldName);
