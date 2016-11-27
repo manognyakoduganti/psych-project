@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -52,6 +53,7 @@ public class ImageUploadServletTest {
 	String inputFolder = "/tmp/imageInput";
 	String outputFolder = "/tmp/imageOutput";
 	String name;
+	String imagePath;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -149,7 +151,8 @@ public class ImageUploadServletTest {
 		JSONObject jsonObject = (JSONObject) obj;
 		
 		assertEquals(Constant.OK_200, (String) jsonObject.get(Constant.STATUS));
-		assertTrue(doesFileExists((outputFolder+"/"+(String) jsonObject.get(Constant.IMAGE_PATH))));
+		imagePath = (String) jsonObject.get(Constant.IMAGE_PATH);
+		assertTrue(doesFileExists((outputFolder+"/"+imagePath)));
 		
 	}
 	
@@ -363,7 +366,6 @@ public class ImageUploadServletTest {
 		fInput.delete();
 	}
 	
-	
 	public void testValidImageDuplicateSearchRequest() throws ServletException, IOException, ParseException{
 		
 		request = mock(HttpServletRequest.class);
@@ -391,6 +393,30 @@ public class ImageUploadServletTest {
 		
 		assertEquals((Boolean) jsonObject.get(Constant.RESULTS), true);
 		assertEquals(Constant.OK_200, (String) jsonObject.get(Constant.STATUS));
+	}
+	
+	
+	public void testValidSingleImageFetchRequest() throws ServletException, IOException, ParseException{
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(request.getReader()).thenReturn(bufferedReader);
+		//when(response.getOutputStream()).thenReturn(printWriter);
+		
+		when(request.getSession(false)).thenReturn(session);
+		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1);
+		
+		when(request.getParameter(Constant.IMAGE_PATH)).thenReturn(imagePath);
+		imageUploadServlet.doGet(request, response);
+		
+		// Write logic to 
 	}
 	
 	@Test
