@@ -18,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -29,6 +30,7 @@ import org.json.simple.JSONObject;
 
 import common.Constant;
 import common.ImageInfo;
+import common.Sessions;
 import dao.ImageDAO;
 import fieldValidation.CommonFieldsVal;
 import fieldValidation.ImageFieldsVal;
@@ -81,7 +83,17 @@ public class ImageUploadServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		
+		
+		
+	}
+	
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 	}
 
 	/**
@@ -92,64 +104,70 @@ public class ImageUploadServlet extends HttpServlet {
 		//if (ServletFileUpload.isMultipartContent(request)) {
 		JSONObject returnJSON = new JSONObject();
         try {
-        	ImageInfo imageInfo = new ImageInfo();
-            List<FileItem> files = fileUpload.parseRequest(request);
-            boolean badInput = false;
-            boolean folderCreationIssue = false;
-            if (files != null && !files.isEmpty()) {
-            	
-                for (FileItem item : files) {
-                	
-                	if(!validateInput(item.getFieldName(), item.getName())){
-            			badInput = false;
-            			break;
-            		}
-                	if(item.isFormField()){
-                		setInputInfo(item.getFieldName(), item.getName(), imageInfo);
-                	}else{
-                		Random random = new Random();
-                    	int folderId = random.nextInt(20);
-                    	if(!validateFolder(Integer.toString(folderId))){
-                    		folderCreationIssue = true;
-                    		break;
-                    	}
-                    	String extension = FilenameUtils.getExtension(item.getName());
-                		UUID uuid = UUID.randomUUID();
-                		
-                		String filePath = Integer.toString(folderId) +"/"+ uuid.toString()+"."+extension;
-                		imageInfo.setUuid(uuid.toString());
-                		imageInfo.setInputStream(item.getInputStream());
-                		imageInfo.setImageShortPath(filePath);
-                		imageInfo.setImageFullPath(imageFolder+"/"+filePath);
-                	}
-                }
-            }
-            if(!badInput && !folderCreationIssue){
-            	// First save file on disk
-            	if(saveInputFile(imageInfo)){
-            		//Second save into database
-            		boolean created = ImageDAO.createImage(imageInfo);
-            		if(created){
-            			returnJSON.put(Constant.STATUS, Constant.OK_200);
-            			returnJSON.put(Constant.IMAGE_PATH, imageInfo.getImageShortPath());
-            			returnJSON.put(Constant.IMAGE_UUID, imageInfo.getUuid());
-            			response.getWriter().print(returnJSON);
-            			return;
-            		}else{
-            			returnJSON.put(Constant.DEVELOPER_MESSAGE, "Issue while saving the image info in database");
-            		}
-            	}else{
-            		returnJSON.put(Constant.DEVELOPER_MESSAGE, "Issue in saving the file");
-            	}
-            	
-            }else if(badInput){
-            	returnJSON.put(Constant.DEVELOPER_MESSAGE, "Bad input data");
-            }else if(folderCreationIssue){
-            	returnJSON.put(Constant.DEVELOPER_MESSAGE, "Issue is creating folder");
-            }
-            returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
-            response.getWriter().print(returnJSON);
-			return;
+        	HttpSession session = request.getSession(false);
+        	if(Sessions.isValidGlobalAdminSession(session)){
+	        	ImageInfo imageInfo = new ImageInfo();
+	            List<FileItem> files = fileUpload.parseRequest(request);
+	            boolean badInput = false;
+	            boolean folderCreationIssue = false;
+	            if (files != null && !files.isEmpty()) {
+	            	
+	                for (FileItem item : files) {
+	                	
+	                	if(!validateInput(item.getFieldName(), item.getName())){
+	            			badInput = false;
+	            			break;
+	            		}
+	                	if(item.isFormField()){
+	                		setInputInfo(item.getFieldName(), item.getName(), imageInfo);
+	                	}else{
+	                		Random random = new Random();
+	                    	int folderId = random.nextInt(20);
+	                    	if(!validateFolder(Integer.toString(folderId))){
+	                    		folderCreationIssue = true;
+	                    		break;
+	                    	}
+	                    	String extension = FilenameUtils.getExtension(item.getName());
+	                		UUID uuid = UUID.randomUUID();
+	                		
+	                		String filePath = Integer.toString(folderId) +"/"+ uuid.toString()+"."+extension;
+	                		imageInfo.setUuid(uuid.toString());
+	                		imageInfo.setInputStream(item.getInputStream());
+	                		imageInfo.setImageShortPath(filePath);
+	                		imageInfo.setImageFullPath(imageFolder+"/"+filePath);
+	                	}
+	                }
+	            }
+	            if(!badInput && !folderCreationIssue){
+	            	// First save file on disk
+	            	if(saveInputFile(imageInfo)){
+	            		//Second save into database
+	            		boolean created = ImageDAO.createImage(imageInfo);
+	            		if(created){
+	            			returnJSON.put(Constant.STATUS, Constant.OK_200);
+	            			returnJSON.put(Constant.IMAGE_PATH, imageInfo.getImageShortPath());
+	            			returnJSON.put(Constant.IMAGE_UUID, imageInfo.getUuid());
+	            			response.getWriter().print(returnJSON);
+	            			return;
+	            		}else{
+	            			returnJSON.put(Constant.DEVELOPER_MESSAGE, "Issue while saving the image info in database");
+	            		}
+	            	}else{
+	            		returnJSON.put(Constant.DEVELOPER_MESSAGE, "Issue in saving the file");
+	            	}
+	            	
+	            }else if(badInput){
+	            	returnJSON.put(Constant.DEVELOPER_MESSAGE, "Bad input data");
+	            }else if(folderCreationIssue){
+	            	returnJSON.put(Constant.DEVELOPER_MESSAGE, "Issue is creating folder");
+	            }
+	            returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
+	            response.getWriter().print(returnJSON);
+				return;
+        	}else{
+        		returnJSON.put(Constant.STATUS, Constant.UNAUTHORIZED_401);
+	            response.getWriter().print(returnJSON);
+        	}
             
         } catch (FileUploadException e) {
             e.printStackTrace();
