@@ -96,6 +96,7 @@ public class LocationServletTest {
 		
 	}
 	
+	@Test
 	public void testValidLocationCreateRequestWithBlankFaxNumber() throws ServletException, IOException, ParseException{
 		
 		request = mock(HttpServletRequest.class);
@@ -140,7 +141,7 @@ public class LocationServletTest {
 		
 		assertEquals("System should have processed the request to create location",
 				Constant.OK_200, (String) jsonObject.get(Constant.STATUS));
-		
+		LocationDAO.deleteLocation(locationName);
 		
 	}
 	
