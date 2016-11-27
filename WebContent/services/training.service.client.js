@@ -12,7 +12,9 @@
     	
     	var service = {
     			getAllTrainings : getAllTrainings,
-    			getTrainingById: getTrainingById
+    			getTrainingById: getTrainingById,
+    			getQuestionCategories: getQuestionCategories,
+    			getQuestions: getQuestions
     	};
     	
     	return service;
@@ -41,6 +43,22 @@
     			url : serverURL.url + 'training',
     			contentType: 'application/json',
     			data: newTraining
+    		});
+    	}
+    	
+    	function getQuestionCategories(){
+    		return $http ({
+    			method : 'GET',
+    			url : serverURL.url + 'questionCategory',
+    			contentType: 'application/json'
+    		});
+    	}
+    	
+    	function getQuestions(){
+    		return $http ({
+    			method : 'GET',
+    			url : serverURL.url + 'question',
+    			contentType: 'application/json'
     		});
     	}
     }

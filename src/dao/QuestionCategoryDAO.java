@@ -139,7 +139,7 @@ public class QuestionCategoryDAO {
 	public static JSONObject getAll(){
 		
 		String selectQuery = "SELECT A.ID AS qCatId, A.name AS qCatName, "
-				+ "B.id AS fieldId, A.description AS qCatDescription, "
+				+ "B.id AS fieldId, IFNULL(A.description, '') AS qCatDescription, "
 				+ "B.fieldName AS responseType, A.startLabel AS startLabel, "
 				+ "A.endLabel AS endLabel "
 				+ "FROM QUESTIONCATEGORY AS A "
@@ -164,13 +164,13 @@ public class QuestionCategoryDAO {
 			while (rows.next()){
 				JSONObject object = new JSONObject();
 				
-				object.put(Constant.QUESTION_CATEGORY_ID, rows.getString("fieldId"));
+				object.put(Constant.QUESTION_CATEGORY_ID, rows.getLong("qCatId"));
 				object.put(Constant.QUESTION_CATEGORY_NAME, rows.getString("qCatName"));
 				object.put(Constant.QUESTION_CATEGORY_DESCRIPTION, rows.getString("qCatDescription"));
 				object.put(Constant.QUESTION_CATEGORY_RESPONSE_TYPE, rows.getString("responseType"));
 				object.put(Constant.QUESTION_CATEGORY_START_LABEL, rows.getString("startLabel"));
 				object.put(Constant.QUESTION_CATEGORY_END_LABEL, rows.getString("endLabel"));
-				object.put(Constant.RESPONSE_TYPE_FIELD_ID, rows.getString("fieldId"));
+				object.put(Constant.RESPONSE_TYPE_FIELD_ID, rows.getLong("fieldId"));
 				
 				results.add(object);
 			}

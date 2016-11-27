@@ -13,7 +13,9 @@
         vm.tab = 'search';
         vm.trainings = [];
         vm.isSelected = false;
-
+        vm.questionsDropDown = [];
+        vm.duplicateQuestionMessage = false;
+        
         vm.setTab = function (tabId) {
             //console.log("Setting tab to " + tabId);
             vm.tab = tabId;
@@ -26,6 +28,7 @@
         
         function resetTab(){
         	vm.isSelected = false;
+        	vm.duplicateQuestionMessage = false;
         }
         
         function initSearchTab(){
@@ -70,6 +73,74 @@
         		vm.selectedTrainingDetails.trainingImages.splice(index, 1);
         	}
         }
+        
+        vm.initTrainingQuestions = function(){
+        	vm.duplicateQuestionMessage = false;
+        	vm.questionsDropDown = [];
+        	
+    		TrainingService
+    		.getQuestionCategories()
+    		.success(function(response){
+    			vm.questionCategories = response.results;
+    		});
+    		
+    		TrainingService
+    		.getQuestions()
+    		.success(function(response){
+    			vm.questions = response.results;
+    		});
+        }
+        
+        vm.populateQuestions = function(selectedQuestionCategory){
+        	vm.questionsDropDown = [];
+        	console.log(selectedQuestionCategory.questionCategoryId);
+        	vm.questions.forEach(function (question){
+        		if (question.questionCategoryId == selectedQuestionCategory.questionCategoryId){
+        			vm.questionsDropDown.push(clone(question))
+        		}
+        	});
+        }
+        
+        vm.checkDuplicate = function(){
+        	vm.duplicateQuestionMessage = false;
+    		
+    		vm.selectedTrainingDetails.trainingQuestions.forEach(function (question){
+    			if (question.questionId == vm.questionsDropDown.selected.questionId){
+    				vm.duplicateQuestionMessage = true;
+    			}
+    		})
+        }
+        
+        vm.addQuestionToTraining = function(){
+        	if (vm.questionCategories.selected != undefined && vm.questionsDropDown.selected != undefined){
+        		var duplicate = false;
+        		
+        		vm.selectedTrainingDetails.trainingQuestions.forEach(function (question){
+        			if (question.questionId == vm.questionsDropDown.selected.questionId){
+        				duplicate = true;
+        			}
+        		})
+        		console.log(duplicate);
+        		if(!duplicate){
+        			console.log(vm.questionCategories.selected);
+        			console.log(vm.questionsDropDown.selected);
+        			var newTrainingQuestion = {
+        					questionId: vm.questionsDropDown.selected.questionId,
+        					questionCategoryName: vm.questionsDropDown.selected.questionCategoryName,
+        					questionDescription: vm.questionsDropDown.selected.questionDescription,
+        					questionCategoryId: vm.questionsDropDown.selected.questionCategoryId,
+        					questionId: vm.questionsDropDown.selected.questionId
+        			}
+        			console.log(newTrainingQuestion);
+        			
+        			vm.selectedTrainingDetails.trainingQuestions.push(newTrainingQuestion);
+        		}
+        		else{
+        			vm.duplicateQuestionMessage = true;
+        		}
+        	}
+        }
+        
         
     }
 

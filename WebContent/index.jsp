@@ -43,7 +43,7 @@
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/2.5.0/fuse.min.js"></script>
-
+	<script src="./js/utils.js"></script>
     <script src="./app.js"></script>
     <script src="./config.js"></script>
     <script src="./views/main.controller.js"></script>
