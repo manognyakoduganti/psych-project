@@ -146,6 +146,10 @@ public class Constant {
 	public static String IMAGE_TYPE = "imageType";
 	public static String IMAGE_TYPE_ID = "imageTypeId";
 	public static String IMAGE_FILE = "imageFile";
+	public static String IMAGE_UUID = "imageUUID";
+	public static String IMAGE_PATH = "imagePath";
+	
+	public static String IMAGE_FOLDER = "ImageFolder";
 	
 
 }

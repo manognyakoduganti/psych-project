@@ -75,6 +75,10 @@
   <servlet>
     <servlet-name>ImageUpload</servlet-name>
     <servlet-class>imageData.ImageUploadServlet</servlet-class>
+    <init-param>
+        <param-name>ImageFolder</param-name>
+        <param-value>/Users/Darshan/Documents/Psych/Images</param-value>
+    </init-param>
   </servlet>
   <servlet>
     <servlet-name>ImageFile</servlet-name>

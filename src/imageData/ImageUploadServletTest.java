@@ -1,6 +1,7 @@
 package imageData;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -45,17 +46,21 @@ public class ImageUploadServletTest {
 	ServletContext servletContext;
 	FileItem imageName;
 	DiskFileItemFactory diskFileItemFactory;
+	String inputFolder = "/tmp/imageInput";
+	String outputFolder = "/tmp/imageOutput";
 	
 	@Before
 	public void setUp() throws Exception {
 	  MockitoAnnotations.initMocks(this);
 	  imageUploadServlet = new ImageUploadServlet();
+	  createFolder(inputFolder);
+	  createFolder(outputFolder);
 	}
 	
 	@Test
 	public void testValidImageUploadRequest() throws Exception {
 	
-		generateTestImage("/tmp/input");
+		generateTestImage();
 		
 		request = mock(HttpServletRequest.class);
 		response = mock(HttpServletResponse.class);
@@ -78,9 +83,6 @@ public class ImageUploadServletTest {
 		
 		ServletConfig config = mock(ServletConfig.class);
 		when(config.getServletContext()).thenReturn(servletContext);
-		File repository = new File("/tmp");
-		when(servletContext.getAttribute("javax.servlet.context.tempdir")).thenReturn(repository);
-		
         ServletFileUpload fileUpload = mock(ServletFileUpload.class);
         List<FileItem> files = new ArrayList<FileItem>();
         
@@ -88,7 +90,9 @@ public class ImageUploadServletTest {
         when(imageFileItem.getName()).thenReturn("");
         when(imageFileItem.getFieldName()).thenReturn(Constant.IMAGE_FILE);
         when(imageFileItem.isFormField()).thenReturn(false);
-        when(imageFileItem.getInputStream()).thenReturn(new FileInputStream("/tmp/input/test.jpg"));
+        when(imageFileItem.getInputStream()).thenReturn(new FileInputStream(inputFolder+"/test.jpg"));
+        when(imageFileItem.getName()).thenReturn("test.jpg");
+        when(servletContext.getMimeType("test.jpg")).thenReturn("image/");
         
         FileItem imageName = mock(FileItem.class);
         when(imageName.getName()).thenReturn("Test Iamge");
@@ -123,6 +127,7 @@ public class ImageUploadServletTest {
         files.add(imageTypeId);
         
         when(fileUpload.parseRequest(request)).thenReturn(files);
+        imageUploadServlet.setImageFolder(outputFolder);
         imageUploadServlet.setFileUpload(fileUpload);
         imageUploadServlet.doPost(request, response);
         
@@ -131,13 +136,17 @@ public class ImageUploadServletTest {
 		JSONObject jsonObject = (JSONObject) obj;
 		
 		assertEquals(Constant.OK_200, (String) jsonObject.get(Constant.STATUS));
-
+		assertTrue(doesFileExists((outputFolder+"/"+(String) jsonObject.get(Constant.IMAGE_PATH))));
+		
+		deleteFile(outputFolder+"/"+(String) jsonObject.get(Constant.IMAGE_PATH));
+		deleteFile(inputFolder+"/test.jpg");
 	}
 	
-	
-	
+	@Test
 	public void testInValidImageCreateRequest() throws Exception {
 	
+		generateTestImage();
+		
 		request = mock(HttpServletRequest.class);
 		response = mock(HttpServletResponse.class);
 		session = mock(HttpSession.class);
@@ -159,9 +168,6 @@ public class ImageUploadServletTest {
 		
 		ServletConfig config = mock(ServletConfig.class);
 		when(config.getServletContext()).thenReturn(servletContext);
-		File repository = new File("/opt");
-		when(servletContext.getAttribute("javax.servlet.context.tempdir")).thenReturn(repository);
-		
         ServletFileUpload fileUpload = mock(ServletFileUpload.class);
         List<FileItem> files = new ArrayList<FileItem>();
         
@@ -170,6 +176,8 @@ public class ImageUploadServletTest {
         when(imageFileItem.getFieldName()).thenReturn(Constant.IMAGE_FILE);
         when(imageFileItem.isFormField()).thenReturn(false);
         when(imageFileItem.getInputStream()).thenReturn(null);
+        when(imageFileItem.getName()).thenReturn("test.jpg");
+        when(servletContext.getMimeType("test.jpg")).thenReturn("image/");
         
         FileItem imageName = mock(FileItem.class);
         when(imageName.getName()).thenReturn("Test Iamge");
@@ -177,22 +185,22 @@ public class ImageUploadServletTest {
         when(imageName.isFormField()).thenReturn(true);
         
         FileItem imageDescription = mock(FileItem.class);
-        when(imageDescription.getName()).thenReturn("Test Iamge");
+        when(imageDescription.getName()).thenReturn("Test Image Description");
         when(imageDescription.getFieldName()).thenReturn(Constant.IMAGE_DESCRIPTION);
         when(imageDescription.isFormField()).thenReturn(true);
         
         FileItem imageCategoryId = mock(FileItem.class);
-        when(imageCategoryId.getName()).thenReturn("Test Iamge");
+        when(imageCategoryId.getName()).thenReturn("1");
         when(imageCategoryId.getFieldName()).thenReturn(Constant.IMAGE_CATEGORY_ID);
         when(imageCategoryId.isFormField()).thenReturn(true);
         
         FileItem imageIntensityId = mock(FileItem.class);
-        when(imageIntensityId.getName()).thenReturn("Test Iamge");
+        when(imageIntensityId.getName()).thenReturn("2");
         when(imageIntensityId.getFieldName()).thenReturn(Constant.IMAGE_INTENSITY);
         when(imageIntensityId.isFormField()).thenReturn(true);
         
         FileItem imageTypeId = mock(FileItem.class);
-        when(imageTypeId.getName()).thenReturn("Test Iamge");
+        when(imageTypeId.getName()).thenReturn("55");
         when(imageTypeId.getFieldName()).thenReturn(Constant.IMAGE_TYPE_ID);
         when(imageTypeId.isFormField()).thenReturn(true);
         
@@ -204,6 +212,7 @@ public class ImageUploadServletTest {
         files.add(imageTypeId);
         
         when(fileUpload.parseRequest(request)).thenReturn(files);
+        imageUploadServlet.setImageFolder(outputFolder);
         imageUploadServlet.setFileUpload(fileUpload);
         imageUploadServlet.doPost(request, response);
         
@@ -211,20 +220,16 @@ public class ImageUploadServletTest {
 		Object obj = parser.parse(stringWriter.getBuffer().toString());
 		JSONObject jsonObject = (JSONObject) obj;
 		
+		deleteFile(inputFolder+"/test.jpg");
+		
 		assertEquals(Constant.BADREQUEST_400, (String) jsonObject.get(Constant.STATUS));
 
 	}
 	
-	@Test
-	public void generateTestImage(String folderPath){
+	
+	public void generateTestImage(){
 		
 		try {
-			
-			File f = new File(folderPath);
-			if(f.mkdir()){
-				System.out.println("Directory Created");
-			}
-			
 			int width = 100;
 			int height = 100;
 			BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -244,13 +249,30 @@ public class ImageUploadServletTest {
 	        g2d.dispose();
 	 
 	        // Save as JPEG
-	        File file = new File(f.toString()+"/test.jpg");
+	        File file = new File(inputFolder+"/test.jpg");
 			ImageIO.write(bufferedImage, "jpg", file);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
+	}
+	
+	public void createFolder(String folderPath){
+		File f = new File(folderPath);
+		if(f.mkdir()){
+			System.out.println(folderPath + " Directory Created");
+		}
+	}
+	
+	public boolean doesFileExists(String filePath){
+		File f = new File(filePath);
+		return f.exists();
+	}
+	
+	public void deleteFile(String filePath){
+		File fInput = new File(filePath);
+		fInput.delete();
 	}
 
 }
