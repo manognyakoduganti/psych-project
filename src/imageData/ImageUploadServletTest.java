@@ -37,6 +37,7 @@ import org.junit.Test;
 import org.mockito.MockitoAnnotations;
 
 import common.Constant;
+import dao.ImageDAO;
 
 
 public class ImageUploadServletTest {
@@ -62,9 +63,17 @@ public class ImageUploadServletTest {
 	}
 	
 	@Test
+	public void testInOrder() throws Exception{
+		testValidImageUploadRequest();
+		testValidImageDuplicateSearchRequest();
+		testGetAllImages();
+		testValidImageUpdateReqeustNoImageUpdate();
+		testValidImageUpdateReqeustWithImageUpdate();
+	}
+	
 	public void testValidImageUploadRequest() throws Exception {
 	
-		generateTestImage();
+		generateTestImage("test.jpg");
 		
 		request = mock(HttpServletRequest.class);
 		response = mock(HttpServletResponse.class);
@@ -142,14 +151,12 @@ public class ImageUploadServletTest {
 		assertEquals(Constant.OK_200, (String) jsonObject.get(Constant.STATUS));
 		assertTrue(doesFileExists((outputFolder+"/"+(String) jsonObject.get(Constant.IMAGE_PATH))));
 		
-		deleteFile(outputFolder+"/"+(String) jsonObject.get(Constant.IMAGE_PATH));
-		deleteFile(inputFolder+"/test.jpg");
 	}
 	
 	@Test
 	public void testInValidImageCreateRequest() throws Exception {
 	
-		generateTestImage();
+		generateTestImage("test.jpg");
 		
 		request = mock(HttpServletRequest.class);
 		response = mock(HttpServletResponse.class);
@@ -233,7 +240,7 @@ public class ImageUploadServletTest {
 	@Test
 	public void testInValidSessionImageUploadRequest() throws Exception {
 	
-		generateTestImage();
+		generateTestImage("test.jpg");
 		
 		request = mock(HttpServletRequest.class);
 		response = mock(HttpServletResponse.class);
@@ -308,7 +315,7 @@ public class ImageUploadServletTest {
 		assertEquals(Constant.UNAUTHORIZED_401, (String) jsonObject.get(Constant.STATUS));
 	}
 	
-	public void generateTestImage(){
+	public void generateTestImage(String imageName){
 		
 		try {
 			int width = 100;
@@ -330,7 +337,7 @@ public class ImageUploadServletTest {
 	        g2d.dispose();
 	 
 	        // Save as JPEG
-	        File file = new File(inputFolder+"/test.jpg");
+	        File file = new File(inputFolder+"/"+imageName);
 			ImageIO.write(bufferedImage, "jpg", file);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -386,7 +393,8 @@ public class ImageUploadServletTest {
 		assertEquals(Constant.OK_200, (String) jsonObject.get(Constant.STATUS));
 	}
 	
-	public void testInValidImageCategoryDuplicateSearchRequest() throws ServletException, IOException, ParseException{
+	@Test
+	public void testInValidImageDuplicateSearchRequest() throws ServletException, IOException, ParseException{
 		
 		request = mock(HttpServletRequest.class);
 		response = mock(HttpServletResponse.class);
@@ -415,7 +423,7 @@ public class ImageUploadServletTest {
 		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.OK_200);
 	}
 	
-	@Test
+	
 	public void testGetAllImages() throws ServletException, IOException, ParseException{
 		
 		request = mock(HttpServletRequest.class);
@@ -441,8 +449,262 @@ public class ImageUploadServletTest {
 		JSONObject jsonObject = (JSONObject) obj;
 		
 		JSONArray results = (JSONArray) jsonObject.get(Constant.RESULTS);
-		assertTrue(results.size() >= 0);
+		assertTrue(results.size() > 0);
 		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.OK_200);
 	}
 
+	public void testValidImageUpdateReqeustNoImageUpdate() throws Exception {
+	
+		Long imageIdLong = ImageDAO.getImageIdByImageName(name);
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		when(request.getSession(false)).thenReturn(session);
+		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		when(response.getWriter()).thenReturn(printWriter);
+		
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(request.getReader()).thenReturn(bufferedReader);
+		
+		servletContext = mock(ServletContext.class);
+		diskFileItemFactory = mock(DiskFileItemFactory.class);
+		
+		ServletConfig config = mock(ServletConfig.class);
+		when(config.getServletContext()).thenReturn(servletContext);
+        ServletFileUpload fileUpload = mock(ServletFileUpload.class);
+        List<FileItem> files = new ArrayList<FileItem>();
+        
+        FileItem imageId = mock(FileItem.class);
+        when(imageId.getName()).thenReturn(Long.toString(imageIdLong));
+        when(imageId.getFieldName()).thenReturn(Constant.IMAGE_ID);
+        when(imageId.isFormField()).thenReturn(true);
+        
+        FileItem imageName = mock(FileItem.class);
+        when(imageName.getName()).thenReturn(name+" Updated");
+        when(imageName.getFieldName()).thenReturn(Constant.IMAGE_NAME);
+        when(imageName.isFormField()).thenReturn(true);
+        
+        FileItem imageDescription = mock(FileItem.class);
+        when(imageDescription.getName()).thenReturn("Test Image Description Updated");
+        when(imageDescription.getFieldName()).thenReturn(Constant.IMAGE_DESCRIPTION);
+        when(imageDescription.isFormField()).thenReturn(true);
+        
+        FileItem imageCategoryId = mock(FileItem.class);
+        when(imageCategoryId.getName()).thenReturn("1");
+        when(imageCategoryId.getFieldName()).thenReturn(Constant.IMAGE_CATEGORY_ID);
+        when(imageCategoryId.isFormField()).thenReturn(true);
+        
+        FileItem imageIntensityId = mock(FileItem.class);
+        when(imageIntensityId.getName()).thenReturn("2");
+        when(imageIntensityId.getFieldName()).thenReturn(Constant.IMAGE_INTENSITY);
+        when(imageIntensityId.isFormField()).thenReturn(true);
+        
+        FileItem imageTypeId = mock(FileItem.class);
+        when(imageTypeId.getName()).thenReturn("55");
+        when(imageTypeId.getFieldName()).thenReturn(Constant.IMAGE_TYPE_ID);
+        when(imageTypeId.isFormField()).thenReturn(true);
+        
+        files.add(imageId);
+        files.add(imageName);
+        files.add(imageDescription);
+        files.add(imageCategoryId);
+        files.add(imageIntensityId);
+        files.add(imageTypeId);
+        
+        when(fileUpload.parseRequest(request)).thenReturn(files);
+        imageUploadServlet.setImageFolder(outputFolder);
+        imageUploadServlet.setFileUpload(fileUpload);
+        imageUploadServlet.doPut(request, response);
+        
+        JSONParser parser = new JSONParser();
+		Object obj = parser.parse(stringWriter.getBuffer().toString());
+		JSONObject jsonObject = (JSONObject) obj;
+		
+		assertEquals(Constant.OK_200, (String) jsonObject.get(Constant.STATUS));
+	}
+	
+	public void testValidImageUpdateReqeustWithImageUpdate() throws Exception {
+		
+		generateTestImage("test_updated.jpg");
+		Long imageIdLong = ImageDAO.getImageIdByImageName(name);
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		when(request.getSession(false)).thenReturn(session);
+		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		when(response.getWriter()).thenReturn(printWriter);
+		
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(request.getReader()).thenReturn(bufferedReader);
+		
+		servletContext = mock(ServletContext.class);
+		diskFileItemFactory = mock(DiskFileItemFactory.class);
+		
+		ServletConfig config = mock(ServletConfig.class);
+		when(config.getServletContext()).thenReturn(servletContext);
+        ServletFileUpload fileUpload = mock(ServletFileUpload.class);
+        List<FileItem> files = new ArrayList<FileItem>();
+        
+        FileItem imageId = mock(FileItem.class);
+        when(imageId.getName()).thenReturn(Long.toString(imageIdLong));
+        when(imageId.getFieldName()).thenReturn(Constant.IMAGE_ID);
+        when(imageId.isFormField()).thenReturn(true);
+        
+        FileItem imageFileItem = mock(FileItem.class);
+        when(imageFileItem.getName()).thenReturn("");
+        when(imageFileItem.getFieldName()).thenReturn(Constant.IMAGE_FILE);
+        when(imageFileItem.isFormField()).thenReturn(false);
+        when(imageFileItem.getInputStream()).thenReturn(new FileInputStream(inputFolder+"/test_updated.jpg"));
+        when(imageFileItem.getName()).thenReturn("test_updated.jpg");
+        
+        FileItem imageName = mock(FileItem.class);
+        when(imageName.getName()).thenReturn(name+" Updated Image ");
+        when(imageName.getFieldName()).thenReturn(Constant.IMAGE_NAME);
+        when(imageName.isFormField()).thenReturn(true);
+        
+        FileItem imageDescription = mock(FileItem.class);
+        when(imageDescription.getName()).thenReturn("Test Image Description Updated Image");
+        when(imageDescription.getFieldName()).thenReturn(Constant.IMAGE_DESCRIPTION);
+        when(imageDescription.isFormField()).thenReturn(true);
+        
+        FileItem imageCategoryId = mock(FileItem.class);
+        when(imageCategoryId.getName()).thenReturn("1");
+        when(imageCategoryId.getFieldName()).thenReturn(Constant.IMAGE_CATEGORY_ID);
+        when(imageCategoryId.isFormField()).thenReturn(true);
+        
+        FileItem imageIntensityId = mock(FileItem.class);
+        when(imageIntensityId.getName()).thenReturn("2");
+        when(imageIntensityId.getFieldName()).thenReturn(Constant.IMAGE_INTENSITY);
+        when(imageIntensityId.isFormField()).thenReturn(true);
+        
+        FileItem imageTypeId = mock(FileItem.class);
+        when(imageTypeId.getName()).thenReturn("55");
+        when(imageTypeId.getFieldName()).thenReturn(Constant.IMAGE_TYPE_ID);
+        when(imageTypeId.isFormField()).thenReturn(true);
+        
+        files.add(imageId);
+        files.add(imageName);
+        files.add(imageDescription);
+        files.add(imageCategoryId);
+        files.add(imageIntensityId);
+        files.add(imageTypeId);
+        files.add(imageFileItem);
+        
+        when(fileUpload.parseRequest(request)).thenReturn(files);
+        imageUploadServlet.setImageFolder(outputFolder);
+        imageUploadServlet.setFileUpload(fileUpload);
+        imageUploadServlet.doPut(request, response);
+        
+        JSONParser parser = new JSONParser();
+		Object obj = parser.parse(stringWriter.getBuffer().toString());
+		JSONObject jsonObject = (JSONObject) obj;
+		
+		assertEquals(Constant.OK_200, (String) jsonObject.get(Constant.STATUS));
+		assertTrue(doesFileExists((outputFolder+"/"+(String) jsonObject.get(Constant.IMAGE_PATH))));
+		
+		deleteFile(outputFolder+"/"+(String) jsonObject.get(Constant.IMAGE_PATH));
+		deleteFile(inputFolder+"/test_updated.jpg");
+		deleteFile(inputFolder+"/test.jpg");
+		ImageDAO.deleteImageById(imageIdLong);
+	}
+	
+	@Test
+	public void testInValidSessionImageUpdateReqeustWithImageUpdate() throws Exception {
+		
+		generateTestImage("test_updated.jpg");
+		Long imageIdLong = ImageDAO.getImageIdByImageName(name);
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		when(request.getSession(false)).thenReturn(null);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		when(response.getWriter()).thenReturn(printWriter);
+		
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(request.getReader()).thenReturn(bufferedReader);
+		
+		servletContext = mock(ServletContext.class);
+		diskFileItemFactory = mock(DiskFileItemFactory.class);
+		
+		ServletConfig config = mock(ServletConfig.class);
+		when(config.getServletContext()).thenReturn(servletContext);
+        ServletFileUpload fileUpload = mock(ServletFileUpload.class);
+        List<FileItem> files = new ArrayList<FileItem>();
+        
+        FileItem imageId = mock(FileItem.class);
+        when(imageId.getName()).thenReturn(Long.toString(imageIdLong));
+        when(imageId.getFieldName()).thenReturn(Constant.IMAGE_ID);
+        when(imageId.isFormField()).thenReturn(true);
+        
+        FileItem imageFileItem = mock(FileItem.class);
+        when(imageFileItem.getName()).thenReturn("");
+        when(imageFileItem.getFieldName()).thenReturn(Constant.IMAGE_FILE);
+        when(imageFileItem.isFormField()).thenReturn(false);
+        when(imageFileItem.getInputStream()).thenReturn(new FileInputStream(inputFolder+"/test_updated.jpg"));
+        when(imageFileItem.getName()).thenReturn("test_updated.jpg");
+        
+        FileItem imageName = mock(FileItem.class);
+        when(imageName.getName()).thenReturn(name+" Updated Image ");
+        when(imageName.getFieldName()).thenReturn(Constant.IMAGE_NAME);
+        when(imageName.isFormField()).thenReturn(true);
+        
+        FileItem imageDescription = mock(FileItem.class);
+        when(imageDescription.getName()).thenReturn("Test Image Description Updated Image");
+        when(imageDescription.getFieldName()).thenReturn(Constant.IMAGE_DESCRIPTION);
+        when(imageDescription.isFormField()).thenReturn(true);
+        
+        FileItem imageCategoryId = mock(FileItem.class);
+        when(imageCategoryId.getName()).thenReturn("1");
+        when(imageCategoryId.getFieldName()).thenReturn(Constant.IMAGE_CATEGORY_ID);
+        when(imageCategoryId.isFormField()).thenReturn(true);
+        
+        FileItem imageIntensityId = mock(FileItem.class);
+        when(imageIntensityId.getName()).thenReturn("2");
+        when(imageIntensityId.getFieldName()).thenReturn(Constant.IMAGE_INTENSITY);
+        when(imageIntensityId.isFormField()).thenReturn(true);
+        
+        FileItem imageTypeId = mock(FileItem.class);
+        when(imageTypeId.getName()).thenReturn("55");
+        when(imageTypeId.getFieldName()).thenReturn(Constant.IMAGE_TYPE_ID);
+        when(imageTypeId.isFormField()).thenReturn(true);
+        
+        files.add(imageId);
+        files.add(imageName);
+        files.add(imageDescription);
+        files.add(imageCategoryId);
+        files.add(imageIntensityId);
+        files.add(imageTypeId);
+        files.add(imageFileItem);
+        
+        when(fileUpload.parseRequest(request)).thenReturn(files);
+        imageUploadServlet.setImageFolder(outputFolder);
+        imageUploadServlet.setFileUpload(fileUpload);
+        imageUploadServlet.doPut(request, response);
+        
+        JSONParser parser = new JSONParser();
+		Object obj = parser.parse(stringWriter.getBuffer().toString());
+		JSONObject jsonObject = (JSONObject) obj;
+		
+		assertEquals(Constant.UNAUTHORIZED_401, (String) jsonObject.get(Constant.STATUS));
+		deleteFile(inputFolder+"/test_updated.jpg");
+	}
+	
 }
