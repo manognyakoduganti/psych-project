@@ -52,7 +52,6 @@
         initSearchTab();
 
         vm.isSet = function (tabId) {
-            //console.log("Tab set to " + tabId);
             return vm.tab === tabId;
         };
         
@@ -72,8 +71,6 @@
         
         vm.updateTraining = function(){
         	if (vm.selectedTrainingDetails != undefined){
-        		
-        		console.log(angular.toJson(vm.selectedTrainingDetails));
         		
         		TrainingService
         		.updateTraining(angular.toJson(vm.selectedTrainingDetails))
@@ -165,7 +162,6 @@
         					questionCategoryId: vm.questionsDropDown.selected.questionCategoryId,
         					questionName: vm.questionsDropDown.selected.questionName
         			}
-        			console.log(newTrainingQuestion);
         			
         			vm.selectedTrainingDetails.trainingQuestions.push(newTrainingQuestion);
         		}
@@ -243,7 +239,6 @@
         		TrainingService
         		.createTraining(angular.toJson(vm.selectedTrainingDetails))
         		.success(function(response){
-        			console.log(response);
         			if(response.status == '200'){
         				vm.selectedTrainingDetails = {};
         				vm.createSuccessful = true;

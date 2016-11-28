@@ -164,13 +164,13 @@ public class QuestionCategoryDAO {
 			while (rows.next()){
 				JSONObject object = new JSONObject();
 				
-				object.put(Constant.QUESTION_CATEGORY_ID, rows.getLong("qCatId"));
+				object.put(Constant.QUESTION_CATEGORY_ID, rows.getString("qCatId"));
 				object.put(Constant.QUESTION_CATEGORY_NAME, rows.getString("qCatName"));
 				object.put(Constant.QUESTION_CATEGORY_DESCRIPTION, rows.getString("qCatDescription"));
 				object.put(Constant.QUESTION_CATEGORY_RESPONSE_TYPE, rows.getString("responseType"));
 				object.put(Constant.QUESTION_CATEGORY_START_LABEL, rows.getString("startLabel"));
 				object.put(Constant.QUESTION_CATEGORY_END_LABEL, rows.getString("endLabel"));
-				object.put(Constant.RESPONSE_TYPE_FIELD_ID, rows.getLong("fieldId"));
+				object.put(Constant.RESPONSE_TYPE_FIELD_ID, rows.getString("fieldId"));
 				
 				results.add(object);
 			}

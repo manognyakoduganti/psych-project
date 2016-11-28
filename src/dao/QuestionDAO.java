@@ -202,11 +202,11 @@ public class QuestionDAO {
 			while (rows.next()){
 				JSONObject object = new JSONObject();
 				
-				object.put(Constant.QUESTION_ID, rows.getLong("qId"));
+				object.put(Constant.QUESTION_ID, rows.getString("qId"));
 				object.put(Constant.QUESTION_NAME, rows.getString("qName"));
 				object.put(Constant.QUESTION_DESCRIPTION, rows.getString("qDescription"));
 				object.put(Constant.QUESTION_CATEGORY_NAME, rows.getString("catName"));
-				object.put(Constant.QUESTION_CATEGORY_ID, rows.getLong("qCategoryId"));
+				object.put(Constant.QUESTION_CATEGORY_ID, rows.getString("qCategoryId"));
 				results.add(object);
 			}
 			returnJSON.put(Constant.RESULTS, results);
