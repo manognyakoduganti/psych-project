@@ -9,10 +9,10 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -22,6 +22,8 @@ import javax.imageio.ImageIO;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.WriteListener;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -69,8 +71,12 @@ public class ImageUploadServletTest {
 		testValidImageUploadRequest();
 		testValidImageDuplicateSearchRequest();
 		testGetAllImages();
-		testValidImageUpdateReqeustNoImageUpdate();
-		testValidImageUpdateReqeustWithImageUpdate();
+		testFetchSingleImage();
+		//testValidImageUpdateReqeustNoImageUpdate();
+		//testValidImageUpdateReqeustWithImageUpdate();
+		//testInValidSessionImageUpdateReqeustWithImageUpdate();
+		Long imageIdLong = ImageDAO.getImageIdByImageName(name);
+		ImageDAO.deleteImageById(imageIdLong);
 	}
 	
 	public void testValidImageUploadRequest() throws Exception {
@@ -156,7 +162,6 @@ public class ImageUploadServletTest {
 		
 	}
 	
-	@Test
 	public void testInValidImageCreateRequest() throws Exception {
 	
 		generateTestImage("test.jpg");
@@ -194,7 +199,7 @@ public class ImageUploadServletTest {
         when(servletContext.getMimeType("test.jpg")).thenReturn("image/");
         
         FileItem imageName = mock(FileItem.class);
-        when(imageName.getName()).thenReturn("Test Iamge");
+        when(imageName.getName()).thenReturn("");
         when(imageName.getFieldName()).thenReturn(Constant.IMAGE_NAME);
         when(imageName.isFormField()).thenReturn(true);
         
@@ -321,27 +326,29 @@ public class ImageUploadServletTest {
 	public void generateTestImage(String imageName){
 		
 		try {
-			int width = 100;
-			int height = 100;
-			BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-	        // Create a graphics which can be used to draw into the buffered image
-	        Graphics2D g2d = bufferedImage.createGraphics();
-	        // fill all the image with white
-	        g2d.setColor(Color.white);
-	        g2d.fillRect(0, 0, width, height);
-	        // create a circle with black
-	        g2d.setColor(Color.black);
-	        g2d.fillOval(0, 0, width, height);
-	        // create a string with yellow
-	        g2d.setColor(Color.yellow);
-	        g2d.drawString("Psych Psych", 50, 120);
-	 
-	        // Disposes of this graphics context and releases any system resources that it is using.
-	        g2d.dispose();
-	 
-	        // Save as JPEG
-	        File file = new File(inputFolder+"/"+imageName);
-			ImageIO.write(bufferedImage, "jpg", file);
+			 //image dimension
+			 int width = 640;
+			 int height = 320;
+			 //create buffered image object img
+			 BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+			 //file object
+			 File f = null;
+			 //create random image pixel by pixel
+			 for(int y = 0; y < height; y++){
+				 for(int x = 0; x < width; x++){
+			     int a = (int)(Math.random()*256); //alpha
+			     int r = (int)(Math.random()*256); //red
+			     int g = (int)(Math.random()*256); //green
+			     int b = (int)(Math.random()*256); //blue
+			 
+		         int p = (a<<24) | (r<<16) | (g<<8) | b; //pixel
+		         img.setRGB(x, y, p);
+		         }
+			}
+			//write image
+			File file = new File(inputFolder+"/"+imageName);
+			ImageIO.write(img, "jpg", file);
+		     
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -396,28 +403,6 @@ public class ImageUploadServletTest {
 	}
 	
 	
-	public void testValidSingleImageFetchRequest() throws ServletException, IOException, ParseException{
-		
-		request = mock(HttpServletRequest.class);
-		response = mock(HttpServletResponse.class);
-		session = mock(HttpSession.class);
-		
-		StringWriter stringWriter = new StringWriter();
-		PrintWriter printWriter = new PrintWriter(stringWriter);
-		BufferedReader bufferedReader = mock(BufferedReader.class);
-		when(request.getReader()).thenReturn(bufferedReader);
-		//when(response.getOutputStream()).thenReturn(printWriter);
-		
-		when(request.getSession(false)).thenReturn(session);
-		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
-		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
-		when(session.getAttribute(Constant.USER_ID)).thenReturn(1);
-		
-		when(request.getParameter(Constant.IMAGE_PATH)).thenReturn(imagePath);
-		imageUploadServlet.doGet(request, response);
-		
-		// Write logic to 
-	}
 	
 	@Test
 	public void testInValidImageDuplicateSearchRequest() throws ServletException, IOException, ParseException{
@@ -464,10 +449,10 @@ public class ImageUploadServletTest {
 		
 		when(response.getWriter()).thenReturn(printWriter);
 		when(request.getSession(false)).thenReturn(session);
+		
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
 		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
 		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
-		
 		imageUploadServlet.doGet(request, response);
 		
 		JSONParser parser = new JSONParser();
@@ -477,6 +462,36 @@ public class ImageUploadServletTest {
 		JSONArray results = (JSONArray) jsonObject.get(Constant.RESULTS);
 		assertTrue(results.size() > 0);
 		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.OK_200);
+	}
+	
+	public void testFetchSingleImage() throws ServletException, IOException, ParseException{
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(request.getReader()).thenReturn(bufferedReader);
+		
+		StubServletOutputStream servletOutputStream = new StubServletOutputStream();
+		when(response.getOutputStream()).thenReturn(servletOutputStream);
+		
+		when(response.getWriter()).thenReturn(printWriter);
+		when(request.getSession(false)).thenReturn(session);
+		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
+		when(request.getParameter(Constant.IMAGE_PATH)).thenReturn(imagePath);
+		imageUploadServlet.doGet(request, response);
+		
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(stringWriter.getBuffer().toString());
+		JSONObject jsonObject = (JSONObject) obj;
+		servletOutputStream.close();
+		assertEquals(null, jsonObject.get(Constant.STATUS));
 	}
 
 	public void testValidImageUpdateReqeustNoImageUpdate() throws Exception {
@@ -645,10 +660,9 @@ public class ImageUploadServletTest {
 		deleteFile(outputFolder+"/"+(String) jsonObject.get(Constant.IMAGE_PATH));
 		deleteFile(inputFolder+"/test_updated.jpg");
 		deleteFile(inputFolder+"/test.jpg");
-		ImageDAO.deleteImageById(imageIdLong);
 	}
 	
-	@Test
+	
 	public void testInValidSessionImageUpdateReqeustWithImageUpdate() throws Exception {
 		
 		generateTestImage("test_updated.jpg");
@@ -733,4 +747,21 @@ public class ImageUploadServletTest {
 		deleteFile(inputFolder+"/test_updated.jpg");
 	}
 	
+}
+
+class StubServletOutputStream extends ServletOutputStream {
+	 public ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	   public void write(int i) throws IOException {
+	    baos.write(i);
+	 }
+	@Override
+	public boolean isReady() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	@Override
+	public void setWriteListener(WriteListener writeListener) {
+		// TODO Auto-generated method stub
+		
+	}
 }

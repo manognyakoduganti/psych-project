@@ -5,9 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import common.Constant;
 import common.ImageInfo;
 
 public class ImageDAO {
@@ -118,5 +121,92 @@ public class ImageDAO {
 				e1.printStackTrace();
 			}
 		}
+	}
+	
+	public static boolean isDuplicateImage(String name){
+		
+		slf4jLogger.info("Entered into isDuplicateImage");
+		
+		String selectQuery;
+		selectQuery = "SELECT * FROM image WHERE NAME = ?";
+		Connection connection = null;
+		
+		boolean isDuplicate = false;
+		
+		try{
+			connection = DBSource.getConnectionPool().getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+			preparedStatement.setString(1, name);
+			
+			// execute select SQL statement
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			if(rs.first()) {
+				isDuplicate = true;
+			}else{
+				isDuplicate = false;
+			}
+			connection.close();
+		}catch(SQLException e){
+			System.out.println(e.getMessage());
+			try {
+				if (connection != null){
+					connection.close();
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			isDuplicate = false;
+		}
+		
+		return isDuplicate;
+	}
+	
+	public static JSONArray fetchAllImage(){
+		
+		slf4jLogger.info("Entered into fetchAllImage");
+		String selectQuery = "SELECT im.id, im.name, im.description, im.categoryId, im.intensity, "
+				+ "im.imagetype, im.imageloc, fl.fieldName, ic.name FROM image as im join fieldlookup "
+				+ "as fl on im.imageType=fl.id join imagecategory as ic on ic.id =  im.categoryId;";
+		
+		Connection connection = null;
+		JSONArray jsonArray = new JSONArray();
+		
+		try{
+			
+			connection = DBSource.getConnectionPool().getConnection();
+			
+			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+			
+			// execute select SQL statement
+			ResultSet rs = preparedStatement.executeQuery();
+			while(rs.next()) {
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put(Constant.IMAGE_ID, rs.getLong("im.id"));
+				jsonObject.put(Constant.IMAGE_NAME, rs.getString("im.name"));
+				jsonObject.put(Constant.IMAGE_DESCRIPTION, rs.getString("im.description"));
+				jsonObject.put(Constant.IMAGE_CATEGORY_ID,rs.getLong("im.categoryId"));
+				jsonObject.put(Constant.IMAGE_INTENSITY,rs.getLong("im.intensity"));
+				jsonObject.put(Constant.IMAGE_TYPE_ID,rs.getLong("im.imagetype"));
+				jsonObject.put(Constant.IMAGE_PATH,rs.getString("im.imageloc"));
+				jsonObject.put(Constant.IMAGE_CATEGORY, rs.getString("fl.fieldName"));
+				jsonObject.put(Constant.IMAGE_TYPE, rs.getString("ic.name"));
+				jsonArray.add(jsonObject);
+			}
+			connection.close();
+			
+		}catch(SQLException e){
+			System.out.println(e.getMessage());
+			try {
+				if (connection != null){
+					connection.close();
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		return jsonArray;
 	}
 }

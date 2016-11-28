@@ -9,6 +9,8 @@ import autoFill.FetchCommonFieldServletTest;
 import fieldValidation.LocationFieldsTest;
 import fieldValidation.QuestionCategoryFieldsValTest;
 import fieldValidation.UserProfileFieldsTest;
+import imageData.ImageCategoryServletTest;
+import imageData.ImageUploadServletTest;
 import location.LocationServletTest;
 import profile.UserProfileServletTest;
 import questionnaire.QuestionCategoryServlet;
@@ -29,7 +31,10 @@ import training.TrainingServletTest;
 	TargetGroupServletTest.class,
 	TrainingServletTest.class,
 	QuestionCategoryFieldsValTest.class,
-	QuestionCategoryServletTest.class
+	QuestionCategoryServletTest.class,
+	ImageCategoryServletTest.class,
+	ImageUploadServletTest.class
+	
 })
 public class AllTest {
 
