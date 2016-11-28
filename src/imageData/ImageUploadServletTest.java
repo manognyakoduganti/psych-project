@@ -488,9 +488,7 @@ public class ImageUploadServletTest {
 		Object obj = parser.parse(stringWriter.getBuffer().toString());
 		JSONObject jsonObject = (JSONObject) obj;
 		
-		JSONArray results = (JSONArray) jsonObject.get(Constant.RESULTS);
-		assertTrue(results.size() > 0);
-		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.OK_200);
+		assertEquals(Constant.UNAUTHORIZED_401, (String) jsonObject.get(Constant.STATUS));
 	}
 	
 	public void testFetchSingleImage() throws ServletException, IOException, ParseException{
