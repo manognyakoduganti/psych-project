@@ -32,7 +32,7 @@
         	vm.duplicateQuestionMessage = false;
 			vm.isUpdateSuccessful = false;
 			vm.updateFailed = false;
-			vm.selectedTrainingDetails = {}
+			vm.selectedTrainingDetails = {};
 			vm.createSuccessful = false;
 			vm.createFailed = false;
 			vm.selectedTrainingDetails.trainingDescription = "";

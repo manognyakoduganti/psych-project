@@ -80,7 +80,7 @@ public class UserProfileServlet extends HttpServlet {
 				boolean isUpdated = false;
 				if(isValidInputData(jsonObject)){
 					
-					UserProfile userProfile = parseLocation(jsonObject);
+					UserProfile userProfile = parseUserDetails(jsonObject);
 					
 					boolean isDuplicate = false;
 					if(!email.equals(newEmail)){
@@ -88,7 +88,6 @@ public class UserProfileServlet extends HttpServlet {
 					}
 				
 					if(!isDuplicate){
-						
 						isUpdated = UserProfileDAO.udpateUserProfile(userProfile, email);
 						
 						if(isUpdated){
@@ -133,16 +132,22 @@ public class UserProfileServlet extends HttpServlet {
 		String newFirstName = (String) jsonObject.get(Constant.NEW_FIRST_NAME);
 		String newLastName = (String) jsonObject.get(Constant.NEW_LAST_NAME);
 
-	
 		if(UserProfileFieldsVal.validateEmail(newEmail) && UserProfileFieldsVal.validateName(newFirstName) && 
-				UserProfileFieldsVal.validateName(newLastName) && UserProfileFieldsVal.validatePassword(newPassword)){
+				UserProfileFieldsVal.validateName(newLastName)){
+			
+			if(!newPassword.equals("")){
+				if(UserProfileFieldsVal.validatePassword(newPassword))
+					return true;
+				else
+					return false;
+			}
 			return true;
 		}
 		return false;
 		
 	}
 	
-	private UserProfile parseLocation(JSONObject jsonObject){
+	private UserProfile parseUserDetails(JSONObject jsonObject){
 		
 		UserProfile userProfile = new UserProfile();
 		
