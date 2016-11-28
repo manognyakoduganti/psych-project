@@ -7,6 +7,7 @@ import org.junit.runners.Suite.SuiteClasses;
 import authentication.AdminAuthenticationServletTest;
 import authentication.AuthenticatingUserTest;
 import autoFill.FetchCommonFieldServletTest;
+import fieldValidation.ImageFieldsTest;
 import fieldValidation.LocationFieldsTest;
 import fieldValidation.QuestionCategoryFieldsValTest;
 import fieldValidation.UserProfileFieldsTest;
@@ -35,6 +36,8 @@ import training.TrainingServletTest;
 	TrainingServletTest.class,
 	QuestionCategoryFieldsValTest.class,
 	QuestionCategoryServletTest.class,
+	QuestionServletTest.class,
+	ImageFieldsTest.class,
 	ImageCategoryServletTest.class,
 	ImageUploadServletTest.class,
 	RegisterTest.class,

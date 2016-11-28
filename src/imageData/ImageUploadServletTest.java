@@ -748,6 +748,7 @@ public class ImageUploadServletTest {
 		deleteFile(inputFolder+"/test_updated.jpg");
 	}
 	
+	
 }
 
 class StubServletOutputStream extends ServletOutputStream {
@@ -766,3 +767,4 @@ class StubServletOutputStream extends ServletOutputStream {
 		
 	}
 }
+

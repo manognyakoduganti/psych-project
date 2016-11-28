@@ -450,4 +450,69 @@ public class ImageCategoryServletTest {
 		
 		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.BADREQUEST_400);
 	}
+
+	@Test
+	public void testBadParsingDataPostError()  throws ServletException, IOException, ParseException{
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(bufferedReader.readLine()).thenReturn("SDF465456456456456456sdfgsdfgsdfgasdf").thenReturn(null);
+		when(request.getReader()).thenReturn(bufferedReader);
+		
+		when(request.getParameter(Constant.TG_NAME)).thenReturn("ASDFJA KASDFJAE RASJFASDF");
+		
+		when(response.getWriter()).thenReturn(printWriter);
+		when(request.getSession(false)).thenReturn(session);
+		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1);
+		
+		imageCategoryServlet.doPost(request, response);
+		
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(stringWriter.getBuffer().toString());
+		JSONObject jsonObject = (JSONObject) obj;
+		
+		assertEquals(Constant.BADREQUEST_400, (String) jsonObject.get(Constant.STATUS));
+		
+	}
+	
+	@Test
+	public void testBadParsingDataPutError()  throws ServletException, IOException, ParseException{
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(bufferedReader.readLine()).thenReturn("SDF465456456456456456sdfgsdfgsdfgasdf").thenReturn(null);
+		when(request.getReader()).thenReturn(bufferedReader);
+		
+		when(request.getParameter(Constant.TG_NAME)).thenReturn("ASDFJA KASDFJAE RASJFASDF");
+		
+		when(response.getWriter()).thenReturn(printWriter);
+		when(request.getSession(false)).thenReturn(session);
+		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1);
+		
+		imageCategoryServlet.doPut(request, response);
+		
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(stringWriter.getBuffer().toString());
+		JSONObject jsonObject = (JSONObject) obj;
+		
+		assertEquals(Constant.BADREQUEST_400, (String) jsonObject.get(Constant.STATUS));
+		
+	}
+	
 }
