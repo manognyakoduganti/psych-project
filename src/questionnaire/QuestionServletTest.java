@@ -73,7 +73,8 @@ public class QuestionServletTest {
 		when(response.getWriter()).thenReturn(printWriter);
 		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
-		when(session.getAttribute(Constant.USER_ID)).thenReturn(4l);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
 		
 		questionServlet.doPost(request, response);
 		
@@ -117,7 +118,8 @@ public class QuestionServletTest {
 		when(response.getWriter()).thenReturn(printWriter);
 		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
-		when(session.getAttribute(Constant.USER_ID)).thenReturn(4l);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
 		
 		questionServlet.doPost(request, response);
 		
@@ -158,7 +160,8 @@ public class QuestionServletTest {
 		when(response.getWriter()).thenReturn(printWriter);
 		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
-		when(session.getAttribute(Constant.USER_ID)).thenReturn(4l);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
 		
 		questionServlet.doPut(request, response);
 		
@@ -200,7 +203,8 @@ public class QuestionServletTest {
 		when(response.getWriter()).thenReturn(printWriter);
 		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
-		when(session.getAttribute(Constant.USER_ID)).thenReturn(4l);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
 		
 		questionServlet.doPut(request, response);
 		
@@ -264,7 +268,8 @@ public class QuestionServletTest {
 		when(request.getSession(false)).thenReturn(session);
 		when(request.getParameter(Constant.TARGET_GROUP_ID)).thenReturn("1");
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
-		when(session.getAttribute(Constant.USER_ID)).thenReturn(4l);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
 		
 		questionServlet.doGet(request, response);
 		
@@ -299,7 +304,8 @@ public class QuestionServletTest {
 		when(request.getSession(false)).thenReturn(session);
 		when(request.getParameter(Constant.TARGET_GROUP_ID)).thenReturn("1000000000");
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
-		when(session.getAttribute(Constant.USER_ID)).thenReturn(4l);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
 		
 		questionServlet.doGet(request, response);
 		
@@ -314,6 +320,66 @@ public class QuestionServletTest {
 		assertTrue(results.size() == 0);
 		
 		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.OK_200);
+	}
+	
+	@Test
+	public void testBadParsingDataPostError()  throws ServletException, IOException, ParseException{
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(bufferedReader.readLine()).thenReturn("SDF465456456456456456sdfgsdfgsdfgasdf").thenReturn(null);
+		when(request.getReader()).thenReturn(bufferedReader);
+		
+		when(response.getWriter()).thenReturn(printWriter);
+		when(request.getSession(false)).thenReturn(session);
+		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
+		
+		questionServlet.doPost(request, response);
+		
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(stringWriter.getBuffer().toString());
+		JSONObject jsonObject = (JSONObject) obj;
+		
+		assertEquals(Constant.BADREQUEST_400, (String) jsonObject.get(Constant.STATUS));
+		
+	}
+	
+	@Test
+	public void testBadParsingDataPutError()  throws ServletException, IOException, ParseException{
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(bufferedReader.readLine()).thenReturn("SDF465456456456456456sdfgsdfgsdfgasdf").thenReturn(null);
+		when(request.getReader()).thenReturn(bufferedReader);
+		
+		when(response.getWriter()).thenReturn(printWriter);
+		when(request.getSession(false)).thenReturn(session);
+		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
+		
+		questionServlet.doPut(request, response);
+		
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(stringWriter.getBuffer().toString());
+		JSONObject jsonObject = (JSONObject) obj;
+		
+		assertEquals(Constant.BADREQUEST_400, (String) jsonObject.get(Constant.STATUS));
+		
 	}
 
 }

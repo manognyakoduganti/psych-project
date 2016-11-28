@@ -4,6 +4,10 @@
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
+  <context-param>
+        <param-name>ImageFolder</param-name>
+        <param-value>/Users/Darshan/Documents/Psych/Images</param-value>
+    </context-param>
   <servlet>
     <servlet-name>AuthenticatingUser</servlet-name>
     <servlet-class>authentication.AuthenticatingUser</servlet-class>
@@ -75,10 +79,6 @@
   <servlet>
     <servlet-name>ImageUpload</servlet-name>
     <servlet-class>imageData.ImageUploadServlet</servlet-class>
-    <init-param>
-        <param-name>ImageFolder</param-name>
-        <param-value>/Users/Darshan/Documents/Psych/Images</param-value>
-    </init-param>
   </servlet>
   <servlet>
     <servlet-name>ImageFile</servlet-name>
