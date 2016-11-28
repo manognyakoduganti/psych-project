@@ -89,7 +89,8 @@
         </thead>
         <tbody>
         <tr ng-repeat = "qc in model.questionCategorySearchResults">
-            <td><a href=""> {{qc.questionCategoryName}} </a></td>
+            <td><a href=""><span data-toggle="modal"
+                                                 data-target="#myModalForQuestionCategoryDetails" ng-click="model.selectQuestionCategoryDetails($index)"> {{qc.questionCategoryName}} </a></td>
             <td> {{qc.questionCategoryDescription}} </td>
             
            
@@ -210,7 +211,8 @@
         </thead>
         <tbody>
         <tr ng-repeat = "qc in model.questionSearchResults">
-            <td><a href=""> {{qc.questionName}} </a></td>
+            <td><a href=""> <span data-toggle="modal"
+                                                 data-target="#myModalForQuestionDetails" ng-click="model.selectQuestionDetails($index)">{{qc.questionName}} </span></a></td>
             <td> {{qc.questionDescription}} </td>
             
            
@@ -384,6 +386,109 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     
+                </div>
+            </div>
+        </div>
+    </div>
+        <!-- Modal content for Question Category details -->
+          <div id="myModalForQuestionCategoryDetails" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Question Category Details</h4>
+                </div>
+                <div class="modal-body">
+                   <div class="form-horizontal" ng-form name="locationUpdateForm">
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-4 control-label">Category Name:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedQc.questionCategoryName}}
+                                    </div>
+                                </div>
+                                
+                                
+                              
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Response Type:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedQc.questionCategoryDescription}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Start Label:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedQc.startLabel}}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">End Label:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedQc.endLabel}}
+                                    </div>
+                                </div>
+
+                              
+
+                                
+                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
+                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                            </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+             
+                </div>
+            </div>
+        </div>
+    </div>
+       <!-- Modal content for Question details -->
+          <div id="myModalForQuestionDetails" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Question Category Details</h4>
+                </div>
+                <div class="modal-body">
+                   <div class="form-horizontal" ng-form name="locationUpdateForm">
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-4 control-label">Question:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedQ.questionName}}
+                                    </div>
+                                </div>
+                                
+                                
+                              
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Description:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedQ.questionDescription}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Category:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedQ.questionCategoryName}}
+                                    </div>
+                                </div>
+
+                                
+                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
+                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                            </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+             
                 </div>
             </div>
         </div>

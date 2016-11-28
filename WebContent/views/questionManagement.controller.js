@@ -341,6 +341,22 @@
     			});
         }
         
+        vm.selectQuestionCategoryDetails = selectQuestionCategoryDetails;
+        
+        function selectQuestionCategoryDetails(qc) {
+        	var questionCategory = vm.questionCategorySearchResults[qc];
+        	console.log(questionCategory);
+        	vm.selectedQc = questionCategory;
+        }
+        
+        vm.selectQuestionDetails = selectQuestionDetails;
+        
+        function selectQuestionDetails(q) {
+        	var question = vm.questionSearchResults[q];
+        	console.log(question);
+        	vm.selectedQ = question;
+        }
+        
         
     }
 })();
