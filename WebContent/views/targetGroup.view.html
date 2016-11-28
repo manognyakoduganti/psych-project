@@ -42,13 +42,13 @@ Licensed under MIT
                                 <div class="form-group">
                                     <label for="inputName2" class="col-sm-2 control-label">Target Group Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.searchTg.tgName">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the target group" ng-model="model.searchTg.tgName">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.searchTg.tgDescription">
+                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the target group" ng-model="model.searchTg.tgDescription"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -62,7 +62,7 @@ Licensed under MIT
                                     <label for="inputEmail3" class="col-sm-2 control-label">Location:</label>
                                     <div class="col-sm-7">
                                     <select name="locations" ng-options='loc.locationId as loc.locationName for loc in model.locationList' class="form-control" id="inputEmail3"  ng-model="model.searchTg.tgLocation" required="required">
-                                        <option value="">Select Location</option>
+                                        
                                     </select>
                                     </div>
                                 </div>
@@ -71,7 +71,7 @@ Licensed under MIT
                                     <label for="inputEmail3" class="col-sm-2 control-label">Training:</label>
                                     <div class="col-sm-7">
                                    <select name="trainings" ng-options='tr.trainingId as tr.trainingName for tr in model.trainingList' class="form-control" id="inputEmail3"  ng-model="model.searchTg.tgTraining" required="required">
-                                        <option value="">Select Training</option>
+                                        
                                         </select>
                                         </div>
                                 </div>
@@ -101,7 +101,8 @@ Licensed under MIT
         </thead>
         <tbody>
         <tr ng-repeat = "tg in model.targetGroupSearchResults">
-            <td><a href=""> {{tg.tgName}} </a></td>
+            <td><a href=""><span data-toggle="modal"
+                                                 data-target="#myModalForTargetGroupDetails" ng-click="model.selectTargetGroupDetails($index)"> {{tg.tgName}}</span> </a></td>
             
             <td> {{tg.tgLocationName}} </td>
             <td> {{tg.tgTrainingName}} </td>
@@ -139,13 +140,13 @@ Licensed under MIT
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the target group" ng-model="model.createTargetGroup.description">
+                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the target group" ng-model="model.createTargetGroup.description"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Keywords:</label>
                                     <div class="col-sm-7">
-                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Keywords" ng-model="model.createTargetGroup.keywords">
+                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Keywords" ng-model="model.createTargetGroup.keywords">
                                     </div>
                                 </div>
 
@@ -153,7 +154,7 @@ Licensed under MIT
                                     <label for="inputEmail3" class="col-sm-2 control-label">Location:</label>
                                     <div class="col-sm-7">
                                         <select name="locations" ng-options='loc.locationId as loc.locationName for loc in model.locationList' class="form-control" id="inputEmail3"  ng-model="model.createTargetGroup.location" required="required">
-                                        <option value="">Select Location</option>
+                                       
                                         </select>
                                     </div>
                                 </div>
@@ -162,7 +163,7 @@ Licensed under MIT
                                     <label for="inputEmail3" class="col-sm-2 control-label">Training:</label>
                                     <div class="col-sm-7">
                                         <select name="trainings" ng-options='tr.trainingId as tr.trainingName for tr in model.trainingList' class="form-control" id="inputEmail3"  ng-model="model.createTargetGroup.training" required="required">
-                                        <option value="">Select Training</option>
+                                        
                                         </select>
                                     </div>
                                 </div>
@@ -196,38 +197,38 @@ Licensed under MIT
                 <div class="modal-body">
                    <div class="form-horizontal">
                                 <div class="form-group">
-                                    <label for="inputName2" class="col-sm-2 control-label">Target Group Name:</label>
+                                    <label for="inputName2" class="col-sm-4 control-label">Target Group Name:</label>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.tgUpdate.tgName">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-2 control-label">Description:</label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the target group" ng-model="model.tgUpdate.tgDescription">
+                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the target group" ng-model="model.tgUpdate.tgDescription"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Keywords:</label>
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Keywords:</label>
                                     <div class="col-sm-7">
                                         <input type="email" class="form-control" id="inputEmail3" placeholder="Keywords" ng-model="model.tgUpdate.tgKeywords">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Location</label>
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Location</label>
                                     <div class="col-sm-7">
                                         <select name="trainings" ng-options='loc.locationId as loc.locationName for loc in model.locationList' ng-model="model.tgUpdate.tgLocation" required="required">
-                                        <option value="">Select Location</option>
+                                       
                                         </select>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Training</label>
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Training</label>
                                     <div class="col-sm-7">
                                         <select name="trainings" ng-options='tr.trainingId as tr.trainingName for tr in model.trainingList' ng-model="model.tgUpdate.tgTraining" required="required">
-                                        <option value="">Select Training</option>
+                                        
                                         </select>
                                     </div>
                                 </div>
@@ -248,6 +249,72 @@ Licensed under MIT
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                    
+                </div>
+            </div>
+        </div>
+    </div>
+        <!-- Modal content for Target group details -->
+          <div id="myModalForTargetGroupDetails" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Target Group Details</h4>
+                </div>
+                <div class="modal-body">
+                   <div class="form-horizontal" ng-form name="locationUpdateForm">
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-4 control-label">Target Group Name:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedTg.tgName}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-4 control-label">Registration Code:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedTg.tgRegCode}}
+                                    </div>
+                                </div>
+                                
+                              
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Description:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedTg.tgDescription}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Keywords:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedTg.tgKeywords}}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Location:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedTg.tgLocationName}}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Training:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedTg.tgTrainingName}}
+                                    </div>
+                                </div>
+
+                                
+                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
+                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                            </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+             
                 </div>
             </div>
         </div>

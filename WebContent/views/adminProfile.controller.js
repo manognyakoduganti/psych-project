@@ -6,12 +6,12 @@
         .module("PsychWebApp")
         .controller("AdminProfileController", AdminProfileController);
 
-    function AdminProfileController($scope, $location, $rootScope, UserService)
+    function AdminProfileController($scope, $location, $rootScope, UserService, $window)
     {
         $scope.$location = $location;
         var vm = this;
-        var userData = $rootScope.user;
-        var email = $rootScope.user.email;
+        var userData = $rootScope.currentUser;
+        //var email = $rootScope.user.email;
         vm.isUpdateSuccessful = false;
         vm.isUpdateFailed = false;
         vm.isChangePasswordSuccessful = false;
@@ -35,17 +35,18 @@
         		UserService.updateProfile(updateUserData)
                 .success(function(response) {
                 	if(response.status === '200') {
-                	vm.isUpdateSuccessful = true;
+                	//vm.isUpdateSuccessful = true;
                 	console.log("Response received: " + response);
                 	console.log("verified received: " + response.verified);
                 	console.log("Data received: " + response.data);
                 	$rootScope.user.firstName = response.firstName;
                 	$rootScope.user.lastName = response.lastName;
                 	$rootScope.user.email = response.email;
+                	$window.alert('Profile update successfully');
                 	}
                 	
                 	else
-                		vm.isUpdateFailed = true;
+                		$window.alert('Profile update failed');
                 });
         	
         vm.changePassword = changePassword;
@@ -59,9 +60,9 @@
         			.changePassword(pwd)
         			.success(function(response) {
         			if(response.status === '200')
-        				vm.isChangePasswordSuccessful = true;
+        				$window.alert('Password change successful');
         			else
-        				vm.isChangePasswordSuccessful = false;
+        				$window.alert('Profile update failed');
         		});
         	}
         }

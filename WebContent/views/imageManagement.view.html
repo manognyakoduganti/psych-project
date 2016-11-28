@@ -157,9 +157,12 @@
                                     <label for="inputEmail3" class="col-sm-2 control-label">Intensity:</label>
                                     <div class="col-sm-7">                                     
                                         <select name="Intensity" class="form-control" id="inputEmail3" placeholder="State" ng-model="model.searchLoc.state" required="required">
-                                        <option value="">3</option>
+                                        
                                         <option value="">1</option>
                                         <option value="">2</option>
+                                        <option value="">3</option>
+                                        <option value="">4</option>
+                                        <option value="">5</option>
                                         </select>
                                     </div>
                                 </div>
@@ -225,7 +228,7 @@
                                 <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Images Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" name="createImageName" class="form-control" id="inputEmail3" placeholder="Image Name" ng-model="model.newLocation.code">
+                                        <input type="text" name="createImageName" class="form-control" id="inputEmail3" placeholder="Image Name" ng-model="imageName">
                                         <div ng-messages="locationCreateForm.createImageName.$error">
 								
 									      
@@ -235,14 +238,14 @@
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the Image" ng-model="model.newLocation.description">
+                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the Image" ng-model="imageDescription">
                                     </div>
                                 </div>
                                 
                                 <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">images Category:</label>
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Image Category:</label>
                                     <div class="col-sm-7">                                     
-                                        <select name="states" class="form-control" id="inputEmail3" placeholder="State" ng-model="model.searchLoc.state" required="required">
+                                        <select name="states" class="form-control" id="inputEmail3" placeholder="Category of the image" ng-model="model.imageCategory" ng-options='ic.imageCategoryId as ic.imageCategoryName for ic in model.imageCategoryList' required="required">
                                         <option value="">Select Category</option>
                                         </select>
                                     </div>
@@ -250,35 +253,37 @@
                                   <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Intensity:</label>
                                     <div class="col-sm-7">                                     
-                                        <select name="Intensity" class="form-control" id="inputEmail3" placeholder="State" ng-model="model.searchLoc.state" required="required">
-                                        <option value="">3</option>
-                                        <option value="">1</option>
-                                        <option value="">2</option>
+                                        <select name="Intensity" class="form-control" id="inputEmail3" placeholder="Intensity" ng-model="model.imageIntensity" required="required">
+                                    	<option value="">Select Intensity</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
                                         </select>
                                     </div>
                                 </div>
                                        <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Image Type:</label>
                                     <div class="col-sm-7">                                     
-                                        <select name="imageType" class="form-control" id="inputEmail3" placeholder="State" ng-model="model.searchLoc.state" required="required">
-                                        <option value="">Select Category</option>
-                                        <option value="">Positive</option>
-                                          <option value="">Negative</option>
-                                        <option value="">Neutral</option>
+                                        <select name="imageType" class="form-control" id="inputEmail3" placeholder="Image Type" ng-model="model.createI.imageType" ng-options='ic.fieldId as ic.fieldValue for ic in model.imageTypeList' required="required">
+                                        <option value="">Select Type</option>
+                                        <option value=""></option>
+                                          
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                   <label for="inputEmail3" class="col-sm-2 control-label">Select Image :</label>
                                   <div class="col-sm-7"> 
-                                <div> <input type='file' onchange="readURL(this);" /></div>
+                                <div> <input type='file' file-upload multiple/></div>
                                 </div>
                                </div>
                
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.create(model.newLocation)">Create</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.save(model.createI)">Create</button>
                                     </div>
                                 </div>
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>

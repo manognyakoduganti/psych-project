@@ -21,11 +21,11 @@
 		                  <div class="tabbable-panel" ng-show="model.isSet('questionCategories')">
 		                	<div class="tabbable-line">
 		                    <ul class="nav nav-tabs">
-		                    	<li ng-class="{active:model.isSet('searchQuestionCategories')}">
+		                    	<li ng-class="{active:model.isSetSubTab('searchQuestionCategories')}">
 		                            <a href="" ng-click="model.setSubTab('searchQuestionCategories')">
 		                                Search </a>
 		                        </li>
-		                        <li ng-class="{active:model.isSet('createQuestionCategories')}">
+		                        <li ng-class="{active:model.isSetSubTab('createQuestionCategories')}">
 		                            <a href="" ng-click="model.setSubTab('createQuestionCategories')">
 		                                Create </a>
 		                        </li>
@@ -36,13 +36,13 @@
                                 <div class="form-group">
                                     <label for="inputName2" class="col-sm-2 control-label">Category Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.searchQc.questionCategoryName">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the category" ng-model="model.searchQc.questionCategoryName">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.searchQc.questionCategoryDescription">
+                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the category" ng-model="model.searchQc.questionCategoryDescription"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -56,13 +56,13 @@
                                 <div class="form-group">
                                     <label for="inputName2" class="col-sm-2 control-label">Start Label:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.searchQc.startLabel">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Enter a start label" ng-model="model.searchQc.startLabel">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputName2" class="col-sm-2 control-label">End Label:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.searchQc.endLabel">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Enter an end label" ng-model="model.searchQc.endLabel">
                                     </div>
                                 </div>
 
@@ -121,7 +121,7 @@
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the category" ng-model="model.createQc.newQuestionCategoryDescription">
+                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the category" ng-model="model.createQc.newQuestionCategoryDescription"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -161,11 +161,11 @@
                 	                  <div class="tabbable-panel" ng-show="model.isSet('questions')">
 		                	<div class="tabbable-line">
 		                    <ul class="nav nav-tabs">
-		                    	<li ng-class="{active:model.isSet('searchQuestions')}">
+		                    	<li ng-class="{active:model.isSetSubTab('searchQuestions')}">
 		                            <a href="" ng-click="model.setSubTab('searchQuestions')">
 		                                Search </a>
 		                        </li>
-		                        <li ng-class="{active:model.isSet('createQuestions')}">
+		                        <li ng-class="{active:model.isSetSubTab('createQuestions')}">
 		                            <a href="" ng-click="model.setSubTab('createQuestions')">
 		                                Create </a>
 		                        </li>
@@ -176,13 +176,13 @@
                                 <div class="form-group">
                                     <label for="inputName2" class="col-sm-2 control-label">Question Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.searchQ.questionName">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the Question" ng-model="model.searchQ.questionName">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.searchQ.questionDescription">
+                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the question" ng-model="model.searchQ.questionDescription"></textarea>
                                     </div>
                                 </div>
                       
@@ -242,7 +242,7 @@
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description for the question" ng-model="model.createQ.newQuestionDescription">
+                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description for the question" ng-model="model.createQ.newQuestionDescription"></textarea>
                                     </div>
                                 </div>
                                 
@@ -286,19 +286,19 @@
                 <div class="modal-body">
                    <div class="form-horizontal" ng-form name="locationUpdateForm">
                                 <div class="form-group">
-                                    <label for="inputName2" class="col-sm-2 control-label">Category Name:</label>
+                                    <label for="inputName2" class="col-sm-4 control-label">Category Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.updateQc.questionCategoryName">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the category" ng-model="model.updateQc.questionCategoryName">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-2 control-label">Description:</label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.updateQc.questionCategoryDescription">
+                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the category" ng-model="model.updateQc.questionCategoryDescription"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Response Type:</label>
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Response Type:</label>
                                     <div class="col-sm-7">                                     
                                         <select name="states" class="form-control" id="inputEmail3" ng-options='qc.fieldId as qc.fieldValue for qc in model.responseTypeList' placeholder="State" ng-model="model.updateQc.responseType" required="required">
                                         <option value="">Select Response Type</option>
@@ -306,15 +306,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputName2" class="col-sm-2 control-label">Start Label:</label>
+                                    <label for="inputName2" class="col-sm-4 control-label">Start Label:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.updateQc.startLabel">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Enter a start label" ng-model="model.updateQc.startLabel">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputName2" class="col-sm-2 control-label">End Label:</label>
+                                    <label for="inputName2" class="col-sm-4 control-label">End Label:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.updateQc.endLabel">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Enter an end label" ng-model="model.updateQc.endLabel">
                                     </div>
                                 </div>
                         
@@ -349,20 +349,20 @@
                 <div class="modal-body">
                    <div class="form-horizontal" ng-form name="locationUpdateForm">
                                 <div class="form-group">
-                                    <label for="inputName2" class="col-sm-2 control-label">Question:</label>
+                                    <label for="inputName2" class="col-sm-4 control-label">Question:</label>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control" id="inputName2" placeholder="Enter a question" ng-model="model.updateQ.questionName">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-2 control-label">Description:</label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the question" ng-model="model.updateQ.questionDescription">
+                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the question" ng-model="model.updateQ.questionDescription"></textarea>
                                     </div>
                                 </div>
                                 
                                 <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Question Category:</label>
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Question Category:</label>
                                     <div class="col-sm-7">                                     
                                         <select name="states" class="form-control" id="inputEmail3" placeholder="" ng-options='qc.questionCategoryId as qc.questionCategoryName for qc in model.questionCategoryList' ng-model="model.updateQ.questionCategoryId" required="required">
                                         <option value="">Select Category</option>

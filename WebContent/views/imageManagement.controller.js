@@ -7,7 +7,7 @@
         .controller("ImageManagementController", ImageManagementController);
     
 
-    function ImageManagementController(ImageManagementService, $scope, $http, $window) {
+    function ImageManagementController(ImageManagementService, FieldLookupService,$scope, $http, $window) {
     	var vm = this;
     	vm.tab = 'imageCatergories';
     	vm.subTab = 'searchImageCatergories';
@@ -21,6 +21,28 @@
     			imageCategoryName : '',
     			imageCategoryDescription : ''
     	};
+    	
+    	vm.createI = {
+    			imageName : '',
+    			imageDescription : '',
+    			imageIntensity : '',
+    			imageType : '',
+    			imageCategory : '',
+    	};
+    	
+    	ImageManagementService
+    	.getAllCategories()
+    	.success(function(response) {
+    		if(response.status === '200')
+    			vm.imageCategoryList = response.results;
+    	});
+    	
+    	FieldLookupService
+    	.fetchFields('imageType')
+    	.success(function(response) {
+    		if(response.status === '200')
+    			vm.imageTypeList = response.results;
+    	});
     	
     	vm.setTab = function (tabId) {
             //console.log("Setting tab to " + tabId);
@@ -41,59 +63,7 @@
         	return vm.subTab === tabId;
         };
         
-        $scope.files = [];
-
-        //listen for the file selected event
-        $scope.$on("fileSelected", function (event, args) {
-            $scope.$apply(function () {            
-                //add the file object to the scope's files collection
-                $scope.files.push(args.file);
-            });
-       
         
-        //the save method
-        vm.save = function() {
-        	console.log("Inside save function");
-            $http({
-                method: 'POST',
-                url: 'http://localhost:8080/Psych-1/' + "imageUpload",
-                //IMPORTANT!!! You might think this should be set to 'multipart/form-data' 
-                // but this is not true because when we are sending up files the request 
-                // needs to include a 'boundary' parameter which identifies the boundary 
-                // name between parts in this multi-part request and setting the Content-type 
-                // manually will not set this boundary parameter. For whatever reason, 
-                // setting the Content-type to 'false' will force the request to automatically
-                // populate the headers properly including the boundary parameter.
-                headers: { 'Content-Type': undefined },
-                //This method will allow us to change how the data is sent up to the server
-                // for which we'll need to encapsulate the model data in 'FormData'
-                transformRequest: function (data) {
-                    var formData = new FormData();
-                    //need to convert our json object to a string version of json otherwise
-                    // the browser will do a 'toString()' on the object which will result 
-                    // in the value '[Object object]' on the server.
-                    formData.append("model", angular.toJson(data.model));
-                    //now add all of the assigned files
-                    for (var i = 0; i < data.files; i++) {
-                        //add each file to the form data and iteratively name them
-                        formData.append("file" + i, data.files[i]);
-                    }
-                    return formData;
-                },
-                //Create an object that contains the model and files which will be transformed
-                // in the above transformRequest method
-                data: { model: 'filename', files: $scope.files }
-            }).
-            success(function (data, status, headers, config) {
-            	console.log("Success!!");
-                alert("success!");
-            }).
-            error(function (data, status, headers, config) {
-            	console.log("Failed!!");
-                alert("failed!");
-            });
-            };   
-        })
         
         vm.createImageCategory = createImageCategory;
         
@@ -223,5 +193,79 @@
     				
     			});
         }
+        
+        	
+        	$scope.file = {};
+
+            //listen for the file selected event
+            $scope.$on("fileSelected", function (event, args) {
+                $scope.$apply(function () {            
+                    //add the file object to the scope's files collection
+                	$scope.file = args.file;
+                	console.log('file= ' + $scope.file.name);
+                });
+           
+            
+            //the save method
+            vm.save = function save(img) {
+            	var imageProp = {
+                		imageName : img.imageName,
+                		imageDescription : img.imageDescription,
+                		imageType : img.imageType.toString(),
+                		imageIntensity : img.imageIntensity.toString(),
+                		imageCategory : img.imageCategory.toString()
+                	};
+            	console.log(imageProp);
+            	console.log("Inside save function");
+                $http({
+                    method: 'POST',
+                    url: 'http://localhost:8080/Psych-1/' + "imageUpload",
+                    //IMPORTANT!!! You might think this should be set to 'multipart/form-data' 
+                    // but this is not true because when we are sending up files the request 
+                    // needs to include a 'boundary' parameter which identifies the boundary 
+                    // name between parts in this multi-part request and setting the Content-type 
+                    // manually will not set this boundary parameter. For whatever reason, 
+                    // setting the Content-type to 'false' will force the request to automatically
+                    // populate the headers properly including the boundary parameter.
+                    headers: { 'Content-Type': undefined },
+                    //This method will allow us to change how the data is sent up to the server
+                    // for which we'll need to encapsulate the model data in 'FormData'
+                    transformRequest: function (data) {
+                        var formData = new FormData();
+                        //need to convert our json object to a string version of json otherwise
+                        // the browser will do a 'toString()' on the object which will result 
+                        // in the value '[Object object]' on the server.
+                        formData.append("imageName", $scope.imageName);
+                        formData.append("imageDescription", $scope.imageDescription);
+                        formData.append("imageType", $scope.imageType);
+                        formData.append("imageIntensity", angular.toJson(data.imageIntensity));
+                        formData.append("imageCategory", angular.toJson(data.imageCategory));
+                        formData.append('imageFile', $scope.file);
+                        
+                        //now add all of the assigned files
+                        /*for (var i = 0; i < data.files; i++) {
+                            //add each file to the form data and iteratively name them
+                            formData.append("imageFile" + i, data.files[i]);
+                        }*/
+                        return formData;
+                    },
+                    //Create an object that contains the model and files which will be transformed
+                    // in the above transformRequest method
+                    data: { imageName: 'img.imageName', imageDescription :img.imageDescription, imageType : img.imageType, 
+                    	imageIntensity : img.imageIntensity,imageCategory : img.imageCategory, files: $scope.file }
+                }).
+                success(function (data, status, headers, config) {
+                	$window.alert('Image has been created successfully');
+                }).
+                error(function (data, status, headers, config) {
+                	$window.alert('Image creation failed');
+                });
+                };
+            
+            
+            })
+        	
+        	
+        
     }
 })();

@@ -104,16 +104,16 @@
         	TargetGroupService
         		.getAllTargetGroups()
         		.success(function(response) {
-        			console.log('targetGroupList = ' + response.results);
+        			
         			targetGroupList = response.results;
         		
-        			
+        			console.log(targetGroupList);
                 	var targetGroupParams = {
                 			tgName : tg.tgName,
                     		tgDescription : tg.tgDescription,
                     		tgKeywords : tg.tgKeywords,
-                    		tgLocation : tg.tgLocation,
-                    		tgTraining : tg.tgTraining,
+                    		tgLocationId : tg.tgLocation.toString(),
+                    		tgTrainingId : tg.tgTraining.toString(),
                	
                 	};
                 	
@@ -130,11 +130,12 @@
                 	
                 	if(keys.length > 0) {
                 		var options = {
-                    			shouldSort: true,
+                				shouldSort: true,
                     			tokenize: true,
+                    			//matchAllTokens: true,
                     			threshold: 0.3,
-                    			location: 0,
-                    			distance: 10,
+                    			//location: 0,
+                    			//distance: 10,
                     			//maxPatternLength: 32,
                     			keys: keys
                     	}
@@ -200,6 +201,14 @@
     				}
     				
     			});
+        }
+        
+        vm.selectTargetGroupDetails = selectTargetGroupDetails;
+        
+        function selectTargetGroupDetails(tg) {
+        	var targetGroup = vm.targetGroupSearchResults[tg];
+        	console.log(targetGroup);
+        	vm.selectedTg = targetGroup;
         }
     }
 

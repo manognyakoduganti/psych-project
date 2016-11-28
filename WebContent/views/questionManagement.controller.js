@@ -111,7 +111,7 @@
         	var questionParams = {
         			newQuestionName : question.newQuestionName,
         			newQuestionDescription : question.newQuestionDescription,
-        			newQuestionCategoryId : question.newQuestionCategoryId
+        			newQuestionCategoryId : parseInt(question.newQuestionCategoryId)
         	};
         	
         	console.log(questionParams);
@@ -143,8 +143,9 @@
         		.getAllCategories()
         		.success(function(response) {
         			questionCategoriesList = response.results;
+        			console.log(questionCategoriesList);
         		
-        			//console.log(locationSearch);
+        			console.log(searchQc.responseTypeFieldId);
                 	var questionCategoryParams = {
                 			questionCategoryName : searchQc.questionCategoryName,
                 			questionCategoryDescription : searchQc.questionCategoryDescription,
@@ -174,9 +175,7 @@
                     			//maxPatternLength: 32,
                     			keys: keys
                     	}
-                    	console.log(1);
-                		console.log(keys);
-                		console.log(searchList);
+                    	
                     	var fuse = new Fuse(questionCategoriesList, options);
 
                     	var results = fuse.search(searchList.join(" "));
@@ -184,8 +183,7 @@
                 	}
                 	else {
                 		vm.questionCategorySearchResults = questionCategoriesList;
-                		console.log("else");
-                		console.log(vm.locationSearchResults);
+                		
                 	}
                 	
                 	vm.isSearchClicked = true;
@@ -232,9 +230,7 @@
                     			//maxPatternLength: 32,
                     			keys: keys
                     	}
-                    	console.log(1);
-                		console.log(keys);
-                		console.log(searchList);
+                    	
                     	var fuse = new Fuse(questionList, options);
 
                     	var results = fuse.search(searchList.join(" "));
@@ -263,7 +259,7 @@
         	vm.updateQc = {
         			questionCategoryName : qc.questionCategoryName,
         			questionCategoryDescription : qc.questionCategoryDescription,
-        			responseType : qc.responseTypeFieldId,
+        			responseType : parseInt(qc.responseTypeFieldId),
         			startLabel : qc.startLabel,
         			endLabel : qc.endLabel
         	};
@@ -295,7 +291,7 @@
         			responseType : qc.responseType,
         			startLabel : qc.startLabel,
         			endLabel : qc.endLabel,
-        			questionCategoryId : updateQuestionCategoryId
+        			questionCategoryId : parseInt(updateQuestionCategoryId)
         	};
         	//console.log(locationUpdateParams);
         	console.log(qcUpdateParams);
@@ -323,8 +319,8 @@
         	var questionUpdateParams = {
         			questionName : q.questionName,
         			questionDescription : q.questionDescription,
-        			questionId : updateQuestionId,
-        			questionCategoryId : q.questionCategoryId
+        			questionId : parseInt(updateQuestionId),
+        			questionCategoryId : parseInt(q.questionCategoryId)
         	};
         	//console.log(locationUpdateParams);
         	console.log(questionUpdateParams);
