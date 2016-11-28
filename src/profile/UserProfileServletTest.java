@@ -90,6 +90,57 @@ public class UserProfileServletTest {
 	}
 	
 	@Test
+	public void testValidUserProfileUpdateWithoutPassword() throws ServletException, IOException, ParseException{
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(request.getReader()).thenReturn(bufferedReader);
+		
+		JSONObject jsonObj = new JSONObject();
+		
+		String newFirstName = "Darshan";
+		String newLastName = "Patel";
+		String newEmail = "patel.dars@husky.neu.edu";
+		
+		jsonObj.put(Constant.NEW_FIRST_NAME, newFirstName);
+		jsonObj.put(Constant.NEW_LAST_NAME, newLastName);
+		jsonObj.put(Constant.NEW_EMAIL, newEmail);
+		jsonObj.put(Constant.NEW_PASSWORD, "");
+		jsonObj.put(Constant.EMAIL, "patel.dars@husky.neu.edu");
+		
+		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
+		
+		when(response.getWriter()).thenReturn(printWriter);
+		when(request.getSession(false)).thenReturn(session);
+		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn("1");
+		
+		userProfileUpdate.doPut(request, response);
+		
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(stringWriter.getBuffer().toString());
+		JSONObject jsonObject = (JSONObject) obj;
+		
+		assertEquals("System should have updated the user profie information", 
+				Constant.OK_200, (String) jsonObject.get(Constant.STATUS));
+		assertEquals(newEmail, (String) jsonObject.get(Constant.EMAIL));
+		assertEquals(newFirstName, (String) jsonObject.get(Constant.FIRST_NAME));
+		assertEquals(newLastName, (String) jsonObject.get(Constant.LAST_NAME));
+		
+		verify(session).setAttribute(Constant.EMAIL, newEmail);
+		verify(session).setAttribute(Constant.FIRST_NAME, newFirstName);
+		verify(session).setAttribute(Constant.LAST_NAME, newLastName);
+		
+	}
+	
+	@Test
 	public void testInvalidSessionUserProfileUpdate() throws ServletException, IOException, ParseException{
 		
 		request = mock(HttpServletRequest.class);
