@@ -115,7 +115,7 @@ public class RegisterTest {
 		Object obj = parser.parse(stringWriter.getBuffer().toString());
 		JSONObject jsonObject = (JSONObject) obj;
 		
-		assertEquals("0", (String) jsonObject.get(Constant.STATUS));
+		assertEquals("1", (String) jsonObject.get(Constant.STATUS));
 		ParticipantDAO.deleteParticipant(username1);
 	}
 	

@@ -162,6 +162,7 @@ public class ImageUploadServletTest {
 		
 	}
 	
+	@Test
 	public void testInValidImageCreateRequest() throws Exception {
 	
 		generateTestImage("test.jpg");
@@ -209,7 +210,7 @@ public class ImageUploadServletTest {
         when(imageDescription.isFormField()).thenReturn(true);
         
         FileItem imageCategoryId = mock(FileItem.class);
-        when(imageCategoryId.getName()).thenReturn("1");
+        when(imageCategoryId.getName()).thenReturn("alksjdf");
         when(imageCategoryId.getFieldName()).thenReturn(Constant.IMAGE_CATEGORY_ID);
         when(imageCategoryId.isFormField()).thenReturn(true);
         

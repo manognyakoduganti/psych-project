@@ -5,6 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 import authentication.AdminAuthenticationServletTest;
+import authentication.AuthenticatingUserTest;
 import autoFill.FetchCommonFieldServletTest;
 import fieldValidation.LocationFieldsTest;
 import fieldValidation.QuestionCategoryFieldsValTest;
@@ -17,6 +18,8 @@ import questionnaire.QuestionCategoryServlet;
 import questionnaire.QuestionCategoryServletTest;
 import questionnaire.QuestionServletTest;
 import questionnaire.QuestionnaireTest;
+import registration.Register;
+import registration.RegisterTest;
 import targetGroup.TargetGroupServletTest;
 import training.TrainingServletTest;
 
@@ -33,7 +36,9 @@ import training.TrainingServletTest;
 	QuestionCategoryFieldsValTest.class,
 	QuestionCategoryServletTest.class,
 	ImageCategoryServletTest.class,
-	ImageUploadServletTest.class
+	ImageUploadServletTest.class,
+	RegisterTest.class,
+	AuthenticatingUserTest.class
 	
 })
 public class AllTest {
