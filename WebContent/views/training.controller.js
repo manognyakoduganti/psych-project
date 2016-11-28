@@ -35,6 +35,11 @@
 			vm.selectedTrainingDetails = {}
 			vm.createSuccessful = false;
 			vm.createFailed = false;
+			vm.selectedTrainingDetails.trainingDescription = "";
+			vm.selectedTrainingDetails.trainingKeywords = "";
+			vm.selectedTrainingDetails.trainingName = "";
+			vm.selectedTrainingDetails.trainingImages = [];
+			vm.selectedTrainingDetails.trainingQuestions = [];
         }
         
         function initSearchTab(){

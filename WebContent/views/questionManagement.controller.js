@@ -242,7 +242,7 @@
                 		//console.log(vm.locationSearchResults);
                 	}
                 	
-                	vm.isSearchClicked = true;
+                	vm.isQuestionSearchClicked = true;
                 	
         		
         		
