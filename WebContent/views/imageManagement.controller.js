@@ -208,13 +208,13 @@
             
             //the save method
             vm.save = function save() {
-            	/*var imageProp = {
-                		imageName : img.imageName,
-                		imageDescription : img.imageDescription,
-                		imageType : img.imageType.toString(),
-                		imageIntensity : img.imageIntensity.toString(),
-                		imageCategory : img.imageCategory.toString()
-                	};*/
+            	var imageProp = {
+                		imageName : $scope.imageName,
+                		imageDescription : $scope.imageDescription,
+                		imageType : $scope.imageType.toString(),
+                		imageIntensity : $scope.imageIntensity.toString(),
+                		imageCategory : $scope.imageCategory.toString()
+                	};
             	//console.log(imageProp);
             	console.log("Inside save function");
                 $http({
@@ -237,11 +237,8 @@
                         // in the value '[Object object]' on the server.
                         console.log(data.imageName);
                         console.log(data.imageType);
-                        formData.append("imageName", angular.toJson(data.imageName));
-                        formData.append("imageDescription", angular.toJson(data.imageDescription));
-                        formData.append("imageType", angular.toJson(data.imageType));
-                        formData.append("imageIntensity", angular.toJson(data.imageIntensity));
-                        formData.append("imageCategory", angular.toJson(data.imageCategory));
+                        formData.append("model", angular.toJson(data.model));
+                        
                         formData.append('imageFile', data.files[0]);
                         
                         //now add all of the assigned files
@@ -253,8 +250,7 @@
                     },
                     //Create an object that contains the model and files which will be transformed
                     // in the above transformRequest method
-                    data: { imageName: $scope.imageName, imageDescription :$scope.imageDescription, imageType : $scope.imageType, 
-                    	imageIntensity : $scope.imageIntensity,imageCategory : $scope.imageCategory, files: $scope.files }
+                    data: { model : imageProp ,files: $scope.files }
                 }).
                 success(function (data, status, headers, config) {
                 	$window.alert('Image has been created successfully');
