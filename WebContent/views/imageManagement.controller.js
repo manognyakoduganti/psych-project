@@ -195,27 +195,27 @@
         }
         
         	
-        	$scope.file = {};
+        	$scope.files = [];
 
             //listen for the file selected event
             $scope.$on("fileSelected", function (event, args) {
                 $scope.$apply(function () {            
                     //add the file object to the scope's files collection
-                	$scope.file = args.file;
-                	console.log('file= ' + $scope.file.name);
+                	$scope.files.push(args.file);
+                	//console.log('file= ' + $scope.files.name);
                 });
            
             
             //the save method
-            vm.save = function save(img) {
-            	var imageProp = {
+            vm.save = function save() {
+            	/*var imageProp = {
                 		imageName : img.imageName,
                 		imageDescription : img.imageDescription,
                 		imageType : img.imageType.toString(),
                 		imageIntensity : img.imageIntensity.toString(),
                 		imageCategory : img.imageCategory.toString()
-                	};
-            	console.log(imageProp);
+                	};*/
+            	//console.log(imageProp);
             	console.log("Inside save function");
                 $http({
                     method: 'POST',
@@ -235,12 +235,14 @@
                         //need to convert our json object to a string version of json otherwise
                         // the browser will do a 'toString()' on the object which will result 
                         // in the value '[Object object]' on the server.
-                        formData.append("imageName", $scope.imageName);
-                        formData.append("imageDescription", $scope.imageDescription);
-                        formData.append("imageType", $scope.imageType);
+                        console.log(data.imageName);
+                        console.log(data.imageType);
+                        formData.append("imageName", angular.toJson(data.imageName));
+                        formData.append("imageDescription", angular.toJson(data.imageDescription));
+                        formData.append("imageType", angular.toJson(data.imageType));
                         formData.append("imageIntensity", angular.toJson(data.imageIntensity));
                         formData.append("imageCategory", angular.toJson(data.imageCategory));
-                        formData.append('imageFile', $scope.file);
+                        formData.append('imageFile', data.files[0]);
                         
                         //now add all of the assigned files
                         /*for (var i = 0; i < data.files; i++) {
@@ -251,8 +253,8 @@
                     },
                     //Create an object that contains the model and files which will be transformed
                     // in the above transformRequest method
-                    data: { imageName: 'img.imageName', imageDescription :img.imageDescription, imageType : img.imageType, 
-                    	imageIntensity : img.imageIntensity,imageCategory : img.imageCategory, files: $scope.file }
+                    data: { imageName: $scope.imageName, imageDescription :$scope.imageDescription, imageType : $scope.imageType, 
+                    	imageIntensity : $scope.imageIntensity,imageCategory : $scope.imageCategory, files: $scope.files }
                 }).
                 success(function (data, status, headers, config) {
                 	$window.alert('Image has been created successfully');
