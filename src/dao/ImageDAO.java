@@ -19,7 +19,7 @@ public class ImageDAO {
 	
 	public static boolean createImage(ImageInfo imageInfo){
 		
-		slf4jLogger.info("Entered into createImageCategory");
+		slf4jLogger.info("Entered into createImage");
 		
 		String insertQuery = "INSERT INTO IMAGE (NAME, DESCRIPTION, CATEGORYID, INTENSITY, IMAGETYPE, IMAGELOC) "
 				+ "values (?, ?, ?, ?, ?, ?)";
@@ -37,6 +37,52 @@ public class ImageDAO {
 			preparedStatement.setLong(4, imageInfo.getImageIntensity());
 			preparedStatement.setLong(5, imageInfo.getImageTypeId());
 			preparedStatement.setString(6, imageInfo.getImageShortPath());
+			
+			slf4jLogger.info(preparedStatement.toString());
+			int created = preparedStatement.executeUpdate();
+			connection.close();
+			if(created == 1) {
+				return true;
+			}
+			return false;
+		}catch(SQLException e){
+			slf4jLogger.info("SQL Exception while extracting field information");
+			slf4jLogger.info(e.getMessage());
+			try {
+				if (connection != null){
+					connection.close();
+				}
+				
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			return false;
+		}
+	}
+	
+	public static boolean updateImage(ImageInfo imageInfo){
+		
+		slf4jLogger.info("Entered into updateImage");
+		
+		String insertQuery = "UPDATE IMAGE SET NAME = ?, DESCRIPTION = ? , CATEGORYID = ?, INTENSITY = ? , "
+				+ "IMAGETYPE = ?, IMAGELOC = ? where id = ? ";
+		
+		Connection connection = null;
+		
+		try{
+			
+			connection = DBSource.getConnectionPool().getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+			
+			preparedStatement.setString(1, imageInfo.getImageName());
+			preparedStatement.setString(2, imageInfo.getImageDesc());
+			preparedStatement.setLong(3, imageInfo.getImageCategoryId());
+			preparedStatement.setLong(4, imageInfo.getImageIntensity());
+			preparedStatement.setLong(5, imageInfo.getImageTypeId());
+			preparedStatement.setString(6, imageInfo.getImageShortPath());
+			
+			preparedStatement.setLong(7, imageInfo.getId());
 			
 			slf4jLogger.info(preparedStatement.toString());
 			int created = preparedStatement.executeUpdate();

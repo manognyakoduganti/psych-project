@@ -4,11 +4,13 @@ import java.io.InputStream;
 
 public class ImageInfo {
 	
+	Long id;
 	String imageName;
 	String imageDesc;
 	Long imageTypeId;
 	Long imageCategoryId;
 	Long imageIntensity;
+	String oldImageShortPath;
 	String imageFullPath;
 	String imageShortPath;
 	InputStream inputStream;
@@ -69,5 +71,18 @@ public class ImageInfo {
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
+	public String getOldImageShortPath() {
+		return oldImageShortPath;
+	}
+	public void setOldImageShortPath(String oldImageShortPath) {
+		this.oldImageShortPath = oldImageShortPath;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	
 }

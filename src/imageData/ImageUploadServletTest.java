@@ -524,7 +524,6 @@ public class ImageUploadServletTest {
 	public void testValidImageUpdateReqeustNoImageUpdate() throws Exception {
 	
 		Long imageIdLong = ImageDAO.getImageIdByImageName(name);
-		
 		request = mock(HttpServletRequest.class);
 		response = mock(HttpServletResponse.class);
 		session = mock(HttpSession.class);
@@ -555,7 +554,7 @@ public class ImageUploadServletTest {
         when(imageId.isFormField()).thenReturn(true);
         
         FileItem imageName = mock(FileItem.class);
-        when(imageName.getName()).thenReturn(name+" Updated");
+        when(imageName.getName()).thenReturn(name);
         when(imageName.getFieldName()).thenReturn(Constant.IMAGE_NAME);
         when(imageName.isFormField()).thenReturn(true);
         
@@ -579,12 +578,18 @@ public class ImageUploadServletTest {
         when(imageTypeId.getFieldName()).thenReturn(Constant.IMAGE_TYPE_ID);
         when(imageTypeId.isFormField()).thenReturn(true);
         
+        FileItem imagePathFileItem = mock(FileItem.class);
+        when(imagePathFileItem.getName()).thenReturn(imagePath);
+        when(imagePathFileItem.getFieldName()).thenReturn(Constant.IMAGE_PATH);
+        when(imagePathFileItem.isFormField()).thenReturn(true);
+        
         files.add(imageId);
         files.add(imageName);
         files.add(imageDescription);
         files.add(imageCategoryId);
         files.add(imageIntensityId);
         files.add(imageTypeId);
+        files.add(imagePathFileItem);
         
         when(fileUpload.parseRequest(request)).thenReturn(files);
         imageUploadServlet.setImageFolder(outputFolder);
