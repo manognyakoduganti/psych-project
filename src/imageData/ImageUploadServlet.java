@@ -150,6 +150,84 @@ public class ImageUploadServlet extends HttpServlet {
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		JSONObject returnJSON = new JSONObject();
+        try {
+        	
+        	HttpSession session = request.getSession(false);
+        	if(Sessions.isValidGlobalAdminSession(session)){
+	        	ImageInfo imageInfo = new ImageInfo();
+	            List<FileItem> files = fileUpload.parseRequest(request);
+	            boolean badInput = false;
+	            boolean folderCreationIssue = false;
+	            boolean isImageUpdated = false;
+	            if (files != null && !files.isEmpty()) {
+	            	
+	                for (FileItem item : files) {
+	                	
+	                	if(!validateInput(item.getFieldName(), item.getName())){
+	            			badInput = true;
+	            			break;
+	            		}
+	                	if(item.isFormField()){
+	                		setInputInfo(item.getFieldName(), item.getName(), imageInfo);
+	                	}else{
+	                		Random random = new Random();
+	                    	int folderId = random.nextInt(20);
+	                    	if(!validateFolder(Integer.toString(folderId))){
+	                    		folderCreationIssue = true;
+	                    		break;
+	                    	}
+	                    	String extension = FilenameUtils.getExtension(item.getName());
+	                		UUID uuid = UUID.randomUUID();
+	                		
+	                		String filePath = Integer.toString(folderId) +"/"+ uuid.toString()+"."+extension;
+	                		imageInfo.setUuid(uuid.toString());
+	                		imageInfo.setInputStream(item.getInputStream());
+	                		imageInfo.setImageShortPath(filePath);
+	                		imageInfo.setImageFullPath(imageFolder+"/"+filePath);
+	                		isImageUpdated = true;
+	                	}
+	                }
+	            }
+	            if(!badInput && !folderCreationIssue){
+	            	if(isImageUpdated){
+	            		saveInputFile(imageInfo);
+	            	}else{
+	            		System.out.println(imageInfo.getOldImageShortPath());
+	            		imageInfo.setImageShortPath(imageInfo.getOldImageShortPath());
+	            	}
+            		boolean created = ImageDAO.updateImage(imageInfo);
+            		if(created){
+            			// Delete the existing file.
+            			deleteFile(imageFolder+"/"+imageInfo.getOldImageShortPath());
+            			returnJSON.put(Constant.STATUS, Constant.OK_200);
+            			returnJSON.put(Constant.IMAGE_PATH, imageInfo.getImageShortPath());
+            			returnJSON.put(Constant.IMAGE_UUID, imageInfo.getUuid());
+            		}else{
+            			returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
+            			returnJSON.put(Constant.DEVELOPER_MESSAGE, "Issue while saving the image info in database");
+            		}
+            	}else if (badInput){
+	            	returnJSON.put(Constant.DEVELOPER_MESSAGE, "Bad input data");
+	            	returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
+	            }else if(folderCreationIssue){
+	            	returnJSON.put(Constant.DEVELOPER_MESSAGE, "Issue is creating folder");
+	            	returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
+	            }
+        	}else{
+        		returnJSON.put(Constant.STATUS, Constant.UNAUTHORIZED_401);
+        	}
+            
+        } catch (FileUploadException e) {
+            e.printStackTrace();
+            returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
+            returnJSON.put(Constant.DEVELOPER_MESSAGE, "Issue in Parsing the input data");
+        }
+        response.getWriter().print(returnJSON);
+		response.addHeader("Access-Control-Allow-Origin", Constant.ACCESS_CONTROL_ALLOW_ORIGIN);
+		response.addHeader("Access-Control-Allow-Headers", Constant.ACCESS_CONTROL_ALLOW_HEADERS);
+		response.addHeader("Access-Control-Allow-Methods", Constant.ACCESS_CONTROL_ALLOW_METHODS);
+		response.addIntHeader("Access-Control-Max-Age", Constant.ACCESS_CONTROL_ALLOW_MAX_AGE);
 	}
 
 	/**
@@ -252,8 +330,16 @@ public class ImageUploadServlet extends HttpServlet {
 					extension.toLowerCase().equals("jpg")){
 				return true;
 			}
+		}else if(fieldName.equals(Constant.IMAGE_PATH)){
+			return true;
 		}
-		return false;
+		else if(fieldName.equals(Constant.IMAGE_ID)){
+			return CommonFieldsVal.validateFieldId(fieldValue);
+		}else if(fieldName.equals("model")){
+			return true;
+		}
+		
+		return true;
 	}
 	
 	private void setInputInfo(String fieldName, String fieldValue, ImageInfo imageInfo){
@@ -267,7 +353,15 @@ public class ImageUploadServlet extends HttpServlet {
 			imageInfo.setImageIntensity(Long.parseLong(fieldValue));
 		}else if(fieldName.equals(Constant.IMAGE_TYPE_ID)){
 			imageInfo.setImageTypeId(Long.parseLong(fieldValue));
+		}else if(fieldName.equals(Constant.IMAGE_PATH)){
+			imageInfo.setOldImageShortPath(fieldValue);
+		}else if(fieldName.equals(Constant.IMAGE_ID)){
+			imageInfo.setId(Long.parseLong(fieldValue));
+		}else if(fieldName.equals("model")){
+			System.out.println(fieldValue);
+			//imageInfo.setId(fieldValue);
 		}
+		
 	}
 	
 	private boolean saveInputFile(ImageInfo imageInfo){
@@ -305,5 +399,9 @@ public class ImageUploadServlet extends HttpServlet {
 		}
 		return false;
 	}
-
+	
+	private void deleteFile(String filePath){
+		File fInput = new File(filePath);
+		fInput.delete();
+	}
 }
