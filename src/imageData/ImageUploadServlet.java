@@ -114,8 +114,10 @@ public class ImageUploadServlet extends HttpServlet {
 					while ((b = fis.read()) != -1) {
 						response.getOutputStream().write(b);
 					}
+					fis.close();
 					response.getWriter().print(returnJSON);
 			        //response.setHeader("Content-Type", getServletContext().getMimeType(f.toString()));
+					response.setHeader("Content-Type", "image/"+FilenameUtils.getExtension(f.toString()));
 			        response.setHeader("Content-Length", String.valueOf(f.length()));
 			        response.setHeader("Content-Disposition", "inline; filename=\"" + f.getName() + "\"");
 			        response.addHeader("Access-Control-Allow-Origin", Constant.ACCESS_CONTROL_ALLOW_ORIGIN);
@@ -247,12 +249,6 @@ public class ImageUploadServlet extends HttpServlet {
         	HttpSession session = request.getSession(false);
         	if(Sessions.isValidGlobalAdminSession(session)){
         		
-        		DiskFileItemFactory factory = new DiskFileItemFactory();
-        		ServletContext servletContext = this.getServletConfig().getServletContext();
-        		File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
-        		factory.setRepository(repository);
-        		ServletFileUpload fileUpload = new ServletFileUpload(factory);
-        		 
 	        	ImageInfo imageInfo = new ImageInfo();
 	            List<FileItem> files = fileUpload.parseRequest(request);
 	            boolean badInput = false;

@@ -63,7 +63,7 @@ public class ImageUploadServletTest {
 	  imageUploadServlet = new ImageUploadServlet();
 	  createFolder(inputFolder);
 	  createFolder(outputFolder);
-	  name = "Test Iamge";
+	  name = "Test Image";
 	}
 	
 	@Test
