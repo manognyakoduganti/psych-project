@@ -266,9 +266,11 @@
                 }).
                 success(function (data, status, headers, config) {
                 	$window.alert('Image has been created successfully');
+                	$scope.files = [];
                 }).
                 error(function (data, status, headers, config) {
                 	$window.alert('Image creation failed');
+                	$scope.files = [];
                 });
                 };
                 
