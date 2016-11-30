@@ -323,17 +323,17 @@
                             			//maxPatternLength: 32,
                             			keys: keys
                             	}
-                        		console.log(imageList);
+                        		//console.log(imageList);
                             	var fuse = new Fuse(imageList, options);
 
                             	var results = fuse.search(searchList.join(" "));
                         		vm.imageSearchResults = results;
-                        		console.log(vm.imageSearchResults);
+                        		//console.log(vm.imageSearchResults);
                         	}
                         	else {
                         		vm.imageSearchResults = imageList;
                         		//console.log("else");
-                        		console.log(vm.imageSearchResults);
+                        		//console.log(vm.imageSearchResults);
                         	}
                         	
                         	vm.isSearchImagesClicked = true;
