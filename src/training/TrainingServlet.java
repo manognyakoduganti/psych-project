@@ -132,17 +132,17 @@ public class TrainingServlet extends HttpServlet {
 					//System.out.println(newFirstName+ ":"+newLastName + ":"+newEmail + ":" + newPassword +" :" + email);
 					for (int i = 0; i < imageArray.size(); i++){
 						JSONObject image = (JSONObject) imageArray.get(i);
-						long imageCategoryId = (long) image.get(Constant.TRG_IMAGE_MAP_IMAGE_CAT);
-						long imageTypeId = (long) image.get(Constant.TRG_IMAGE_MAP_IMAGE_TYPE);
-						int imageCount = (int)(long) image.get(Constant.TRG_IMAGE_MAP_NO_OF_IMAGES);
-						int duration = (int)(long) image.get(Constant.TRG_IMAGE_MAP_DURATION);
+						Long imageCategoryId = Long.parseLong(image.get(Constant.TRG_IMAGE_MAP_IMAGE_CAT).toString());
+						Long imageTypeId = Long.parseLong(image.get(Constant.TRG_IMAGE_MAP_IMAGE_TYPE).toString());
+						Integer imageCount = Integer.parseInt(image.get(Constant.TRG_IMAGE_MAP_NO_OF_IMAGES).toString());
+						Integer duration = Integer.parseInt(image.get(Constant.TRG_IMAGE_MAP_DURATION).toString());
 						
 						images.add(new TrainingImage(imageCategoryId, imageTypeId, imageCount, duration));
 					}
 					
 					for (int j = 0; j < questionsArray.size(); j++){
 						JSONObject question = (JSONObject) questionsArray.get(j);
-						long questionId = (long) question.get(Constant.QUESTION_ID);
+						Long questionId = Long.parseLong(question.get(Constant.QUESTION_ID).toString());
 						questions.add(questionId);
 					}
 					
@@ -226,10 +226,10 @@ public class TrainingServlet extends HttpServlet {
 					//System.out.println(newFirstName+ ":"+newLastName + ":"+newEmail + ":" + newPassword +" :" + email);
 					for (int i = 0; i < imageArray.size(); i++){
 						JSONObject image = (JSONObject) imageArray.get(i);
-						long imageCategoryId = (long) image.get(Constant.TRG_IMAGE_MAP_IMAGE_CAT);
-						long imageTypeId = (long) image.get(Constant.TRG_IMAGE_MAP_IMAGE_TYPE);
-						int imageCount = (int)(long) image.get(Constant.TRG_IMAGE_MAP_NO_OF_IMAGES);
-						int duration = (int)(long) image.get(Constant.TRG_IMAGE_MAP_DURATION);
+						Long imageCategoryId = Long.parseLong(image.get(Constant.TRG_IMAGE_MAP_IMAGE_CAT).toString());
+						Long imageTypeId = Long.parseLong(image.get(Constant.TRG_IMAGE_MAP_IMAGE_TYPE).toString());
+						Integer imageCount = Integer.parseInt(image.get(Constant.TRG_IMAGE_MAP_NO_OF_IMAGES).toString());
+						Integer duration = Integer.parseInt(image.get(Constant.TRG_IMAGE_MAP_DURATION).toString());
 						
 						images.add(new TrainingImage(imageCategoryId, imageTypeId, imageCount, duration));
 					}
@@ -237,7 +237,7 @@ public class TrainingServlet extends HttpServlet {
 					
 					for (int j = 0; j < questionsArray.size(); j++){
 						JSONObject question = (JSONObject) questionsArray.get(j);
-						long questionId = (long) question.get(Constant.QUESTION_ID);
+						Long questionId = Long.parseLong(question.get(Constant.QUESTION_ID).toString());
 						questions.add(questionId);
 					}
 					

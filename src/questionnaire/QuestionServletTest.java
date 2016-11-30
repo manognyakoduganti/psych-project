@@ -150,9 +150,9 @@ public class QuestionServletTest {
 		String newnewQuestionDescription = "";
 		long newQuestionCategoryId = 1;
 		
-		jsonObj.put(Constant.NEW_QUESTION_NAME, newQuestionName);
-		jsonObj.put(Constant.NEW_QUESTION_DESCRIPTION, newnewQuestionDescription);
-		jsonObj.put(Constant.NEW_QUESTION_CATEGORY_ID, newQuestionCategoryId);
+		jsonObj.put(Constant.QUESTION_NAME, newQuestionName);
+		jsonObj.put(Constant.QUESTION_DESCRIPTION, newnewQuestionDescription);
+		jsonObj.put(Constant.QUESTION_CATEGORY_ID, newQuestionCategoryId);
 		jsonObj.put(Constant.QUESTION_ID, questionId);
 		
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
@@ -193,9 +193,9 @@ public class QuestionServletTest {
 		String newnewQuestionDescription = "";
 		long newQuestionCategoryId = 1;
 		
-		jsonObj.put(Constant.NEW_QUESTION_NAME, newQuestionName);
-		jsonObj.put(Constant.NEW_QUESTION_DESCRIPTION, newnewQuestionDescription);
-		jsonObj.put(Constant.NEW_QUESTION_CATEGORY_ID, newQuestionCategoryId);
+		jsonObj.put(Constant.QUESTION_NAME, newQuestionName);
+		jsonObj.put(Constant.QUESTION_DESCRIPTION, newnewQuestionDescription);
+		jsonObj.put(Constant.QUESTION_CATEGORY_ID, newQuestionCategoryId);
 		jsonObj.put(Constant.QUESTION_ID, questionId);
 		
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
@@ -342,7 +342,7 @@ public class QuestionServletTest {
 		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
 		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
 		
-		questionServlet.doPost(request, response);
+ 
 		
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(stringWriter.getBuffer().toString());
