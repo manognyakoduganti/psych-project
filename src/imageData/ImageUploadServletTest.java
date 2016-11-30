@@ -108,7 +108,6 @@ public class ImageUploadServletTest {
         List<FileItem> files = new ArrayList<FileItem>();
         
         FileItem imageFileItem = mock(FileItem.class);
-        when(imageFileItem.getName()).thenReturn("");
         when(imageFileItem.getFieldName()).thenReturn(Constant.IMAGE_FILE);
         when(imageFileItem.isFormField()).thenReturn(false);
         when(imageFileItem.getInputStream()).thenReturn(new FileInputStream(inputFolder+"/test.jpg"));
@@ -116,27 +115,27 @@ public class ImageUploadServletTest {
         when(servletContext.getMimeType("test.jpg")).thenReturn("image/");
         
         FileItem imageName = mock(FileItem.class);
-        when(imageName.getName()).thenReturn(name);
+        when(imageName.getString()).thenReturn(name);
         when(imageName.getFieldName()).thenReturn(Constant.IMAGE_NAME);
         when(imageName.isFormField()).thenReturn(true);
         
         FileItem imageDescription = mock(FileItem.class);
-        when(imageDescription.getName()).thenReturn("Test Image Description");
+        when(imageDescription.getString()).thenReturn("Test Image Description");
         when(imageDescription.getFieldName()).thenReturn(Constant.IMAGE_DESCRIPTION);
         when(imageDescription.isFormField()).thenReturn(true);
         
         FileItem imageCategoryId = mock(FileItem.class);
-        when(imageCategoryId.getName()).thenReturn("1");
+        when(imageCategoryId.getString()).thenReturn("1");
         when(imageCategoryId.getFieldName()).thenReturn(Constant.IMAGE_CATEGORY_ID);
         when(imageCategoryId.isFormField()).thenReturn(true);
         
         FileItem imageIntensityId = mock(FileItem.class);
-        when(imageIntensityId.getName()).thenReturn("2");
+        when(imageIntensityId.getString()).thenReturn("2");
         when(imageIntensityId.getFieldName()).thenReturn(Constant.IMAGE_INTENSITY);
         when(imageIntensityId.isFormField()).thenReturn(true);
         
         FileItem imageTypeId = mock(FileItem.class);
-        when(imageTypeId.getName()).thenReturn("55");
+        when(imageTypeId.getString()).thenReturn("55");
         when(imageTypeId.getFieldName()).thenReturn(Constant.IMAGE_TYPE_ID);
         when(imageTypeId.isFormField()).thenReturn(true);
         
@@ -196,31 +195,30 @@ public class ImageUploadServletTest {
         when(imageFileItem.getFieldName()).thenReturn(Constant.IMAGE_FILE);
         when(imageFileItem.isFormField()).thenReturn(false);
         when(imageFileItem.getInputStream()).thenReturn(null);
-        when(imageFileItem.getName()).thenReturn("test.jpg");
         when(servletContext.getMimeType("test.jpg")).thenReturn("image/");
         
         FileItem imageName = mock(FileItem.class);
-        when(imageName.getName()).thenReturn("");
+        when(imageName.getString()).thenReturn("");
         when(imageName.getFieldName()).thenReturn(Constant.IMAGE_NAME);
         when(imageName.isFormField()).thenReturn(true);
         
         FileItem imageDescription = mock(FileItem.class);
-        when(imageDescription.getName()).thenReturn("Test Image Description");
+        when(imageDescription.getString()).thenReturn("Test Image Description");
         when(imageDescription.getFieldName()).thenReturn(Constant.IMAGE_DESCRIPTION);
         when(imageDescription.isFormField()).thenReturn(true);
         
         FileItem imageCategoryId = mock(FileItem.class);
-        when(imageCategoryId.getName()).thenReturn("alksjdf");
+        when(imageCategoryId.getString()).thenReturn("alksjdf");
         when(imageCategoryId.getFieldName()).thenReturn(Constant.IMAGE_CATEGORY_ID);
         when(imageCategoryId.isFormField()).thenReturn(true);
         
         FileItem imageIntensityId = mock(FileItem.class);
-        when(imageIntensityId.getName()).thenReturn("2");
+        when(imageIntensityId.getString()).thenReturn("2");
         when(imageIntensityId.getFieldName()).thenReturn(Constant.IMAGE_INTENSITY);
         when(imageIntensityId.isFormField()).thenReturn(true);
         
         FileItem imageTypeId = mock(FileItem.class);
-        when(imageTypeId.getName()).thenReturn("55");
+        when(imageTypeId.getString()).thenReturn("55");
         when(imageTypeId.getFieldName()).thenReturn(Constant.IMAGE_TYPE_ID);
         when(imageTypeId.isFormField()).thenReturn(true);
         
@@ -274,7 +272,6 @@ public class ImageUploadServletTest {
         List<FileItem> files = new ArrayList<FileItem>();
         
         FileItem imageFileItem = mock(FileItem.class);
-        when(imageFileItem.getName()).thenReturn("");
         when(imageFileItem.getFieldName()).thenReturn(Constant.IMAGE_FILE);
         when(imageFileItem.isFormField()).thenReturn(false);
         when(imageFileItem.getInputStream()).thenReturn(new FileInputStream(inputFolder+"/test.jpg"));
@@ -282,27 +279,27 @@ public class ImageUploadServletTest {
         when(servletContext.getMimeType("test.jpg")).thenReturn("image/");
         
         FileItem imageName = mock(FileItem.class);
-        when(imageName.getName()).thenReturn("Test Iamge");
+        when(imageName.getString()).thenReturn("Test Iamge");
         when(imageName.getFieldName()).thenReturn(Constant.IMAGE_NAME);
         when(imageName.isFormField()).thenReturn(true);
         
         FileItem imageDescription = mock(FileItem.class);
-        when(imageDescription.getName()).thenReturn("Test Image Description");
+        when(imageDescription.getString()).thenReturn("Test Image Description");
         when(imageDescription.getFieldName()).thenReturn(Constant.IMAGE_DESCRIPTION);
         when(imageDescription.isFormField()).thenReturn(true);
         
         FileItem imageCategoryId = mock(FileItem.class);
-        when(imageCategoryId.getName()).thenReturn("1");
+        when(imageCategoryId.getString()).thenReturn("1");
         when(imageCategoryId.getFieldName()).thenReturn(Constant.IMAGE_CATEGORY_ID);
         when(imageCategoryId.isFormField()).thenReturn(true);
         
         FileItem imageIntensityId = mock(FileItem.class);
-        when(imageIntensityId.getName()).thenReturn("2");
+        when(imageIntensityId.getString()).thenReturn("2");
         when(imageIntensityId.getFieldName()).thenReturn(Constant.IMAGE_INTENSITY);
         when(imageIntensityId.isFormField()).thenReturn(true);
         
         FileItem imageTypeId = mock(FileItem.class);
-        when(imageTypeId.getName()).thenReturn("55");
+        when(imageTypeId.getString()).thenReturn("55");
         when(imageTypeId.getFieldName()).thenReturn(Constant.IMAGE_TYPE_ID);
         when(imageTypeId.isFormField()).thenReturn(true);
         

@@ -164,13 +164,19 @@ public class ImageUploadServlet extends HttpServlet {
 	            	
 	                for (FileItem item : files) {
 	                	
-	                	if(!validateInput(item.getFieldName(), item.getName())){
-	            			badInput = true;
-	            			break;
-	            		}
 	                	if(item.isFormField()){
-	                		setInputInfo(item.getFieldName(), item.getName(), imageInfo);
+	                		if(!validateInput(item.getFieldName(), item.getString())){
+		            			badInput = true;
+		            			break;
+		            		}
+	                		setInputInfo(item.getFieldName(), item.getString(), imageInfo);
 	                	}else{
+	                		
+	                		if(!validateInput(item.getFieldName(), item.getName())){
+		            			badInput = true;
+		            			break;
+		            		}
+	                		
 	                		Random random = new Random();
 	                    	int folderId = random.nextInt(20);
 	                    	if(!validateFolder(Integer.toString(folderId))){
@@ -248,13 +254,18 @@ public class ImageUploadServlet extends HttpServlet {
 	            	
 	                for (FileItem item : files) {
 	                	
-	                	if(!validateInput(item.getFieldName(), item.getName())){
-	            			badInput = true;
-	            			break;
-	            		}
 	                	if(item.isFormField()){
-	                		setInputInfo(item.getFieldName(), item.getName(), imageInfo);
+	                		if(!validateInput(item.getFieldName(), item.getString())){
+		            			badInput = true;
+		            			break;
+		            		}
+	                		setInputInfo(item.getFieldName(), item.getString(), imageInfo);
 	                	}else{
+	                		
+	                		if(!validateInput(item.getFieldName(), item.getName())){
+		            			badInput = true;
+		            			break;
+		            		}
 	                		Random random = new Random();
 	                    	int folderId = random.nextInt(20);
 	                    	if(!validateFolder(Integer.toString(folderId))){
@@ -325,21 +336,21 @@ public class ImageUploadServlet extends HttpServlet {
 		}else if(fieldName.equals(Constant.IMAGE_TYPE_ID)){
 			return CommonFieldsVal.validateFieldId(fieldValue);
 		}else if(fieldName.equals(Constant.IMAGE_FILE)){
-			String extension = FilenameUtils.getExtension(fieldValue);
-			if(extension.toLowerCase().equals("jpeg") || extension.toLowerCase().equals("png") ||
-					extension.toLowerCase().equals("jpg")){
-				return true;
+			if(!fieldValue.equals("")){
+				String extension = FilenameUtils.getExtension(fieldValue);
+				if(extension.toLowerCase().equals("jpeg") || extension.toLowerCase().equals("png") ||
+						extension.toLowerCase().equals("jpg")){
+					return true;
+				}
 			}
+			return false;
 		}else if(fieldName.equals(Constant.IMAGE_PATH)){
 			return true;
 		}
 		else if(fieldName.equals(Constant.IMAGE_ID)){
 			return CommonFieldsVal.validateFieldId(fieldValue);
-		}else if(fieldName.equals("model")){
-			return true;
 		}
-		
-		return true;
+		return false;
 	}
 	
 	private void setInputInfo(String fieldName, String fieldValue, ImageInfo imageInfo){
@@ -357,9 +368,6 @@ public class ImageUploadServlet extends HttpServlet {
 			imageInfo.setOldImageShortPath(fieldValue);
 		}else if(fieldName.equals(Constant.IMAGE_ID)){
 			imageInfo.setId(Long.parseLong(fieldValue));
-		}else if(fieldName.equals("model")){
-			System.out.println(fieldValue);
-			//imageInfo.setId(fieldValue);
 		}
 		
 	}
