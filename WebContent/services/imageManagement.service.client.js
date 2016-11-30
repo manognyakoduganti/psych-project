@@ -12,7 +12,8 @@
     	var service = {
     			createImageCategory : createImageCategory,
     			updateImageCategory : updateImageCategory,
-    			getAllCategories : getAllCategories
+    			getAllCategories : getAllCategories,
+    			getAllImages : getAllImages
     	};
     	
     	return service;
@@ -38,6 +39,14 @@
     		return $http ({
                 method: 'GET',
                 url: serverURL.url + 'imageCategory',
+                contentType: 'application/json'
+                });
+    	}
+    	
+    	function getAllImages() {
+    		return $http ({
+                method: 'GET',
+                url: serverURL.url + 'imageUpload',
                 contentType: 'application/json'
                 });
     	}

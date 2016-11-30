@@ -246,6 +246,13 @@ public class ImageUploadServlet extends HttpServlet {
         try {
         	HttpSession session = request.getSession(false);
         	if(Sessions.isValidGlobalAdminSession(session)){
+        		
+        		DiskFileItemFactory factory = new DiskFileItemFactory();
+        		ServletContext servletContext = this.getServletConfig().getServletContext();
+        		File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
+        		factory.setRepository(repository);
+        		ServletFileUpload fileUpload = new ServletFileUpload(factory);
+        		 
 	        	ImageInfo imageInfo = new ImageInfo();
 	            List<FileItem> files = fileUpload.parseRequest(request);
 	            boolean badInput = false;

@@ -111,7 +111,7 @@ public class QuestionDAO {
 
 	public static JSONObject updateQuestion(Question question) {
 		
-		String updateQuery = "UPDATE QUESTION SET name=?, description=?, categoryId=? WHERE ID=?";
+		String updateQuery = "UPDATE QUESTION SET name=?, description=?, categoryId=? WHERE ID=?;";
 		
 		JSONObject returnJSON = new JSONObject();
 

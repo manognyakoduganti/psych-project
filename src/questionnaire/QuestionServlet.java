@@ -178,9 +178,9 @@ public class QuestionServlet extends HttpServlet {
 			try {
 				obj = parser.parse(sb.toString());
 				JSONObject jsonObject = (JSONObject) obj;
-				newName = (String) jsonObject.get(Constant.NEW_QUESTION_NAME);
-				newDescrition = (String) jsonObject.get(Constant.NEW_QUESTION_DESCRIPTION);
-				newQuestionCategoryId = (long) jsonObject.get(Constant.NEW_QUESTION_CATEGORY_ID);
+				newName = (String) jsonObject.get(Constant.QUESTION_NAME);
+				newDescrition = (String) jsonObject.get(Constant.QUESTION_DESCRIPTION);
+				newQuestionCategoryId = (long) jsonObject.get(Constant.QUESTION_CATEGORY_ID);
 				questionId = (long) jsonObject.get(Constant.QUESTION_ID);
 				
 				if(QuestionCategoryFieldsVal.validateQuestionName(newName) 

@@ -7,7 +7,7 @@
         .controller("ImageManagementController", ImageManagementController);
     
 
-    function ImageManagementController(ImageManagementService, FieldLookupService,$scope, $http, $window) {
+    function ImageManagementController(ImageManagementService, FieldLookupService,$scope, $http, $window, serverURL) {
     	var vm = this;
     	vm.tab = 'imageCatergories';
     	vm.subTab = 'searchImageCatergories';
@@ -30,12 +30,22 @@
     			imageCategory : '',
     	};
     	
+    	vm.searchI = {
+    			imageName : '',
+    			imageDescription : '',
+    			imageIntensity : '',
+    			imageTypeId : '',
+    			imageCategoryId : '',
+    	};
+    	
     	ImageManagementService
     	.getAllCategories()
     	.success(function(response) {
     		if(response.status === '200')
     			vm.imageCategoryList = response.results;
     	});
+    	
+    	
     	
     	FieldLookupService
     	.fetchFields('imageType')
@@ -96,13 +106,13 @@
         
         function searchImageCategory(searchIc) {
         	var imageCategoriesList = [];
-        	
+        	console.log(searchIc);
         	ImageManagementService
         		.getAllCategories()
         		.success(function(response) {
         			imageCategoriesList = response.results;
         		
-        			//console.log(locationSearch);
+        			console.log(imageCategoriesList);
                 	var imageCategoryParams = {
                 			imageCategoryName : searchIc.imageCategoryName,
                 			imageCategoryDescription : searchIc.imageCategoryDescription
@@ -137,11 +147,12 @@
 
                     	var results = fuse.search(searchList.join(" "));
                 		vm.imageCategorySearchResults = results;
+                		console.log(vm.imageCategorySearchResults);
                 	}
                 	else {
                 		vm.imageCategorySearchResults = imageCategoriesList;
                 		//console.log("else");
-                		//console.log(vm.locationSearchResults);
+                		console.log(vm.imageCategorySearchResults);
                 	}
                 	
                 	vm.isSearchClicked = true;
@@ -202,55 +213,56 @@
                 $scope.$apply(function () {            
                     //add the file object to the scope's files collection
                 	$scope.files.push(args.file);
-                	//console.log('file= ' + $scope.files.name);
+                	console.log($scope.files[0].name);
                 });
+            });
            
             
             //the save method
-            vm.save = function save() {
-            	var imageProp = {
+            vm.save = function() {
+            	/*var imageProp = {
                 		imageName : $scope.imageName,
                 		imageDescription : $scope.imageDescription,
                 		imageType : $scope.imageType.toString(),
                 		imageIntensity : $scope.imageIntensity.toString(),
                 		imageCategory : $scope.imageCategory.toString()
-                	};
+                	};*/
             	//console.log(imageProp);
             	console.log("Inside save function");
+            	console.log(angular.toJson('filename 123'));
+            	console.log(angular.toJson({'name' : 'filename'}));
+            	/*var formData = new FormData();
+                
+                formData.append('model', 'hfhefhoewoew');
+                
+                
+                formData.append('files', $scope.files[0]);*/
                 $http({
+                	withCredentials : true,
                     method: 'POST',
-                    url: 'http://localhost:8080/Psych-1/' + "imageUpload",
-                    //IMPORTANT!!! You might think this should be set to 'multipart/form-data' 
-                    // but this is not true because when we are sending up files the request 
-                    // needs to include a 'boundary' parameter which identifies the boundary 
-                    // name between parts in this multi-part request and setting the Content-type 
-                    // manually will not set this boundary parameter. For whatever reason, 
-                    // setting the Content-type to 'false' will force the request to automatically
-                    // populate the headers properly including the boundary parameter.
+                    url: serverURL.url + "imageUpload",
+                   
                     headers: { 'Content-Type': undefined },
-                    //This method will allow us to change how the data is sent up to the server
-                    // for which we'll need to encapsulate the model data in 'FormData'
+                   
+                    
+                    
                     transformRequest: function (data) {
                         var formData = new FormData();
-                        //need to convert our json object to a string version of json otherwise
-                        // the browser will do a 'toString()' on the object which will result 
-                        // in the value '[Object object]' on the server.
-                        console.log(data.imageName);
-                        console.log(data.imageType);
-                        formData.append("model", angular.toJson(data.model));
                         
-                        formData.append('imageFile', data.files[0]);
+                        formData.append('imageName', $scope.imageName);
+                        formData.append('imageDescription', $scope.imageDescription);
+                        formData.append('imageTypeId', $scope.imageTypeId);
+                        formData.append('imageIntensity', $scope.imageIntensity);
+                        formData.append('imageCategoryId', $scope.imageCategoryId);
+                        formData.append('imageFile', $scope.files[0]);
                         
-                        //now add all of the assigned files
-                        /*for (var i = 0; i < data.files; i++) {
-                            //add each file to the form data and iteratively name them
-                            formData.append("imageFile" + i, data.files[i]);
-                        }*/
+                        
+                        //formData.append('files', data.files[0]);
+                       
                         return formData;
-                    },
-                    //Create an object that contains the model and files which will be transformed
-                    // in the above transformRequest method
-                    data: { model : imageProp ,files: $scope.files }
+                    }
+                   
+                    
                 }).
                 success(function (data, status, headers, config) {
                 	$window.alert('Image has been created successfully');
@@ -259,11 +271,83 @@
                 	$window.alert('Image creation failed');
                 });
                 };
+                
+                vm.searchImages = searchImages;
+                
+                function searchImages(searchI) {
+                	console.log(searchI);
+                	var imageList = [];
+                	console.log("Inside search images");
+                	
+                	ImageManagementService
+                	.getAllImages()
+                	.success(function(response) {
+                		if(response.status === '200')
+                			imageList = response.results;
+                			for(var img in imageList) {
+                				//console.log(img);
+                				//console.log(serverURL);
+                				imageList[img].imagePath = serverURL.url + 'imageUpload?imagePath=' + imageList[img].imagePath;
+                			}
+                			console.log(imageList);
+                	
+                		
+                			//console.log(locationSearch);
+                        	var imageParams = {
+                        			imageName : searchI.imageName,
+                        			imageDescription : searchI.imageDescription,
+                        			imageIntensity : searchI.imageIntensity,
+                        			imageTypeId : searchI.imageTypeId,
+                        			imageCategoryId : searchI.imageCategoryId,
+                        				
+                        	};
+                        	console.log(imageParams);
+                        	var keys = [];
+                        	var searchString = "";
+                        	var searchList = [];
+                        	for (var param in imageParams) {
+                        		
+                        		if(imageParams[param] != ''){
+                        			searchList.push(imageParams[param]);
+                        			keys.push(param);
+                        		}
+                        	}
+                        	
+                        	if(keys.length > 0) {
+                        		var options = {
+                            			shouldSort: true,
+                            			tokenize: true,
+                            			threshold: 0.3,
+                            			location: 0,
+                            			distance: 10,
+                            			//maxPatternLength: 32,
+                            			keys: keys
+                            	}
+                        		console.log(imageList);
+                            	var fuse = new Fuse(imageList, options);
+
+                            	var results = fuse.search(searchList.join(" "));
+                        		vm.imageSearchResults = results;
+                        		console.log(vm.imageSearchResults);
+                        	}
+                        	else {
+                        		vm.imageSearchResults = imageList;
+                        		//console.log("else");
+                        		console.log(vm.imageSearchResults);
+                        	}
+                        	
+                        	vm.isSearchImagesClicked = true;
+                        	
+                		
+                		
+                		});
+                }
+                
+    }
             
-            
-            })
+           
         	
         	
         
-    }
+    
 })();
