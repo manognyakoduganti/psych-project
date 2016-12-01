@@ -139,6 +139,7 @@ public class Constant {
 	public static String MESSAGE = "message";
 	public static String SUCCESS = "success";
 	
+
 	public static String IMAGE_NAME = "imageName";
 	public static String IMAGE_DESCRIPTION = "imageDescription";
 	public static String IMAGE_CATEGORY = "imageCategory";
@@ -150,6 +151,16 @@ public class Constant {
 	public static String IMAGE_PATH = "imagePath";
 	public static String IMAGE_ID = "imageId";
 	public static String IMAGE_FOLDER = "ImageFolder";
+
+	public static String SESSION_NUMBER = "sessionNumber";
+	public static String RESPONSES = "responses";
+	public static String QUESTIONSTAGE = "questionStage";
+	public static String RESPONSEDATE = "responseDate";
+	public static String SESSION_ID = "sessionID";
+    public static String SUCCESSFUL ="successful";
+    public static String UNSUCCESSFUL ="unsuccessful";
+    public static String SAVE = "save";
+
 	
 
 }
