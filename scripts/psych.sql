@@ -355,3 +355,18 @@ CREATE TABLE `imageResponse` (
   ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 ##########################################################################
+
+DROP TABLE IF EXISTS `parameter`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `parameter` (
+  `parameterId` bigint(20) NOT NULL AUTO_INCREMENT,
+  `participantId` bigint(20) NOT NULL,
+  `sessionId` varchar(200) NOT NULL,
+  `posColor` varchar(500) NOT NULL,
+  `negColor` varchar(500) NOT NULL,
+  PRIMARY KEY (`parameterId`),
+  KEY `FKI_USER` (`participantId`),
+  CONSTRAINT `FKI_USER` FOREIGN KEY (`participantId`) REFERENCES `participant` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
