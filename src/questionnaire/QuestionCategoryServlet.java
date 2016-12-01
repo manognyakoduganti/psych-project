@@ -204,11 +204,11 @@ public class QuestionCategoryServlet extends HttpServlet {
 				obj = parser.parse(sb.toString());
 				JSONObject jsonObject = (JSONObject) obj;
 				id = (long) jsonObject.get(Constant.QUESTION_CATEGORY_ID);
-				newName = (String) jsonObject.get(Constant.NEW_QUESTION_CATEGORY_NAME);
-				newDescrition = (String) jsonObject.get(Constant.NEW_QUESTION_CATEGORY_DESCRIPTION);
-				responseType = (long) jsonObject.get(Constant.NEW_QUESTION_CATEGORY_RESPONSE_TYPE);
-				newStartLabel = (String) jsonObject.get(Constant.NEW_QUESTION_CATEGORY_START_LABEL);
-				newEndLabel = (String) jsonObject.get(Constant.NEW_QUESTION_CATEGORY_END_LABEL);
+				newName = (String) jsonObject.get(Constant.QUESTION_CATEGORY_NAME);
+				newDescrition = (String) jsonObject.get(Constant.QUESTION_CATEGORY_DESCRIPTION);
+				responseType = (long) jsonObject.get(Constant.QUESTION_CATEGORY_RESPONSE_TYPE);
+				newStartLabel = (String) jsonObject.get(Constant.QUESTION_CATEGORY_START_LABEL);
+				newEndLabel = (String) jsonObject.get(Constant.QUESTION_CATEGORY_END_LABEL);
 			
 				if(QuestionCategoryFieldsVal.validateQuestionCategoryName(newName) 
 						&& QuestionCategoryFieldsVal.validateDescription(newDescrition)

@@ -142,7 +142,8 @@
     		.createLocation(Location)
     		.success(function(response) {
     			if(response.status == '200') {
-    			vm.isCreateSuccessful = true;
+    			//vm.isCreateSuccessful = true;
+    			$window.alert('Location has been created successfully');
     			vm.newLocation = {
     	        		name : '',
     	        		description : '',
@@ -161,8 +162,8 @@
     			}
     			
     			else
-    				vm.isCreateFailed = true;
-    				
+    				//vm.isCreateFailed = true;
+    				$window.alert('Location creation failed');
     		});
         	
         }
@@ -179,7 +180,7 @@
         		.success(function(response) {
         			locationsList = response.results;
         		
-        			console.log(locationSearch);
+        			console.log(locationsList);
                 	var locationParams = {
                 			locationName : locationSearch.name,
                     		locationDescription : locationSearch.description,
@@ -308,6 +309,14 @@
     				}
     				
     			});
+        }
+        
+        vm.selectLocationDetails = selectLocationDetails;
+        
+        function selectLocationDetails(loc) {
+        	var location = vm.locationSearchResults[loc];
+        	console.log(location);
+        	vm.selectedLocation = location;
         }
     }
     

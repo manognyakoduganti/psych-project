@@ -18,7 +18,11 @@ public class UserProfileDAO {
 		
 		slf4jLogger.info("Entered into udpateUserProfile");
 		
-		String selectQuery = "UPDATE ADMIN SET FIRSTNAME = ?, LASTNAME = ?,  EMAIL= ?,  PASSWORD = ? WHERE EMAIL = ?";
+		String selectQuery;
+		if(!userProfile.getPassword().equals(""))
+			selectQuery = "UPDATE ADMIN SET FIRSTNAME = ?, LASTNAME = ?,  EMAIL= ?,  PASSWORD = ? WHERE EMAIL = ?";
+		else
+			selectQuery = "UPDATE ADMIN SET FIRSTNAME = ?, LASTNAME = ?,  EMAIL= ? WHERE EMAIL = ?";
 		
 		Connection connection = null;
 		
@@ -31,8 +35,12 @@ public class UserProfileDAO {
 			preparedStatement.setString(1, userProfile.getFirstName());
 			preparedStatement.setString(2, userProfile.getLastName());
 			preparedStatement.setString(3, userProfile.getEmail());
-			preparedStatement.setString(4, userProfile.getPassword());
-			preparedStatement.setString(5, currentEmail);
+			if(!userProfile.getPassword().equals("")){
+				preparedStatement.setString(4, userProfile.getPassword());
+				preparedStatement.setString(5, currentEmail);
+			}else{
+				preparedStatement.setString(4, currentEmail);
+			}
 			
 			// execute select SQL statement
 			int affectedLines = preparedStatement.executeUpdate();

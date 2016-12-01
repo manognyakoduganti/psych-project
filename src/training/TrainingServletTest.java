@@ -121,10 +121,13 @@ public class TrainingServletTest {
 		int randomNumber = random.nextInt(1000);
 		
 		JSONArray questions = new JSONArray();
-		questions.add(1);
-		questions.add(2);
-		questions.add(3);
-		questions.add(4);
+		JSONObject question = new JSONObject();
+		question.put(Constant.QUESTION_ID, 1);
+		questions.add(question);
+		
+		JSONObject question2 = new JSONObject();
+		question2.put(Constant.QUESTION_ID, 2);
+		questions.add(question2);
 		
 		JSONArray images = new JSONArray();
 		
@@ -148,11 +151,11 @@ public class TrainingServletTest {
 		String newTrainingDescription = "TrainingTestName";
 		String newTrainingKeywords = "TrainingKeyword1,Trainingkeyword2";
 		
-		jsonObj.put(Constant.TRG_NEW_NAME, newTrainingName);
-		jsonObj.put(Constant.TRG_NEW_DESCRIPTION, newTrainingDescription);
-		jsonObj.put(Constant.TRG_NEW_KEYWORDS, newTrainingKeywords);
-		jsonObj.put(Constant.TRG_NEW_QUESTIONS, questions);
-		jsonObj.put(Constant.TRG_NEW_IMAGES, images);
+		jsonObj.put(Constant.TRAINING_NAME, newTrainingName);
+		jsonObj.put(Constant.TRAINING_DESCRIPTION, newTrainingDescription);
+		jsonObj.put(Constant.TRAINING_KEYWORDS, newTrainingKeywords);
+		jsonObj.put(Constant.TRAINING_QUESTIONS, questions);
+		jsonObj.put(Constant.TRAINING_IMAGES, images);
 		
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		
@@ -170,8 +173,8 @@ public class TrainingServletTest {
 		//System.out.println(jsonObject.get(Constant.DEVELOPER_MESSAGE));
 		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.OK_200);
 		
-		System.out.println(jsonObject.get(Constant.NEW_TRAINING_ID));
-		boolean deleted = TrainingDAO.deleteTraining((long) jsonObject.get(Constant.NEW_TRAINING_ID));
+		System.out.println(jsonObject.get(Constant.TRAINING_ID));
+		boolean deleted = TrainingDAO.deleteTraining((long) jsonObject.get(Constant.TRAINING_ID));
 		
 		assertEquals(true, deleted);
 		
@@ -197,10 +200,13 @@ public class TrainingServletTest {
 		int randomNumber = random.nextInt(1000);
 		
 		JSONArray questions = new JSONArray();
-		questions.add(1);
-		questions.add(2);
-		questions.add(3);
-		questions.add(4);
+		JSONObject question = new JSONObject();
+		question.put(Constant.QUESTION_ID, 1);
+		questions.add(question);
+		
+		JSONObject question2 = new JSONObject();
+		question2.put(Constant.QUESTION_ID, 2);
+		questions.add(question2);
 		
 		JSONArray images = new JSONArray();
 		
@@ -224,11 +230,11 @@ public class TrainingServletTest {
 		String newTrainingDescription = "TrainingTestName";
 		String newTrainingKeywords = "TrainingKeyword1,Trainingkeyword2";
 		
-		jsonObj.put(Constant.TRG_NEW_NAME, newTrainingName);
-		jsonObj.put(Constant.TRG_NEW_DESCRIPTION, newTrainingDescription);
-		jsonObj.put(Constant.TRG_NEW_KEYWORDS, newTrainingKeywords);
-		jsonObj.put(Constant.TRG_NEW_QUESTIONS, questions);
-		jsonObj.put(Constant.TRG_NEW_IMAGES, images);
+		jsonObj.put(Constant.TRAINING_NAME, newTrainingName);
+		jsonObj.put(Constant.TRAINING_DESCRIPTION, newTrainingDescription);
+		jsonObj.put(Constant.TRAINING_KEYWORDS, newTrainingKeywords);
+		jsonObj.put(Constant.TRAINING_QUESTIONS, questions);
+		jsonObj.put(Constant.TRAINING_IMAGES, images);
 		
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		
@@ -266,10 +272,13 @@ public class TrainingServletTest {
 		int randomNumber = random.nextInt(1000);
 		
 		JSONArray questions = new JSONArray();
-		questions.add(1);
-		questions.add(2);
-		questions.add(3);
-		questions.add(4);
+		JSONObject question = new JSONObject();
+		question.put(Constant.QUESTION_ID, 1);
+		questions.add(question);
+		
+		JSONObject question2 = new JSONObject();
+		question2.put(Constant.QUESTION_ID, 2);
+		questions.add(question2);
 		
 		JSONArray images = new JSONArray();
 		
@@ -294,11 +303,11 @@ public class TrainingServletTest {
 		String newTrainingKeywords = "TrainingKeyword1,Trainingkeyword2";
 		
 		jsonObj.put(Constant.TRAINING_ID, 1);
-		jsonObj.put(Constant.TRG_NEW_NAME, newTrainingName);
-		jsonObj.put(Constant.TRG_NEW_DESCRIPTION, newTrainingDescription);
-		jsonObj.put(Constant.TRG_NEW_KEYWORDS, newTrainingKeywords);
-		jsonObj.put(Constant.TRG_NEW_QUESTIONS, questions);
-		jsonObj.put(Constant.TRG_NEW_IMAGES, images);
+		jsonObj.put(Constant.TRAINING_NAME, newTrainingName);
+		jsonObj.put(Constant.TRAINING_DESCRIPTION, newTrainingDescription);
+		jsonObj.put(Constant.TRAINING_KEYWORDS, newTrainingKeywords);
+		jsonObj.put(Constant.TRAINING_QUESTIONS, questions);
+		jsonObj.put(Constant.TRAINING_IMAGES, images);
 		
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		
@@ -337,10 +346,13 @@ public class TrainingServletTest {
 		int randomNumber = random.nextInt(1000);
 		
 		JSONArray questions = new JSONArray();
-		questions.add(1);
-		questions.add(2);
-		questions.add(3);
-		questions.add(4);
+		JSONObject question = new JSONObject();
+		question.put(Constant.QUESTION_ID, 1);
+		questions.add(question);
+		
+		JSONObject question2 = new JSONObject();
+		question2.put(Constant.QUESTION_ID, 2);
+		questions.add(question2);
 		
 		JSONArray images = new JSONArray();
 		
@@ -365,11 +377,11 @@ public class TrainingServletTest {
 		String newTrainingKeywords = "TrainingKeyword1,Trainingkeyword2";
 		
 		jsonObj.put(Constant.TRAINING_ID, 1);
-		jsonObj.put(Constant.TRG_NEW_NAME, newTrainingName);
-		jsonObj.put(Constant.TRG_NEW_DESCRIPTION, newTrainingDescription);
-		jsonObj.put(Constant.TRG_NEW_KEYWORDS, newTrainingKeywords);
-		jsonObj.put(Constant.TRG_NEW_QUESTIONS, questions);
-		jsonObj.put(Constant.TRG_NEW_IMAGES, images);
+		jsonObj.put(Constant.TRAINING_NAME, newTrainingName);
+		jsonObj.put(Constant.TRAINING_DESCRIPTION, newTrainingDescription);
+		jsonObj.put(Constant.TRAINING_KEYWORDS, newTrainingKeywords);
+		jsonObj.put(Constant.TRAINING_QUESTIONS, questions);
+		jsonObj.put(Constant.TRAINING_IMAGES, images);
 		
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		
@@ -387,6 +399,38 @@ public class TrainingServletTest {
 		//System.out.println(jsonObject.get(Constant.DEVELOPER_MESSAGE));
 		System.out.println(jsonObject.get(Constant.DEVELOPER_MESSAGE));
 		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.BADREQUEST_400);		
+	}
+	
+	@Test
+	public void testGetTrainingDetailsById() throws ServletException, IOException, ParseException{
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(request.getReader()).thenReturn(bufferedReader);
+		
+		when(response.getWriter()).thenReturn(printWriter);
+		when(request.getSession(false)).thenReturn(session);
+		when(request.getParameter(Constant.TRAINING_ID)).thenReturn("1");
+		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
+		when(request.getSession(false)).thenReturn(session);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1);
+		
+		trainingServlet.doGet(request, response);
+		
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(stringWriter.getBuffer().toString());
+		JSONObject jsonObject = (JSONObject) obj;
+		
+		//System.out.println(jsonObject.get(Constant.DEVELOPER_MESSAGE));
+		System.out.println(jsonObject.get(Constant.DEVELOPER_MESSAGE));
+		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.OK_200);
 	}
 
 }

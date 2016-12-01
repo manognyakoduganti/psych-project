@@ -111,7 +111,7 @@ public class QuestionDAO {
 
 	public static JSONObject updateQuestion(Question question) {
 		
-		String updateQuery = "UPDATE QUESTION SET name=?, description=?, categoryId=? WHERE ID=?";
+		String updateQuery = "UPDATE QUESTION SET name=?, description=?, categoryId=? WHERE ID=?;";
 		
 		JSONObject returnJSON = new JSONObject();
 
@@ -178,7 +178,7 @@ public class QuestionDAO {
 	
 	public static JSONObject getAll(){
 		
-		String selectQuery = "SELECT A.ID AS qId, A.NAME AS qName, A.DESCRIPTION AS qDescription," +
+		String selectQuery = "SELECT A.ID AS qId, B.ID AS qCategoryId, A.NAME AS qName, IFNULL(A.DESCRIPTION, '') AS qDescription," +
 								"B.NAME AS catName " + 
 								"FROM psych.QUESTION AS A "+
 								"INNER JOIN psych.QUESTIONCATEGORY AS B "+
@@ -206,7 +206,7 @@ public class QuestionDAO {
 				object.put(Constant.QUESTION_NAME, rows.getString("qName"));
 				object.put(Constant.QUESTION_DESCRIPTION, rows.getString("qDescription"));
 				object.put(Constant.QUESTION_CATEGORY_NAME, rows.getString("catName"));
-				
+				object.put(Constant.QUESTION_CATEGORY_ID, rows.getString("qCategoryId"));
 				results.add(object);
 			}
 			returnJSON.put(Constant.RESULTS, results);
@@ -310,7 +310,7 @@ public class QuestionDAO {
 			while (rows.next()){
 				JSONObject object = new JSONObject();
 				
-				object.put(Constant.QUESTION_ID, rows.getString("questionId"));
+				object.put(Constant.QUESTION_ID, rows.getLong("questionId"));
 				object.put(Constant.QUESTION_NAME, rows.getString("questionName"));
 				object.put(Constant.QUESTION_CATEGORY_START_LABEL, rows.getString("startLabel"));
 				object.put(Constant.QUESTION_CATEGORY_END_LABEL, rows.getString("endLabel"));

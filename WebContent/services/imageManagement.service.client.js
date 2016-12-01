@@ -7,13 +7,48 @@
     
     function ImageManagementService($http, serverURL) {
     	
-    	/*var awsURL = 'http://ec2-54-175-16-62.compute-1.amazonaws.com:8080/Psych-1/';
-    	var localServerURL = 'http://localhost:8080/Psych-1/';
-    	var serverURL = 'http://localhost:8080/Psych-1/';*/
+    	
     	
     	var service = {
+    			createImageCategory : createImageCategory,
+    			updateImageCategory : updateImageCategory,
+    			getAllCategories : getAllCategories,
+    			getAllImages : getAllImages
     	};
     	
     	return service;
+    	
+    	function createImageCategory(Ic) {
+    		if(Ic)
+    			return $http ({
+                    method: 'POST',
+                    url: serverURL.url + 'imageCategory',
+                    contentType: 'application/json',
+                    data: Ic});
+    	}
+    	
+    	function updateImageCategory(Ic) {
+    		return $http ({
+                method: 'PUT',
+                url: serverURL.url + 'imageCategory',
+                contentType: 'application/json',
+                data: Ic});
+    	}
+    	
+    	function getAllCategories() {
+    		return $http ({
+                method: 'GET',
+                url: serverURL.url + 'imageCategory',
+                contentType: 'application/json'
+                });
+    	}
+    	
+    	function getAllImages() {
+    		return $http ({
+                method: 'GET',
+                url: serverURL.url + 'imageUpload',
+                contentType: 'application/json'
+                });
+    	}
     }
 })();

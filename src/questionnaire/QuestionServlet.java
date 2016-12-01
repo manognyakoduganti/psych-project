@@ -18,6 +18,7 @@ import org.json.simple.parser.ParseException;
 import common.Constant;
 import common.Question;
 import common.QuestionCategory;
+import common.Sessions;
 import dao.QuestionCategoryDAO;
 import dao.QuestionDAO;
 import fieldValidation.QuestionCategoryFieldsVal;
@@ -47,38 +48,41 @@ public class QuestionServlet extends HttpServlet {
 		response.addHeader("Access-Control-Allow-Methods", Constant.ACCESS_CONTROL_ALLOW_METHODS);
 		response.addIntHeader("Access-Control-Max-Age", Constant.ACCESS_CONTROL_ALLOW_MAX_AGE);
 		
-		
-		String name = request.getParameter("name");
-		
-		String targetGroupId = request.getParameter(Constant.TARGET_GROUP_ID);
-		System.out.println(request.toString());
-		System.out.println("question servlet");
-		System.out.println(targetGroupId);
-		
 		JSONObject returnJSON = new JSONObject();
 		
-		if (name != null){
+		HttpSession session = request.getSession(false);
+		if(Sessions.isValidGlobalAdminSession(session)){
+			String name = request.getParameter("name");
 			
-			boolean duplicate = QuestionDAO.checkDuplicate(name);
+			String targetGroupId = request.getParameter(Constant.TARGET_GROUP_ID);
+			System.out.println(request.toString());
+			System.out.println("question servlet");
+			System.out.println(targetGroupId);
 			
-			returnJSON.put(Constant.STATUS, Constant.OK_200);
-			returnJSON.put(Constant.RESULTS, duplicate);
-			returnJSON.put(Constant.USER_MESSAGE, "Searched for duplicate successfully!");
-			returnJSON.put(Constant.DEVELOPER_MESSAGE, "Searched for duplicate successfully");
-		}
-		else if(targetGroupId != null){
-			returnJSON = QuestionDAO.getAllQuestionsByTargetGroupId(Long.parseLong(targetGroupId));
-		}
-		else{
+			if (name != null){
+				
+				boolean duplicate = QuestionDAO.checkDuplicate(name);
+				
+				returnJSON.put(Constant.STATUS, Constant.OK_200);
+				returnJSON.put(Constant.RESULTS, duplicate);
+				returnJSON.put(Constant.USER_MESSAGE, "Searched for duplicate successfully!");
+				returnJSON.put(Constant.DEVELOPER_MESSAGE, "Searched for duplicate successfully");
+			}
+			else if(targetGroupId != null){
+				returnJSON = QuestionDAO.getAllQuestionsByTargetGroupId(Long.parseLong(targetGroupId));
+			}
+			else{
+				
+				returnJSON = QuestionDAO.getAll();
+			}
 			
-			returnJSON = QuestionDAO.getAll();
+			//System.out.println(name);
+			
+			response.setContentType("application/json;charset=UTF-8");
+		}else{
+			returnJSON.put(Constant.STATUS, Constant.UNAUTHORIZED_401);
 		}
-		
 		response.getWriter().print(returnJSON);
-		
-		//System.out.println(name);
-		
-		response.setContentType("application/json;charset=UTF-8");
 	}
 
 	/**
@@ -105,10 +109,7 @@ public class QuestionServlet extends HttpServlet {
 		
 		HttpSession session = request.getSession(false);
 		
-//		if(session != null && session.getAttribute(Constant.ROLE) != null &&
-//				session.getAttribute(Constant.EMAIL) != null &&
-//				(session.getAttribute(Constant.ROLE).equals(Constant.GLOBAL_ADMIN) ||
-//				(session.getAttribute(Constant.ROLE).equals(Constant.LOCAL_ADMIN)))){
+		if(Sessions.isValidGlobalAdminSession(session)){
 			
 			try {
 				obj = parser.parse(sb.toString());
@@ -137,11 +138,11 @@ public class QuestionServlet extends HttpServlet {
 				returnJSON.put(Constant.DEVELOPER_MESSAGE, Constant.JSON_PARSE_ERROR + sb.toString());
 			}
 			
-//		}else{
-//			returnJSON.put(Constant.STATUS, Constant.UNAUTHORIZED_401);
-//			returnJSON.put(Constant.USER_MESSAGE, Constant.UNAUTHORIZED_401);
-//			returnJSON.put(Constant.DEVELOPER_MESSAGE, Constant.UNAUTHORIZED_401);
-//		}
+		}else{
+			returnJSON.put(Constant.STATUS, Constant.UNAUTHORIZED_401);
+			returnJSON.put(Constant.USER_MESSAGE, Constant.UNAUTHORIZED_401);
+			returnJSON.put(Constant.DEVELOPER_MESSAGE, Constant.UNAUTHORIZED_401);
+		}
 		
 		response.getWriter().print(returnJSON);
 		response.addHeader("Access-Control-Allow-Origin", Constant.ACCESS_CONTROL_ALLOW_ORIGIN);
@@ -172,17 +173,14 @@ public class QuestionServlet extends HttpServlet {
 		
 		HttpSession session = request.getSession(false);
 		
-//		if(session != null && session.getAttribute(Constant.ROLE) != null &&
-//				session.getAttribute(Constant.EMAIL) != null &&
-//				(session.getAttribute(Constant.ROLE).equals(Constant.GLOBAL_ADMIN) ||
-//				(session.getAttribute(Constant.ROLE).equals(Constant.LOCAL_ADMIN)))){
+		if(Sessions.isValidGlobalAdminSession(session)){
 			
 			try {
 				obj = parser.parse(sb.toString());
 				JSONObject jsonObject = (JSONObject) obj;
-				newName = (String) jsonObject.get(Constant.NEW_QUESTION_NAME);
-				newDescrition = (String) jsonObject.get(Constant.NEW_QUESTION_DESCRIPTION);
-				newQuestionCategoryId = (long) jsonObject.get(Constant.NEW_QUESTION_CATEGORY_ID);
+				newName = (String) jsonObject.get(Constant.QUESTION_NAME);
+				newDescrition = (String) jsonObject.get(Constant.QUESTION_DESCRIPTION);
+				newQuestionCategoryId = (long) jsonObject.get(Constant.QUESTION_CATEGORY_ID);
 				questionId = (long) jsonObject.get(Constant.QUESTION_ID);
 				
 				if(QuestionCategoryFieldsVal.validateQuestionName(newName) 
@@ -205,11 +203,11 @@ public class QuestionServlet extends HttpServlet {
 				returnJSON.put(Constant.DEVELOPER_MESSAGE, Constant.JSON_PARSE_ERROR + sb.toString());
 			}
 			
-//		}else{
-//			returnJSON.put(Constant.STATUS, Constant.UNAUTHORIZED_401);
-//			returnJSON.put(Constant.USER_MESSAGE, Constant.UNAUTHORIZED_401);
-//			returnJSON.put(Constant.DEVELOPER_MESSAGE, Constant.UNAUTHORIZED_401);
-//		}
+		}else{
+			returnJSON.put(Constant.STATUS, Constant.UNAUTHORIZED_401);
+			returnJSON.put(Constant.USER_MESSAGE, Constant.UNAUTHORIZED_401);
+			returnJSON.put(Constant.DEVELOPER_MESSAGE, Constant.UNAUTHORIZED_401);
+		}
 		
 		response.getWriter().print(returnJSON);
 		response.addHeader("Access-Control-Allow-Origin", Constant.ACCESS_CONTROL_ALLOW_ORIGIN);

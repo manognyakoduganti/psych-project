@@ -4,6 +4,10 @@
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
+  <context-param>
+        <param-name>ImageFolder</param-name>
+        <param-value>/Users/surajnagaraj/git/Psych_Server/images</param-value>
+    </context-param>
   <servlet>
     <servlet-name>AuthenticatingUser</servlet-name>
     <servlet-class>authentication.AuthenticatingUser</servlet-class>
@@ -76,6 +80,10 @@
     <servlet-name>ImageUpload</servlet-name>
     <servlet-class>imageData.ImageUploadServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>ImageFile</servlet-name>
+    <servlet-class>imageData.ImageFileServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>AdminAuthentication</servlet-name>
     <url-pattern>/adminAuthentication/*</url-pattern>
@@ -147,6 +155,23 @@
   <servlet-mapping>
     <servlet-name>ImageCategory</servlet-name>
     <url-pattern>/imageCategory/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ImageFile</servlet-name>
+    <url-pattern>/imageFile/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>DefaultServletOverride</servlet-name>
+    <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
+    <init-param>
+      <param-name>listings</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DefaultServletOverride</servlet-name>
+    <url-pattern>/Browse</url-pattern>
   </servlet-mapping>
   <listener>
     <listener-class>dao.DBSourceRegistrationListener</listener-class>

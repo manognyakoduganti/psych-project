@@ -21,11 +21,11 @@
 		                  <div class="tabbable-panel" ng-show="model.isSet('questionCategories')">
 		                	<div class="tabbable-line">
 		                    <ul class="nav nav-tabs">
-		                    	<li ng-class="{active:model.isSet('searchQuestionCategories')}">
+		                    	<li ng-class="{active:model.isSetSubTab('searchQuestionCategories')}">
 		                            <a href="" ng-click="model.setSubTab('searchQuestionCategories')">
 		                                Search </a>
 		                        </li>
-		                        <li ng-class="{active:model.isSet('createQuestionCategories')}">
+		                        <li ng-class="{active:model.isSetSubTab('createQuestionCategories')}">
 		                            <a href="" ng-click="model.setSubTab('createQuestionCategories')">
 		                                Create </a>
 		                        </li>
@@ -36,25 +36,45 @@
                                 <div class="form-group">
                                     <label for="inputName2" class="col-sm-2 control-label">Category Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.searchLoc.name">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the category" ng-model="model.searchQc.questionCategoryName">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.searchLoc.description">
+                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the category" ng-model="model.searchQc.questionCategoryDescription"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Response Type:</label>
+                                    <div class="col-sm-7">                                     
+                                        <select name="states" class="form-control" id="inputEmail3" placeholder="State" ng-options='qc.fieldId as qc.fieldValue for qc in model.responseTypeList' ng-model="model.searchQc.responseTypeFieldId" required="required">
+                                        <option value="">Select Response Type</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-2 control-label">Start Label:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Enter a start label" ng-model="model.searchQc.startLabel">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-2 control-label">End Label:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Enter an end label" ng-model="model.searchQc.endLabel">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.search(model.search)">Search</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.searchQuestionCategories(model.searchQc)">Search</button>
                                     </div>
                                 </div>
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
                                  <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
                             </div>
-							<div>
+							<div ng-if="model.isSearchClicked">
            		<h4>Search Results</h4>
            		<div class="table-responsive" id="formtable">
     <table class="table table-striped table-bordered">
@@ -62,20 +82,21 @@
         <tr>
             <th> Category Name</th>
             <th> Description</th>
-            <th> Questions</th>
+            
             <th> </th>
         </tr>
      
         </thead>
         <tbody>
-        <tr>
-            <td><a href=""> Test Category </a></td>
-            <td> Testing </td>
-            <td> Testing </td>
+        <tr ng-repeat = "qc in model.questionCategorySearchResults">
+            <td><a href=""><span data-toggle="modal"
+                                                 data-target="#myModalForQuestionCategoryDetails" ng-click="model.selectQuestionCategoryDetails($index)"> {{qc.questionCategoryName}} </span></a></td>
+            <td> {{qc.questionCategoryDescription}} </td>
+            
            
             <td>
                 <a href=""><span class="glyphicon glyphicon-pencil incrsize" data-toggle="modal"
-                                                 data-target="#myModal"></span></a>
+                                                 data-target="#myModalQc" ng-click="model.selectQuestionCategory($index)"></span></a>
             </td>
         </tr>
         </tbody>
@@ -90,7 +111,7 @@
                                 <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Category Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" name="createLocationCode" class="form-control" id="inputEmail3" placeholder="Location Code" ng-model="model.newLocation.code">
+                                        <input type="text" name="createLocationCode" class="form-control" id="inputEmail3" placeholder="Name of the category" ng-model="model.createQc.newQuestionCategoryName">
                                         <div ng-messages="locationCreateForm.createLocationCode.$error">
 									       
 									        <div ng-message-exp="model.isLocationCodeDuplicate">The location code already exists. Please enter another code.</div>
@@ -101,14 +122,34 @@
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.newLocation.description">
+                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the category" ng-model="model.createQc.newQuestionCategoryDescription"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group required">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Response Type:</label>
+                                    <div class="col-sm-7">                                     
+                                        <select name="states" class="form-control" id="inputEmail3" placeholder="State" ng-options='qc.fieldId as qc.fieldValue for qc in model.responseTypeList' ng-model="model.createQc.newResponseType" required="required">
+                                        <option value="">Select Response Type</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group required">
+                                    <label for="inputName2" class="col-sm-2 control-label">Start Label:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="A start label for the category" ng-model="model.createQc.newStartLabel"/>
+                                    </div>
+                                </div>
+                                <div class="form-group required">
+                                    <label for="inputName2" class="col-sm-2 control-label">End Label:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="An end label for the category" ng-model="model.createQc.newEndLabel">
                                     </div>
                                 </div>
                
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.create(model.newLocation)">Create</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.createQuestionCategory(model.createQc)">Create</button>
                                     </div>
                                 </div>
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
@@ -121,11 +162,11 @@
                 	                  <div class="tabbable-panel" ng-show="model.isSet('questions')">
 		                	<div class="tabbable-line">
 		                    <ul class="nav nav-tabs">
-		                    	<li ng-class="{active:model.isSet('searchQuestions')}">
+		                    	<li ng-class="{active:model.isSetSubTab('searchQuestions')}">
 		                            <a href="" ng-click="model.setSubTab('searchQuestions')">
 		                                Search </a>
 		                        </li>
-		                        <li ng-class="{active:model.isSet('createQuestions')}">
+		                        <li ng-class="{active:model.isSetSubTab('createQuestions')}">
 		                            <a href="" ng-click="model.setSubTab('createQuestions')">
 		                                Create </a>
 		                        </li>
@@ -136,33 +177,26 @@
                                 <div class="form-group">
                                     <label for="inputName2" class="col-sm-2 control-label">Question Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.searchLoc.name">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the Question" ng-model="model.searchQ.questionName">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.searchLoc.description">
+                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the question" ng-model="model.searchQ.questionDescription"></textarea>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Question Category:</label>
-                                    <div class="col-sm-7">                                     
-                                        <select name="states" class="form-control" id="inputEmail3" placeholder="State" ng-model="model.searchLoc.state" required="required">
-                                        <option value="">Select Category</option>
-                                        </select>
-                                    </div>
-                                </div>
+                      
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.search(model.search)">Search</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.searchQuestions(model.searchQ)">Search</button>
                                     </div>
                                 </div>
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
                                  <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
                             </div>
-							<div>
+							<div ng-if="model.isQuestionSearchClicked">
            		<h4>Search Results</h4>
            		<div class="table-responsive" id="formtable">
     <table class="table table-striped table-bordered">
@@ -170,20 +204,21 @@
         <tr>
             <th> Question Name</th>
             <th> Description</th>
-            <th> Question Category</th>
+      
             <th> </th>
         </tr>
      
         </thead>
         <tbody>
-        <tr>
-            <td><a href=""> Test Question </a></td>
-            <td> Testing </td>
-            <td> Testing </td>
+        <tr ng-repeat = "qc in model.questionSearchResults">
+            <td><a href=""> <span data-toggle="modal"
+                                                 data-target="#myModalForQuestionDetails" ng-click="model.selectQuestionDetails($index)">{{qc.questionName}} </span></a></td>
+            <td> {{qc.questionDescription}} </td>
+            
            
             <td>
                 <a href=""><span class="glyphicon glyphicon-pencil incrsize" data-toggle="modal"
-                                                 data-target="#myModal"></span></a>
+                                                 data-target="#myModalForQuestions" ng-click="model.selectQuestion($index)"></span></a>
             </td>
         </tr>
         </tbody>
@@ -198,7 +233,7 @@
                                 <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Question Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" name="createLocationCode" class="form-control" id="inputEmail3" placeholder="Location Code" ng-model="model.newLocation.code">
+                                        <input type="text" name="createLocationCode" class="form-control" id="inputEmail3" placeholder="Enter a question" ng-model="model.createQ.newQuestionName">
                                         <div ng-messages="locationCreateForm.createLocationCode.$error">
 									       
 									        <div ng-message-exp="model.isLocationCodeDuplicate">The location code already exists. Please enter another code.</div>
@@ -209,14 +244,14 @@
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.newLocation.description">
+                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description for the question" ng-model="model.createQ.newQuestionDescription"></textarea>
                                     </div>
                                 </div>
                                 
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Question Category:</label>
                                     <div class="col-sm-7">                                     
-                                        <select name="states" class="form-control" id="inputEmail3" placeholder="State" ng-model="model.searchLoc.state" required="required">
+                                        <select name="states" class="form-control" id="inputEmail3" placeholder="" ng-options='qc.questionCategoryId as qc.questionCategoryName for qc in model.questionCategoryList' ng-model="model.createQ.newQuestionCategoryId" required="required">
                                         <option value="">Select Category</option>
                                         </select>
                                     </div>
@@ -225,7 +260,7 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.create(model.newLocation)">Create</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.createQuestion(model.createQ)">Create</button>
                                     </div>
                                 </div>
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
@@ -240,8 +275,8 @@
 
         </div>
     </div>
-    <!-- Modal view content -->
-       <div id="myModal" class="modal fade" role="dialog">
+    <!-- Modal view content for question categories -->
+       <div id="myModalQc" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -253,22 +288,42 @@
                 <div class="modal-body">
                    <div class="form-horizontal" ng-form name="locationUpdateForm">
                                 <div class="form-group">
-                                    <label for="inputName2" class="col-sm-2 control-label">Category Name:</label>
+                                    <label for="inputName2" class="col-sm-4 control-label">Category Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.locationUpdate.name">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the category" ng-model="model.updateQc.questionCategoryName">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-2 control-label">Description:</label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.locationUpdate.description">
+                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the category" ng-model="model.updateQc.questionCategoryDescription"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Response Type:</label>
+                                    <div class="col-sm-7">                                     
+                                        <select name="states" class="form-control" id="inputEmail3" ng-options='qc.fieldId as qc.fieldValue for qc in model.responseTypeList' placeholder="State" ng-model="model.updateQc.responseType" required="required">
+                                        <option value="">Select Response Type</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-4 control-label">Start Label:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Enter a start label" ng-model="model.updateQc.startLabel">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-4 control-label">End Label:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Enter an end label" ng-model="model.updateQc.endLabel">
                                     </div>
                                 </div>
                         
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.update(model.locationUpdate)">Update</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.updateQuestionCategory(model.updateQc)">Update</button>
                                     </div>
                                 </div>
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
@@ -278,7 +333,162 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" ng-click="model.update(model.selectedField)" class="btn btn-default" data-dismiss="modal">Ok</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+      <!-- Modal view content for questions-->
+       <div id="myModalForQuestions" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit Question</h4>
+                </div>
+                <div class="modal-body">
+                   <div class="form-horizontal" ng-form name="locationUpdateForm">
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-4 control-label">Question:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Enter a question" ng-model="model.updateQ.questionName">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Description:</label>
+                                    <div class="col-sm-7">
+                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the question" ng-model="model.updateQ.questionDescription"></textarea>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Question Category:</label>
+                                    <div class="col-sm-7">                                     
+                                        <select name="states" class="form-control" id="inputEmail3" placeholder="" ng-options='qc.questionCategoryId as qc.questionCategoryName for qc in model.questionCategoryList' ng-model="model.updateQ.questionCategoryId" required="required">
+                                        <option value="">Select Category</option>
+                                        </select>
+                                    </div>
+                                </div>
+                        		
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-7">
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.updateQuestion(model.updateQ)">Update</button>
+                                    </div>
+                                </div>
+                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
+                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                            </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+        <!-- Modal content for Question Category details -->
+          <div id="myModalForQuestionCategoryDetails" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Question Category Details</h4>
+                </div>
+                <div class="modal-body">
+                   <div class="form-horizontal" ng-form name="locationUpdateForm">
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-4 control-label">Category Name:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedQc.questionCategoryName}}
+                                    </div>
+                                </div>
+                                
+                                
+                              
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Response Type:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedQc.questionCategoryDescription}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Start Label:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedQc.startLabel}}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">End Label:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedQc.endLabel}}
+                                    </div>
+                                </div>
+
+                              
+
+                                
+                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
+                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                            </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+             
+                </div>
+            </div>
+        </div>
+    </div>
+       <!-- Modal content for Question details -->
+          <div id="myModalForQuestionDetails" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Question Category Details</h4>
+                </div>
+                <div class="modal-body">
+                   <div class="form-horizontal" ng-form name="locationUpdateForm">
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-4 control-label">Question:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedQ.questionName}}
+                                    </div>
+                                </div>
+                                
+                                
+                              
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Description:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedQ.questionDescription}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Category:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedQ.questionCategoryName}}
+                                    </div>
+                                </div>
+
+                                
+                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
+                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                            </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+             
                 </div>
             </div>
         </div>

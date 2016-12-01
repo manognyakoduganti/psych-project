@@ -1,7 +1,7 @@
 /**
  * Created by surajnagaraj on 10/26/16.
  */
-//awsURL : http://ec2-54-175-16-62.compute-1.amazonaws.com:8080/Psych-1/
+//awsURL : http://ec2-54-166-55-193.compute-1.amazonaws.com:8080/Psych-1/
 //localURL : http://localhost:8080/Psych-1/
 (function(){
     'use strict';

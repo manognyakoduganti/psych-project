@@ -35,7 +35,6 @@
 										      <div ng-bind-html="training.trainingName | highlight: $select.search"></div>
 										    </ui-select-choices>
 										  </ui-select>
-<!--                                     	<input type="text" class="form-control" id="inputName2" placeholder="Select or search for a training" ng-model="model.searchTraining.name"> -->
                                     </div>
                             	</div>
                             </div>
@@ -46,281 +45,229 @@
 				
 				<div ng-if="model.isSelected">
 							
-	           		<h4>Showing details for training: <b>{{model.trainings.selected.trainingName}}</b></h4>
-	           		<div class="table-responsive" id="formtable">
-		    			<table class="table table-striped table-bordered">
-		        			<thead>
-						        <tr>
-						            <th> Location Name</th>
-						            <th> City</th>
-						            <th> State</th>
-						            <th> Phone Number</th>
-						            <th> Location Code</th>
-						            <th> Actions</th>
-						        </tr>
-					     
+	           		<h4>Training Details</h4>
+	           		<div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="inputName2" class="col-sm-2 control-label">Training Name:</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.selectedTrainingDetails.trainingName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputName3" class="col-sm-2 control-label">Description:</label>
+                            <div class="col-sm-7">
+                                <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.selectedTrainingDetails.trainingDescription"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">Keywords:</label>
+                            <div class="col-sm-7">
+                                <textarea type="text" class="form-control" id="inputEmail3" placeholder="Keywords" ng-model="model.selectedTrainingDetails.trainingKeywords">
+                                </textarea>
+                            </div>
+                        </div>
+           			
+	           			<h4>Questions asked in this training</h4>
+	           			<table class="table table-striped table-bordered">
+					        <thead>
+					        <tr>
+					            <th> Question</th>
+					            <th> Question Category</th>
+					            <th> Actions</th>
+					        </tr>
 					        </thead>
-		        			<tbody>
-						        <tr ng-repeat = "loc in model.locationSearchResults">
-						            <td><a href=""> {{loc.locationName}} </a></td>
-						            <td> {{loc.locationCity}} </td>
-						            <td> {{loc.locationState}} </td>
-						            <td> {{loc.locationPhoneNumber}} </td>
-						            <td> {{loc.locationCode}} </td>
-						            
-						            <td>
-						                <a href=""><span class="glyphicon glyphicon-pencil incrsize" data-toggle="modal"
-						                                                 data-target="#myModal" ng-click="model.selectLocation($index)"></span></a>
-						            </td>
-						        </tr>
-						    </tbody>
-		    			</table>
+					        <tbody>
+					        <tr ng-repeat = "trainingQuestion in model.selectedTrainingDetails.trainingQuestions">
+					            <td> {{trainingQuestion.questionName}} </td>
+					            <td> {{trainingQuestion.questionCategoryName}} </td>
+					            
+					            <td>
+					                <a><span class="glyphicon glyphicon-remove incrsize" ng-click="model.removeTrainingQuestion($index)"></span></a>
+					            </td>
+					        </tr>
+					        </tbody>
+					    </table>
+					    <div class="form-group">
+                            <div class="col-sm-2">
+                                <button type="submit" class="btn btn-default btn-info btn-block" data-toggle="modal" data-target="#addQuestionModal" ng-click="model.initTrainingQuestions()">Add Question</button>
+                            </div>
+                        </div>
+					    
+					    
+					    <h4>Images shown in this training</h4>
+	           			<table class="table table-striped table-bordered">
+					        <thead>
+					        <tr>
+					            <th>Image Category</th>
+					            <th>Image Type</th>
+					            <th>Duration</th>
+					            <th>Number of Images</th>
+					            <th> Actions</th>
+					        </tr>
+					        </thead>
+					        <tbody>
+					        <tr ng-repeat = "trainingImage in model.selectedTrainingDetails.trainingImages">
+					            <td> {{trainingImage.imageCategoryName}} </td>
+					            <td> {{trainingImage.imageType}} </td>
+					            <td> <input type="text" ng-model="trainingImage.duration" class="form-control ng-pristine ng-untouched ng-valid"></td>
+					            <td> <input type="text" ng-model="trainingImage.noOfImages" class="form-control ng-pristine ng-untouched ng-valid"></td>
+					            <td>
+					                <a><span class="glyphicon glyphicon-remove incrsize" ng-click="model.removeTrainingImage($index)"></span></a>
+					            </td>
+					        </tr>
+					        </tbody>
+					    </table> 
+					    <div class="form-group">
+                            <div class="col-sm-2">
+                                <button type="submit" class="btn btn-default btn-info btn-block" data-toggle="modal" data-target="#addImagesModal" ng-click="model.initTrainingImages()">Add Images</button>
+                            </div>
+                        </div>
+					    <div class="form-group">
+	                         <div class="col-sm-offset-2 col-sm-7">
+	                             <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.updateTraining()">Update Training</button>
+	                         </div>
+	                     </div>
 					</div>
-           		</div> 
-
+					<div ng-show="model.isUpdateSuccessful" class="alert alert-success" role="alert">Training updated successfully.</div>
+                    <div ng-show="model.updateFailed" class="alert alert-danger" role="alert">Failed to update training. Please check the information entered above.</div>
+           		</div>
                         </div>
                         <div class="tab-pane active" id="tab_default_2" ng-show="model.isSet('create')">
-                            <div class="form-horizontal" ng-form name="model.locationCreateForm">
-                                <div class="form-group required">
-                                    <label for="inputName2" class="col-sm-2 control-label">Location Name:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" name="createLocationName" ng-maxlength="150" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.newLocation.name" required="required" ng-change="model.checkDuplicate('locationName', model.newLocation.name)">
-                                        <div ng-messages="model.locationCreateForm.createLocationName.$error" style="color:maroon">
+                        	<h4>Training Details</h4>
+                            <div class="form-horizontal" ng-form name="model.selectedTrainingDetails">
+		                        <div class="form-group required">
+		                            <label for="inputName2" class="col-sm-2 control-label">Training Name:</label>
+		                            <div class="col-sm-7">
+		                                <input type="text" name="newTrainingName" class="form-control" id="inputName2" placeholder="Name of the training" ng-maxlength="150" required="required" ng-model="model.selectedTrainingDetails.trainingName">
+		                                <div ng-messages="model.selectedTrainingDetails.newTrainingName.$error" style="color:maroon">
 									       	<div ng-message="required">This field is required.</div>
-									        <div ng-message="locationNameError">The location name already exists. Please enter another name.</div>
 									        <div ng-message="maxlength">Your field is too long. Max allowed: 150 chars</div>
-									      
 									    </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputName3" class="col-sm-2 control-label">Description:</label>
-                                    <div class="col-sm-7">
-                                        <textarea type="text" class="form-control" name="createLocationDescription" id="inputName3" ng-maxlength="1000" placeholder="Description of the location" ng-model="model.newLocation.description">
-                                        </textarea>
-                                        <div ng-messages="model.locationCreateForm.createLocationDescription.$error" style="color:maroon">
-									        <div ng-message="maxlength">Your field is too long. Max allowed: 1000 chars.</div>
-									    </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Keywords:</label>
-                                    <div class="col-sm-7">
-                                        <textarea type="text" class="form-control" id="inputEmail3" name="createLocationKeyWords" ng-pattern="/^[a-zA-Z0-9\s-,]{0,300}$/" placeholder="Enter keywords separated by a comma" ng-model="model.newLocation.keywords">
-                                        </textarea>
-                                        <div ng-messages="model.locationCreateForm.createLocationKeyWords.$error" style="color:maroon">
-									       	<div ng-message="pattern">Can be alphanumeric with ',' or '-' or space. Max allowed: 300 chars.</div>
-									    </div>
-                                    </div>
-                                </div>
+		                            </div>
+		                        </div>
+		                        <div class="form-group">
+		                            <label for="inputName3" class="col-sm-2 control-label">Description:</label>
+		                            <div class="col-sm-7">
+		                                <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the training" ng-model="model.selectedTrainingDetails.trainingDescription"></textarea>
+		                            </div>
+		                        </div>
+		                        <div class="form-group">
+		                            <label for="inputEmail3" class="col-sm-2 control-label">Keywords:</label>
+		                            <div class="col-sm-7">
+		                                <textarea type="text" class="form-control" id="inputEmail3" placeholder="Keywords" ng-model="model.selectedTrainingDetails.trainingKeywords">
+		                                </textarea>
+		                            </div>
+		                        </div>
                                 
-                                 <div class="form-group required">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Location Code:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" name="createLocationCode" class="form-control" id="inputEmail3" ng-pattern="/^[a-z0-9]{6}$/i" placeholder="Location Code" ng-model="model.newLocation.code" ng-change="model.checkDuplicate('locationCode', model.newLocation.code)" required="required">
-                                        <div ng-messages="model.locationCreateForm.createLocationCode.$error" style="color:maroon">
-									       	<div ng-message="pattern">Must be 6 chars long. Can be alphanumeric.</div>
-									        <div ng-message="locationCodeError">The location code already exists. Please enter another code.</div>
-									        <div ng-message="required">This field is required.</div>
-									    </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group required">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Address Line 1:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" name="createLocationAddress1" id="inputEmail3" placeholder="Address" ng-minlength="2" ng-maxlength="100" ng-model="model.newLocation.address1" required="required">
-                                        <div ng-messages="model.locationCreateForm.createLocationAddress1.$error" style="color:maroon">
-									        <div ng-message="required">This field is required.</div>
-									        <div ng-message="maxlength">Your field is too long. Max allowed: 100 chars</div>
-									        <div ng-message="minlength">Your field is too short. Min allowed: 2 chars</div>
-									    </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Address Line 2:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Address" ng-model="model.newLocation.address2">
-                                    </div>
-                                </div>
-
-                                <div class="form-group required">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">City:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" name="createLocationCity" id="inputEmail3" placeholder="City" ng-pattern="/^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/" ng-maxlength="100" ng-model="model.newLocation.city" required="required">
-                                        <div ng-messages="model.locationCreateForm.createLocationCity.$error" style="color:maroon">
-  												<div ng-message="required">This field is required</div>
-  												<div ng-message="maxlength">Your field is too long. Max allowed: 100 chars</div>
-  												<div ng-message="pattern">Must be a City. Example: Boston or New York or San-Francisco</div>
-											</div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group required">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">State:</label>
-                                    <div class="col-sm-7">
-                                        <select name="states" ng-options='state.fieldId as state.fieldValue for state in model.statesList.results' class="form-control" id="inputEmail3" placeholder="State" ng-model="model.newLocation.state" required="required">
-                                        <option value="">Select State</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group required">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Zipcode:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" name="createLocationZipcode" id="inputEmail3" ng-pattern="/(^\d{5}$)|(^\d{5}-\d{4}$)/" placeholder="Zipcode" ng-model="model.newLocation.zipcode" required="required">
-                                        <div ng-messages="model.locationCreateForm.createLocationZipcode.$error" style="color:maroon">
-  												<div ng-message="required">This field is required</div>
-  												<div ng-message="pattern">Must be a valid ZIP Code. Example: 02115 or 02115-1234</div>
-											</div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group required">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Phone number:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" max="10" name="createLocationPhone" class="form-control" ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/" id="inputEmail3" placeholder="Phone Number" ng-model="model.newLocation.phoneNo" required="required">
-                                        	<div ng-messages="model.locationCreateForm.createLocationPhone.$error" style="color:maroon">
-  												<div ng-message="required">This field is required</div>
-  												<div ng-message="pattern">Must be a valid 10 digit phone number</div>
-											</div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Fax number:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" max="10" class="form-control" name="createLocationFax" id="inputEmail3" ng-pattern="/^\+?[0-9]{6,}$/" placeholder="Fax Number" ng-model="model.newLocation.faxNo">
-                                        <div ng-messages="model.locationCreateForm.createLocationFax.$error" style="color:maroon">
-  												<div ng-message="pattern">Must be a valid digit fax number. Should contain at least 6 digits.</div>
-											</div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Email:</label>
-                                    <div class="col-sm-7">
-                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Email" name="createLocationEmailAddress" ng-model="model.newLocation.email">
-                                        <div ng-if="!model.locationCreateForm.createLocationEmailAddress.$error.required &amp;&amp;model.locationCreateForm.createLocationEmailAddress.$error.email" class="error" style="color:maroon">
-                                        You did not enter your email address correctly...
-    									</div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.create(model.newLocation)" ng-disabled="model.locationCreateForm.$invalid">Create</button>
-                                    </div>
-                                </div>
-                                 <div ng-show="model.isCreateSuccessful" class="alert alert-success" role="alert">Location created successfully.</div>
-                                 <div ng-show="model.isCreateFailed" class="alert alert-danger" role="alert">Failed to create location. Please check the information entered above.</div>
+		                    <h4>Questions asked in this training</h4>
+	           				<table class="table table-striped table-bordered">
+					        <thead>
+					        <tr>
+					            <th> Question</th>
+					            <th> Question Category</th>
+					            <th> Actions</th>
+					        </tr>
+					        </thead>
+					        <tbody>
+					        <tr ng-repeat = "trainingQuestion in model.selectedTrainingDetails.trainingQuestions">
+					            <td> {{trainingQuestion.questionName}} </td>
+					            <td> {{trainingQuestion.questionCategoryName}} </td>
+					            
+					            <td>
+					                <a><span class="glyphicon glyphicon-remove incrsize" ng-click="model.removeTrainingQuestion($index)"></span></a>
+					            </td>
+					        </tr>
+					        </tbody>
+					    </table>
+					    <div class="form-group">
+                            <div class="col-sm-2">
+                                <button type="submit" class="btn btn-default btn-info btn-block" data-toggle="modal" data-target="#addQuestionModal" ng-click="model.initTrainingQuestions()">Add Question</button>
+                            </div>
+                        </div>
+					    
+					    
+					    <h4>Images shown in this training</h4>
+	           			<table class="table table-striped table-bordered">
+					        <thead>
+					        <tr>
+					            <th>Image Category</th>
+					            <th>Image Type</th>
+					            <th>Duration</th>
+					            <th>Number of Images</th>
+					            <th> Actions</th>
+					        </tr>
+					        </thead>
+					        <tbody>
+					        <tr ng-repeat = "trainingImage in model.selectedTrainingDetails.trainingImages">
+					            <td> {{trainingImage.imageCategoryName}} </td>
+					            <td> {{trainingImage.imageType}} </td>
+					            <td> <input type="text" ng-model="trainingImage.duration" class="form-control ng-pristine ng-untouched ng-valid"></td>
+					            <td> <input type="text" ng-model="trainingImage.noOfImages" class="form-control ng-pristine ng-untouched ng-valid"></td>
+					            <td>
+					                <a><span class="glyphicon glyphicon-remove incrsize" ng-click="model.removeTrainingImage($index)"></span></a>
+					            </td>
+					        </tr>
+					        </tbody>
+					    </table> 
+					    <div class="form-group">
+                            <div class="col-sm-2">
+                                <button type="submit" class="btn btn-default btn-info btn-block" data-toggle="modal" data-target="#addImagesModal" ng-click="model.initTrainingImages()">Add Images</button>
+                            </div>
+                        </div>
+					    <div class="form-group">
+	                         <div class="col-sm-offset-2 col-sm-7">
+	                             <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.createTraining()">Create Training</button>
+	                         </div>
+	                     </div>
+					</div>
+                                 <div ng-show="model.createSuccessful" class="alert alert-success" role="alert">Training created successfully.</div>
+                                 <div ng-show="model.createFailed" class="alert alert-danger" role="alert">Failed to create training</div>
+					</div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-           
-
-        </div>
-    </div>
     <!-- Modal view content -->
-       <div id="myModal" class="modal fade" role="dialog">
+       <div id="addQuestionModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Edit Location</h4>
+                    <h4 class="modal-title">Add Question</h4>
                 </div>
                 <div class="modal-body">
-                   <div class="form-horizontal" ng-form name="locationUpdateForm">
+                   <div class="form-horizontal" ng-form name="trainingQuestionsAddForm">
                                 <div class="form-group required">
-                                    <label for="inputName2" class="col-sm-2 control-label">Location Name:</label>
+                                    <label for="inputName2" class="col-sm-4 control-label">Question Category:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.locationUpdate.name">
+                                    	<ui-select ng-model="model.questionCategories.selected" theme="select2" style="min-width: 300px;" title="Choose a question category" ng-change="model.populateQuestions($select.selected)">
+										    <ui-select-match placeholder="Select a question category in the list or search it...">{{$select.selected.questionCategoryName}}</ui-select-match>
+										    <ui-select-choices repeat="questionCategory in model.questionCategories | propsFilter: {questionCategoryName: $select.search}">
+										      <div ng-bind-html="questionCategory.questionCategoryName | highlight: $select.search"></div>
+										    </ui-select-choices>
+										  </ui-select>
                                     </div>
                                 </div>
                                 
-                              
-                                
-                                <div class="form-group">
-                                    <label for="inputName3" class="col-sm-2 control-label">Description:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.locationUpdate.description">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Keywords:</label>
-                                    <div class="col-sm-7">
-                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Keywords" ng-model="model.locationUpdate.keywords">
-                                    </div>
-                                </div>
-
                                 <div class="form-group required">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Address Line 1:</label>
+                                    <label for="inputName2" class="col-sm-4 control-label">Question:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Address" ng-model="model.locationUpdate.address1">
+                                        <ui-select ng-model="model.questionsDropDown.selected" theme="select2" style="min-width: 300px;" title="Choose a question" ng-change="model.checkDuplicate()">
+										    <ui-select-match placeholder="Select a question from above category in the list...">{{$select.selected.questionName}}</ui-select-match>
+										    <ui-select-choices repeat="question in model.questionsDropDown | propsFilter: {questionName: $select.search}">
+										      <div ng-bind-html="question.questionName | highlight: $select.search"></div>
+										    </ui-select-choices>
+										  </ui-select>
                                     </div>
                                 </div>
-
+                                <div class="col-sm-offset-3 col-sm-7">
+                                	<small ng-if="model.duplicateQuestionMessage" style="color:maroon">Question already in training</small>
+                                </div>
                                 <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Address Line 2:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Address" ng-model="model.locationUpdate.address2">
-                                    </div>
-                                </div>
-
-                                <div class="form-group required">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">City:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="City" ng-model="model.locationUpdate.city">
-                                    </div>
-                                </div>
-
-                                <div class="form-group required">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">State:</label>
-                                    <div class="col-sm-7">
-           
-                                        <select ng-init=model.locationUpdate.state name="states" ng-options='state.fieldId as state.fieldValue for state in model.statesList.results' class="form-control" id="inputEmail3"  ng-model="model.locationUpdate.state" required="required">
-                                        <option value="">Select State</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group required">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Zipcode:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Zipcode" ng-model="model.locationUpdate.zipCode">
-                                    </div>
-                                </div>
-
-                                <div class="form-group required">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Phone number:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" max="10" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.locationUpdate.phoneNo" required="required">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Fax number:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" max="10" class="form-control" id="inputEmail3" placeholder="Fax Number" ng-model="model.locationUpdate.faxNo">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Email:</label>
-                                    <div class="col-sm-7">
-                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Email" ng-model="model.locationUpdate.email">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.update(model.locationUpdate)">Update</button>
+                                    <div class="col-sm-offset-3 col-sm-3">
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.addQuestionToTraining()">Add</button>
                                     </div>
                                 </div>
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
@@ -335,7 +282,75 @@
             </div>
         </div>
     </div>
-</div>
+    
+    
+    <div id="addImagesModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Images</h4>
+                </div>
+                <div class="modal-body">
+                   <div class="form-horizontal" ng-form name="trainingQuestionsAddForm">
+                                <div class="form-group required">
+                                    <label for="inputName2" class="col-sm-4 control-label">Image Category:</label>
+                                    <div class="col-sm-7">
+                                    	<ui-select ng-model="model.imageCategories.selected" theme="select2" style="min-width: 300px;" title="Choose a question category">
+										    <ui-select-match placeholder="Select an image category in the list or search it...">{{$select.selected.imageCategoryName}}</ui-select-match>
+										    <ui-select-choices repeat="imageCategory in model.imageCategories | propsFilter: {imageCategoryName: $select.search}">
+										      <div ng-bind-html="imageCategory.imageCategoryName | highlight: $select.search"></div>
+										    </ui-select-choices>
+										  </ui-select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group required">
+                                    <label for="inputName2" class="col-sm-4 control-label">Image Type:</label>
+                                    <div class="col-sm-7">
+                                        <ui-select ng-model="model.imageTypes.selected" theme="select2" style="min-width: 300px;" title="Choose a question">
+										    <ui-select-match placeholder="Select an image type in the list or search...">{{$select.selected.fieldValue}}</ui-select-match>
+										    <ui-select-choices repeat="imageType in model.imageTypes | propsFilter: {fieldValue: $select.search}">
+										      <div ng-bind-html="imageType.fieldValue | highlight: $select.search"></div>
+										    </ui-select-choices>
+										  </ui-select>
+                                    </div>
+                                </div>
+                                <div class="form-group required">
+		                            <label for="inputName2" class="col-sm-4 control-label">Duration:</label>
+		                            <div class="col-sm-7">
+		                                <input type="number" class="form-control" id="inputName2" placeholder="Duration" ng-model="model.addImageDuration">
+		                            </div>
+		                        </div>
+		                        <div class="form-group required">
+		                            <label for="inputName2" class="col-sm-4 control-label">Image Count:</label>
+		                            <div class="col-sm-7">
+		                                <input type="number" class="form-control" id="inputName2" placeholder="Image Count" ng-model="model.addImageCount">
+		                            </div>
+		                        </div>
+                                
+                                <div class="col-sm-offset-3 col-sm-7">
+                                	<small ng-if="model.duplicateImageMessage" style="color:maroon">Images already in training</small>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-3 col-sm-3">
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.addImageToTraining()">Add</button>
+                                    </div>
+                                </div>
+                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
+                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                            </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+             
+                </div>
+            </div>
+        </div>
+    </div>
 <br>
 <br>
 

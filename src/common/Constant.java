@@ -108,19 +108,17 @@ public class Constant {
 	public static String TG_LOCATION_NAME = "tgLocationName";
 	public static String TG_TRAINING_NAME = "tgTrainingName";
 	
-	public static String NEW_TRAINING_ID = "newTrainingId";
-	public static String TRG_NEW_IMAGES = "newTrainingImages";
-	public static String TRG_NEW_QUESTIONS = "newTrainingQuestions";
-	public static String TRG_NEW_NAME = "newTrainingName";
-	public static String TRG_NEW_DESCRIPTION = "newTrainingDescription";
-	public static String TRG_NEW_KEYWORDS = "newTrainingKeywords";
+	public static String TRAINING_DETAILS = "trainingDetails";
+	public static String TRAINING_QUESTIONS = "trainingQuestions";
+	public static String TRAINING_IMAGES = "trainingImages";
 	
 	
 	public static String TRG_IMAGE_MAP_IMAGE_CAT = "imageCategoryId";
 	public static String TRG_IMAGE_MAP_IMAGE_TYPE = "imageTypeId";
 	public static String TRG_IMAGE_MAP_NO_OF_IMAGES = "noOfImages";
 	public static String TRG_IMAGE_MAP_DURATION = "duration";
-	
+	public static String TRG_IMAGE_MAP_IMAGE_TYPE_FIELD_NAME = "imageType";
+
 	public static String IMAGE_CATEGORY_ID = "imageCategoryId";
 	public static String IMAGE_CATEGORY_NAME = "imageCategoryName";
 	public static String IMAGE_CATEGORY_DESCRIPTION = "imageCategoryDescription";
@@ -140,6 +138,18 @@ public class Constant {
 	public static String PARTICIPANTID = "participantId";
 	public static String MESSAGE = "message";
 	public static String SUCCESS = "success";
+	
+	public static String IMAGE_NAME = "imageName";
+	public static String IMAGE_DESCRIPTION = "imageDescription";
+	public static String IMAGE_CATEGORY = "imageCategory";
+	public static String IMAGE_INTENSITY = "imageIntensity";
+	public static String IMAGE_TYPE = "imageType";
+	public static String IMAGE_TYPE_ID = "imageTypeId";
+	public static String IMAGE_FILE = "imageFile";
+	public static String IMAGE_UUID = "imageUUID";
+	public static String IMAGE_PATH = "imagePath";
+	public static String IMAGE_ID = "imageId";
+	public static String IMAGE_FOLDER = "ImageFolder";
 	
 
 }

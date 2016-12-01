@@ -198,9 +198,9 @@ public class ImageCategoryDAO {
 			ResultSet rs = preparedStatement.executeQuery();
 			while(rs.next()) {
 				JSONObject jsonObject = new JSONObject();
-				jsonObject.put(Constant.IMAGE_CATEGORY_ID,Long.toString(rs.getLong("id")));
+				jsonObject.put(Constant.IMAGE_CATEGORY_ID, rs.getLong("id"));
 				jsonObject.put(Constant.IMAGE_CATEGORY_NAME,rs.getString("name"));
-				jsonObject.put(Constant.TRG_IMAGE_MAP_DURATION,rs.getString("description"));
+				jsonObject.put(Constant.IMAGE_CATEGORY_DESCRIPTION,rs.getString("description"));
 				jsonArray.add(jsonObject);
 			}
 			connection.close();
