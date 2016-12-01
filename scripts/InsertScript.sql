@@ -150,3 +150,5 @@ values (1, 1, 3000, 2, 56);
 
 INSERT INTO participant (username, password, age, gender, ethnicity, disability,education,mobileHandlingExperience,psycothereputicMedications,colorblind,targetGroupId)
  values ('parasar', 'parasar', 26, 'male', 'Asian', 'true', 'graduate', 'average', 'none', 'true' ,1)
+ 
+ INSERT INTO `background` VALUES (1,'#5377fd'),(2,'#a3597b'), (3, '#0872c6'), (4, '#a261f2'), (5, '#d351df'), (6, '#b9bc43'), (7, '#a603f2'), (8, '#8ef087'), (9, '#df1251'), (10, '#956a70'), (11, '#0c1e03'), (12, '#144c8e'), (13, '#2eb586'), (14, '#52b24f'), (15, '#e5c5b1'), (16, '#432e26'), (17, '#d11e1a'), (18, '#574774'), (19, '#baa584'), (20, '#8c3c27'), (21, '#7ca7f0'),(22, '#e654d8'), (23, '#efbd92'), (24, '#5a1a0a'), (25, '#8d8695'), (26, '#5a8b5e'), (27, '#4fb5c1'),(28, '#8178e9'),(29, '#c36a56'),(30, '#0b7df3'),(31, '#7f7766'),(32, '#dd8723'),(33, '#ae0452');
