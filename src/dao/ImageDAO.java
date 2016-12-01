@@ -88,6 +88,7 @@ public class ImageDAO {
 			int created = preparedStatement.executeUpdate();
 			connection.close();
 			if(created == 1) {
+				slf4jLogger.info("Image details updated successfully");
 				return true;
 			}
 			return false;

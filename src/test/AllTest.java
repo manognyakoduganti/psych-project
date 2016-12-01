@@ -44,7 +44,8 @@ import training.TrainingServletTest;
 	ImageUploadServletTest.class,
 	RegisterTest.class,
 	AuthenticatingUserTest.class,
-	CommonFieldsTest.class
+	CommonFieldsTest.class,
+	QuestionnaireTest.class
 	
 })
 public class AllTest {

@@ -115,7 +115,7 @@ public class ImageUploadServlet extends HttpServlet {
 						response.getOutputStream().write(b);
 					}
 					fis.close();
-					response.getWriter().print(returnJSON);
+					//response.getWriter().print(returnJSON);
 			        //response.setHeader("Content-Type", getServletContext().getMimeType(f.toString()));
 					response.setHeader("Content-Type", "image/"+FilenameUtils.getExtension(f.toString()));
 			        response.setHeader("Content-Length", String.valueOf(f.length()));
@@ -157,6 +157,7 @@ public class ImageUploadServlet extends HttpServlet {
         	
         	HttpSession session = request.getSession(false);
         	if(Sessions.isValidGlobalAdminSession(session)){
+        		slf4jLogger.info("Valid session");
 	        	ImageInfo imageInfo = new ImageInfo();
 	            List<FileItem> files = fileUpload.parseRequest(request);
 	            boolean badInput = false;
@@ -168,6 +169,8 @@ public class ImageUploadServlet extends HttpServlet {
 	                	
 	                	if(item.isFormField()){
 	                		if(!validateInput(item.getFieldName(), item.getString())){
+	                			slf4jLogger.info("Bad input field Name"+ item.getFieldName());
+	                			slf4jLogger.info("Bad input field value"+ item.getString());
 		            			badInput = true;
 		            			break;
 		            		}
@@ -175,6 +178,7 @@ public class ImageUploadServlet extends HttpServlet {
 	                	}else{
 	                		
 	                		if(!validateInput(item.getFieldName(), item.getName())){
+	                			slf4jLogger.info("Bad input"+ item.getFieldName());
 		            			badInput = true;
 		            			break;
 		            		}
@@ -199,6 +203,7 @@ public class ImageUploadServlet extends HttpServlet {
 	            }
 	            if(!badInput && !folderCreationIssue){
 	            	if(isImageUpdated){
+	            		System.out.println("Will update image info with image");
 	            		saveInputFile(imageInfo);
 	            	}else{
 	            		System.out.println(imageInfo.getOldImageShortPath());

@@ -341,9 +341,7 @@ public class QuestionServletTest {
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
 		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
 		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
-		
- 
-		
+		questionServlet.doPost(request, response);
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(stringWriter.getBuffer().toString());
 		JSONObject jsonObject = (JSONObject) obj;
