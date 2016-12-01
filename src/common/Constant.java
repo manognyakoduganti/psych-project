@@ -161,9 +161,7 @@ public class Constant {
     public static String UNSUCCESSFUL ="unsuccessful";
     public static String SAVE = "save";
 
-<<<<<<< HEAD
     public static String IMAGES = "images";
-=======
 	public static String DEFAULT_SESSION_ID="0";
 	public static String POSITIVE_COLOR = "positiveColor";
 	public static String NEGATIVE_COLOR = "negativeColor";
@@ -172,7 +170,9 @@ public class Constant {
     
     public static String START_STAGE = "start";
     public static String END_STAGE = "end";
->>>>>>> 9c72c97c8c85f84f9433fa7744eed9407250ecf1
+    public static String SOURCE = "source";
+    public static String ANDROID = "android";
+    public static String IMAGE_DISPLAY_DURATION = "duration";
 	
 
 }

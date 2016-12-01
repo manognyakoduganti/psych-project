@@ -15,6 +15,9 @@ public class ImageInfo {
 	String imageShortPath;
 	InputStream inputStream;
 	String uuid;
+	Long duration;
+	String imageType;
+	Long noOfImages;
 	
 	public String getImageName() {
 		return imageName;
@@ -83,6 +86,23 @@ public class ImageInfo {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+	public Long getDuration() {
+		return duration;
+	}
+	public void setDuration(Long duration) {
+		this.duration = duration;
+	}
+	public String getImageType() {
+		return imageType;
+	}
+	public void setImageType(String imageType) {
+		this.imageType = imageType;
+	}
+	public Long getNoOfImages() {
+		return noOfImages;
+	}
+	public void setNoOfImages(Long noOfImages) {
+		this.noOfImages = noOfImages;
+	}
 	
 }

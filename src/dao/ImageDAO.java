@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -241,6 +243,114 @@ public class ImageDAO {
 				jsonObject.put(Constant.IMAGE_TYPE, rs.getString("ic.name"));
 				jsonArray.add(jsonObject);
 			}
+			connection.close();
+			
+		}catch(SQLException e){
+			System.out.println(e.getMessage());
+			try {
+				if (connection != null){
+					connection.close();
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		return jsonArray;
+	}
+	
+	public static ArrayList<ImageInfo> fetchTrainingImageCategoryInfoByTargetGroupId(long tgId){
+		
+		slf4jLogger.info("Entered into fetchAllImageForTargetGroup");
+		String selectQuery = "select tim.imageCategoryId, tim.duration, tim.imageType, fl.fieldName, tim.noOfImages "
+				+ "from training as tr join targetgroup as tg on tr.id=tg.trainingId join trainingImageMap "
+				+ "as tim on tr.id=tim.trainingId join fieldlookup as "
+				+ "fl on fl.id = tim.imageType where tg.id=1;";
+		
+		ArrayList<ImageInfo> results = new ArrayList<ImageInfo>();
+		Connection connection = null;
+		
+		try{
+			
+			connection = DBSource.getConnectionPool().getConnection();
+			ImageInfo imageInfo = new ImageInfo();
+			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+			
+			// execute select SQL statement
+			ResultSet rs = preparedStatement.executeQuery();
+			while(rs.next()) {
+				imageInfo.setImageCategoryId(rs.getLong("tim.imageCategoryId"));
+				imageInfo.setDuration(rs.getLong("tim.duration"));
+				imageInfo.setImageTypeId(rs.getLong("tim.imageType"));
+				imageInfo.setImageType(rs.getString("fl.fieldName"));
+				results.add(imageInfo);
+			}
+			connection.close();
+			
+		}catch(SQLException e){
+			System.out.println(e.getMessage());
+			try {
+				if (connection != null){
+					connection.close();
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		return results;
+	}
+	
+	public static JSONArray fetchTrainingImageInfoByTargetGroupId(long tgId){
+		
+		slf4jLogger.info("Entered into fetchAllImageForTargetGroup");
+		String selectQuery = "select id, imageLoc from image where categoryid = ? and imageType = ?";
+		
+		ArrayList<ImageInfo> results = ImageDAO.fetchTrainingImageCategoryInfoByTargetGroupId(tgId);
+		Connection connection = null;
+		JSONArray jsonArray = new JSONArray();
+		try{
+			
+			connection = DBSource.getConnectionPool().getConnection();
+			PreparedStatement  preparedStatement = connection.prepareStatement(selectQuery);
+			int length = results.size();
+			
+			for(int i=0; i< length; i++){
+				
+				preparedStatement.setLong(1, results.get(i).getImageCategoryId());
+				preparedStatement.setLong(2, results.get(i).getImageTypeId());
+				ResultSet rs = preparedStatement.executeQuery();
+				
+				ArrayList<ImageInfo> images = new ArrayList<ImageInfo>();
+				while(rs.next()) {
+					ImageInfo imageInfo = new ImageInfo();
+					imageInfo.setId(rs.getLong("id"));
+					imageInfo.setImageShortPath(rs.getString("imageLoc"));
+					images.add(imageInfo);
+				}
+				
+				ArrayList<Integer> imageNumbers = new ArrayList<Integer>();
+				int totalImages = images.size();
+			    for (int j = 0; j < totalImages; j++) {
+			        imageNumbers.add(j);
+			    }
+				long allowedImages = results.get(i).getNoOfImages();
+				Collections.shuffle(imageNumbers);
+				
+				for(int k =0; k<allowedImages; k++){
+					int randomImageIndex = imageNumbers.get(i);
+					JSONObject jsonObject = new JSONObject();
+					jsonObject.put(Constant.IMAGE_CATEGORY_ID,  results.get(i).getImageCategoryId());
+					jsonObject.put(Constant.IMAGE_TYPE, results.get(i).getImageType());
+					jsonObject.put(Constant.IMAGE_TYPE_ID, results.get(i).getImageTypeId());
+					jsonObject.put(Constant.IMAGE_DISPLAY_DURATION, results.get(i).getDuration());
+					jsonObject.put(Constant.IMAGE_ID, images.get(randomImageIndex).getId());
+					jsonObject.put(Constant.IMAGE_PATH, images.get(randomImageIndex).getImageShortPath());
+					jsonArray.add(jsonObject);
+				}
+			}
+			
+			// execute select SQL statement
 			connection.close();
 			
 		}catch(SQLException e){

@@ -7,6 +7,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import common.Constant;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +38,20 @@ public class ImageFetcher extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+		try{
+			String tgId=request.getParameter(Constant.TG_ID);
+			if(tgId != null){
+				// Extract list of images
+			}else{
+				// Send 
+			}
+			
+			
+		}catch(Exception e){
+			
+		}
+		
 		response.setContentType("image/jpeg");
 		
 		//String pathToWeb = getServletContext().getRealPath(File.separator);

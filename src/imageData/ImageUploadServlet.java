@@ -93,6 +93,29 @@ public class ImageUploadServlet extends HttpServlet {
 		slf4jLogger.info("Entered in doGet method of ImageCategoryServlet");
 		JSONObject returnJSON = new JSONObject();
 		
+		String source = request.getParameter(Constant.SOURCE);
+		Boolean isAndroid = (source!=null)?source.equals(Constant.ANDROID)?true:false:false;
+		
+		if(isAndroid){
+			String imagePath = request.getParameter(Constant.IMAGE_PATH);
+			try{
+				File f = new File(imageFolder+"/"+imagePath);
+				FileInputStream fis = new FileInputStream(f);
+				int b = 0;
+				while ((b = fis.read()) != -1) {
+					response.getOutputStream().write(b);
+				}
+				fis.close();
+		        //response.setHeader("Content-Type", getServletContext().getMimeType(f.toString()));
+				response.setHeader("Content-Type", "image/"+FilenameUtils.getExtension(f.toString()));
+		        response.setHeader("Content-Length", String.valueOf(f.length()));
+		        response.setHeader("Content-Disposition", "inline; filename=\"" + f.getName() + "\"");
+				return;
+			}catch(FileNotFoundException e){
+				returnJSON.put(Constant.DEVELOPER_MESSAGE, "File doen't exists");
+				returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
+			}
+		}
 		HttpSession session = request.getSession(false);
 		if(Sessions.isValidGlobalAdminSession(session)){
 			
@@ -115,7 +138,6 @@ public class ImageUploadServlet extends HttpServlet {
 						response.getOutputStream().write(b);
 					}
 					fis.close();
-					//response.getWriter().print(returnJSON);
 			        //response.setHeader("Content-Type", getServletContext().getMimeType(f.toString()));
 					response.setHeader("Content-Type", "image/"+FilenameUtils.getExtension(f.toString()));
 			        response.setHeader("Content-Length", String.valueOf(f.length()));
