@@ -161,6 +161,7 @@ public class Constant {
     public static String UNSUCCESSFUL ="unsuccessful";
     public static String SAVE = "save";
 
+    public static String IMAGES = "images";
 	
 
 }
