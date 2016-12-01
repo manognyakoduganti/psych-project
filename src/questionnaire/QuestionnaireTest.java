@@ -1,5 +1,20 @@
 package questionnaire;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.ArrayList;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -9,22 +24,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import common.Constant;
-import registration.Register;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.ArrayList;
 
 public class QuestionnaireTest {
 
@@ -60,9 +59,9 @@ public class QuestionnaireTest {
 		when(response.getWriter()).thenReturn(printWriter);
 		
 		when(request.getParameter(Constant.PARTICIPANTID)).thenReturn("1");
-		when(request.getParameter(Constant.SESSION_ID)).thenReturn("-1");
+		when(request.getParameter(Constant.SESSION_ID)).thenReturn("0");
 		when(request.getParameter(Constant.TG_ID)).thenReturn("1");
-		when(request.getParameter(Constant.RESPONSES)).thenReturn(mockResponseData());
+		when(request.getParameterValues(Constant.RESPONSES)).thenReturn(mockResponseData());
 
 		question.doPost(request, response);
 
@@ -91,7 +90,7 @@ public class QuestionnaireTest {
 		when(request.getParameter(Constant.PARTICIPANTID)).thenReturn("1");
 		when(request.getParameter(Constant.SESSION_ID)).thenReturn(sessionID);
 		when(request.getParameter(Constant.TG_ID)).thenReturn("1");
-		when(request.getParameter(Constant.RESPONSES)).thenReturn(mockResponseData());
+		when(request.getParameterValues(Constant.RESPONSES)).thenReturn(mockResponseData());
 
 		question.doPost(request, response);
 
@@ -113,9 +112,9 @@ public class QuestionnaireTest {
 		when(request.getReader()).thenReturn(bufferedReader);
 		
 		when(request.getParameter(Constant.PARTICIPANTID)).thenReturn("1");
-		when(request.getParameter(Constant.SESSION_ID)).thenReturn("-1");
+		when(request.getParameter(Constant.SESSION_ID)).thenReturn("0");
 		when(request.getParameter(Constant.TG_ID)).thenReturn("1");
-		when(request.getParameter(Constant.RESPONSES)).thenReturn("");
+		when(request.getParameterValues(Constant.RESPONSES)).thenReturn(new String[0]);
 
 		when(response.getWriter()).thenReturn(printWriter);
 
@@ -140,9 +139,9 @@ public class QuestionnaireTest {
 		when(response.getWriter()).thenReturn(printWriter);
 
 		when(request.getParameter(Constant.PARTICIPANTID)).thenReturn("1");
-		when(request.getParameter(Constant.SESSION_ID)).thenReturn("-1");
+		when(request.getParameter(Constant.SESSION_ID)).thenReturn("0");
 		when(request.getParameter(Constant.TG_ID)).thenReturn("");
-		when(request.getParameter(Constant.RESPONSES)).thenReturn(mockResponseData());
+		when(request.getParameterValues(Constant.RESPONSES)).thenReturn(mockResponseData());
 
 		question.doPost(request, response);
 
@@ -165,9 +164,9 @@ public class QuestionnaireTest {
 		when(response.getWriter()).thenReturn(printWriter);
 
 		when(request.getParameter(Constant.PARTICIPANTID)).thenReturn("");
-		when(request.getParameter(Constant.SESSION_ID)).thenReturn("-1");
+		when(request.getParameter(Constant.SESSION_ID)).thenReturn("0");
 		when(request.getParameter(Constant.TG_ID)).thenReturn("1");
-		when(request.getParameter(Constant.RESPONSES)).thenReturn(mockResponseData());
+		when(request.getParameterValues(Constant.RESPONSES)).thenReturn(mockResponseData());
 
 		question.doPost(request, response);
 
@@ -178,62 +177,62 @@ public class QuestionnaireTest {
 				(String) jsonObject.get(Constant.SAVE));
 	}
 	
-	public static String mockResponseData(){
+	public static String[] mockResponseData(){
 		
 		JSONObject obj1 = new JSONObject();
-		obj1.put("responseType", "Continuous");
-		obj1.put("response", "3");
-		obj1.put("questionId", "1");
+		obj1.put(Constant.RESPONSE_TYPE, "Continuous");
+		obj1.put(Constant.RESPONSE, "3");
+		obj1.put(Constant.QUESTION_ID, "1");
 
 		JSONObject obj2 = new JSONObject();
-		obj2.put("responseType", "Categorical");
-		obj2.put("response", "StartLabel2");
-		obj2.put("questionId", "2");
+		obj2.put(Constant.RESPONSE_TYPE, "Categorical");
+		obj2.put(Constant.RESPONSE, "StartLabel2");
+		obj2.put(Constant.QUESTION_ID, "2");
 
 		JSONObject obj3 = new JSONObject();
-		obj3.put("responseType", "Categorical");
-		obj3.put("response", "Very Happy");
-		obj3.put("questionId", "3");
+		obj3.put(Constant.RESPONSE_TYPE, "Categorical");
+		obj3.put(Constant.RESPONSE, "Very Happy");
+		obj3.put(Constant.QUESTION_ID, "3");
 		
 		JSONObject obj4 = new JSONObject();
-		obj4.put("responseType", "Categorical");
-		obj4.put("response", "Very Happy");
-		obj4.put("questionId", "4");
+		obj4.put(Constant.RESPONSE_TYPE, "Categorical");
+		obj4.put(Constant.RESPONSE, "Very Happy");
+		obj4.put(Constant.QUESTION_ID, "4");
 		
 		JSONObject obj5 = new JSONObject();
-		obj5.put("responseType", "Categorical");
-		obj5.put("response", "Very Happy");
-		obj5.put("questionId", "5");
+		obj5.put(Constant.RESPONSE_TYPE, "Categorical");
+		obj5.put(Constant.RESPONSE, "Very Happy");
+		obj5.put(Constant.QUESTION_ID, "5");
 		
 		JSONObject obj6 = new JSONObject();
-		obj6.put("responseType", "Categorical");
-		obj6.put("response", "Very Happy");
-		obj6.put("questionId", "6");
+		obj6.put(Constant.RESPONSE_TYPE, "Categorical");
+		obj6.put(Constant.RESPONSE, "Very Happy");
+		obj6.put(Constant.QUESTION_ID, "6");
 		
 		JSONObject obj7 = new JSONObject();
-		obj7.put("responseType", "Categorical");
-		obj7.put("response", "EndLabel2");
-		obj7.put("questionId", "7");
+		obj7.put(Constant.RESPONSE_TYPE, "Categorical");
+		obj7.put(Constant.RESPONSE, "EndLabel2");
+		obj7.put(Constant.QUESTION_ID, "7");
 		
 		JSONObject obj8 = new JSONObject();
-		obj8.put("responseType", "Categorical");
-		obj8.put("response", "Very Happy");
-		obj8.put("questionId", "8");
+		obj8.put(Constant.RESPONSE_TYPE, "Categorical");
+		obj8.put(Constant.RESPONSE, "Very Happy");
+		obj8.put(Constant.QUESTION_ID, "8");
 		
 		JSONObject obj9 = new JSONObject();
-		obj9.put("responseType", "Categorical");
-		obj9.put("response", "EndLabel2");
-		obj9.put("questionId", "9");	
+		obj9.put(Constant.RESPONSE_TYPE, "Categorical");
+		obj9.put(Constant.RESPONSE, "EndLabel2");
+		obj9.put(Constant.QUESTION_ID, "9");	
 		
 		JSONObject obj10 = new JSONObject();
-		obj10.put("responseType", "Categorical");
-		obj10.put("response", "Very Happy");
-		obj10.put("questionId", "10");
+		obj10.put(Constant.RESPONSE_TYPE, "Categorical");
+		obj10.put(Constant.RESPONSE, "Very Happy");
+		obj10.put(Constant.QUESTION_ID, "10");
 		
 		JSONObject obj11 = new JSONObject();
-		obj11.put("responseType", "Categorical");
-		obj11.put("response", "Very Happy");
-		obj11.put("questionId", "11");
+		obj11.put(Constant.RESPONSE_TYPE, "Categorical");
+		obj11.put(Constant.RESPONSE, "Very Happy");
+		obj11.put(Constant.QUESTION_ID, "11");
 		
 		ArrayList<String> aList = new ArrayList<>();
 		aList.add(obj1.toString());
@@ -249,8 +248,9 @@ public class QuestionnaireTest {
 		aList.add(obj11.toString());
 			
 		//System.out.println(aList.toString());
-		
-		return aList.toString();	
+		String[] responses = new String[1];
+		responses[0] = aList.toString();
+		return responses;
 		
 	}
 }
