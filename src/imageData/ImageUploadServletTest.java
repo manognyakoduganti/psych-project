@@ -70,12 +70,12 @@ public class ImageUploadServletTest {
 	@Test
 	public void testInOrder() throws Exception{
 		testValidImageUploadRequest();
-		//testValidImageDuplicateSearchRequest();
-		//testGetAllImages();
-		//testFetchSingleImage();
-		//testValidImageUpdateReqeustNoImageUpdate();
+		testValidImageDuplicateSearchRequest();
+		testGetAllImages();
+		testFetchSingleImage();
+		testValidImageUpdateReqeustNoImageUpdate();
 		testValidImageUpdateReqeustWithImageUpdate();
-		//testInValidSessionImageUpdateReqeustWithImageUpdate();
+		testInValidSessionImageUpdateReqeustWithImageUpdate();
 		Long imageIdLong = ImageDAO.getImageIdByImageName(updateName);
 		ImageDAO.deleteImageById(imageIdLong);
 	}
@@ -697,7 +697,6 @@ public class ImageUploadServletTest {
 	public void testInValidSessionImageUpdateReqeustWithImageUpdate() throws Exception {
 		
 		generateTestImage("test_updated.jpg");
-		Long imageIdLong = ImageDAO.getImageIdByImageName(name);
 		
 		request = mock(HttpServletRequest.class);
 		response = mock(HttpServletResponse.class);
@@ -721,7 +720,7 @@ public class ImageUploadServletTest {
         List<FileItem> files = new ArrayList<FileItem>();
         
         FileItem imageId = mock(FileItem.class);
-        when(imageId.getString()).thenReturn(Long.toString(imageIdLong));
+        when(imageId.getString()).thenReturn("");
         when(imageId.getFieldName()).thenReturn(Constant.IMAGE_ID);
         when(imageId.isFormField()).thenReturn(true);
         
