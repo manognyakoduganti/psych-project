@@ -283,6 +283,7 @@ public class ImageDAO {
 				imageInfo.setDuration(rs.getLong("tim.duration"));
 				imageInfo.setImageTypeId(rs.getLong("tim.imageType"));
 				imageInfo.setImageType(rs.getString("fl.fieldName"));
+				imageInfo.setNoOfImages(rs.getLong("tim.noOfImages"));
 				results.add(imageInfo);
 			}
 			connection.close();

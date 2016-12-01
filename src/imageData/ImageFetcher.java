@@ -8,7 +8,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import common.Constant;
+import dao.ImageDAO;
+import fieldValidation.CommonFieldsVal;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -38,22 +43,32 @@ public class ImageFetcher extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+
+		JSONObject returnJSON = new JSONObject();
 		try{
 			String tgId=request.getParameter(Constant.TG_ID);
-			if(tgId != null){
-				// Extract list of images
+			if(!CommonFieldsVal.validateFieldId(tgId)){
+				returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
 			}else{
-				// Send 
+				if(tgId != null){
+					System.out.println("Valid Target group Id");
+					// Extract list of images
+					JSONArray results = ImageDAO.fetchTrainingImageInfoByTargetGroupId(Long.parseLong(tgId));
+					returnJSON.put(Constant.IMAGES, results);
+				}else{
+					// Send 
+				}
 			}
-			
-			
+			response.getWriter().print(returnJSON);
 		}catch(Exception e){
-			
+			e.printStackTrace();
+			returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
+			response.getWriter().print(returnJSON);
 		}
 		
-		response.setContentType("image/jpeg");
 		
+		/*
+		 * response.setContentType("image/jpeg");
 		//String pathToWeb = getServletContext().getRealPath(File.separator);
 		//System.out.println(pathToWeb);
 		String imageType=request.getParameter("param1");
@@ -74,6 +89,7 @@ public class ImageFetcher extends HttpServlet {
 		OutputStream out = response.getOutputStream();
 		ImageIO.write(bi, "jpg", out);
 		out.close();
+		*/
 	}
 
 	/**

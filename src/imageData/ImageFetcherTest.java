@@ -50,23 +50,16 @@ public class ImageFetcherTest {
 		StringWriter stringWriter = new StringWriter();
 		PrintWriter printWriter = new PrintWriter(stringWriter);
 		
-		BufferedReader bufferedReader = mock(BufferedReader.class);
-		when(request.getReader()).thenReturn(bufferedReader);
 		when(response.getWriter()).thenReturn(printWriter);
-		
-		JSONObject jsonObj = new JSONObject();
 		when(request.getParameter(Constant.TG_ID)).thenReturn("1");
-		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		
-		imageFetcher.doPost(request, response);
+		imageFetcher.doGet(request, response);
 		
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(stringWriter.getBuffer().toString());
 		JSONObject jsonObject = (JSONObject) obj;
 		
-		assertTrue(((JSONArray) jsonObject.get("images")).size() > 0);
-		
-		assertEquals(Constant.SUCCESS, (String) jsonObject.get(Constant.SAVE));
+		assertTrue(((JSONArray) jsonObject.get(Constant.IMAGES)).size() > 0);
 	
     }
 	
@@ -80,22 +73,18 @@ public class ImageFetcherTest {
 		StringWriter stringWriter = new StringWriter();
 		PrintWriter printWriter = new PrintWriter(stringWriter);
 		
-		BufferedReader bufferedReader = mock(BufferedReader.class);
-		when(request.getReader()).thenReturn(bufferedReader);
 		when(response.getWriter()).thenReturn(printWriter);
 	
-		JSONObject jsonObj = new JSONObject();
 		when(request.getParameter(Constant.TG_ID)).thenReturn("");
- 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
  		
- 		imageFetcher.doPost(request, response);
+ 		imageFetcher.doGet(request, response);
  		
  		JSONParser parser = new JSONParser();
+ 		System.out.println(stringWriter.getBuffer().toString());
  		Object obj = parser.parse(stringWriter.getBuffer().toString());
  		JSONObject jsonObject = (JSONObject) obj;
  	
- 		assertEquals(Constant.UNSUCCESSFUL, (String) jsonObject.get(Constant.SAVE));
+ 		assertEquals(Constant.BADREQUEST_400, (String) jsonObject.get(Constant.STATUS));
 
-		
 	}
 }
