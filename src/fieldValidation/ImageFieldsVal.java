@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class ImageFieldsVal {
 
-	static String imageCategoryNameRegex = "^[a-zA-Z0-9 ,.'&-]{1,30}$";
+	static String imageCategoryNameRegex = "^[a-zA-Z0-9 ,.'&-]{1,50}$";
 	static Pattern imageCategoryNamePattern = Pattern.compile(imageCategoryNameRegex);
 	public static boolean validateImageCategoryName(String name){
 		Matcher matcher = imageCategoryNamePattern.matcher(name.trim());
@@ -13,7 +13,7 @@ public class ImageFieldsVal {
 	}
 	
 	
-	static String imageNameRegex = "^[a-zA-Z0-9 ,.'&-]{1,30}$";
+	static String imageNameRegex = "^[a-zA-Z0-9 ,.'&-]{1,50}$";
 	static Pattern imageNamePattern = Pattern.compile(imageNameRegex);
 	public static boolean validateImageName(String name){
 		Matcher matcher = imageNamePattern.matcher(name.trim());
