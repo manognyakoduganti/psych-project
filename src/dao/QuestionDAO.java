@@ -4,10 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import authentication.BuildStaticParameters;
 import common.Constant;
 import common.Question;
 
@@ -128,7 +131,7 @@ public class QuestionDAO {
 			preparedStatement.setLong(3, question.getCategoryId());
 			preparedStatement.setLong(4, question.getId());
 			
-			// execute select SQL stetement
+			// execute select SQL statement
 			int rowsAffected = preparedStatement.executeUpdate();
 						
 			if (rowsAffected == 1){
@@ -344,6 +347,50 @@ public class QuestionDAO {
 			}
 			
 			return returnJSON;
+		}
+	}
+	
+	
+	public static boolean saveQuestionResponse(ArrayList<HashMap<String, String>> responseList, Long sessionId, String participantId,
+			String questoinStage){
+		
+		String insertQuery = "INSERT INTO questionResponse (sessionId, participantId, questionId, response, questionStage) "
+				+ "VALUES (?, ?, ?, ?, ?)";
+		Connection connection = null;
+		
+		try{
+			
+			connection = DBSource.getConnectionPool().getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+			int length = responseList.size();
+			for(int i=0; i< length; i++){
+				HashMap<String, String> response = responseList.get(i);
+				System.out.println("Check this : "+response.toString());
+				preparedStatement.setLong(1, sessionId);
+				preparedStatement.setLong(2, Long.parseLong(participantId));
+				preparedStatement.setLong(3, Long.parseLong(response.get(Constant.QUESTION_ID)));
+				preparedStatement.setString(4, response.get(Constant.RESPONSE));
+				preparedStatement.setString(5, questoinStage);
+				// execute select SQL statement
+				int rowsAffected = preparedStatement.executeUpdate();
+				if (rowsAffected != 1){
+					System.out.println("Issue while insert");
+					System.out.println(preparedStatement.toString());
+					return false;
+				}
+			}
+			connection.close();
+			return true;
+		}catch(SQLException e){
+			System.out.println(e.getMessage());
+			
+			try {
+				connection.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			return false;
 		}
 	}
 }
