@@ -324,7 +324,6 @@ CREATE TABLE `questionResponse` (
   `questionId` bigint(20) NOT NULL,
   `response` varchar(200) NOT NULL,
   `questionStage` varchar(100) NOT NULL,
-  `responseDate` DATETIME NOT NULL DEFAULT NOW(),
   PRIMARY KEY (`id`),
   CONSTRAINT `FKI_QUES_RESP_SID` FOREIGN KEY (`sessionId`) REFERENCES `userSession` (`id`),
   CONSTRAINT `FKI_QUES_RESP_PARTICIPANT_ID` FOREIGN KEY (`participantId`) REFERENCES `participant` (`id`),
