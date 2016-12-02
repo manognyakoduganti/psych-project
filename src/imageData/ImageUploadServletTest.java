@@ -517,6 +517,36 @@ public class ImageUploadServletTest {
 		//servletOutputStream.close();
 		//assertEquals(null, jsonObject.get(Constant.STATUS));
 	}
+	
+	public void testFetchSingleImageAndroid() throws ServletException, IOException, ParseException{
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(request.getReader()).thenReturn(bufferedReader);
+		
+		ServletOutputStream servletOutputStream = mock(StubServletOutputStream.class);
+		when(response.getOutputStream()).thenReturn(servletOutputStream);
+		
+		when(response.getWriter()).thenReturn(printWriter);
+		when(request.getSession(false)).thenReturn(session);
+		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
+		when(request.getParameter(Constant.IMAGE_PATH)).thenReturn(imagePath);
+		when(request.getParameter(Constant.SOURCE)).thenReturn(Constant.ANDROID);
+		imageUploadServlet.doGet(request, response);
+		
+		//Mockito.verify(servletOutputStream, Mockito.times(1)).write();
+		Mockito.verify(response, Mockito.times(1)).setHeader("Content-Type", "image/jpg");
+		//servletOutputStream.close();
+		//assertEquals(null, jsonObject.get(Constant.STATUS));
+	}
 
 	public void testValidImageUpdateReqeustNoImageUpdate() throws Exception {
 	
