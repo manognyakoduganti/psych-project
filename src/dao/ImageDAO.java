@@ -397,7 +397,7 @@ public class ImageDAO {
 					preparedStatement.setShort(3, (short) 1);
 				else
 					preparedStatement.setShort(3, (short) 0);
-				preparedStatement.setLong(4, Long.parseLong(response.get(Constant.TIME)));
+				preparedStatement.setLong(4, Long.parseLong(response.get(Constant.RESPONSE_TIME)));
 				preparedStatement.setString(5, response.get(Constant.BACKGROUND_COLOR));
 				if(response.get(Constant.IS_ATTEMPTED).equals(Constant.TRUE))
 					preparedStatement.setShort(6, (short) 1);

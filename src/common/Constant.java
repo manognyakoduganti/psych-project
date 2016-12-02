@@ -177,7 +177,7 @@ public class Constant {
 	
 
     public static String BACKGROUND_COLOR = "backGroundColor";
-    public static String TIME = "time";
+    public static String RESPONSE_TIME = "responseTime";
     public static String CORRECTNESS = "correctness";
     public static String IS_ATTEMPTED = "isAttempted";
     public static String TRUE = "true";

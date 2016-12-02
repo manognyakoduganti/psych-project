@@ -106,7 +106,7 @@ public static String[] mockImageResponseData(){
 		obj1.put(Constant.IMAGE_CATEGORY_ID, "1");
 		obj1.put(Constant.IMAGE_TYPE_ID, "55");
 		obj1.put(Constant.BACKGROUND_COLOR, "#5377fd");
-		obj1.put(Constant.TIME, "2300");
+		obj1.put(Constant.RESPONSE_TIME, "2300");
 		obj1.put(Constant.CORRECTNESS, Constant.TRUE);		
 		obj1.put(Constant.IS_ATTEMPTED, Constant.FALSE);
 		
@@ -116,7 +116,7 @@ public static String[] mockImageResponseData(){
 		obj2.put(Constant.IMAGE_CATEGORY_ID, "1");
 		obj2.put(Constant.IMAGE_TYPE_ID, "55");
 		obj2.put(Constant.BACKGROUND_COLOR, "#5377fd");
-		obj2.put(Constant.TIME, "3200");
+		obj2.put(Constant.RESPONSE_TIME, "3200");
 		obj2.put(Constant.CORRECTNESS, Constant.FALSE);
 		obj2.put(Constant.IS_ATTEMPTED, Constant.TRUE);
 		
@@ -126,7 +126,7 @@ public static String[] mockImageResponseData(){
 		obj3.put(Constant.IMAGE_CATEGORY_ID, "2");
 		obj3.put(Constant.IMAGE_TYPE_ID, "56");
 		obj3.put(Constant.BACKGROUND_COLOR, "#a3597b");
-		obj3.put(Constant.TIME, "1800");
+		obj3.put(Constant.RESPONSE_TIME, "1800");
 		obj3.put(Constant.CORRECTNESS, Constant.TRUE);
 		obj3.put(Constant.IS_ATTEMPTED, Constant.FALSE);
 		
@@ -136,7 +136,7 @@ public static String[] mockImageResponseData(){
 		obj4.put(Constant.IMAGE_CATEGORY_ID, "2");
 		obj4.put(Constant.IMAGE_TYPE_ID, "56");
 		obj4.put(Constant.BACKGROUND_COLOR, "#a3597b");
-		obj4.put(Constant.TIME, "2200");
+		obj4.put(Constant.RESPONSE_TIME, "2200");
 		obj4.put(Constant.CORRECTNESS, Constant.FALSE);
 		obj4.put(Constant.IS_ATTEMPTED, Constant.TRUE);	
 
