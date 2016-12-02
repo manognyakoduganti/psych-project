@@ -175,4 +175,8 @@ public class Constant {
     public static String IMAGE_DISPLAY_DURATION = "duration";
 	
 
+    public static String BACKGROUND_COLOR = "backGroundColor";
+    public static String TIME = "time";
+    public static String CORRECTNESS = "correctness";
+    public static String IS_ATTEMPTED = "isAttempted";
 }
