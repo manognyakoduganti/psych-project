@@ -343,14 +343,15 @@ CREATE TABLE `imageResponse` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `sessionId` bigint(20) NOT NULL,
   `participantId` bigint(20) NOT NULL,
-  `correctness` varchar(200) NOT NULL,
+  `correctness` TINYINT(1) NOT NULL,
   `timeTaken` varchar(200) NOT NULL,
-  `expectedResult` varchar(200) NOT NULL,
   `bgColor` varchar(200) NOT NULL,
-  `responseDate` DATETIME NOT NULL DEFAULT NOW(),
+  `isAttempted` TINYINT(1) NOT NULL,
+  `imageId` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
-  CONSTRAINT `FKI_IMG_RESP_SID` FOREIGN KEY (`sessionId`) REFERENCES `userSession` (`id`),
-  CONSTRAINT `FKI_IMG_RESP_PARTICIPANT_ID` FOREIGN KEY (`participantId`) REFERENCES `participant` (`id`)
+  CONSTRAINT `FKI_IMG_RESP_SID` FOREIGN KEY (`sessionId`) REFERENCES `userSession` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FKI_IMG_RESP_PARTICIPANT_ID` FOREIGN KEY (`participantId`) REFERENCES `participant` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FKI_IMG_RESP_IMAGE_ID` FOREIGN KEY (`imageId`) REFERENCES `image` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 )
   ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
