@@ -24,6 +24,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import common.Constant;
+import dao.QuestionDAO;
 
 public class QuestionnaireTest {
 
@@ -46,6 +47,9 @@ public class QuestionnaireTest {
 	public void testInOrderQuestionResponseSaveReqeust() throws IOException, ServletException, ParseException{
 		testValidStartQuestionResponseSaveRequest();
 		testValidEndQuestionResponseSaveRequest();
+		System.out.println("sessionID : "+sessionID);
+		assertTrue(QuestionDAO.deleteQuestionResponses(Long.parseLong(sessionID)));
+		assertTrue(QuestionDAO.deleteSessionParameterAndSession(Long.parseLong(sessionID)));
 	}
 	
 	public void testValidStartQuestionResponseSaveRequest() throws IOException, ServletException, ParseException {
@@ -62,7 +66,7 @@ public class QuestionnaireTest {
 		when(request.getParameter(Constant.SESSION_ID)).thenReturn("0");
 		when(request.getParameter(Constant.TG_ID)).thenReturn("1");
 		when(request.getParameterValues(Constant.RESPONSES)).thenReturn(mockResponseData());
-
+		when(request.getParameter(Constant.QUESTION_SESSION)).thenReturn(Constant.DEFAULT_QUESTION_SESSION);
 		question.doPost(request, response);
 
 		JSONParser parser = new JSONParser();
@@ -91,7 +95,8 @@ public class QuestionnaireTest {
 		when(request.getParameter(Constant.SESSION_ID)).thenReturn(sessionID);
 		when(request.getParameter(Constant.TG_ID)).thenReturn("1");
 		when(request.getParameterValues(Constant.RESPONSES)).thenReturn(mockResponseData());
-
+		when(request.getParameter(Constant.QUESTION_SESSION)).thenReturn("1");
+		
 		question.doPost(request, response);
 
 		JSONParser parser = new JSONParser();

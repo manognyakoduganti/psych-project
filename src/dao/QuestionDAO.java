@@ -111,7 +111,6 @@ public class QuestionDAO {
 		
 	}
 
-
 	public static JSONObject updateQuestion(Question question) {
 		
 		String updateQuery = "UPDATE QUESTION SET name=?, description=?, categoryId=? WHERE ID=?;";
@@ -365,7 +364,6 @@ public class QuestionDAO {
 			int length = responseList.size();
 			for(int i=0; i< length; i++){
 				HashMap<String, String> response = responseList.get(i);
-				System.out.println("Check this : "+response.toString());
 				preparedStatement.setLong(1, sessionId);
 				preparedStatement.setLong(2, Long.parseLong(participantId));
 				preparedStatement.setLong(3, Long.parseLong(response.get(Constant.QUESTION_ID)));
@@ -393,4 +391,87 @@ public class QuestionDAO {
 			return false;
 		}
 	}
+	
+	public static boolean deleteQuestionResponses(Long sessionId){
+		
+		String deleteQuery = "DELETE FROM questionresponse WHERE sessionId = ?";
+		Connection connection = null;
+		
+		try{
+			
+			connection = DBSource.getConnectionPool().getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
+			preparedStatement.setLong(1, sessionId);
+			
+			// execute select SQL statement
+			int rowsAffected = preparedStatement.executeUpdate();
+			
+			connection.close();
+			if (rowsAffected >= 1){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}catch(SQLException e){
+			System.out.println(e.getMessage());
+			try {
+				if (connection != null){
+					connection.close();
+				}
+				
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			return false;
+		}
+	}
+	
+	public static boolean deleteSessionParameterAndSession(Long sessionId){
+		
+		String deleteParameterQuery = "DELETE FROM parameter WHERE sessionId = ?";
+		String deleteSessionQuery = "DELETE FROM usersession WHERE id = ?";
+		Connection connection = null;
+		
+		try{
+			
+			connection = DBSource.getConnectionPool().getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(deleteParameterQuery);
+			preparedStatement.setLong(1, sessionId);
+			
+			// execute select SQL statement
+			int rowsAffected = preparedStatement.executeUpdate();
+			
+			if (rowsAffected >= 1){
+				
+				preparedStatement = connection.prepareStatement(deleteSessionQuery);
+				preparedStatement.setLong(1, sessionId);
+				
+				// execute select SQL statement
+				rowsAffected = preparedStatement.executeUpdate();
+				
+				if (rowsAffected == 1){
+					connection.close();
+					return true;
+				}
+			}
+			connection.close();
+			return false;
+		}catch(SQLException e){
+			System.out.println(e.getMessage());
+			try {
+				if (connection != null){
+					connection.close();
+				}
+				
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			return false;
+		}
+		
+	}
+	
 }

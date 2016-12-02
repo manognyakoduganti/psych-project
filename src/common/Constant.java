@@ -162,11 +162,12 @@ public class Constant {
     public static String SAVE = "save";
 
     public static String IMAGES = "images";
-	public static String DEFAULT_SESSION_ID="0";
 	public static String POSITIVE_COLOR = "positiveColor";
 	public static String NEGATIVE_COLOR = "negativeColor";
     public static String RESPONSE = "response";
     public static String RESPONSE_TYPE = "responseType";
+    public static String QUESTION_SESSION = "questionSession";
+    public static String DEFAULT_QUESTION_SESSION = "0";
     
     public static String START_STAGE = "start";
     public static String END_STAGE = "end";
@@ -179,4 +180,7 @@ public class Constant {
     public static String TIME = "time";
     public static String CORRECTNESS = "correctness";
     public static String IS_ATTEMPTED = "isAttempted";
+    public static String TRUE = "true";
+    public static String FALSE = "false";
+    
 }
