@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -265,7 +266,7 @@ public class ImageDAO {
 		String selectQuery = "select tim.imageCategoryId, tim.duration, tim.imageType, fl.fieldName, tim.noOfImages "
 				+ "from training as tr join targetgroup as tg on tr.id=tg.trainingId join trainingImageMap "
 				+ "as tim on tr.id=tim.trainingId join fieldlookup as "
-				+ "fl on fl.id = tim.imageType where tg.id=1;";
+				+ "fl on fl.id = tim.imageType where tg.id=1 ORDER BY RAND()";
 		
 		ArrayList<ImageInfo> results = new ArrayList<ImageInfo>();
 		Connection connection = null;
@@ -273,12 +274,12 @@ public class ImageDAO {
 		try{
 			
 			connection = DBSource.getConnectionPool().getConnection();
-			ImageInfo imageInfo = new ImageInfo();
 			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
 			
 			// execute select SQL statement
 			ResultSet rs = preparedStatement.executeQuery();
 			while(rs.next()) {
+				ImageInfo imageInfo = new ImageInfo();
 				imageInfo.setImageCategoryId(rs.getLong("tim.imageCategoryId"));
 				imageInfo.setDuration(rs.getLong("tim.duration"));
 				imageInfo.setImageTypeId(rs.getLong("tim.imageType"));
@@ -305,7 +306,7 @@ public class ImageDAO {
 	public static JSONArray fetchTrainingImageInfoByTargetGroupId(long tgId){
 		
 		slf4jLogger.info("Entered into fetchAllImageForTargetGroup");
-		String selectQuery = "select id, imageLoc from image where categoryid = ? and imageType = ?";
+		String selectQuery = "select id, imageLoc from image where categoryid = ? and imageType = ? ORDER BY RAND()";
 		
 		ArrayList<ImageInfo> results = ImageDAO.fetchTrainingImageCategoryInfoByTargetGroupId(tgId);
 		Connection connection = null;
@@ -315,8 +316,10 @@ public class ImageDAO {
 			connection = DBSource.getConnectionPool().getConnection();
 			PreparedStatement  preparedStatement = connection.prepareStatement(selectQuery);
 			int length = results.size();
-			
+			Random rnd = new Random();
+	        rnd.setSeed(System.currentTimeMillis());
 			for(int i=0; i< length; i++){
+				
 				
 				preparedStatement.setLong(1, results.get(i).getImageCategoryId());
 				preparedStatement.setLong(2, results.get(i).getImageTypeId());
@@ -330,16 +333,19 @@ public class ImageDAO {
 					images.add(imageInfo);
 				}
 				
+				long allowedImages = results.get(i).getNoOfImages();
 				ArrayList<Integer> imageNumbers = new ArrayList<Integer>();
 				int totalImages = images.size();
 			    for (int j = 0; j < totalImages; j++) {
 			        imageNumbers.add(j);
 			    }
-				long allowedImages = results.get(i).getNoOfImages();
+				
 				Collections.shuffle(imageNumbers);
+				if(totalImages < allowedImages)
+					allowedImages = totalImages;
 				
 				for(int k =0; k<allowedImages; k++){
-					int randomImageIndex = imageNumbers.get(i);
+					int randomImageIndex = imageNumbers.get(k);
 					JSONObject jsonObject = new JSONObject();
 					jsonObject.put(Constant.IMAGE_CATEGORY_ID,  results.get(i).getImageCategoryId());
 					jsonObject.put(Constant.IMAGE_TYPE, results.get(i).getImageType());
@@ -350,7 +356,7 @@ public class ImageDAO {
 					jsonArray.add(jsonObject);
 				}
 			}
-			
+			Collections.shuffle(jsonArray);
 			// execute select SQL statement
 			connection.close();
 			
@@ -367,4 +373,5 @@ public class ImageDAO {
 		}
 		return jsonArray;
 	}
+	
 }

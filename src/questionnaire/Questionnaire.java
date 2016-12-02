@@ -140,7 +140,6 @@ public class Questionnaire extends HttpServlet {
        	long sessionId = -1;
        	long latestSessionNumber = -2;
        	if(responses.length > 0){
-       		
        		try{
 				Gson gson = new Gson();
 				ArrayList<HashMap<String, String>> responseList = gson.fromJson(responses[0], new TypeToken<ArrayList<HashMap<String, String>>>() {}.getType());
