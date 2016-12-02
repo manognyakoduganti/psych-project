@@ -451,7 +451,7 @@ public class QuestionDAO {
 				// execute select SQL statement
 				rowsAffected = preparedStatement.executeUpdate();
 				
-				if (rowsAffected == 1){
+				if (rowsAffected >= 1){
 					connection.close();
 					return true;
 				}

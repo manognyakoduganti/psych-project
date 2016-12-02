@@ -47,7 +47,6 @@ public class QuestionnaireTest {
 	public void testInOrderQuestionResponseSaveReqeust() throws IOException, ServletException, ParseException{
 		testValidStartQuestionResponseSaveRequest();
 		testValidEndQuestionResponseSaveRequest();
-		System.out.println("sessionID : "+sessionID);
 		assertTrue(QuestionDAO.deleteQuestionResponses(Long.parseLong(sessionID)));
 		assertTrue(QuestionDAO.deleteSessionParameterAndSession(Long.parseLong(sessionID)));
 	}

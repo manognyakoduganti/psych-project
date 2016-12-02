@@ -14,6 +14,7 @@ import fieldValidation.LocationFieldsTest;
 import fieldValidation.QuestionCategoryFieldsValTest;
 import fieldValidation.UserProfileFieldsTest;
 import imageData.ImageCategoryServletTest;
+import imageData.ImageFetcherTest;
 import imageData.ImageUploadServletTest;
 import location.LocationServletTest;
 import profile.UserProfileServletTest;
@@ -45,6 +46,8 @@ import training.TrainingServletTest;
 	RegisterTest.class,
 	AuthenticatingUserTest.class,
 	CommonFieldsTest.class,
+	QuestionnaireTest.class,
+	ImageFetcherTest.class,
 	QuestionnaireTest.class
 	
 })

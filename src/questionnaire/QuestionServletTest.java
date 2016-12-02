@@ -262,14 +262,13 @@ public class QuestionServletTest {
 		BufferedReader bufferedReader = mock(BufferedReader.class);
 		when(request.getReader()).thenReturn(bufferedReader);
 		
-		
-		
 		when(response.getWriter()).thenReturn(printWriter);
 		when(request.getSession(false)).thenReturn(session);
 		when(request.getParameter(Constant.TARGET_GROUP_ID)).thenReturn("1");
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
 		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
 		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
+		
 		
 		questionServlet.doGet(request, response);
 		
@@ -299,13 +298,13 @@ public class QuestionServletTest {
 		when(request.getReader()).thenReturn(bufferedReader);
 		
 		
-		
 		when(response.getWriter()).thenReturn(printWriter);
 		when(request.getSession(false)).thenReturn(session);
 		when(request.getParameter(Constant.TARGET_GROUP_ID)).thenReturn("1000000000");
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
 		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
 		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
+		when(request.getParameter(Constant.SOURCE)).thenReturn(Constant.ANDROID);
 		
 		questionServlet.doGet(request, response);
 		

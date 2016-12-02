@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Random;
 
 import org.json.simple.JSONArray;
@@ -373,5 +374,94 @@ public class ImageDAO {
 		}
 		return jsonArray;
 	}
+	
+	public static boolean saveImageResponse(ArrayList<HashMap<String, String>> responseList, 
+			Long sessionId, String participantId){
+		
+		String insertQuery = "INSERT INTO imageResponse (sessionId, participantId, correctness, timeTaken, bgColor,"
+				+ "isAttempted, imageId) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
+		Connection connection = null;
+		
+		try{
+			
+			connection = DBSource.getConnectionPool().getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+			int length = responseList.size();
+			for(int i=0; i< length; i++){
+				HashMap<String, String> response = responseList.get(i);
+				System.out.println("Check this : "+response.toString());
+				preparedStatement.setLong(1, sessionId);
+				preparedStatement.setLong(2, Long.parseLong(participantId));
+				if(response.get(Constant.CORRECTNESS).equals(Constant.TRUE))
+					preparedStatement.setShort(3, (short) 1);
+				else
+					preparedStatement.setShort(3, (short) 0);
+				preparedStatement.setLong(4, Long.parseLong(response.get(Constant.TIME)));
+				preparedStatement.setString(5, response.get(Constant.BACKGROUND_COLOR));
+				if(response.get(Constant.IS_ATTEMPTED).equals(Constant.TRUE))
+					preparedStatement.setShort(6, (short) 1);
+				else
+					preparedStatement.setShort(6, (short) 0);
+				preparedStatement.setLong(7, Long.parseLong(response.get(Constant.IMAGE_ID)));
+				// execute select SQL statement
+				int rowsAffected = preparedStatement.executeUpdate();
+				if (rowsAffected != 1){
+					System.out.println("Issue while insert");
+					System.out.println(preparedStatement.toString());
+					return false;
+				}
+			}
+			connection.close();
+			return true;
+		}catch(SQLException e){
+			System.out.println(e.getMessage());
+			
+			try {
+				connection.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			return false;
+		}
+	}
+	
+	public static boolean deleteImageResponses(Long sessionId){
+		
+		String deleteQuery = "DELETE FROM imageResponse WHERE sessionId = ?";
+		Connection connection = null;
+		
+		try{
+			
+			connection = DBSource.getConnectionPool().getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
+			preparedStatement.setLong(1, sessionId);
+			
+			// execute select SQL statement
+			int rowsAffected = preparedStatement.executeUpdate();
+			
+			connection.close();
+			if (rowsAffected >= 1){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}catch(SQLException e){
+			System.out.println(e.getMessage());
+			try {
+				if (connection != null){
+					connection.close();
+				}
+				
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			return false;
+		}
+	}
+	
 	
 }

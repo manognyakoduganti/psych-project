@@ -9,6 +9,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import common.Constant;
+import dao.ImageDAO;
+import dao.SessionDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +29,7 @@ import java.util.ArrayList;
 public class ImageDataServletTest {
 	
 	ImageDataServlet image;	
-	
+	String sessionId;
 	@Mock
 	HttpServletRequest request;
 	@Mock
@@ -37,10 +39,12 @@ public class ImageDataServletTest {
 	public void setUp() throws Exception {
 	  MockitoAnnotations.initMocks(this);
 	  image = new ImageDataServlet();
+	  sessionId = null;
 	}
 
 	@Test
 	public void testValidImageResponseSaveRequest() throws IOException, ServletException, ParseException {
+		
 		request = mock(HttpServletRequest.class);
 		response = mock(HttpServletResponse.class);
 
@@ -50,9 +54,10 @@ public class ImageDataServletTest {
 		when(request.getReader()).thenReturn(bufferedReader);
 		when(response.getWriter()).thenReturn(printWriter);
 		
+		Long newSessionId = SessionDAO.createNewSession("1", 1l);
 		when(request.getParameterValues(Constant.RESPONSES)).thenReturn(mockImageResponseData());
 		when(request.getParameter(Constant.PARTICIPANTID)).thenReturn("1");
-		when(request.getParameter(Constant.SESSION_ID)).thenReturn("1");
+		when(request.getParameter(Constant.SESSION_ID)).thenReturn(Long.toString(newSessionId));
 		
 		image.doPost(request, response);
 
@@ -62,6 +67,8 @@ public class ImageDataServletTest {
 		
 		assertEquals("System should have processed the request to insert image response", Constant.SUCCESSFUL,
 				(String) jsonObject.get(Constant.SAVE));
+		assertTrue(ImageDAO.deleteImageResponses(newSessionId));
+		assertTrue(SessionDAO.deleteSession(newSessionId));
 	
 	}
 	
@@ -100,8 +107,8 @@ public static String[] mockImageResponseData(){
 		obj1.put(Constant.IMAGE_TYPE_ID, "55");
 		obj1.put(Constant.BACKGROUND_COLOR, "#5377fd");
 		obj1.put(Constant.TIME, "2300");
-		obj1.put(Constant.CORRECTNESS, "TRUE");		
-		obj1.put(Constant.IS_ATTEMPTED, "FALSE");
+		obj1.put(Constant.CORRECTNESS, Constant.TRUE);		
+		obj1.put(Constant.IS_ATTEMPTED, Constant.FALSE);
 		
 		
 		JSONObject obj2 = new JSONObject();
@@ -110,8 +117,8 @@ public static String[] mockImageResponseData(){
 		obj2.put(Constant.IMAGE_TYPE_ID, "55");
 		obj2.put(Constant.BACKGROUND_COLOR, "#5377fd");
 		obj2.put(Constant.TIME, "3200");
-		obj2.put(Constant.CORRECTNESS, "FALSE");
-		obj2.put(Constant.IS_ATTEMPTED, "TRUE");
+		obj2.put(Constant.CORRECTNESS, Constant.FALSE);
+		obj2.put(Constant.IS_ATTEMPTED, Constant.TRUE);
 		
 		
 		JSONObject obj3 = new JSONObject();
@@ -120,8 +127,8 @@ public static String[] mockImageResponseData(){
 		obj3.put(Constant.IMAGE_TYPE_ID, "56");
 		obj3.put(Constant.BACKGROUND_COLOR, "#a3597b");
 		obj3.put(Constant.TIME, "1800");
-		obj3.put(Constant.CORRECTNESS, "TRUE");
-		obj3.put(Constant.IS_ATTEMPTED, "FALSE");
+		obj3.put(Constant.CORRECTNESS, Constant.TRUE);
+		obj3.put(Constant.IS_ATTEMPTED, Constant.FALSE);
 		
 		
 		JSONObject obj4 = new JSONObject();
@@ -130,8 +137,8 @@ public static String[] mockImageResponseData(){
 		obj4.put(Constant.IMAGE_TYPE_ID, "56");
 		obj4.put(Constant.BACKGROUND_COLOR, "#a3597b");
 		obj4.put(Constant.TIME, "2200");
-		obj4.put(Constant.CORRECTNESS, "FALSE");
-		obj4.put(Constant.IS_ATTEMPTED, "TRUE");	
+		obj4.put(Constant.CORRECTNESS, Constant.FALSE);
+		obj4.put(Constant.IS_ATTEMPTED, Constant.TRUE);	
 
 		
 		ArrayList<String> aList = new ArrayList<>();

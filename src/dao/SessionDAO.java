@@ -168,22 +168,25 @@ public class SessionDAO {
 	}
 	
 	
-	public static void deleteSession(Long sessionId, Long sessionNumber){
+	public static boolean deleteSession(Long sessionId){
 		
 		slf4jLogger.info("Entered into deleteSession");
-		String selectQuery = "DELETE FROM userSession WHERE id = ? and sessionNumber = ?";
+		String selectQuery = "DELETE FROM userSession WHERE id = ?";
 		
 		Connection connection = null;
 		
 		try{
-			
 			connection = DBSource.getConnectionPool().getConnection();
 			
 			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
 			preparedStatement.setLong(1, sessionId);
-			preparedStatement.setLong(2, sessionNumber);
-			preparedStatement.executeUpdate();
+			//preparedStatement.setLong(2, sessionNumber);
+			int udpated = preparedStatement.executeUpdate();
 			connection.close();
+			if(udpated == 1){
+				return true;
+			}
+			return false;
 			
 		}catch(SQLException e){
 			System.out.println(e.getMessage());
@@ -195,6 +198,8 @@ public class SessionDAO {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			return false;
 		}
 	}
+	
 }

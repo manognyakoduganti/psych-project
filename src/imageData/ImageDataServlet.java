@@ -1,15 +1,29 @@
 package imageData;
 
 import authentication.BuildStaticParameters;
+import common.Constant;
+import dao.ColorDAO;
+import dao.ImageDAO;
+import dao.QuestionDAO;
+import dao.SessionDAO;
+import fieldValidation.CommonFieldsVal;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.json.simple.JSONObject;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Servlet implementation class ImageDataServlet
@@ -29,59 +43,7 @@ public class ImageDataServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 try {
-			 
-			String correctness;
-			String param[] = request.getParameterValues("param");
-			 
-			String isAttempted = param[0]; 
-			String responseTime = param[1];
-			
-			String isPositive = param[2];
-			String bgColor = param[3];
-			String responseAccurate = param[4];
-			
-			if(isAttempted.equalsIgnoreCase("false")){
-				correctness = "not awswered";
-			}else{
-				correctness=responseAccurate.equals("true")?"right":"wrong";
-			}
-			 	 
-			String userid = param[5];
-			 
-			if (BuildStaticParameters.conn == null) {
-					BuildStaticParameters.buildConnectionWithSQL();
-			}
-			 
-			String sql;
-			sql = "insert into response (respCorrectness,respTimeTaken,respExpectedResult,respUser,respBgColor) values (?,?,?,?,?)";
-			 
-			PreparedStatement respStmt = BuildStaticParameters.conn.prepareStatement(sql);
-			
-			respStmt.setString(1, correctness);
-			respStmt.setString(2, responseTime);
-			respStmt.setString(3, isPositive);
-			respStmt.setString(4, userid);
-			respStmt.setString(5, bgColor);
-			
-			respStmt.executeUpdate();
-			 
-			response.setContentType("application/json");
-			response.setCharacterEncoding("UTF-8");
-			 
-			 
-			 
-			response.getWriter().write("{\"result\":true}");
-			
-		 } catch(SQLException se){
-	         //Handle errors for JDBC
-	         se.printStackTrace();
-	         response.getWriter().write("{\"result\":false, \"error\":" + se.getMessage() + "}");
-	      }catch(Exception e){
-	         //Handle errors for Class.forName
-	         e.printStackTrace();
-	         response.getWriter().write("{\"result\":false, \"error\":" + e.getMessage() + "}");
-	      }
+		 
 	}
 
 	/**
@@ -89,7 +51,42 @@ public class ImageDataServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		response.setContentType("application/json;charset=UTF-8");
+		JSONObject returnJSON = new JSONObject();
+		try{
+	        //String questionSession = request.getParameter("questionSession");
+	        String participantId = request.getParameter(Constant.PARTICIPANTID);
+	        String sessionIdStr = request.getParameter(Constant.SESSION_ID);
+	        String[] responses = request.getParameterValues(Constant.RESPONSES);
+	        
+	       	boolean success = false;
+	       	if(responses!= null && responses.length > 0){
+	       		try{
+					Gson gson = new Gson();
+					ArrayList<HashMap<String, String>> responseList = gson.fromJson(responses[0], new TypeToken<ArrayList<HashMap<String, String>>>() {}.getType());
+					
+					if(responseList.size() != 0 && sessionIdStr != null && participantId != null &&
+							CommonFieldsVal.validateFieldId(sessionIdStr) &&
+							CommonFieldsVal.validateFieldId(participantId)){
+						
+						// Save the question response in the table.
+						success =  ImageDAO.saveImageResponse(responseList, Long.parseLong(sessionIdStr), participantId);
+					}
+	       		}catch(Exception e){
+	       			e.printStackTrace();
+	       			returnJSON.put(Constant.SAVE, Constant.UNSUCCESSFUL);
+	       		}
+			}
+	       	if(success){
+	       		returnJSON.put(Constant.SAVE, Constant.SUCCESSFUL);
+			}else{
+				returnJSON.put(Constant.SAVE, Constant.UNSUCCESSFUL);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			returnJSON.put(Constant.SAVE, Constant.UNSUCCESSFUL);
+		}
+		response.getWriter().print(returnJSON);
 	}
 
 }

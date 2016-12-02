@@ -51,7 +51,7 @@ public class QuestionServlet extends HttpServlet {
 		JSONObject returnJSON = new JSONObject();
 		
 		String source = request.getParameter(Constant.SOURCE);
-		Boolean isAndroid = (source!=null)?source.equals(Constant.ANDROID)?true:false:false;
+		Boolean isAndroid = (source!=null)?(source.equals(Constant.ANDROID)?true:false):false;
 		if(isAndroid){
 			String targetGroupId = request.getParameter(Constant.TARGET_GROUP_ID);
 			System.out.println(targetGroupId);
@@ -70,7 +70,6 @@ public class QuestionServlet extends HttpServlet {
 			if (name != null){
 				
 				boolean duplicate = QuestionDAO.checkDuplicate(name);
-				
 				returnJSON.put(Constant.STATUS, Constant.OK_200);
 				returnJSON.put(Constant.RESULTS, duplicate);
 				returnJSON.put(Constant.USER_MESSAGE, "Searched for duplicate successfully!");
