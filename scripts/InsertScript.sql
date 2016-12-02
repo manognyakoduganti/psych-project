@@ -55,9 +55,8 @@ insert into fieldLookup values (51, 'Role', 'GlobalAdministrator', 'Global Admin
 insert into fieldLookup values (52, 'Role', 'LocalAdministrator', 'Local Administrator Description');
 insert into fieldLookup values (53, 'ResponseType', 'Categorical', 'Response type is tied to this field');
 insert into fieldLookup values (54, 'ResponseType', 'Continuous', 'Response type is tied to this field');
-insert into fieldLookup values (55, 'ImageType', 'Postive', 'Image type is tied to this field');
+insert into fieldLookup values (55, 'ImageType', 'Positive', 'Image type is tied to this field');
 insert into fieldLookup values (56, 'ImageType', 'Negative', 'Image type is tied to this field');
-insert into fieldLookup values (57, 'ImageType', 'Neutral', 'Image type is tied to this field');
 
 insert into location (location.id, location.locCode, location.locName, location.description, location.keywords, location.addressLine1, location.addressLine2,  location.city, location.state, location.zipcode, location.phoneNumber, location.faxNumber, location.email)  values (1, 'ABCD12', 'Northeastern University', 'Location Decription', 'Keywords1, Keywords2, Keyword3', '360 Huntington Ave', '', 'Boston', 21, '02120', '1234567891', '1234567891', 'northeastern@google.com');
 
@@ -79,7 +78,7 @@ insert into questionCategory (id, name, description, responseType, startLabel, e
 	values (1,'Fitness', '', 53, 'Very Sad', 'Very Happy');
 
 insert into questionCategory (id, name, description, responseType, startLabel, endLabel)
-	values (2,'QuestionCategory2', '', 53, 'StartLabel2', 'EndLabel2');
+	values (2,'QuestionCategory2', '', 54, 'StartLabel2', 'EndLabel2');
 
 insert into imageCategory(id, name, description) values (1, "ImageCategory1", "ImageCategoryDescription1");
 insert into imageCategory(id, name, description) values (2, "ImageCategory2", "ImageCategoryDescription2");
@@ -101,16 +100,16 @@ insert into question(id, name, categoryId) values (11, 'Question11?', 1);
 insert into question(id, name, categoryId) values (12, 'Question12?', 1);
 
 insert into image (id, name, description, categoryId, intensity, imageType, imageLoc) values
-(1, "ImageName1", "ImageDescription1", 1, 4, 55, "imagelocation/1");
+(1, "ImageName1", "ImageDescription1", 1, 4, 55, "1/5cc93054-b832-11e6-80f5-76304dec7eb7.jpg");
 
 insert into image (id, name, description, categoryId, intensity, imageType, imageLoc) values
-(2, "ImageName2", "ImageDescription2", 1, 3, 55, "imagelocation/2");
+(2, "ImageName2", "ImageDescription2", 1, 3, 55, "1/5cc9323e-b832-11e6-80f5-76304dec7eb7.jpg");
 
 insert into image (id, name, description, categoryId, intensity, imageType, imageLoc) values
-(3, "ImageName3", "ImageDescription3", 1, 5, 56, "imagelocation/3");
+(3, "ImageName3", "ImageDescription3", 1, 5, 56, "1/5cc936f8-b832-11e6-80f5-76304dec7eb7.jpg");
 
 insert into image (id, name, description, categoryId, intensity, imageType, imageLoc) values
-(4, "ImageName4", "ImageDescription1", 1, 2, 56, "imagelocation/4");
+(4, "ImageName4", "ImageDescription1", 1, 2, 56, "1/5cc92d16-b832-11e6-80f5-76304dec7eb7.jpg");
 	
 insert into training values (1, 'Test Training 1', 'First Training to test target group', '');
 insert into training values (2, 'Test Training 2', 'Second Training to test target group', 'Hello Words, SecondKeyword');
@@ -141,7 +140,6 @@ insert into trainingQuestionMap (trainingId, questionId) values (2, 9);
 insert into trainingQuestionMap (trainingId, questionId) values (2, 10);
 insert into trainingQuestionMap (trainingId, questionId) values (2, 11);
 insert into trainingQuestionMap (trainingId, questionId) values (2, 12);
-
 
 insert into trainingImageMap (trainingId, imageCategoryId, duration, noOfImages, imageType) 
 values (1, 1, 1000, 2, 55);
