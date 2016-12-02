@@ -156,7 +156,7 @@ public class Constant {
 	public static String RESPONSES = "responses";
 	public static String QUESTIONSTAGE = "questionStage";
 	public static String RESPONSEDATE = "responseDate";
-	public static String SESSION_ID = "sessionID";
+	public static String SESSION_ID = "sessionId";
     public static String SUCCESSFUL ="successful";
     public static String UNSUCCESSFUL ="unsuccessful";
     public static String SAVE = "save";

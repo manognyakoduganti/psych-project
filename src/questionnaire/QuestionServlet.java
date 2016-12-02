@@ -50,14 +50,22 @@ public class QuestionServlet extends HttpServlet {
 		
 		JSONObject returnJSON = new JSONObject();
 		
+		String source = request.getParameter(Constant.SOURCE);
+		Boolean isAndroid = (source!=null)?source.equals(Constant.ANDROID)?true:false:false;
+		if(isAndroid){
+			String targetGroupId = request.getParameter(Constant.TARGET_GROUP_ID);
+			System.out.println(targetGroupId);
+			returnJSON = QuestionDAO.getAllQuestionsByTargetGroupId(Long.parseLong(targetGroupId));
+			response.setContentType("application/json;charset=UTF-8");
+			response.getWriter().print(returnJSON);
+			return;
+		}
 		HttpSession session = request.getSession(false);
 		if(Sessions.isValidGlobalAdminSession(session)){
 			String name = request.getParameter("name");
 			
-			String targetGroupId = request.getParameter(Constant.TARGET_GROUP_ID);
 			System.out.println(request.toString());
 			System.out.println("question servlet");
-			System.out.println(targetGroupId);
 			
 			if (name != null){
 				
@@ -67,9 +75,6 @@ public class QuestionServlet extends HttpServlet {
 				returnJSON.put(Constant.RESULTS, duplicate);
 				returnJSON.put(Constant.USER_MESSAGE, "Searched for duplicate successfully!");
 				returnJSON.put(Constant.DEVELOPER_MESSAGE, "Searched for duplicate successfully");
-			}
-			else if(targetGroupId != null){
-				returnJSON = QuestionDAO.getAllQuestionsByTargetGroupId(Long.parseLong(targetGroupId));
 			}
 			else{
 				

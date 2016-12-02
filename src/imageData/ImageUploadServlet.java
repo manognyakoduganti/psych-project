@@ -234,7 +234,9 @@ public class ImageUploadServlet extends HttpServlet {
             		boolean created = ImageDAO.updateImage(imageInfo);
             		if(created){
             			// Delete the existing file.
-            			deleteFile(imageFolder+"/"+imageInfo.getOldImageShortPath());
+            			if(isImageUpdated){
+            				deleteFile(imageFolder+"/"+imageInfo.getOldImageShortPath());
+            			}
             			returnJSON.put(Constant.STATUS, Constant.OK_200);
             			returnJSON.put(Constant.IMAGE_PATH, imageInfo.getImageShortPath());
             			returnJSON.put(Constant.IMAGE_UUID, imageInfo.getUuid());
