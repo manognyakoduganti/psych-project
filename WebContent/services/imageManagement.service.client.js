@@ -13,7 +13,8 @@
     			createImageCategory : createImageCategory,
     			updateImageCategory : updateImageCategory,
     			getAllCategories : getAllCategories,
-    			getAllImages : getAllImages
+    			getAllImages : getAllImages,
+    			updateImage : updateImage
     	};
     	
     	return service;
@@ -48,6 +49,15 @@
                 method: 'GET',
                 url: serverURL.url + 'imageUpload',
                 contentType: 'application/json'
+                });
+    	}
+    	
+    	function updateImage(imgDetails) {
+    		return $http ({
+                method: 'PUT',
+                url: serverURL.url + 'imageUpload',
+                contentType: 'application/json',
+                data : imgDetails
                 });
     	}
     }

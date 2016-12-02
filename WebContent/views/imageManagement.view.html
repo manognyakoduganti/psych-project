@@ -42,7 +42,7 @@
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the Image Category" ng-model="model.searchIc.imageCategoryDescription">
+                                        <textarea class="form-control" id="inputName3" placeholder="Description of the Image Category" ng-model="model.searchIc.imageCategoryDescription"></textarea>
                                     </div>
                                 </div>
 
@@ -54,7 +54,7 @@
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
                                  <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
                             </div>
-							<div>
+							<div ng-if="model.isSearchClicked">
            		<h4>Search Results</h4>
            		<div class="table-responsive" id="formtable">
     <table class="table table-striped table-bordered">
@@ -69,7 +69,8 @@
         </thead>
         <tbody>
         <tr ng-repeat = "Ic in model.imageCategorySearchResults">
-            <td><a href=""> {{Ic.imageCategoryName}} </a></td>
+            <td><a href=""> <span data-toggle="modal"
+                                                 data-target="#myModalForImageCategoryDetails" ng-click="model.selectImageCategoryDetails($index)">{{Ic.imageCategoryName}} </span></a></td>
             <td> {{Ic.imageCategoryDescription}} </td>
             
            
@@ -101,7 +102,7 @@
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the image category" ng-model="model.createIc.imageCategoryDescription">
+                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the image category" ng-model="model.createIc.imageCategoryDescription"></textarea>
                                     </div>
                                 </div>
                
@@ -142,7 +143,7 @@
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the image" ng-model="model.searchI.imageDescription">
+                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the image" ng-model="model.searchI.imageDescription"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -190,9 +191,10 @@
 							<div ng-if="model.isSearchImagesClicked">
            		<h4>Search Results</h4>
            		<div class="col-lg-3 col-md-4 col-xs-6 thumb" ng-repeat="img in model.imageSearchResults">
-                <a class="thumbnail" href="">
-                    <img class="img-responsive" ng-src="{{img.imagePath}}" alt="Image not available">
-                    {{img.imageName}}
+                <a class="thumbnail" href=""><span data-toggle="modal"
+                                                 data-target="#myModalForUpdateImage" ng-click="model.selectImage($index)">
+                    <img class="img-responsive search-img" ng-src="{{img.imagePath}}" alt="Image not available">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{img.imageName}}&nbsp;<span class="glyphicon glyphicon-pencil incrsize"></span></span>
                 </a>
                 
             </div>
@@ -215,7 +217,7 @@
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the Image" ng-model="imageDescription">
+                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the Image" ng-model="imageDescription"></textarea>
                                     </div>
                                 </div>
                                 
@@ -296,7 +298,7 @@
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName3" placeholder="Description of the Image" ng-model="model.updateIc.imageCategoryDescription">
+                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the Image" ng-model="model.updateIc.imageCategoryDescription"></textarea>
                                     </div>
                                 </div>
                         
@@ -310,6 +312,139 @@
                                  <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
                             </div>
                     
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+           <!-- Modal content for image category details -->
+          <div id="myModalForImageCategoryDetails" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Image Category Details</h4>
+                </div>
+                <div class="modal-body">
+                   <div class="form-horizontal" ng-form name="locationUpdateForm">
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-4 control-label">Category Name:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedIc.imageCategoryName}}
+                                    </div>
+                                </div>
+                                
+                                
+                              
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Description:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedIc.imageCategoryDescription}}
+                                    </div>
+                                </div>
+                               
+
+                                
+                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
+                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                            </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+             
+                </div>
+            </div>
+        </div>
+    </div>
+        <!-- Modal view content for update image -->
+       <div id="myModalForUpdateImage" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit Images</h4>
+                </div>
+                <div class="row">
+                
+                
+                    <img class="img-responsive edit-img center-block thumbnail" ng-src={{model.updateI.imagePath}} alt="Image not available">
+                    
+                
+                
+            
+            </div>
+            <div class="row">
+                <div class="modal-body">
+                
+                   <div class="form-horizontal" ng-form name="locationUpdateForm">
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-4 control-label">Image Name:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the Image" ng-model="model.updateI.imageName">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Description:</label>
+                                    <div class="col-sm-7">
+                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the Image" ng-model="model.updateI.imageDescription"></textarea>
+                                    </div>
+                                </div>
+                        		<div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Image Category:</label>
+                                    <div class="col-sm-7">                                     
+                                        <select name="states" class="form-control" id="inputEmail3" placeholder="Category of the image" ng-model="model.updateI.imageCategoryId" ng-options='ic.imageCategoryId as ic.imageCategoryName for ic in model.imageCategoryList' required="required">
+                                        
+                                        </select>
+                                    </div>
+                                </div>
+                                  <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Intensity:</label>
+                                    <div class="col-sm-7">                                     
+                                        <select name="Intensity" class="form-control" id="inputEmail3" placeholder="Intensity" ng-model="model.updateI.imageIntensity" required="required">
+                                    	
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                       <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Image Type:</label>
+                                    <div class="col-sm-7">                                     
+                                        <select name="imageType" class="form-control" id="inputEmail3" placeholder="Image Type" ng-model="model.updateI.imageTypeId" ng-options='ic.fieldId as ic.fieldValue for ic in model.imageTypeList' required="required">
+                                        
+                                        <option value=""></option>
+                                          
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                  <label for="inputEmail3" class="col-sm-4 control-label">Select Image :</label>
+                                  <div class="col-sm-7"> 
+                                <div> <input type='file' file-upload/></div>
+                                </div>
+                               </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-7">
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.updateImage(model.updateI)">Update</button>
+                                    </div>
+                                </div>
+                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
+                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                            </div>
+                    
+                </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

@@ -275,6 +275,7 @@
                 };
                 
                 vm.searchImages = searchImages;
+                var listOfImages = [];
                 
                 function searchImages(searchI) {
                 	console.log(searchI);
@@ -286,6 +287,7 @@
                 	.success(function(response) {
                 		if(response.status === '200')
                 			imageList = response.results;
+                			listOfImages = response.results;
                 			for(var img in imageList) {
                 				//console.log(img);
                 				//console.log(serverURL);
@@ -344,6 +346,121 @@
                 		
                 		});
                 }
+                
+                vm.selectImageCategoryDetails = selectImageCategoryDetails;
+                
+                function selectImageCategoryDetails(Ic) {
+                	var imageCategory = vm.imageCategorySearchResults[Ic];
+                	//console.log(questionCategory);
+                	vm.selectedIc = imageCategory;
+                }
+                
+                vm.selectImage = selectImage;
+                var updateImageId = '';
+                var selectedImage = '';
+                function selectImage(index) {
+                	var I = vm.imageSearchResults[index];
+                	selectedImage = index;
+                	//console.log(Ic);
+                	vm.updateI = {
+                			imageName : I.imageName,
+                			imageDescription : I.imageDescription,
+                			imageIntensity : I.imageIntensity,
+                			imageTypeId : I.imageTypeId,
+                			imageCategoryId : I.imageCategoryId,
+                			imagePath : I.imagePath
+                			
+                	};
+                	updateImageId = vm.imageSearchResults[index].imageId;
+                }
+                
+                vm.updateImage = updateImage;
+                
+                function updateImage(Img) {
+                	
+                	var ImUpdateParams = {
+                			imageName : Img.imageName,
+                			imageDescription : Img.imageDescription,
+                			imageIntensity : Img.imageIntensity,
+                			imageTypeId : Img.imageTypeId,
+                			imageCategoryId : Img.imageCategoryId,
+                			imagePath : listOfImages[selectedImage].imagePath,
+                			imageId : updateImageId
+                	};
+                	console.log(ImUpdateParams);
+                	//console.log(qcUpdateParams);
+                	console.log($scope.files.length);
+                	vm.save = function() {
+                    	/*var imageProp = {
+                        		imageName : $scope.imageName,
+                        		imageDescription : $scope.imageDescription,
+                        		imageType : $scope.imageType.toString(),
+                        		imageIntensity : $scope.imageIntensity.toString(),
+                        		imageCategory : $scope.imageCategory.toString()
+                        	};*/
+                    	//console.log(imageProp);
+                    	
+                    	/*var formData = new FormData();
+                        
+                        formData.append('model', 'hfhefhoewoew');
+                        
+                        
+                        formData.append('files', $scope.files[0]);*/
+                		
+                        $http({
+                        	withCredentials : true,
+                            method: 'PUT',
+                            url: serverURL.url + "imageUpload",
+                           
+                            headers: { 'Content-Type': undefined },
+                           
+                            
+                            
+                            transformRequest: function (data) {
+                                var formData = new FormData();
+                                
+                                if($scope.files.length === 0) {
+                                formData.append('imageName', ImUpdateParams.imageName);
+                                formData.append('imageDescription', ImUpdateParams.imageDescription);
+                                formData.append('imageTypeId', ImUpdateParams.imageTypeId.toString());
+                                formData.append('imageIntensity', ImUpdateParams.imageIntensity.toString());
+                                formData.append('imageCategoryId', ImUpdateParams.imageCategoryId.toString());
+                                formData.append('imageId', updateImageId.toString());
+                                }
+                                
+                                
+                                
+                                //formData.append('files', data.files[0]);
+                               
+                                return formData;
+                            }
+                           
+                            
+                        }).
+                        success(function (data, status, headers, config, response) {
+                        	
+                        	$scope.files = [];
+                        	//if(response.status =='200') {
+            					//vm.isUpdateSuccessful = true;
+            					$window.alert('Image details have been updated successfully');
+            					vm.imageSearchResults[selectedImage] = ImUpdateParams;
+            					//vm.imageSearchResults[selectedImage].imagePath = serverURL.url + 'imageUpload?imagePath=' +ImUpdateParams.imagePath;
+            				//}
+            				
+            				//else {
+            					//$window.alert('Image Details update failed');
+            				//}
+                        }).
+                        error(function (data, status, headers, config) {
+                        	$window.alert('Image creation failed');
+                        	$scope.files = [];
+                        });
+                        };
+                        
+                        vm.save();
+               
+                }
+                
                 
     }
             

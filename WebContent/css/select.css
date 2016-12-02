@@ -372,3 +372,21 @@ body > .ui-select-bootstrap.open {
 .label-padding {
 	padding-top : 1%;
 }
+
+.thumbnail a>img, .thumbnail>img {
+	display:block;
+	max-width : 100%;
+	width : 237px;
+	height : 168px;
+}
+
+.img-responsive.search-img {
+	width : 237px;
+	height : 168px;
+}
+
+.img-responsive.edit-img {
+	margin : 0 auto;
+	width : 450px;
+	height: 400px;
+}
