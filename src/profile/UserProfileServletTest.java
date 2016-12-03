@@ -257,5 +257,35 @@ public class UserProfileServletTest {
 		
 	}
 	
+	@Test
+	public void testGetAllParticipants() throws ServletException, IOException, ParseException{
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(request.getReader()).thenReturn(bufferedReader);
+		
+		
+		when(response.getWriter()).thenReturn(printWriter);
+		//Not Valid Session 
+		when(request.getSession(false)).thenReturn(session);
+		when(request.getParameter(Constant.PARTICIPANT)).thenReturn("all");
+		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn("1");
+		userProfileUpdate.doGet(request, response);
+		
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(stringWriter.getBuffer().toString());
+		JSONObject jsonObject = (JSONObject) obj;
+		
+		assertEquals(Constant.OK_200, (String) jsonObject.get(Constant.STATUS));
+		
+	}
 
 }

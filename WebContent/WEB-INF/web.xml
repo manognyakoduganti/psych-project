@@ -5,9 +5,9 @@
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
   <context-param>
-        <param-name>ImageFolder</param-name>
-        <param-value>/Users/surajnagaraj/git/Psych_Server/images</param-value>
-    </context-param>
+    <param-name>ImageFolder</param-name>
+    <param-value>/home/sujith/Documents/courseware/msd/project/Psych_Server/Images</param-value>
+  </context-param>
   <servlet>
     <servlet-name>AuthenticatingUser</servlet-name>
     <servlet-class>authentication.AuthenticatingUser</servlet-class>
@@ -84,6 +84,10 @@
     <servlet-name>ImageFile</servlet-name>
     <servlet-class>imageData.ImageFileServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>Report</servlet-name>
+    <servlet-class>report.ReportServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>AdminAuthentication</servlet-name>
     <url-pattern>/adminAuthentication/*</url-pattern>
@@ -159,6 +163,10 @@
   <servlet-mapping>
     <servlet-name>ImageFile</servlet-name>
     <url-pattern>/imageFile/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Report</servlet-name>
+    <url-pattern>/report/*</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>DefaultServletOverride</servlet-name>

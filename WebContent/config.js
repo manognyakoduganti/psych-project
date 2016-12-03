@@ -7,6 +7,7 @@
     'use strict';
     angular
         .module("PsychWebApp")
+        //.constant("serverURL", { url : 'http://ec2-54-166-55-193.compute-1.amazonaws.com:8080/Psych-1/'})
         .constant("serverURL", { url : 'http://localhost:8080/Psych-1/'})
         .directive('fileUpload', function () {
         	return {
@@ -126,6 +127,15 @@
                     	loggedin: RedirectToPageIfLoggedIn
                     }
                 })
+                .when('/report', {
+
+                    templateUrl: "./views/report.view.html",
+                    controller: "ReportController",
+                    controllerAs: "model",
+                    resolve:{
+                    	loggedin: RedirectToPageIfLoggedIn
+                    }
+                })
                 .otherwise({
                     redirectTo: '/login'
                 })
@@ -152,5 +162,5 @@
                 }
 
             });
-    }
+    	}
 })();

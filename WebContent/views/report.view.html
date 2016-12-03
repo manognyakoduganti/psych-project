@@ -2,9 +2,78 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Training</title>
 </head>
 <body>
+	<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Training</h3>
 
+            <div class="tabbable-panel">
+                <div class="tabbable-line">
+                    <ul class="nav nav-tabs">
+                        <li ng-class="{active:model.isSet('participant')}">
+                            <a href="" ng-click="model.setTab('participant')">
+                                Participant </a>
+                        </li>
+                        <li ng-class="{active:model.isSet('targetGroup')}">
+                            <a href="" ng-click="model.setTab('targetGroup')">
+                                Target Group </a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_default_1" ng-show="model.isSet('participant')">
+                            <h4>Report - Participant</h4>
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-2 control-label">Target Group:</label>
+                                    <div class="col-sm-7">
+                                    	<ui-select ng-model="model.targetGroups.selected" theme="select2" style="min-width: 300px;" title="Choose a target group" ng-change="model.filterParticipants($select.selected)">
+										    <ui-select-match placeholder="Select a target group in the list or search the name...">{{$select.selected.tgName}}</ui-select-match>
+										    <ui-select-choices repeat="tg in model.targetGroups | propsFilter: {tgName: $select.search}">
+										      <div ng-bind-html="tg.tgName | highlight: $select.search"></div>
+										    </ui-select-choices>
+										  </ui-select>
+                                    </div>
+                            	</div>
+                            	
+                            	
+                            	<div class="form-group">
+                                    <label for="inputName2" class="col-sm-2 control-label">Participant:</label>
+                                    <div class="col-sm-7">
+                                    	<ui-select ng-model="model.participantsDropDown.selected" theme="select2" style="min-width: 300px;" title="Choose a target group" ng-change="model.loadReportForParticipant($select.selected)">
+										    <ui-select-match placeholder="Select a participant in the list or search the user name...">{{$select.selected.userName}}</ui-select-match>
+										    <ui-select-choices repeat="p in model.participantsDropDown | propsFilter: {userName: $select.search}">
+										      <div ng-bind-html="p.userName | highlight: $select.search"></div>
+										    </ui-select-choices>
+										  </ui-select>
+                                    </div>
+                            	</div>
+                            	<div ng-if="model.loadedReport" class="chartOverflow">
+	                            	<div  
+									    data-ac-chart="'line'" 
+									    data-ac-data="model.reportData" 
+									    data-ac-config="model.reportConfig" 
+									    class="chart"
+									    ng-style="{ 'width' : model.chartWidth }">
+									  </div>
+								  </div>
+                            </div>
+				
+                        </div>
+                        <div class="tab-pane active" id="tab_default_2" ng-show="model.isSet('targetGroup')">
+                        	<h4>Report - Target Group</h4>
+						</div>
+                     </div>
+                 </div>
+             </div>
+      </div>
+<br>
+<br>
+
+<br>
+<br>
 </body>
 </html>

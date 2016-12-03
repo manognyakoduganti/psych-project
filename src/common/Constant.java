@@ -175,6 +175,7 @@ public class Constant {
     public static String ANDROID = "android";
     public static String IMAGE_DISPLAY_DURATION = "duration";
 	
+    public static String PARTICIPANT = "participant";
 
     public static String BACKGROUND_COLOR = "backGroundColor";
     public static String RESPONSE_TIME = "responseTime";
@@ -183,4 +184,7 @@ public class Constant {
     public static String TRUE = "true";
     public static String FALSE = "false";
     
+    public static String REPORT_TYPE = "reportType";
+    public static String SERIES = "series";
+    public static String DATA = "data";
 }

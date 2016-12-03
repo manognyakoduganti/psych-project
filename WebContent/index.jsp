@@ -34,8 +34,10 @@
     <!-- Angular JS routing CDN -->
     <script src="https://code.angularjs.org/1.4.5/angular-route.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.4.5/angular-messages.js"></script>
+    <script data-require="d3@*" data-semver="3.3.11" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.3.11/d3.js"></script>
     
 	<script src="./js/select.js"></script>
+	<script src="./js/angular-charts.min.js"></script>
 	<link rel="stylesheet" href="./css/select.css">
 	
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">    
@@ -55,6 +57,7 @@
     <script src="./services/training.service.client.js"></script>
     <script src="./services/imageManagement.service.client.js"></script>
     <script src="./services/training.service.client.js"></script>
+    <script src="./services/report.service.client.js"></script>
     <script src="./views/login.controller.js"></script>
     <script src="./views/adminProfile.controller.js"></script>
     <script src="./views/location.controller.js"></script>
@@ -63,6 +66,7 @@
     <script src="./views/questionManagement.controller.js"></script>
     <script src="./views/imageManagement.controller.js"></script>
     <script src="./views/training.controller.js"></script>
+    <script src="./views/report.controller.js"></script>
 
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>

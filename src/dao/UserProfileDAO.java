@@ -5,9 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import common.Constant;
 import common.UserProfile;
 
 public class UserProfileDAO {
@@ -106,6 +109,62 @@ public class UserProfileDAO {
 			}
 			return false;
 		} 
+	}
+	
+	
+	public static JSONObject getAllParticipants(){
+		
+		slf4jLogger.info("Entered into getAllParticipants");
+		String selectQuery = "SELECT id AS pId, username AS pUserName, targetGroupId AS pTgId FROM PSYCH.PARTICIPANT;";
+		
+		Connection connection = null;
+		
+		JSONObject returnJSON = new JSONObject();
+		
+		JSONArray jsonArray = new JSONArray();
+		
+		try{
+			
+			connection = DBSource.getConnectionPool().getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+			
+			// execute select SQL statement
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while(rs.next()) {
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put(Constant.PARTICIPANTID,rs.getString("pId"));
+				jsonObject.put(Constant.USERNAME, rs.getString("pUserName"));
+				jsonObject.put(Constant.TARGET_GROUP_ID, rs.getString("pTgId"));
+				jsonArray.add(jsonObject);
+			}
+			
+			returnJSON.put(Constant.STATUS, Constant.OK_200);
+			returnJSON.put(Constant.USER_MESSAGE, "Retrieved all participants successfully!");
+			returnJSON.put(Constant.DEVELOPER_MESSAGE, "Retrieved all participants successfully.");
+			
+			connection.close();
+			
+		}catch(SQLException e){
+			slf4jLogger.info("SQL Exception while extracting field information");
+			slf4jLogger.info(e.getMessage());
+			returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
+			returnJSON.put(Constant.USER_MESSAGE, "Error retrieving all participants");
+			returnJSON.put(Constant.DEVELOPER_MESSAGE, e.getMessage());
+			try {
+				if (connection != null){
+					connection.close();
+				}
+				
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+		} 
+		returnJSON.put(Constant.RESULTS, jsonArray);
+		
+		return returnJSON;
 	}
 
 }

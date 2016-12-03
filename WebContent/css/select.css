@@ -390,3 +390,13 @@ body > .ui-select-bootstrap.open {
 	width : 450px;
 	height: 400px;
 }
+
+.chart {
+ width: 500px;
+ height: 450px;
+}
+
+.chartOverflow{
+ overflow-x:scroll;
+ width:100%;
+}

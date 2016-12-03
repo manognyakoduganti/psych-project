@@ -20,7 +20,8 @@
             setCurrentUser: setCurrentUser,
             updateProfile: updateProfile,
             findIfUserLoggedIn: findIfUserLoggedIn,
-            changePassword: changePassword
+            changePassword: changePassword,
+            getAllParticipants: getAllParticipants
         };
 
         return service;
@@ -89,6 +90,15 @@
                  contentType: 'application/json',
                  data: password
      		});
+        }
+        
+        function getAllParticipants(){
+        	return $http ({
+                method: 'GET',
+                url: serverURL.url + 'UserProfile',
+                contentType: 'application/json',
+                params: {participant: 'all'}
+    		});
         }
     }
 })();

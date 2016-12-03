@@ -44,6 +44,31 @@ public class UserProfileServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.setContentType("application/json;charset=UTF-8");
+		JSONObject returnJSON = new JSONObject();
+		
+		HttpSession session = request.getSession(false);
+		
+		if(Sessions.isValidAdminSession(session)){
+			String participant = request.getParameter(Constant.PARTICIPANT);
+			if (participant != null && participant.equals("all")){
+				returnJSON = UserProfileDAO.getAllParticipants();
+			}
+			else{
+				returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
+				returnJSON.put(Constant.DEVELOPER_MESSAGE, "Arguments missing.");
+			}
+			
+		}else{
+			returnJSON.put(Constant.STATUS, Constant.UNAUTHORIZED_401);
+		}
+		
+		response.getWriter().print(returnJSON);
+		response.addHeader("Access-Control-Allow-Origin", Constant.ACCESS_CONTROL_ALLOW_ORIGIN);
+		response.addHeader("Access-Control-Allow-Headers", Constant.ACCESS_CONTROL_ALLOW_HEADERS);
+		response.addHeader("Access-Control-Allow-Methods", Constant.ACCESS_CONTROL_ALLOW_METHODS);
+		response.addIntHeader("Access-Control-Max-Age", Constant.ACCESS_CONTROL_ALLOW_MAX_AGE);
+		
 	}
 
 	/**
