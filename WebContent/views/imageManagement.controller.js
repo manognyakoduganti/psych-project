@@ -275,7 +275,7 @@
                 };
                 
                 vm.searchImages = searchImages;
-                var listOfImages = [];
+                
                 
                 function searchImages(searchI) {
                 	console.log(searchI);
@@ -287,7 +287,7 @@
                 	.success(function(response) {
                 		if(response.status === '200')
                 			imageList = response.results;
-                			listOfImages = response.results;
+                		
                 			for(var img in imageList) {
                 				//console.log(img);
                 				//console.log(serverURL);
@@ -365,25 +365,35 @@
                 	vm.updateI = {
                 			imageName : I.imageName,
                 			imageDescription : I.imageDescription,
-                			imageIntensity : I.imageIntensity,
+                			imageIntensity : I.imageIntensity.toString(),
                 			imageTypeId : I.imageTypeId,
                 			imageCategoryId : I.imageCategoryId,
                 			imagePath : I.imagePath
                 			
                 	};
+                	console.log(vm.updateI);
                 	updateImageId = vm.imageSearchResults[index].imageId;
                 }
                 
                 vm.updateImage = updateImage;
-                
+                var listOfImages = [];
                 function updateImage(Img) {
                 	
+                	ImageManagementService
+                	.getAllImages()
+                	.success(function(response) {
+                		if(response.status === '200'){
+                		listOfImages = response.results;
+                		console.log(response.results);
+                		}
+                	
+                	console.log(listOfImages);
                 	var ImUpdateParams = {
                 			imageName : Img.imageName,
                 			imageDescription : Img.imageDescription,
-                			imageIntensity : Img.imageIntensity,
-                			imageTypeId : Img.imageTypeId,
-                			imageCategoryId : Img.imageCategoryId,
+                			imageIntensity : Img.imageIntensity.toString(),
+                			imageTypeId : Img.imageTypeId.toString(),
+                			imageCategoryId : Img.imageCategoryId.toString(),
                 			imagePath : listOfImages[selectedImage].imagePath,
                 			imageId : updateImageId
                 	};
@@ -419,14 +429,17 @@
                             transformRequest: function (data) {
                                 var formData = new FormData();
                                 
-                                if($scope.files.length === 0) {
+                                if($scope.files.length > 0) {
+                                	formData.append('imageFile', $scope.files[0]);
+                                }
+                                
                                 formData.append('imageName', ImUpdateParams.imageName);
                                 formData.append('imageDescription', ImUpdateParams.imageDescription);
-                                formData.append('imageTypeId', ImUpdateParams.imageTypeId.toString());
-                                formData.append('imageIntensity', ImUpdateParams.imageIntensity.toString());
-                                formData.append('imageCategoryId', ImUpdateParams.imageCategoryId.toString());
+                                formData.append('imageTypeId', ImUpdateParams.imageTypeId);
+                                formData.append('imageIntensity', ImUpdateParams.imageIntensity);
+                                formData.append('imageCategoryId', ImUpdateParams.imageCategoryId);
+                                formData.append('imagePath', ImUpdateParams.imagePath);
                                 formData.append('imageId', updateImageId.toString());
-                                }
                                 
                                 
                                 
@@ -440,11 +453,21 @@
                         success(function (data, status, headers, config, response) {
                         	
                         	$scope.files = [];
+                        	ImageManagementService
+                        	.getAllImages()
+                        	.success(function(response) {
+                        		if(response.status === '200'){
+                        		vm.imageSearchResults[selectedImage] = response.results[selectedImage];
+                        		vm.imageSearchResults[selectedImage].imagePath = serverURL.url + 'imageUpload?imagePath=' + vm.imageSearchResults[selectedImage].imagePath;
+                        		vm.updateI.imagePath = vm.imageSearchResults[selectedImage].imagePath;
+                        		}
+                        	});
                         	//if(response.status =='200') {
             					//vm.isUpdateSuccessful = true;
             					$window.alert('Image details have been updated successfully');
-            					vm.imageSearchResults[selectedImage] = ImUpdateParams;
-            					//vm.imageSearchResults[selectedImage].imagePath = serverURL.url + 'imageUpload?imagePath=' +ImUpdateParams.imagePath;
+            					//vm.imageSearchResults[selectedImage] = ImUpdateParams;
+            					
+            					//hvm.imageSearchResults[selectedImage].imagePath = serverURL.url + 'imageUpload?imagePath=' +ImUpdateParams.imagePath;
             				//}
             				
             				//else {
@@ -458,6 +481,7 @@
                         };
                         
                         vm.save();
+                	});
                
                 }
                 
