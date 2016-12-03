@@ -51,11 +51,22 @@
 										  </ui-select>
                                     </div>
                             	</div>
+                            	<br>
                             	<div ng-if="model.loadedReport" class="chartOverflow">
 	                            	<div  
 									    data-ac-chart="'line'" 
-									    data-ac-data="model.reportData" 
-									    data-ac-config="model.reportConfig" 
+									    data-ac-data="model.reportDataCorrectImageResponses" 
+									    data-ac-config="model.reportConfigCorrectImage" 
+									    class="chart"
+									    ng-style="{ 'width' : model.chartWidth }">
+									  </div>
+								</div>
+								<br>
+								<div ng-if="model.loadedReport" class="chartOverflow">	  
+									  <div  
+									    data-ac-chart="'line'" 
+									    data-ac-data="model.reportDataWrongImageResponses" 
+									    data-ac-config="model.reportConfigWrongImage" 
 									    class="chart"
 									    ng-style="{ 'width' : model.chartWidth }">
 									  </div>

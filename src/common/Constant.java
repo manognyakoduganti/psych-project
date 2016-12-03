@@ -187,4 +187,7 @@ public class Constant {
     public static String REPORT_TYPE = "reportType";
     public static String SERIES = "series";
     public static String DATA = "data";
+    
+    public static String AVG_IMAGE_RESPONSE_CORRECT = "avgImageCorrectReponses";
+    public static String AVG_IMAGE_RESPONSE_WRONG = "avgImageWrongReponses";
 }

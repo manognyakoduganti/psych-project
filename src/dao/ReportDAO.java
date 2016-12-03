@@ -15,6 +15,34 @@ public class ReportDAO {
 	
 	public static JSONObject getAvgResponseTimeForImageResponses(Long participantId){
 		
+		JSONObject returnJSON = new JSONObject();
+		
+		JSONObject results = new JSONObject();
+		
+		try{
+			JSONObject avgCorrect = getAvgResponseTimeForImageResponsesHelper(participantId, 1);
+			JSONObject avgWrong = getAvgResponseTimeForImageResponsesHelper(participantId, 0);
+			
+			results.put(Constant.AVG_IMAGE_RESPONSE_CORRECT, avgCorrect.get(Constant.RESULTS));
+			results.put(Constant.AVG_IMAGE_RESPONSE_WRONG, avgWrong.get(Constant.RESULTS));
+			returnJSON.put(Constant.RESULTS, results);
+			returnJSON.put(Constant.STATUS, Constant.OK_200);
+			returnJSON.put(Constant.USER_MESSAGE, "Successfully retrieved all average response times for image responses!");
+			returnJSON.put(Constant.DEVELOPER_MESSAGE, "Successfully retrieved all average response times for image responses");
+			
+		}catch(SQLException e){
+			System.out.println(e.getMessage());
+			returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
+			returnJSON.put(Constant.USER_MESSAGE, "Error in retrieving average response times for image responses!");
+			returnJSON.put(Constant.DEVELOPER_MESSAGE, "Error retrieving average response times for image responses!: " + e.getMessage());
+		}
+		
+		return returnJSON;
+	}
+	
+	
+	public static JSONObject getAvgResponseTimeForImageResponsesHelper(Long pId, int correctness) throws SQLException{
+		
 		String selectQuery = "select a.sessionId, IFNULL(d.average, 0) as average, "
 				+ "concat(c.name, ', ', e.fieldName) as imageCategoryAndType "
 				+ "from psych.imageResponse as a "
@@ -38,15 +66,13 @@ public class ReportDAO {
 		
 		
 		Connection connection = null;
-		
-		try{
 			
 			connection = DBSource.getConnectionPool().getConnection();
 			
 			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
-			preparedStatement.setLong(1, participantId);
-			preparedStatement.setLong(2, 1);
-			preparedStatement.setLong(3, participantId);
+			preparedStatement.setLong(1, pId);
+			preparedStatement.setInt(2, correctness);
+			preparedStatement.setLong(3, pId);
 			
 			// execute select SQL statement
 			ResultSet rows = preparedStatement.executeQuery();
@@ -95,32 +121,9 @@ public class ReportDAO {
 			results.put(Constant.DATA, data);
 			
 			returnJSON.put(Constant.RESULTS, results);
-			returnJSON.put(Constant.STATUS, Constant.OK_200);
-			returnJSON.put(Constant.USER_MESSAGE, "Successfully retrieved all average response times for image responses!");
-			returnJSON.put(Constant.DEVELOPER_MESSAGE, "Successfully retrieved all average response times for image responses");
-			
 			connection.close();
 			
 			return returnJSON;
-			
-		}catch(SQLException e){
-			System.out.println(e.getMessage());
-			returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
-			returnJSON.put(Constant.USER_MESSAGE, "Error in retrieving all questions!");
-			returnJSON.put(Constant.DEVELOPER_MESSAGE, "Error retrieving all questions: " + e.getMessage());
-			
-			try {
-				if (connection != null){
-					connection.close();
-				}
-				
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			
-			return returnJSON;
-		}
 		
 	}
 
