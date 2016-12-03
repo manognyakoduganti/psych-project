@@ -24,6 +24,7 @@ import questionnaire.QuestionServletTest;
 import questionnaire.QuestionnaireTest;
 import registration.Register;
 import registration.RegisterTest;
+import report.ReportServletTest;
 import targetGroup.TargetGroupServletTest;
 import training.TrainingServletTest;
 
@@ -48,7 +49,8 @@ import training.TrainingServletTest;
 	CommonFieldsTest.class,
 	QuestionnaireTest.class,
 	ImageFetcherTest.class,
-	QuestionnaireTest.class
+	QuestionnaireTest.class,
+	ReportServletTest.class
 	
 })
 public class AllTest {
