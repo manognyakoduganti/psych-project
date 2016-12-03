@@ -292,6 +292,9 @@
                 				//console.log(img);
                 				//console.log(serverURL);
                 				imageList[img].imagePath = serverURL.url + 'imageUpload?imagePath=' + imageList[img].imagePath;
+                				imageList[img].imageIntensity = imageList[img].imageIntensity.toString();
+                				imageList[img].imageCategoryId = imageList[img].imageCategoryId.toString();
+                				imageList[img].imageTypeId = imageList[img].imageTypeId.toString();
                 			}
                 			console.log(imageList);
                 	
@@ -300,9 +303,9 @@
                         	var imageParams = {
                         			imageName : searchI.imageName,
                         			imageDescription : searchI.imageDescription,
-                        			imageIntensity : searchI.imageIntensity,
-                        			imageTypeId : searchI.imageTypeId,
-                        			imageCategoryId : searchI.imageCategoryId,
+                        			imageIntensity : searchI.imageIntensity.toString(),
+                        			imageTypeId : searchI.imageTypeId.toString(),
+                        			imageCategoryId : searchI.imageCategoryId.toString(),
                         				
                         	};
                         	console.log(imageParams);
