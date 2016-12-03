@@ -53,6 +53,14 @@ public class ReportServlet extends HttpServlet {
 				if(reportType.equals("1")){
 					returnJSON = ReportDAO.getAvgResponseTimeForImageResponses(participantId);
 				}
+				else{
+					returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
+					returnJSON.put(Constant.DEVELOPER_MESSAGE, "Report type not found.");
+				}
+			}
+			else{
+				returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
+				returnJSON.put(Constant.DEVELOPER_MESSAGE, "Paramaters missing.");
 			}
 		}
 		else{
