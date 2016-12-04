@@ -1,6 +1,8 @@
 package report;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,17 +40,21 @@ public class ReportServlet extends HttpServlet {
 		response.addHeader("Access-Control-Allow-Headers", Constant.ACCESS_CONTROL_ALLOW_HEADERS);
 		response.addHeader("Access-Control-Allow-Methods", Constant.ACCESS_CONTROL_ALLOW_METHODS);
 		response.addIntHeader("Access-Control-Max-Age", Constant.ACCESS_CONTROL_ALLOW_MAX_AGE);
-		response.setContentType("application/json;charset=UTF-8");
 		
 		JSONObject returnJSON = new JSONObject();
 		
 		String participant = request.getParameter(Constant.PARTICIPANT);
 		String reportType = request.getParameter(Constant.REPORT_TYPE);
 		
+		String targetGroupId = request.getParameter(Constant.TARGET_GROUP_ID);
+		
 		HttpSession session = request.getSession(false);
 		if(Sessions.isValidGlobalAdminSession(session)){
 		
 			if (participant != null && reportType != null){
+				
+				response.setContentType("application/json;charset=UTF-8");
+				
 				Long participantId = Long.parseLong(participant);
 				if(reportType.equals("1")){
 					returnJSON = ReportDAO.getAvgResponseTimeForImageResponses(participantId);
@@ -57,6 +63,20 @@ public class ReportServlet extends HttpServlet {
 					returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
 					returnJSON.put(Constant.DEVELOPER_MESSAGE, "Report type not found.");
 				}
+			}
+			else if (targetGroupId != null && reportType != null && reportType.equals("2")){
+				
+				Long tgId = Long.parseLong(targetGroupId);
+				
+				response.setContentType("application/csv");
+				
+		        PrintWriter w = response.getWriter();
+		        
+		        w.println(ReportDAO.generateReportFileForTargetGroup(tgId));
+
+		        w.flush();
+		        w.close();
+		        
 			}
 			else{
 				returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);

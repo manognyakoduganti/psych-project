@@ -88,6 +88,25 @@
                         </div>
                         <div class="tab-pane active" id="tab_default_2" ng-show="model.isSet('targetGroup')">
                         	<h4>Report - Target Group</h4>
+                        	
+                        	<div class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-2 control-label">Target Group:</label>
+                                    <div class="col-sm-7">
+                                    	<ui-select ng-model="model.targetGroups.selected" theme="select2" style="min-width: 300px;" title="Choose a target group" ng-change="model.getReportForTargetGroup($select.selected)">
+										    <ui-select-match placeholder="Select a target group in the list or search the name...">{{$select.selected.tgName}}</ui-select-match>
+										    <ui-select-choices repeat="tg in model.targetGroups | propsFilter: {tgName: $select.search}">
+										      <div ng-bind-html="tg.tgName | highlight: $select.search"></div>
+										    </ui-select-choices>
+										  </ui-select>
+                                    </div>
+                            	</div>
+                            </div>
+                            <br>
+                            <div ng-if="model.enableReportDownloadLink">
+                            	<h4>Training attached to this target group is: {{model.targetGroups.selected.tgTrainingName}}</h4>
+                            	<a href={{model.reportDownloadLink}}><span class="glyphicon glyphicon-download-alt incrsize"></span>Download Participant Report for {{model.targetGroups.selected.tgName}}</a>
+                            </div>
 						</div>
                      </div>
                  </div>

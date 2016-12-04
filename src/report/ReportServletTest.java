@@ -97,5 +97,68 @@ public class ReportServletTest {
 		//System.out.println(jsonObject.get(Constant.DEVELOPER_MESSAGE));
 		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.BADREQUEST_400);
 	}
+	
+	
+	@Test
+	public void testValidTargetGroupGenerateReportFile() throws ServletException, IOException, ParseException{
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+	
+		when(response.getWriter()).thenReturn(printWriter);
+		when(request.getSession(false)).thenReturn(session);
+		when(request.getParameter(Constant.TARGET_GROUP_ID)).thenReturn("1");
+		when(request.getParameter(Constant.REPORT_TYPE)).thenReturn("2");
+		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
+		
+		reportServlet.doGet(request, response);
+		
+		
+		String report = stringWriter.getBuffer().toString();
+		
+		System.out.println(report);
+		
+		//System.out.println(jsonObject.get(Constant.DEVELOPER_MESSAGE));
+		assertEquals(report.length() > 1, true);
+	}
+	
+	
+	@Test
+	public void testInvalidTargetGroupGenerateReportFile() throws ServletException, IOException, ParseException{
+		
+		request = mock(HttpServletRequest.class);
+		response = mock(HttpServletResponse.class);
+		session = mock(HttpSession.class);
+		
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+	
+		when(response.getWriter()).thenReturn(printWriter);
+		when(request.getSession(false)).thenReturn(session);
+		when(request.getParameter(Constant.TARGET_GROUP_ID)).thenReturn("1");
+		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
+		
+		reportServlet.doGet(request, response);
+		
+		
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(stringWriter.getBuffer().toString());
+		JSONObject jsonObject = (JSONObject) obj;
+		
+		//System.out.println(jsonObject.get(Constant.DEVELOPER_MESSAGE));
+		assertEquals((String) jsonObject.get(Constant.STATUS), Constant.BADREQUEST_400);
+	}
 
 }

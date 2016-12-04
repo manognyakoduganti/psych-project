@@ -195,4 +195,6 @@ public class Constant {
     public static String CORRECT_RESPONSES = "Correct Responses";
     public static String INCORRECT_RESPONSES = "Incorrect Responses";
     public static String CORRECT_AND_INCORRECT_COUNT = "correctAndIncorrectCount";
+    
+    public static String REPORT_HEADER = "targetGroup,user,sessionId,session date,category,type,image,imageResponse\n";
 }

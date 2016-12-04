@@ -81,10 +81,11 @@ public class ReportDAO {
 		
 		String prevSeries = "start";
 		
-		String prevX = "start";
+		String prevX = "No Sesssions Recorded";
 		
 		
 		JSONArray Y = new JSONArray();
+		int count = 1;
 		
 		while (rows.next()){
 			String currentX = rows.getString("sessionId");
@@ -92,18 +93,20 @@ public class ReportDAO {
 			String currentSeries = rows.getString("imageCategoryAndType");
 			
 			
-			if(!currentX.equals(prevX) && !prevX.equals("start")){
+			if(!currentX.equals(prevX) && !prevX.equals("No Sesssions Recorded")){
 				
 				if(series.indexOf(prevSeries) == -1){
 					series.add(prevSeries);
 				}
 				
 				JSONObject object = new JSONObject();
-				object.put("x", "SessionId: " + prevX);
+				object.put("x", "Session: " + count);
 				object.put("y", Y);
 				data.add(object);
 				
 				Y = new JSONArray();
+				
+				count++;
 			}
 			
 			Y.add(avg);
@@ -113,7 +116,7 @@ public class ReportDAO {
 		}
 		
 		JSONObject object = new JSONObject();
-		object.put("x", "SessionId: " + prevX);
+		object.put("x", "Session: " + count);
 		object.put("y", Y);
 		data.add(object);
 		
@@ -154,6 +157,7 @@ public class ReportDAO {
 		
 		// execute select SQL statement
 		ResultSet rows = preparedStatement.executeQuery();
+		int count = 1;
 		
 		while (rows.next()){
 			String X = rows.getString("sessionId");
@@ -162,7 +166,7 @@ public class ReportDAO {
 			Long incorrect = rows.getLong("incorrect");
 			
 			JSONObject object = new JSONObject();
-			object.put("x", "SessionId: " + X);
+			object.put("x", "Session: " + count);
 			JSONArray Y = new JSONArray();
 			Y.add(totalAttempted);
 			Y.add(correct);
@@ -170,6 +174,7 @@ public class ReportDAO {
 			object.put("y", Y);
 			
 			data.add(object);
+			count++;
 			
 		}
 		series.add(Constant.TOTAL_ATTEMPTED);
@@ -185,6 +190,77 @@ public class ReportDAO {
 		connection.close();
 		
 		return returnJSON;
+	}
+	
+	
+	public static String generateReportFileForTargetGroup(Long tgId){
+		StringBuilder returnString = new StringBuilder();
+		
+		returnString.append(Constant.REPORT_HEADER);
+		
+		String selectQuery = "select a.name as targetGroup, b.username as user, "
+				+ "c.sessionId as sessionId, g.sessionDate as sessionDate, "
+				+ "e.name as category, f.fieldName as type, d.name as image, "
+				+ "c.correctness as imageResponse "
+				+ "from psych.targetGroup as a "
+				+ "inner join psych.participant as b on a.id = b.targetGroupId "
+				+ "inner join psych.imageResponse as c on c.participantId = b.id "
+				+ "inner join psych.image as d on d.id = c.imageId "
+				+ "inner join psych.imageCategory as e on e.id = d.categoryId "
+				+ "inner join psych.fieldLookup as f on f.id = d.imageType "
+				+ "inner join psych.userSession as g on g.id = c.sessionId "
+				+ "where a.id = ? "
+				+ "order by c.id;";
+		
+		Connection connection = null;
+		
+
+		try {
+			
+			connection = DBSource.getConnectionPool().getConnection();
+			
+			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+			
+			preparedStatement.setLong(1, tgId);
+			
+			ResultSet rows = preparedStatement.executeQuery();
+			
+			while(rows.next()){
+				
+				String targetGroup = rows.getString("targetGroup");
+				String user = rows.getString("user");
+				String sessionId = rows.getString("sessionId");
+				String sessionDate = rows.getString("sessionDate");
+				String category = rows.getString("category");
+				String type = rows.getString("type");
+				String image = rows.getString("image");
+				String imageResponse = rows.getString("imageResponse");
+				
+				returnString.append(targetGroup + ","
+						+ user + ","
+						+ sessionId + ","
+						+ sessionDate + ","
+						+ category + ","
+						+ type + ","
+						+ image + ","
+						+ imageResponse + "\n");
+			}
+			
+			connection.close();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			try {
+				connection.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+		return returnString.toString();
 	}
 
 }

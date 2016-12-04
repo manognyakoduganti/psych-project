@@ -4,7 +4,7 @@
         .controller("ReportController", ReportController);
     
 
-    function ReportController($window, TargetGroupService, UserService, ReportService)
+    function ReportController($window, TargetGroupService, UserService, ReportService, serverURL)
     {
     	var vm = this;
         vm.tab = 'participant';
@@ -25,6 +25,10 @@
 			vm.reportDataCorrectAndIncorrectCount = [];
 			vm.loadedReport = false;
 			vm.participantsDropDown.selected = "";
+			vm.targetGroups.selected = "";
+			
+			vm.enableReportDownloadLink = false;
+			
         }
         
         vm.reportConfigCorrectImage = {
@@ -60,12 +64,16 @@
 			  "lineLegend": "lineEnd"
         }
         
-        function initParticipantTab(){
+        function loadTargetGroups(){
         	TargetGroupService
         	.getAllTargetGroups()
         	.success(function(response){
         		vm.targetGroups = response.results;
         	});
+        }
+        
+        function initParticipantTab(){
+        	loadTargetGroups();
         	
         	UserService
         	.getAllParticipants()
@@ -125,6 +133,11 @@
         		
         	});
         	
+        }
+        
+        vm.getReportForTargetGroup = function(selectedTargetGroup){
+        	vm.enableReportDownloadLink = true;
+        	vm.reportDownloadLink = serverURL.url + "report?targetGroupId=" + selectedTargetGroup.tgId + "&reportType=2";
         }
         
     }
