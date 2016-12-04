@@ -70,7 +70,19 @@
 									    class="chart"
 									    ng-style="{ 'width' : model.chartWidth }">
 									  </div>
-								  </div>
+								</div>
+								
+								<br>
+								
+								<div ng-if="model.loadedReport" class="chartOverflow">	  
+									  <div  
+									    data-ac-chart="'bar'" 
+									    data-ac-data="model.reportDataCorrectAndIncorrectCount" 
+									    data-ac-config="model.reportConfigResponseCount" 
+									    class="chart"
+									    ng-style="{ 'width' : model.chartWidth }">
+									  </div>
+								</div>
                             </div>
 				
                         </div>

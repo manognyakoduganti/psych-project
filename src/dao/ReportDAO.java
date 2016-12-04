@@ -22,9 +22,11 @@ public class ReportDAO {
 		try{
 			JSONObject avgCorrect = getAvgResponseTimeForImageResponsesHelper(participantId, 1);
 			JSONObject avgWrong = getAvgResponseTimeForImageResponsesHelper(participantId, 0);
-			
+			JSONObject correctAndIncorrectCount = getCorrectAndIncorrectCount(participantId);
 			results.put(Constant.AVG_IMAGE_RESPONSE_CORRECT, avgCorrect.get(Constant.RESULTS));
 			results.put(Constant.AVG_IMAGE_RESPONSE_WRONG, avgWrong.get(Constant.RESULTS));
+			results.put(Constant.CORRECT_AND_INCORRECT_COUNT, correctAndIncorrectCount.get(Constant.RESULTS));
+			
 			returnJSON.put(Constant.RESULTS, results);
 			returnJSON.put(Constant.STATUS, Constant.OK_200);
 			returnJSON.put(Constant.USER_MESSAGE, "Successfully retrieved all average response times for image responses!");
@@ -67,64 +69,122 @@ public class ReportDAO {
 		
 		Connection connection = null;
 			
-			connection = DBSource.getConnectionPool().getConnection();
+		connection = DBSource.getConnectionPool().getConnection();
+		
+		PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+		preparedStatement.setLong(1, pId);
+		preparedStatement.setInt(2, correctness);
+		preparedStatement.setLong(3, pId);
+		
+		// execute select SQL statement
+		ResultSet rows = preparedStatement.executeQuery();
+		
+		String prevSeries = "start";
+		
+		String prevX = "start";
+		
+		
+		JSONArray Y = new JSONArray();
+		
+		while (rows.next()){
+			String currentX = rows.getString("sessionId");
+			Double avg = rows.getDouble("average");
+			String currentSeries = rows.getString("imageCategoryAndType");
 			
-			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
-			preparedStatement.setLong(1, pId);
-			preparedStatement.setInt(2, correctness);
-			preparedStatement.setLong(3, pId);
 			
-			// execute select SQL statement
-			ResultSet rows = preparedStatement.executeQuery();
-			
-			String prevSeries = "start";
-			
-			String prevX = "start";
-			
-			
-			JSONArray Y = new JSONArray();
-			
-			while (rows.next()){
-				String currentX = rows.getString("sessionId");
-				Double avg = rows.getDouble("average");
-				String currentSeries = rows.getString("imageCategoryAndType");
+			if(!currentX.equals(prevX) && !prevX.equals("start")){
 				
-				
-				if(!currentX.equals(prevX) && !prevX.equals("start")){
-					
-					if(series.indexOf(prevSeries) == -1){
-						series.add(prevSeries);
-					}
-					
-					JSONObject object = new JSONObject();
-					object.put("x", "SessionId: " + prevX);
-					object.put("y", Y);
-					data.add(object);
-					
-					Y = new JSONArray();
+				if(series.indexOf(prevSeries) == -1){
+					series.add(prevSeries);
 				}
 				
-				Y.add(avg);
+				JSONObject object = new JSONObject();
+				object.put("x", "SessionId: " + prevX);
+				object.put("y", Y);
+				data.add(object);
 				
-				prevSeries = currentSeries;
-				prevX = currentX;
+				Y = new JSONArray();
 			}
 			
+			Y.add(avg);
+			
+			prevSeries = currentSeries;
+			prevX = currentX;
+		}
+		
+		JSONObject object = new JSONObject();
+		object.put("x", "SessionId: " + prevX);
+		object.put("y", Y);
+		data.add(object);
+		
+		JSONObject results = new JSONObject();
+		
+		results.put(Constant.SERIES, series);
+		results.put(Constant.DATA, data);
+		
+		returnJSON.put(Constant.RESULTS, results);
+		connection.close();
+		
+		return returnJSON;
+		
+	}
+	
+	public static JSONObject getCorrectAndIncorrectCount(Long pId) throws SQLException{
+		
+		String selectQuery = "select sessionId, count(sessionId) as totalAttempted, "
+				+ "sum(correctness) as correct, "
+				+ "(count(sessionId) - sum(correctness)) as incorrect "
+				+ "from psych.imageResponse "
+				+ "where participantId = ? and isAttempted = 1 "
+				+ "group by sessionId;";
+		
+		
+		
+		JSONObject returnJSON = new JSONObject();
+		JSONArray series = new JSONArray();
+		JSONArray data = new JSONArray();
+		
+		
+		Connection connection = null;
+			
+		connection = DBSource.getConnectionPool().getConnection();
+		
+		PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+		preparedStatement.setLong(1, pId);
+		
+		// execute select SQL statement
+		ResultSet rows = preparedStatement.executeQuery();
+		
+		while (rows.next()){
+			String X = rows.getString("sessionId");
+			Long totalAttempted = rows.getLong("totalAttempted");
+			Long correct = rows.getLong("correct");
+			Long incorrect = rows.getLong("incorrect");
+			
 			JSONObject object = new JSONObject();
-			object.put("x", "SessionId: " + prevX);
+			object.put("x", "SessionId: " + X);
+			JSONArray Y = new JSONArray();
+			Y.add(totalAttempted);
+			Y.add(correct);
+			Y.add(incorrect);
 			object.put("y", Y);
+			
 			data.add(object);
 			
-			JSONObject results = new JSONObject();
-			
-			results.put(Constant.SERIES, series);
-			results.put(Constant.DATA, data);
-			
-			returnJSON.put(Constant.RESULTS, results);
-			connection.close();
-			
-			return returnJSON;
+		}
+		series.add(Constant.TOTAL_ATTEMPTED);
+		series.add(Constant.CORRECT_RESPONSES);
+		series.add(Constant.INCORRECT_RESPONSES);
 		
+		JSONObject results = new JSONObject();
+		
+		results.put(Constant.SERIES, series);
+		results.put(Constant.DATA, data);
+		
+		returnJSON.put(Constant.RESULTS, results);
+		connection.close();
+		
+		return returnJSON;
 	}
 
 }

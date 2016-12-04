@@ -190,4 +190,9 @@ public class Constant {
     
     public static String AVG_IMAGE_RESPONSE_CORRECT = "avgImageCorrectReponses";
     public static String AVG_IMAGE_RESPONSE_WRONG = "avgImageWrongReponses";
+    
+    public static String TOTAL_ATTEMPTED = "Total Attempted";
+    public static String CORRECT_RESPONSES = "Correct Responses";
+    public static String INCORRECT_RESPONSES = "Incorrect Responses";
+    public static String CORRECT_AND_INCORRECT_COUNT = "correctAndIncorrectCount";
 }

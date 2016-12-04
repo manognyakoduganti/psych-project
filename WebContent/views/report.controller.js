@@ -22,6 +22,7 @@
         function resetTab(){
         	vm.reportDataCorrectImageResponses = [];
 			vm.reportDataWrongImageResponses = [];
+			vm.reportDataCorrectAndIncorrectCount = [];
 			vm.loadedReport = false;
 			vm.participantsDropDown.selected = "";
         }
@@ -35,7 +36,7 @@
         		  },
         		  "innerRadius": 20,
         		  "lineLegend": "traditional"
-        		}
+        }
         
         vm.reportConfigWrongImage = {
       		  "labels": false,
@@ -46,7 +47,18 @@
       		  },
       		  "innerRadius": 0,
       		  "lineLegend": "traditional"
-      		}
+      	}
+        
+        vm.reportConfigResponseCount = {
+			  "labels": false,
+			  "title": "Report",
+			  "legend": {
+			    "display": true,
+			    "position": "left"
+			  },
+			  "innerRadius": 0,
+			  "lineLegend": "lineEnd"
+        }
         
         function initParticipantTab(){
         	TargetGroupService
@@ -86,27 +98,29 @@
         	ReportService
         	.getParticipantReport(selectedParticipant.participantId)
         	.success(function(response){
-        		console.log(response);
         		
         		if(response.status == '200'){
         			var len = response.results.avgImageCorrectReponses.data.length;
         			if (len > 5){
-        				console.log(len);
             			vm.chartWidth = (len * 140) + 'px';
         			}
-        			vm.reportConfigCorrectImage.title = 'Average Correct Response Times for ' + selectedParticipant.userName
+        			vm.reportConfigCorrectImage.title = 'Average Correct Image Response Time - ' + selectedParticipant.userName;
         			vm.reportDataCorrectImageResponses = response.results.avgImageCorrectReponses;
         			vm.reportDataWrongImageResponses = response.results.avgImageWrongReponses;
         			
-        			console.log(vm.reportDataCorrectImageResponses);
+        			vm.reportDataCorrectAndIncorrectCount = response.results.correctAndIncorrectCount;
         			
-        			vm.reportConfigWrongImage.title = 'Average Incorrect Response Times for ' + selectedParticipant.userName
+        			vm.reportConfigWrongImage.title = 'Average Incorrect Image Response Time - ' + selectedParticipant.userName;
+        			
+        			
+        			vm.reportConfigResponseCount.title = 'Correct And Incorrect Image Response Count - ' + selectedParticipant.userName;;
         			vm.loadedReport = true;
         		}
         		else{
         			vm.loadedReport = false;
         			vm.reportDataCorrectImageResponses = [];
         			vm.reportDataWrongImageResponses = [];
+        			vm.reportDataCorrectAndIncorrectCount = [];
         		}
         		
         	});
