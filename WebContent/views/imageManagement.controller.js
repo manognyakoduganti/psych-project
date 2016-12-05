@@ -106,59 +106,19 @@
         
         function searchImageCategory(searchIc) {
         	var imageCategoriesList = [];
-        	console.log(searchIc);
+        	
         	ImageManagementService
         		.getAllCategories()
         		.success(function(response) {
         			imageCategoriesList = response.results;
         		
-        			console.log(imageCategoriesList);
                 	var imageCategoryParams = {
                 			imageCategoryName : searchIc.imageCategoryName,
                 			imageCategoryDescription : searchIc.imageCategoryDescription
                 				
                 	};
-                	
-                	var keys = [];
-                	var searchString = "";
-                	var searchList = [];
-                	for (var param in imageCategoryParams) {
-                		
-                		if(imageCategoryParams[param] != ''){
-                			searchList.push(imageCategoryParams[param]);
-                			keys.push(param);
-                		}
-                	}
-                	
-                	if(keys.length > 0) {
-                		var options = {
-                    			shouldSort: true,
-                    			tokenize: true,
-                    			threshold: 0.3,
-                    			location: 0,
-                    			distance: 10,
-                    			//maxPatternLength: 32,
-                    			keys: keys
-                    	}
-                    	console.log(1);
-                		console.log(keys);
-                		console.log(searchList);
-                    	var fuse = new Fuse(imageCategoriesList, options);
-
-                    	var results = fuse.search(searchList.join(" "));
-                		vm.imageCategorySearchResults = results;
-                		console.log(vm.imageCategorySearchResults);
-                	}
-                	else {
-                		vm.imageCategorySearchResults = imageCategoriesList;
-                		//console.log("else");
-                		console.log(vm.imageCategorySearchResults);
-                	}
-                	
+                	vm.imageCategorySearchResults = JSONSearch(imageCategoryParams, imageCategoriesList);
                 	vm.isSearchClicked = true;
-                	
-        		
-        		
         		})
         }
         
@@ -298,8 +258,6 @@
                 			}
                 			console.log(imageList);
                 	
-                		
-                			//console.log(locationSearch);
                         	var imageParams = {
                         			imageName : searchI.imageName,
                         			imageDescription : searchI.imageDescription,
@@ -309,44 +267,8 @@
                         				
                         	};
                         	console.log(imageParams);
-                        	var keys = [];
-                        	var searchString = "";
-                        	var searchList = [];
-                        	for (var param in imageParams) {
-                        		
-                        		if(imageParams[param] != ''){
-                        			searchList.push(imageParams[param]);
-                        			keys.push(param);
-                        		}
-                        	}
-                        	
-                        	if(keys.length > 0) {
-                        		var options = {
-                            			shouldSort: true,
-                            			tokenize: true,
-                            			threshold: 0.3,
-                            			location: 0,
-                            			distance: 10,
-                            			//maxPatternLength: 32,
-                            			keys: keys
-                            	}
-                        		//console.log(imageList);
-                            	var fuse = new Fuse(imageList, options);
-
-                            	var results = fuse.search(searchList.join(" "));
-                        		vm.imageSearchResults = results;
-                        		//console.log(vm.imageSearchResults);
-                        	}
-                        	else {
-                        		vm.imageSearchResults = imageList;
-                        		//console.log("else");
-                        		//console.log(vm.imageSearchResults);
-                        	}
-                        	
+                        	vm.imageSearchResults = JSONSearch(imageParams, imageList);
                         	vm.isSearchImagesClicked = true;
-                        	
-                		
-                		
                 		});
                 }
                 

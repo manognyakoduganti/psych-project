@@ -143,9 +143,7 @@
         		.getAllCategories()
         		.success(function(response) {
         			questionCategoriesList = response.results;
-        			console.log(questionCategoriesList);
         		
-        			console.log(searchQc.responseTypeFieldId);
                 	var questionCategoryParams = {
                 			questionCategoryName : searchQc.questionCategoryName,
                 			questionCategoryDescription : searchQc.questionCategoryDescription,
@@ -154,42 +152,10 @@
                 			endLabel : searchQc.endLabel	
                 	};
                 	
-                	var keys = [];
-                	var searchString = "";
-                	var searchList = [];
-                	for (var param in questionCategoryParams) {
-                		
-                		if(questionCategoryParams[param] != ''){
-                			searchList.push(questionCategoryParams[param]);
-                			keys.push(param);
-                		}
-                	}
-                	
-                	if(keys.length > 0) {
-                		var options = {
-                    			shouldSort: true,
-                    			tokenize: true,
-                    			threshold: 0.3,
-                    			location: 0,
-                    			distance: 10,
-                    			//maxPatternLength: 32,
-                    			keys: keys
-                    	}
-                    	
-                    	var fuse = new Fuse(questionCategoriesList, options);
-
-                    	var results = fuse.search(searchList.join(" "));
-                		vm.questionCategorySearchResults = results;
-                	}
-                	else {
-                		vm.questionCategorySearchResults = questionCategoriesList;
-                		
-                	}
+                	vm.questionCategorySearchResults = JSONSearch(questionCategoryParams, questionCategoriesList);
                 	
                 	vm.isSearchClicked = true;
-                	
-        		
-        		
+                
         		})
         }
         
@@ -209,43 +175,9 @@
                 			questionDescription : q.questionDescription	
                 	};
                 	
-                	var keys = [];
-                	var searchString = "";
-                	var searchList = [];
-                	for (var param in questionParams) {
-                		console.log(param + " " + questionParams[param]);
-                		if(questionParams[param] != ''){
-                			searchList.push(questionParams[param]);
-                			keys.push(param);
-                		}
-                	}                                                                                                              
-                	
-                	if(keys.length > 0) {
-                		var options = {
-                    			shouldSort: true,
-                    			tokenize: true,
-                    			threshold: 0.3,
-                    			location: 0,
-                    			distance: 10,
-                    			//maxPatternLength: 32,
-                    			keys: keys
-                    	}
-                    	
-                    	var fuse = new Fuse(questionList, options);
-
-                    	var results = fuse.search(searchList.join(" "));
-                		vm.questionSearchResults = results;
-                	}
-                	else {
-                		vm.questionSearchResults = questionsList;
-                		//console.log("else");
-                		//console.log(vm.locationSearchResults);
-                	}
-                	
+                	vm.questionSearchResults = JSONSearch(questionParams, questionsList);
                 	vm.isQuestionSearchClicked = true;
-                	
-        		
-        		
+                
         		})
         }
         

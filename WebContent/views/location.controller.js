@@ -180,7 +180,6 @@
         		.success(function(response) {
         			locationsList = response.results;
         		
-        			console.log(locationsList);
                 	var locationParams = {
                 			locationName : locationSearch.name,
                     		locationDescription : locationSearch.description,
@@ -195,41 +194,33 @@
                     		locationEmail : locationSearch.email	
                 	};
                 	
-                	var keys = [];
-                	var searchString = "";
-                	var searchList = [];
-                	for (var param in locationParams) {
-                		console.log(param + " " + locationParams[param]);
-                		if(locationParams[param] != ''){
-                			searchList.push(locationParams[param]);
-                			keys.push(param);
-                		}
-                	}
+                	vm.locationSearchResults = JSONSearch(locationParams, locationsList);
                 	
-                	if(keys.length > 0) {
-                		var options = {
-                    			shouldSort: true,
-                    			tokenize: true,
-                    			//matchAllTokens: true,
-                    			threshold: 0.3,
-                    			//location: 0,
-                    			//distance: 10,
-                    			//maxPatternLength: 32,
-                    			keys: keys
-                    	}
-                    	console.log(1);
-                		console.log(keys);
-                		console.log(searchList);
-                    	var fuse = new Fuse(locationsList, options);
-
-                    	var results = fuse.search(searchList.join(" "));
-                		vm.locationSearchResults = results;
-                	}
-                	else {
-                		vm.locationSearchResults = locationsList;
-                		console.log("else");
-                		console.log(vm.locationSearchResults);
-                	}
+//                	var keys = [];
+//                	var xPath = '//*';
+//                	
+//                	for (var param in locationParams) {
+//                		//console.log(param + " " + locationParams[param]);
+//                		if(locationParams[param] != ''){
+//                			if(param.toLowerCase().indexOf("id") != -1){
+//                				xPath += '[' + param + '="' + locationParams[param] + '"]'
+//                			}
+//                			else{
+//                				xPath += '[contains(' + param + ',' + '"' +locationParams[param] + '"' + ')]';
+//                			}
+//                			
+//                			keys.push(param);
+//                		}
+//                	}
+//                	
+//                	if(keys.length > 0) {
+//                		var found = JSON.search(locationsList, xPath);
+//                		
+//                		vm.locationSearchResults = found;
+//                	}
+//                	else {
+//                		vm.locationSearchResults = locationsList;
+//                	}
                 	
                 	vm.isSearchClicked = true;
                 	

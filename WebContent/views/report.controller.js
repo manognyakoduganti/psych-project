@@ -103,6 +103,7 @@
         }
         
         vm.loadReportForParticipant = function(selectedParticipant){
+        	
         	ReportService
         	.getParticipantReport(selectedParticipant.participantId)
         	.success(function(response){

@@ -117,44 +117,9 @@
                	
                 	};
                 	
-                	var keys = [];
-                	var searchString = "";
-                	var searchList = [];
-                	for (var param in targetGroupParams) {
-                		console.log(param + " " + targetGroupParams[param]);
-                		if(targetGroupParams[param] != ''){
-                			searchList.push(targetGroupParams[param]);
-                			keys.push(param);
-                		}
-                	}
-                	
-                	if(keys.length > 0) {
-                		var options = {
-                				shouldSort: true,
-                    			tokenize: true,
-                    			//matchAllTokens: true,
-                    			threshold: 0.3,
-                    			//location: 0,
-                    			//distance: 10,
-                    			//maxPatternLength: 32,
-                    			keys: keys
-                    	}
-                    	console.log(1);
-                		console.log(keys);
-                		console.log(searchList);
-                    	var fuse = new Fuse(targetGroupList, options);
-
-                    	var results = fuse.search(searchList.join(" "));
-                		vm.targetGroupSearchResults = results;
-                	}
-                	else {
-                		vm.targetGroupSearchResults = targetGroupList;
-                		console.log("else");
-                		console.log(vm.targetGroupSearchResults);
-                	}
-                	
+                	vm.targetGroupSearchResults = JSONSearch(targetGroupParams, targetGroupList);
                 	vm.isSearchClicked = true;
-        });
+        	});
 
         }
         
