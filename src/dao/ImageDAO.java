@@ -241,8 +241,8 @@ public class ImageDAO {
 				jsonObject.put(Constant.IMAGE_INTENSITY,rs.getLong("im.intensity"));
 				jsonObject.put(Constant.IMAGE_TYPE_ID,rs.getLong("im.imagetype"));
 				jsonObject.put(Constant.IMAGE_PATH,rs.getString("im.imageloc"));
-				jsonObject.put(Constant.IMAGE_CATEGORY, rs.getString("fl.fieldName"));
-				jsonObject.put(Constant.IMAGE_TYPE, rs.getString("ic.name"));
+				jsonObject.put(Constant.IMAGE_CATEGORY, rs.getString("ic.name"));
+				jsonObject.put(Constant.IMAGE_TYPE, rs.getString("fl.fieldName"));
 				jsonArray.add(jsonObject);
 			}
 			connection.close();
