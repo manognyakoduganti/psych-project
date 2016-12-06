@@ -46,24 +46,35 @@
 				<div ng-if="model.isSelected">
 							
 	           		<h4>Training Details</h4>
-	           		<div class="form-horizontal">
-                        <div class="form-group">
+	           		<div class="form-horizontal" ng-form name="model.updateTrainingForm">
+                        <div class="form-group required">
                             <label for="inputName2" class="col-sm-2 control-label">Training Name:</label>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.selectedTrainingDetails.trainingName">
+                                <input type="text" name="updateTrainingName" class="form-control" id="inputName2" required="required" placeholder="Name of the location" ng-pattern="/^[a-zA-Z0-9\s-,]{0,150}$/" ng-model="model.selectedTrainingDetails.trainingName" ng-change="model.checkDuplicateTrainingName(model.selectedTrainingDetails.trainingName)">
+                                <div ng-messages="model.updateTrainingForm.updateTrainingName.$error" style="color:maroon">
+							       	<div ng-message="required">This field is required.</div>
+							       	<div ng-message="trainingNameError">The training name already exists. Please enter another name.</div>
+							       	<div ng-message="pattern">Can be alphanumeric with ',' '-' or space and max 150 characters</div>
+							    </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                             <div class="col-sm-7">
-                                <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.selectedTrainingDetails.trainingDescription"></textarea>
+                                <textarea type="text" name="updateTrainingDescription" class="form-control" id="inputName3" placeholder="Description of the location" ng-maxlength="1000" ng-model="model.selectedTrainingDetails.trainingDescription"></textarea>
+                                <div ng-messages="model.updateTrainingForm.updateTrainingDescription.$error" style="color:maroon">
+							        <div ng-message="maxlength">Your field is too long. Max allowed: 1000 chars.</div>
+							    </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">Keywords:</label>
                             <div class="col-sm-7">
-                                <textarea type="text" class="form-control" id="inputEmail3" placeholder="Keywords" ng-model="model.selectedTrainingDetails.trainingKeywords">
+                                <textarea type="text" name="updateTrainingKeywords" class="form-control" id="inputEmail3" placeholder="Keywords" ng-pattern="/^[a-zA-Z0-9\s-,]{0,300}$/" ng-model="model.selectedTrainingDetails.trainingKeywords">
                                 </textarea>
+                                <div ng-messages="model.updateTrainingForm.updateTrainingKeywords.$error" style="color:maroon">
+							       	<div ng-message="pattern">Can be alphanumeric with ',' or '-' or space. Max allowed: 300 chars.</div>
+							    </div>
                             </div>
                         </div>
            			
@@ -124,7 +135,7 @@
                         </div>
 					    <div class="form-group">
 	                         <div class="col-sm-offset-2 col-sm-7">
-	                             <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.updateTraining()">Update Training</button>
+	                             <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.updateTraining()" ng-disabled="model.updateTrainingForm.$invalid">Update Training</button>
 	                         </div>
 	                     </div>
 					</div>
@@ -134,28 +145,35 @@
                         </div>
                         <div class="tab-pane active" id="tab_default_2" ng-show="model.isSet('create')">
                         	<h4>Training Details</h4>
-                            <div class="form-horizontal" ng-form name="model.selectedTrainingDetails">
+                            <div class="form-horizontal" ng-form name="model.createTrainingForm">
 		                        <div class="form-group required">
 		                            <label for="inputName2" class="col-sm-2 control-label">Training Name:</label>
 		                            <div class="col-sm-7">
-		                                <input type="text" name="newTrainingName" class="form-control" id="inputName2" placeholder="Name of the training" ng-maxlength="150" required="required" ng-model="model.selectedTrainingDetails.trainingName">
-		                                <div ng-messages="model.selectedTrainingDetails.newTrainingName.$error" style="color:maroon">
+		                                <input type="text" name="createTrainingName" class="form-control" id="inputName2" placeholder="Name of the training" ng-pattern="/^[a-zA-Z0-9\s-,]{0,150}$/" required="required" ng-model="model.selectedTrainingDetails.trainingName" ng-change="model.checkDuplicateTrainingName(model.selectedTrainingDetails.trainingName)">
+		                                <div ng-messages="model.createTrainingForm.createTrainingName.$error" style="color:maroon">
 									       	<div ng-message="required">This field is required.</div>
-									        <div ng-message="maxlength">Your field is too long. Max allowed: 150 chars</div>
+									       	<div ng-message="trainingNameError">The training name already exists. Please enter another name.</div>
+									       	<div ng-message="pattern">Can be alphanumeric with ',' '-' or space and max 150 characters</div>
 									    </div>
 		                            </div>
 		                        </div>
 		                        <div class="form-group">
 		                            <label for="inputName3" class="col-sm-2 control-label">Description:</label>
 		                            <div class="col-sm-7">
-		                                <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the training" ng-model="model.selectedTrainingDetails.trainingDescription"></textarea>
+		                                <textarea type="text" name="createTrainingDescription" class="form-control" id="inputName3" ng-maxlength="1000" placeholder="Description of the training" ng-model="model.selectedTrainingDetails.trainingDescription"></textarea>
+		                                <div ng-messages="model.createTrainingForm.createTrainingDescription.$error" style="color:maroon">
+									        <div ng-message="maxlength">Your field is too long. Max allowed: 1000 chars.</div>
+									    </div>
 		                            </div>
 		                        </div>
 		                        <div class="form-group">
 		                            <label for="inputEmail3" class="col-sm-2 control-label">Keywords:</label>
 		                            <div class="col-sm-7">
-		                                <textarea type="text" class="form-control" id="inputEmail3" placeholder="Keywords" ng-model="model.selectedTrainingDetails.trainingKeywords">
+		                                <textarea type="text" name="createTrainingKeywords" class="form-control" id="inputEmail3" ng-pattern="/^[a-zA-Z0-9\s-,]{0,300}$/"  placeholder="Keywords" ng-model="model.selectedTrainingDetails.trainingKeywords">
 		                                </textarea>
+		                                <div ng-messages="model.createTrainingForm.createTrainingKeywords.$error" style="color:maroon">
+									       	<div ng-message="pattern">Can be alphanumeric with ',' or '-' or space. Max allowed: 300 chars.</div>
+									    </div>
 		                            </div>
 		                        </div>
                                 
@@ -216,7 +234,7 @@
                         </div>
 					    <div class="form-group">
 	                         <div class="col-sm-offset-2 col-sm-7">
-	                             <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.createTraining()">Create Training</button>
+	                             <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.createTraining()" ng-disabled="model.createTrainingForm.$invalid">Create Training</button>
 	                         </div>
 	                     </div>
 					</div>
@@ -262,22 +280,18 @@
 										  </ui-select>
                                     </div>
                                 </div>
-                                <div class="col-sm-offset-3 col-sm-7">
-                                	<small ng-if="model.duplicateQuestionMessage" style="color:maroon">Question already in training</small>
-                                </div>
                                 <div class="form-group">
-                                    <div class="col-sm-offset-3 col-sm-3">
+                                    <div class="col-sm-offset-4 col-sm-3">
                                         <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.addQuestionToTraining()">Add</button>
                                     </div>
                                 </div>
-                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
-                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                                <div ng-show="model.addSuccess" class="alert alert-success" role="alert">{{model.addSuccessMessage}}</div>
+                                <div ng-show="model.addError" class="alert alert-danger" role="alert">{{model.addErrorMessage}}</div>
                             </div>
                     
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-             
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Done</button>
                 </div>
             </div>
         </div>
@@ -330,22 +344,18 @@
 		                                <input type="number" class="form-control" id="inputName2" placeholder="Image Count" ng-model="model.addImageCount">
 		                            </div>
 		                        </div>
-                                
-                                <div class="col-sm-offset-3 col-sm-7">
-                                	<small ng-if="model.duplicateImageMessage" style="color:maroon">Images already in training</small>
-                                </div>
                                 <div class="form-group">
-                                    <div class="col-sm-offset-3 col-sm-3">
+                                    <div class="col-sm-offset-4 col-sm-3">
                                         <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.addImageToTraining()">Add</button>
                                     </div>
                                 </div>
-                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
-                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                                <div ng-show="model.addSuccess" class="alert alert-success" role="alert">{{model.addSuccessMessage}}</div>
+                                <div ng-show="model.addError" class="alert alert-danger" role="alert">{{model.addErrorMessage}}</div>
                             </div>
                     
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Done</button>
              
                 </div>
             </div>

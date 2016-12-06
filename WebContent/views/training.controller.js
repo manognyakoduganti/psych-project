@@ -40,6 +40,9 @@
 			vm.selectedTrainingDetails.trainingName = "";
 			vm.selectedTrainingDetails.trainingImages = [];
 			vm.selectedTrainingDetails.trainingQuestions = [];
+			
+			vm.addSuccess = false;
+			vm.addError = false;
         }
         
         function initSearchTab(){
@@ -65,6 +68,8 @@
 			vm.updateFailed = false;
 			
         	if(training != undefined){
+        		vm.prevTrainingName = training.trainingName;
+        		
         		vm.isSelected = true;
         		TrainingService
         		.getTrainingById(training.trainingId)
@@ -169,9 +174,15 @@
         			}
         			
         			vm.selectedTrainingDetails.trainingQuestions.push(newTrainingQuestion);
+        			
+        			vm.addError = false;
+        			vm.addSuccessMessage = 'Question added successfully!';
+        			vm.addSuccess = true;
         		}
         		else{
-        			vm.duplicateQuestionMessage = true;
+        			vm.addSuccess = false;
+        			vm.addErrorMessage = 'Question already in training.';
+        			vm.addError = true;
         		}
         		
         	}
@@ -230,9 +241,14 @@
             		}
         			
         			vm.selectedTrainingDetails.trainingImages.push(newTrainingImage);
+        			vm.addSuccess = true;
+        			vm.addError = false;
+        			vm.addSuccessMessage = 'Images added successfully!';
         		}
         		else{
-        			vm.duplicateImageMessage = true;
+        			vm.addSuccess = false;
+        			vm.addError = true;
+        			vm.addErrorMessage = 'Images already in training.';
         		}
         	}
         }
@@ -241,6 +257,13 @@
         vm.createTraining = function(){
         	if(vm.selectedTrainingDetails !== undefined){
         		
+        		if(vm.selectedTrainingDetails.trainingDescription == undefined){
+        			vm.selectedTrainingDetails.trainingDescription = '';
+        		}
+        		if(vm.selectedTrainingDetails.trainingKeywords == undefined){
+        			vm.selectedTrainingDetails.trainingKeywords = '';
+        		}
+        		
         		TrainingService
         		.createTraining(angular.toJson(vm.selectedTrainingDetails))
         		.success(function(response){
@@ -248,12 +271,39 @@
         				vm.selectedTrainingDetails = {};
         				vm.createSuccessful = true;
         				vm.createFailed = false;
+        				initSearchTab();
+        				
         			}else{
         				vm.createSuccessful = false;
         				vm.createFailed = true;
         			}
         		});
         	}
+        }
+        
+        vm.checkDuplicateTrainingName = function(checkName){
+        	var duplicate = false;
+        	if(vm.trainings != undefined){
+        		vm.trainings.forEach(function(training){
+        			if(training.trainingName.toLowerCase() == checkName.toLowerCase()){
+        				duplicate = true;
+        			}
+        			
+        			if(vm.isSelected && vm.prevTrainingName.toLowerCase() == checkName.toLowerCase()){
+        				duplicate = false;
+        			}
+        		})
+        	}
+        	
+        	if(vm.isSelected){
+        		vm.updateTrainingForm.updateTrainingName.$error.trainingNameError = duplicate;
+        		vm.updateTrainingForm.$invalid = duplicate;
+        	}
+        	else{
+        		vm.createTrainingForm.createTrainingName.$error.trainingNameError = duplicate;
+            	vm.createTrainingForm.$invalid = duplicate;
+        	}
+        	
         }
         
         

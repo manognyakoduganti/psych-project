@@ -72,11 +72,9 @@
         		LocationService
         		.checkDuplicate(param, value)
         		.then(function(response) {
-        			if(response.data.results == true) {
-        				vm.locationCreateForm.createLocationName.$error.locationNameError = true;
-        			}
-        			else{
-        				vm.locationCreateForm.createLocationName.$error.locationNameError = false;
+        			if(typeof(response.data.results) == "boolean") {
+        				vm.locationCreateForm.$invalid = response.data.results; 
+        				vm.locationCreateForm.createLocationName.$error.locationNameError = response.data.results;
         			}
         		})
         	}
