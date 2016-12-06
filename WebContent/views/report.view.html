@@ -101,11 +101,18 @@
 										  </ui-select>
                                     </div>
                             	</div>
-                            </div>
+                            
                             <br>
                             <div ng-if="model.enableReportDownloadLink">
-                            	<h4>Training attached to this target group is: {{model.targetGroups.selected.tgTrainingName}}</h4>
-                            	<a href={{model.reportDownloadLink}}><span class="glyphicon glyphicon-download-alt incrsize"></span>Download Participant Report for {{model.targetGroups.selected.tgName}}</a>
+	                            <div class="form-group">
+	                            	<div class="col-sm-7">
+		                            	<h4>Training attached to this target group is: {{model.targetGroups.selected.tgTrainingName}}</h4>
+		                            	<a href={{model.imageReportDownloadLink}}><span class="glyphicon glyphicon-download-alt incrsize"></span>Download Participant Report for Image Responses for {{model.targetGroups.selected.tgName}} group</a>
+		                            	<br>
+		                            	<a href={{model.questionReportDownloadLink}}><span class="glyphicon glyphicon-download-alt incrsize"></span>Download Participant Report for Question Responses for {{model.targetGroups.selected.tgName}} group</a>
+	                            	</div>
+	                            </div>
+                            </div>
                             </div>
 						</div>
                      </div>

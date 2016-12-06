@@ -193,10 +193,10 @@ public class ReportDAO {
 	}
 	
 	
-	public static String generateReportFileForTargetGroup(Long tgId){
+	public static String generateImageReportFileForTargetGroup(Long tgId){
 		StringBuilder returnString = new StringBuilder();
 		
-		returnString.append(Constant.REPORT_HEADER);
+		returnString.append(Constant.REPORT_HEADER_IMAGES);
 		
 		String selectQuery = "select a.name as targetGroup, b.username as user, "
 				+ "c.sessionId as sessionId, g.sessionDate as sessionDate, "
@@ -235,6 +235,75 @@ public class ReportDAO {
 				String type = rows.getString("type");
 				String image = rows.getString("image");
 				String imageResponse = rows.getString("imageResponse");
+				
+				returnString.append(targetGroup + ","
+						+ user + ","
+						+ sessionId + ","
+						+ sessionDate + ","
+						+ category + ","
+						+ type + ","
+						+ image + ","
+						+ imageResponse + "\n");
+			}
+			
+			connection.close();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			try {
+				connection.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+		return returnString.toString();
+	}
+	
+	
+	public static String generateQuestionReportFileForTargetGroup(Long tgId){
+		StringBuilder returnString = new StringBuilder();
+		
+		returnString.append(Constant.REPORT_HEADER_QUESTIONS);
+		
+		String selectQuery = "select a.name as targetGroup, b.username as user, c.sessionId as sessionId, "
+				+ "g.sessionDate as sessionDate, e.name as category, f.fieldName as responseType, "
+				+ "d.name as question, c.response as questionResponse "
+				+ "from psych.targetGroup as a "
+				+ "inner join psych.participant as b on a.id = b.targetGroupId "
+				+ "inner join psych.questionResponse as c on c.participantId = b.id "
+				+ "inner join psych.question as d on d.id = c.questionId "
+				+ "inner join psych.questionCategory as e on e.id = d.categoryId "
+				+ "inner join psych.fieldLookup as f on f.id = e.responseType "
+				+ "inner join psych.userSession as g on g.id = c.sessionId "
+				+ "where a.id = ? order by c.id;";
+		
+		Connection connection = null;
+		
+
+		try {
+			
+			connection = DBSource.getConnectionPool().getConnection();
+			
+			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+			
+			preparedStatement.setLong(1, tgId);
+			
+			ResultSet rows = preparedStatement.executeQuery();
+			
+			while(rows.next()){
+				
+				String targetGroup = rows.getString("targetGroup");
+				String user = rows.getString("user");
+				String sessionId = rows.getString("sessionId");
+				String sessionDate = rows.getString("sessionDate");
+				String category = rows.getString("category");
+				String type = rows.getString("responseType");
+				String image = rows.getString("question");
+				String imageResponse = rows.getString("questionResponse");
 				
 				returnString.append(targetGroup + ","
 						+ user + ","

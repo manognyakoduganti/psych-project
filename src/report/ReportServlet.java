@@ -64,19 +64,33 @@ public class ReportServlet extends HttpServlet {
 					returnJSON.put(Constant.DEVELOPER_MESSAGE, "Report type not found.");
 				}
 			}
-			else if (targetGroupId != null && reportType != null && reportType.equals("2")){
+			else if (targetGroupId != null && reportType != null){
 				
-				Long tgId = Long.parseLong(targetGroupId);
-				
-				response.setContentType("application/csv");
-				
-		        PrintWriter w = response.getWriter();
-		        
-		        w.println(ReportDAO.generateReportFileForTargetGroup(tgId));
+				if(reportType.equals("2")){
+					Long tgId = Long.parseLong(targetGroupId);
+					
+					response.setContentType("application/csv");
+					
+			        PrintWriter w = response.getWriter();
+			        
+			        w.println(ReportDAO.generateImageReportFileForTargetGroup(tgId));
 
-		        w.flush();
-		        w.close();
-		        
+			        w.flush();
+			        w.close();
+				}
+				else if(reportType.equals("3")){
+					Long tgId = Long.parseLong(targetGroupId);
+					
+					response.setContentType("application/csv");
+					
+			        PrintWriter w = response.getWriter();
+			        
+			        w.println(ReportDAO.generateQuestionReportFileForTargetGroup(tgId));
+
+			        w.flush();
+			        w.close();
+				}
+				
 			}
 			else{
 				returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);

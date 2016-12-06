@@ -138,7 +138,8 @@
         
         vm.getReportForTargetGroup = function(selectedTargetGroup){
         	vm.enableReportDownloadLink = true;
-        	vm.reportDownloadLink = serverURL.url + "report?targetGroupId=" + selectedTargetGroup.tgId + "&reportType=2";
+        	vm.imageReportDownloadLink = serverURL.url + "report?targetGroupId=" + selectedTargetGroup.tgId + "&reportType=2";
+        	vm.questionReportDownloadLink = serverURL.url + "report?targetGroupId=" + selectedTargetGroup.tgId + "&reportType=3";
         }
         
     }
