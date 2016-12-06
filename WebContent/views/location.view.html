@@ -156,8 +156,7 @@ Licensed under MIT
 									       	<div ng-message="required">This field is required.</div>
 									        <div ng-message="locationNameError">The location name already exists. Please enter another name.</div>
 									        <div ng-message="maxlength">Your field is too long. Max allowed: 150 chars</div>
-									        <div ng-message="minlength">Your field is too short.</div>
-									      
+									        									      
 									    </div>
                                     </div>
                                 </div>
@@ -201,8 +200,7 @@ Licensed under MIT
                                         <div ng-messages="model.locationCreateForm.createLocationAddress1.$dirty && model.locationCreateForm.createLocationAddress1.$error" style="color:maroon">
 									        <div ng-message="required">This field is required.</div>
 									        <div ng-message="maxlength">Your field is too long. Max allowed: 100 chars</div>
-									        <div ng-message="minlength">Your field is too short. Min allowed: 2 chars</div>
-									    </div>
+									        </div>
                                     </div>
                                 </div>
 
@@ -304,8 +302,8 @@ Licensed under MIT
                     <h4 class="modal-title">Edit Location</h4>
                 </div>
                 <div class="modal-body">
-                   <div class="form-horizontal" ng-form name="model.locationUpdateForm12">
-                                <div class="form-group">
+                   <div class="form-horizontal " ng-form name="model.locationUpdateForm12">
+                                <div class="form-group required">
                                     <label for="inputName2" class="col-sm-4 control-label">Location Name:</label>
                                     <div class="col-sm-7">
                                     <input type="text" name="updatelocationName" class="form-control" id="inputName2" ng-minlength="3" ng-maxlength="150" placeholder="Name of the location" ng-minlength="3" ng-model="model.locationUpdate.name" required="required">
@@ -338,7 +336,7 @@ Licensed under MIT
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-4 control-label">Keywords:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputEmail3" name="updateLocationKeyWords" ng-pattern="/^[a-zA-Z0-9\s-,]{0,300}$/" placeholder="Enter keywords separated by a comma" ng-model="model.locationUpdate.keywords" required="required">
+                                        <input type="text" class="form-control" id="inputEmail3" name="updateLocationKeyWords" ng-pattern="/^[a-zA-Z0-9\s-,]{0,300}$/" placeholder="Enter keywords separated by a comma" ng-model="model.locationUpdate.keywords">
                                         
                                         <div ng-messages="model.locationUpdateForm12.updateLocationKeyWords.$dirty && model.locationUpdateForm12.updateLocationKeyWords.$error" style="color:maroon">
 									       	<div ng-message="pattern">Can be alphanumeric with ',' or '-' or space. Max allowed: 300 chars.</div>
@@ -346,7 +344,7 @@ Licensed under MIT
                                     </div>
                                 </div>
 
-                                <div class="form-group ">
+                                <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-4 control-label">Address Line 1:</label>
                                     <div class="col-sm-7">
                                         <input type="text" name="updateAddressInLocation" class="form-control" id="inputEmail3" placeholder="Address" ng-model="model.locationUpdate.address1" required="required">
@@ -361,7 +359,7 @@ Licensed under MIT
                                     </div>
                                 </div>
 
-                                <div class="form-group ">
+                                <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-4 control-label">City:</label>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control" name="updateCity" id="inputEmail3" placeholder="City" ng-model="model.locationUpdate.city" required="required">
@@ -369,7 +367,7 @@ Licensed under MIT
                                 </div>
                                 
 
-                                <div class="form-group ">
+                                <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-4 control-label">State:</label>
                                     <div class="col-sm-7">
            
@@ -379,7 +377,7 @@ Licensed under MIT
                                     </div>
                                 </div>
 
-                                <div class="form-group ">
+                                <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-4 control-label">Zipcode:</label>
                                     <div class="col-sm-7">
                                         <input type="text" name="updateZipcode" class="form-control" id="inputEmail3" placeholder="Zipcode" ng-pattern="/(^\d{5}$)|(^\d{5}-\d{4}$)/"  ng-model="model.locationUpdate.zipCode" required="required">
@@ -389,7 +387,7 @@ Licensed under MIT
                                    </div>
                                 </div>
 
-                                <div class="form-group ">
+                                <div class="form-group required ">
                                     <label for="inputEmail3" class="col-sm-4 control-label">Phone number:</label>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control" name = "updatePhone" id="inputEmail3" placeholder="Phone Number" ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/"  ng-model="model.locationUpdate.phoneNo" required="required">
@@ -410,7 +408,7 @@ Licensed under MIT
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-4 control-label">Email:</label>
                                     <div class="col-sm-7">
-                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Email" ng-model="model.locationUpdate.email" required="required">
+                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Email" ng-model="model.locationUpdate.email">
                                     </div>
                                 </div>
 
