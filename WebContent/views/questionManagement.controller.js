@@ -36,12 +36,20 @@
     	
     	vm.searchQ = {
     			questionName : '',
-    			questionDescription : ''
+    			questionDescription : '',
+    			questionCategoryId : ''
     	};
     	
     	vm.setTab = function (tabId) {
             //console.log("Setting tab to " + tabId);
             vm.tab = tabId;
+            if(tabId === "questionCategories") {
+        		vm.setSubTab("searchQuestionCategories");
+        	}
+            
+            if(tabId === "questions") {
+        		vm.setSubTab("searchQuestions");
+        	}
         };
         
         vm.setSubTab = function (tabId) {
@@ -172,7 +180,8 @@
         			//console.log(locationSearch);
                 	var questionParams = {
                 			questionName : q.questionName,
-                			questionDescription : q.questionDescription	
+                			questionDescription : q.questionDescription	,
+                			questionCategoryId : q.questionCategoryId.toString()
                 	};
                 	
                 	vm.questionSearchResults = JSONSearch(questionParams, questionsList);

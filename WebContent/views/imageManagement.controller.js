@@ -9,8 +9,8 @@
 
     function ImageManagementController(ImageManagementService, FieldLookupService,$scope, $http, $window, serverURL) {
     	var vm = this;
-    	vm.tab = 'imageCatergories';
-    	vm.subTab = 'searchImageCatergories';
+    	vm.tab = 'imageCategories';
+    	vm.subTab = 'SearchImageCategories';
     	
     	vm.createIc = {
     			imageCategoryName : '',
@@ -56,7 +56,15 @@
     	
     	vm.setTab = function (tabId) {
             //console.log("Setting tab to " + tabId);
+    		
             vm.tab = tabId;
+            if(tabId === "imageCategories") {
+        		vm.setSubTab("SearchImageCategories");
+        	}
+            
+            if(tabId === "images") {
+        		vm.setSubTab("searchImages");
+        	}
         };
         
         vm.setSubTab = function (tabId) {
@@ -227,6 +235,12 @@
                 success(function (data, status, headers, config) {
                 	$window.alert('Image has been created successfully');
                 	$scope.files = [];
+                	$scope.imageName = '';
+                	$scope.imageDescription = '';
+                	$scope.imageTypeId = '';
+                	$scope.imageIntensity = '';
+                	$scope.imageCategoryId = '';
+                	
                 }).
                 error(function (data, status, headers, config) {
                 	$window.alert('Image creation failed');
@@ -268,6 +282,7 @@
                         	};
                         	console.log(imageParams);
                         	vm.imageSearchResults = JSONSearch(imageParams, imageList);
+                        	console.log(vm.imageSearchResults);
                         	vm.isSearchImagesClicked = true;
                 		});
                 }
@@ -291,8 +306,8 @@
                 			imageName : I.imageName,
                 			imageDescription : I.imageDescription,
                 			imageIntensity : I.imageIntensity.toString(),
-                			imageTypeId : I.imageTypeId,
-                			imageCategoryId : I.imageCategoryId,
+                			imageTypeId : parseInt(I.imageTypeId),
+                			imageCategoryId : parseInt(I.imageCategoryId),
                 			imagePath : I.imagePath
                 			
                 	};

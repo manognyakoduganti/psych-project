@@ -32,9 +32,9 @@
         
         vm.searchLoc = {
         		name : '',
+        		locationCode : '',
         		description : '',
         		keywords : '',
-        		code : '',
         		address : '',
         		city : '',
         		state : '',
@@ -184,7 +184,7 @@
                 			locationName : locationSearch.name,
                     		locationDescription : locationSearch.description,
                     		locationKeywords : locationSearch.keywords,
-                    		locationCode : locationSearch.code,
+                    		locationCode : locationSearch.locationCode,
                     		locationAddress : locationSearch.address,
                     		locationCity : locationSearch.city,
                     		locationStateId : locationSearch.state.toString(),
@@ -193,6 +193,7 @@
                     		locationFaxNumber : locationSearch.faxNo,
                     		locationEmail : locationSearch.email	
                 	};
+                	console.log(locationParams);
                 	
                 	vm.locationSearchResults = JSONSearch(locationParams, locationsList);
                 	

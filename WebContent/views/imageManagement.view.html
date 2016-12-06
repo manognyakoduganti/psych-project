@@ -6,8 +6,8 @@
             <div class="tabbable-panel">
                 <div class="tabbable-line">
                     <ul class="nav nav-tabs">
-                        <li ng-class="{active:model.isSet('imageCatergories')}">
-                            <a href="" ng-click="model.setTab('imageCatergories')">
+                        <li ng-class="{active:model.isSet('imageCategories')}">
+                            <a href="" ng-click="model.setTab('imageCategories')">
                                 Image Categories </a>
                         </li>
                         <li ng-class="{active:model.isSet('images')}">
@@ -18,11 +18,11 @@
                     </ul>
                     <div class="tab-content">
                     <!-- Tab content for image categories begins here -->
-		                  <div class="tabbable-panel" ng-show="model.isSet('imageCatergories')">
+		                  <div class="tabbable-panel" ng-show="model.isSet('imageCategories')">
 		                	<div class="tabbable-line">
 		                    <ul class="nav nav-tabs">
-		                    	<li ng-class="{active:model.isSetSubTab('SearchImageCatergories')}">
-		                            <a href="" ng-click="model.setSubTab('SearchImageCatergories')">
+		                    	<li ng-class="{active:model.isSetSubTab('SearchImageCategories')}">
+		                            <a href="" ng-click="model.setSubTab('SearchImageCategories')">
 		                                Search </a>
 		                        </li>
 		                        <li ng-class="{active:model.isSetSubTab('createImageCategories')}">
@@ -31,7 +31,7 @@
 		                        </li>
 		                    
 		                       </ul>
-                        <div class="tab-pane active" id="tab_default_1" ng-show="model.isSetSubTab('SearchImageCatergories')">
+                        <div class="tab-pane active" id="tab_default_1" ng-show="model.isSetSubTab('SearchImageCategories')">
                             <div class="form-horizontal">
                                 <div class="form-group">
                                     <label for="inputName2" class="col-sm-2 control-label">Category Name:</label>
@@ -158,23 +158,22 @@
                                     <label for="inputEmail3" class="col-sm-2 control-label">Intensity:</label>
                                     <div class="col-sm-7">                                     
                                         <select name="Intensity" class="form-control" id="inputEmail3" placeholder="State" ng-model="model.searchI.imageIntensity" required="required">
-                                        
-                                        <option value="">1</option>
-                                        <option value="">2</option>
-                                        <option value="">3</option>
-                                        <option value="">4</option>
-                                        <option value="">5</option>
+                 
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
                                         </select>
                                     </div>
                                 </div>
                                        <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Image Type:</label>
                                     <div class="col-sm-7">                                     
-                                        <select name="imageType" class="form-control" id="inputEmail3" placeholder="State" ng-model="model.searchI.imageTypeId" required="required">
+                                        <select name="imageType" class="form-control" id="inputEmail3" placeholder="State" ng-options='ic.fieldId as ic.fieldValue for ic in model.imageTypeList' ng-model="model.searchI.imageTypeId" required="required">
                                         
-                                        <option value="">Positive</option>
-                                          <option value="">Negative</option>
-                                        <option value="">Neutral</option>
+                                        
+                                        
                                         </select>
                                     </div>
                                 </div>
