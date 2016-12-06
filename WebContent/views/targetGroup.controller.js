@@ -133,7 +133,7 @@
         		tgDescription : targetGroup.tgDescription,
         		tgKeywords : targetGroup.tgKeywords,
         		tgLocation : targetGroup.tgLocationId,
-        		tgTraining : targetGroup.tgTrainingId
+        		tgTraining : parseInt(targetGroup.tgTrainingId)
         	};
         	updateTgId = vm.targetGroupSearchResults[index].tgId;
         	

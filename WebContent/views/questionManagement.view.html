@@ -202,7 +202,7 @@
                                         <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the question" ng-model="model.searchQ.questionDescription"></textarea>
                                     </div>
                                 </div>
-                                <div class="form-group required">
+                                <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Question Category:</label>
                                     <div class="col-sm-7">                                     
                                         <select name="states" class="form-control" id="inputEmail3" placeholder="" ng-options='qc.questionCategoryId as qc.questionCategoryName for qc in model.questionCategoryList' ng-model="model.searchQ.questionCategoryId" required="required">
@@ -311,7 +311,7 @@
                 </div>
                 <div class="modal-body">
                    <div class="form-horizontal" ng-form name="model.locationUpdateForm21">
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label for="inputName2" class="col-sm-4 control-label">Category Name:</label>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control" name="CsN" id="inputName2" placeholder="Name ! of the category" ng-model="model.updateQc.questionCategoryName" required="required">
@@ -326,7 +326,7 @@
                                         <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the category" ng-model="model.updateQc.questionCategoryDescription"></textarea>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-4 control-label">Response Type:</label>
                                     <div class="col-sm-7">                                     
                                         <select name="states" class="form-control" id="inputEmail3" ng-options='qc.fieldId as qc.fieldValue for qc in model.responseTypeList' placeholder="State" ng-model="model.updateQc.responseType" required="required">
@@ -334,13 +334,13 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label for="inputName2" class="col-sm-4 control-label">Start Label:</label>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control" id="inputName2" placeholder="Enter a start label" ng-model="model.updateQc.startLabel" required="required">
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label for="inputName2" class="col-sm-4 control-label">End Label:</label>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control" id="inputName2" placeholder="Enter an end label" ng-model="model.updateQc.endLabel" required="required">
@@ -377,7 +377,7 @@
                 </div>
                 <div class="modal-body">
                    <div class="form-horizontal" ng-form name="model.questionUpdateForm">
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label for="inputName2" class="col-sm-4 control-label">Question:</label>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control" id="inputName2" name = "questn" placeholder="Enter a question" ng-model="model.updateQ.questionName" required="required">
@@ -393,7 +393,7 @@
                                     </div>
                                 </div>
                                 
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-4 control-label">Question Category:</label>
                                     <div class="col-sm-7">                                     
                                         <select name="states" class="form-control" id="inputEmail3" placeholder="" ng-options='qc.questionCategoryId as qc.questionCategoryName for qc in model.questionCategoryList' ng-model="model.updateQ.questionCategoryId" required="required">
