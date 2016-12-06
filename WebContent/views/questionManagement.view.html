@@ -257,7 +257,7 @@
                                 <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Question Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" name="createLocationCode" ng-pattern="/^[a-zA-Z0-9\s-,]{0,300}$/" class="form-control" id="inputEmail3" placeholder="Enter a question" ng-model="model.createQ.newQuestionName" required="required">
+                                        <input type="text" name="createLocationCode" ng-pattern="/^[a-zA-Z0-9\s-,?]{0,300}$/" class="form-control" id="inputEmail3" placeholder="Enter a question" ng-model="model.createQ.newQuestionName" required="required">
                                         <div ng-messages="model.locationCreateForm.createLocationCode.$dirty && model.locationCreateForm.createLocationCode.$error"style="color:maroon">
 									       
 									        <div ng-message="required">This field is required </div>
