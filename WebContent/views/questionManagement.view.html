@@ -111,15 +111,16 @@
 
                         </div>
                         <div class="tab-pane active" id="tab_default_2" ng-show="model.isSetSubTab('createQuestionCategories')">
+
                             <div class="form-horizontal" ng-form name="model.locationCreateForm2">    
-                               
+                       
                                 <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Category Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" name="createLocationCode" class="form-control" id="inputEmail3" placeholder="Name of the category" ng-model="model.createQc.newQuestionCategoryName">
-                                        <div ng-messages="locationCreateForm.createLocationCode.$error">
-									       
-									        <div ng-message-exp="model.isLocationCodeDuplicate">The location code already exists. Please enter another code.</div>
+                                        <input type="text"  class="form-control" id="inputEmail3" name ="cdx" ng-pattern="/^[a-zA-Z0-9\s-,]{0,150}$/" placeholder="Name of the category" ng-model="model.createQc.newQuestionCategoryName" required="required">
+                                        <div ng-messages="model.locationCreateForm2.cdx.$dirty && model.locationCreateForm2.cdx.$error" style="color:maroon">									       
+									        <div ng-message="required">This field is required</div>
+									        <div ng-message="pattern">Can be alphanumeric with ',' '-' or space and max 150 characters</div>
 									      
 									    </div>
                                     </div>
@@ -141,20 +142,20 @@
                                 <div class="form-group required">
                                     <label for="inputName2" class="col-sm-2 control-label">Start Label:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="A start label for the category" ng-model="model.createQc.newStartLabel"/>
+                                        <input type="text" class="form-control" id="inputName2" placeholder="A start label for the category" ng-model="model.createQc.newStartLabel" required="required" />
                                     </div>
                                 </div>
                                 <div class="form-group required">
                                     <label for="inputName2" class="col-sm-2 control-label">End Label:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="An end label for the category" ng-model="model.createQc.newEndLabel">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="An end label for the category" ng-model="model.createQc.newEndLabel" required="required">
                                     </div>
                                 </div>
                
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.createQuestionCategory(model.createQc)">Create</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.createQuestionCategory(model.createQc)" ng-disabled="model.locationCreateForm2.$invalid">Create</button>
                                     </div>
                                 </div>
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
@@ -246,11 +247,11 @@
                                 <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Question Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" name="createLocationCode" class="form-control" id="inputEmail3" placeholder="Enter a question" ng-model="model.createQ.newQuestionName">
-                                        <div ng-messages="locationCreateForm.createLocationCode.$error">
+                                        <input type="text" name="createLocationCode" ng-pattern="/^[a-zA-Z0-9\s-,]{0,300}$/" class="form-control" id="inputEmail3" placeholder="Enter a question" ng-model="model.createQ.newQuestionName" required="required">
+                                        <div ng-messages="model.locationCreateForm.createLocationCode.$dirty && model.locationCreateForm.createLocationCode.$error"style="color:maroon">
 									       
-									        <div ng-message-exp="model.isLocationCodeDuplicate">The location code already exists. Please enter another code.</div>
-									      
+									        <div ng-message="required">This field is required </div>
+									        <div ng-message="pattern">Can be alphanumeric with ',' '-' or space and max 300 characters </div>
 									    </div>
                                     </div>
                                 </div>
@@ -273,7 +274,7 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.createQuestion(model.createQ)">Create</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.createQuestion(model.createQ)" ng-disabled="model.locationCreateForm.$invalid"  >Create</button>
                                     </div>
                                 </div>
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
@@ -299,12 +300,15 @@
                     <h4 class="modal-title">Edit Question Category</h4>
                 </div>
                 <div class="modal-body">
-                   <div class="form-horizontal" ng-form name="locationUpdateForm">
+                   <div class="form-horizontal" ng-form name="model.locationUpdateForm21">
                                 <div class="form-group">
                                     <label for="inputName2" class="col-sm-4 control-label">Category Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the category" ng-model="model.updateQc.questionCategoryName">
+                                        <input type="text" class="form-control" name="CsN" id="inputName2" placeholder="Name ! of the category" ng-model="model.updateQc.questionCategoryName" required="required">
+                                  <div ng-messages="model.locationUpdateForm21.CsN.$error"  style="color:maroon">
+										<div ng-message="required">This is a required field</div>
                                     </div>
+                                </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Description:</label>
@@ -336,7 +340,7 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.updateQuestionCategory(model.updateQc)">Update</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.updateQuestionCategory(model.updateQc)" ng-disabled="model.locationUpdateForm21.$invalid">Update</button>
                                     </div>
                                 </div>
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
@@ -362,12 +366,15 @@
                     <h4 class="modal-title">Edit Question</h4>
                 </div>
                 <div class="modal-body">
-                   <div class="form-horizontal" ng-form name="locationUpdateForm">
+                   <div class="form-horizontal" ng-form name="model.questionUpdateForm">
                                 <div class="form-group">
                                     <label for="inputName2" class="col-sm-4 control-label">Question:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Enter a question" ng-model="model.updateQ.questionName">
+                                        <input type="text" class="form-control" id="inputName2" name = "questn" placeholder="Enter a question" ng-model="model.updateQ.questionName" required="required">
+                                        <div ng-messages="model.questionUpdateForm.questn.$dirty && model.questionUpdateForm.questn.$error" style="color:maroon">
+                                        <div ng-message="required">This field is required.</div>
                                     </div>
+                                </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Description:</label>
@@ -388,7 +395,7 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.updateQuestion(model.updateQ)">Update</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.updateQuestion(model.updateQ)"  ng-disabled="model.questionUpdateForm.$invalid" >Update</button>
                                     </div>
                                 </div>
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>

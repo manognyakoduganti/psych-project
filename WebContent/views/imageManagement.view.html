@@ -86,15 +86,15 @@
 
                         </div>
                         <div class="tab-pane active" id="tab_default_2" ng-show="model.isSetSubTab('createImageCategories')">
-                            <div class="form-horizontal" ng-form name="locationCreateForm">
+                            <div class="form-horizontal" ng-form name="model.locationCreateForm2">
                                
                                 <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Category Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" name="createLocationCode" class="form-control" id="inputEmail3" placeholder="Name of the image category" ng-model="model.createIc.imageCategoryName">
-                                        <div ng-messages="locationCreateForm.createLocationCode.$error">
-									       
-									        <div ng-message-exp="model.isLocationCodeDuplicate">The location code already exists. Please enter another code.</div>
+                                        <input type="text" name="catName" class="form-control" id="inputEmail3" placeholder="Name of the image category" ng-pattern="/^[a-zA-Z0-9\s-,]{0,150}$/" ng-model="model.createIc.imageCategoryName" required="required">
+                                        <div ng-messages="model.locationCreateForm2.catName.$dirty && model.locationCreateForm2.catName.$error" style="color:maroon">									       
+									        <div ng-message="required">This field is required.</div>
+									        <div ng-message="pattern">Can be alphanumeric with ',' '-' or space and max 150 characters</div>
 									      
 									    </div>
                                     </div>
@@ -109,7 +109,7 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.createImageCategory(model.createIc)">Create</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.createImageCategory(model.createIc)" ng-disabled="model.locationCreateForm2.$invalid">Create</button>
                                     </div>
                                 </div>
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
@@ -201,14 +201,15 @@
 
                         </div>
                         <div class="tab-pane active" id="tab_default_2" ng-show="model.isSetSubTab('createImages')">
-                            <div class="form-horizontal" ng-form name="locationCreateForm">
+                            <div class="form-horizontal" ng-form name="model.locationCreateForm">
                                
                                 <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Images Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" name="createImageName" class="form-control" id="inputEmail3" placeholder="Image Name" ng-model="imageName">
-                                        <div ng-messages="locationCreateForm.createImageName.$error">
-								
+                                        <input type="text" name="createImageName" class="form-control" id="inputEmail3" ng-pattern="/^[a-zA-Z0-9\s-,]{0,150}$/" placeholder="Image - Name" ng-model="imageName" required="required">
+                                        <div ng-messages="model.locationCreateForm.createImageName.$dirty && model.locationCreateForm.createImageName.$error"  style="color:maroon">
+										<div ng-message="required">This is a required field</div>
+										<div ng-message="pattern">Can be alphanumeric with ',' '-' or space and max 150 characters</div>
 									      
 									    </div>
                                     </div>
@@ -254,14 +255,14 @@
                                 <div class="form-group">
                                   <label for="inputEmail3" class="col-sm-2 control-label">Select Image :</label>
                                   <div class="col-sm-7"> 
-                                <div> <input type='file' file-upload/></div>
+                                <div> <input required="required" type='file' file-upload/></div>
                                 </div>
                                </div>
                
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.save()">Create</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.save()" ng-disabled="model.locationCreateForm.$invalid"  >Create</button>
                                     </div>
                                 </div>
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
@@ -287,11 +288,14 @@
                     <h4 class="modal-title">Edit images Category</h4>
                 </div>
                 <div class="modal-body">
-                   <div class="form-horizontal" ng-form name="locationUpdateForm">
+                   <div class="form-horizontal" ng-form name="model.UpdateForm44">
                                 <div class="form-group">
                                     <label for="inputName2" class="col-sm-2 control-label">Category Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the Image" ng-model="model.updateIc.imageCategoryName">
+                                        <input type="text" name="updatingTheImageCategoryName"class="form-control" id="inputName2" placeholder="Name of the Image" ng-model="model.updateIc.imageCategoryName" required="required">
+                                   <div ng-messages="model.UpdateForm44.updatingTheImageCategoryName.$error" style="color:maroon">
+                                    <div ng-message="required">this field is required</div> 
+                                    </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -304,7 +308,7 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.updateImageCategory(model.updateIc)">Update</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.updateImageCategory(model.updateIc)" ng-disabled="model.UpdateForm44.$invalid"  >Update</button>
                                     </div>
                                 </div>
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
@@ -383,11 +387,14 @@
             <div class="row">
                 <div class="modal-body">
                 
-                   <div class="form-horizontal" ng-form name="locationUpdateForm">
+                   <div class="form-horizontal" ng-form name="model.locationUpdateForm">
                                 <div class="form-group">
                                     <label for="inputName2" class="col-sm-4 control-label">Image Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the Image" ng-model="model.updateI.imageName">
+                                        <input type="text" name="updateImageName" class="form-control" id="inputName2" placeholder="Name of the Image" ng-model="model.updateI.imageName" required="required">
+                                  <div ng-messages="model.locationUpdateForm.updateImageName.$error" style="color:maroon">
+                                    <div ng-message="required">this field is required</div> 
+                                    </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -436,7 +443,7 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.updateImage(model.updateI)">Update</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.updateImage(model.updateI)"  ng-disabled="model.locationUpdateForm.$invalid"  >Update</button>
                                     </div>
                                 </div>
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
