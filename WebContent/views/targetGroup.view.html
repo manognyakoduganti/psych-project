@@ -121,19 +121,18 @@ Licensed under MIT
            </div> 
 
                         </div>
+                        
                         <div class="tab-pane active" id="tab_default_2" ng-show="model.isSet('create')">
                            <div class="form-horizontal" ng-form name="model.targetGroupCreateForm">
+                           
                                 <div class="form-group required">
                                     <label for="inputName2" class="col-sm-2 control-label">Target Group Name:</label>
                                     <div class="col-sm-7">
                                         <input type="text" name="createTargetGroupName" class="form-control" id="inputName2" placeholder="Name of the target group"  ng-pattern="/^[a-zA-Z0-9\s-,]{0,150}$/"  required="required" ng-maxlength="150" ng-minlength="2" ng-model="model.createTargetGroup.name"  >
-                                        <div ng-messages="model.targetGroupCreateForm.createTargetGroupName.$error" style="color:maroon">
+                                        <div ng-messages="model.targetGroupCreateForm.createTargetGroupName.$dirty && model.targetGroupCreateForm.createTargetGroupName.$error" style="color:maroon">
                                         <div ng-message="required">This field is required.</div>
                                         <div ng-message="minlength">Minimum 2 characters</div>
                                         <div ng-message="pattern">Can be alphanumeric with ',' '-' or space and max 150 characters</div>
-                                        <!-- >div ng-message="targetGroupCreateForm.createTargetGroupName.$error">	</div>                                       								       
-									    <div ng-message-exp="model.isTargetGroupNameDuplicate">The target group name already exists. Please enter another name.</div-->
-								
 									    </div>
                                     </div >
                                 </div>
@@ -195,11 +194,16 @@ Licensed under MIT
                     <h4 class="modal-title">Edit Target Group</h4>
                 </div>
                 <div class="modal-body">
-                   <div class="form-horizontal">
+                <div class="form-horizontal" ng-form name="model.targetGroupUpdateForm">
+                   
                                 <div class="form-group">
                                     <label for="inputName2" class="col-sm-4 control-label">Target Group Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.tgUpdate.tgName">
+                                        <input type="text" class="form-control" name="updateTGN" id="inputName2" placeholder="Name of the Target group name" ng-pattern="/^[a-zA-Z0-9\s-,]{0,150}$/"  ng-model="model.tgUpdate.tgName" required="required">
+                                        <div ng-messages="model.targetGroupUpdateForm.updateTGN.$dirty && model.targetGroupUpdateForm.updateTGN.$error" style="color:maroon">
+                                        <div ng-message="required">This field is required.</div>        
+                                        <div ng-message="pattern">Can be alphanumeric with ',' '-' or space and max 150 characters</div>                                
+                                    </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -211,8 +215,11 @@ Licensed under MIT
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-4 control-label">Keywords:</label>
                                     <div class="col-sm-7">
-                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Keywords" ng-model="model.tgUpdate.tgKeywords">
+                                        <input type="text" name = "keywordforTG" class="form-control" id="inputEmail3" placeholder="Keywords" ng-pattern="/^[a-zA-Z0-9\s-,]{0,300}$/" ng-model="model.tgUpdate.tgKeywords" >
+                                        <div ng-messages="model.targetGroupUpdateForm.keywordforTG.$error" style="color:maroon">
+                                        <div ng-message ="pattern">Can be alphanumeric with ',' '-' or space and max 300 characters</div>
                                     </div>
+                                </div>
                                 </div>
 
                                 <div class="form-group">
@@ -230,6 +237,7 @@ Licensed under MIT
                                         <select name="trainings" ng-options='tr.trainingId as tr.trainingName for tr in model.trainingList' ng-model="model.tgUpdate.tgTraining" required="required">
                                         
                                         </select>
+                                        <span ng-show="model.targetGroupUpdateForm.$dirty && model.targetGroupUpdateForm.$invalid">Select Training</span>
                                     </div>
                                 </div>
 
@@ -238,11 +246,10 @@ Licensed under MIT
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.update(model.tgUpdate)">Update</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.update(model.tgUpdate)" ng-disabled="model.targetGroupUpdateForm.$invalid" >Update</button>
                                     </div>
                                 </div>
-                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
-                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                               
                             </div>
                     
                 </div>
@@ -253,6 +260,7 @@ Licensed under MIT
             </div>
         </div>
     </div>
+    
         <!-- Modal content for Target group details -->
           <div id="myModalForTargetGroupDetails" class="modal fade" role="dialog">
         <div class="modal-dialog">
