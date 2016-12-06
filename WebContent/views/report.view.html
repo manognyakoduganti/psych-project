@@ -51,7 +51,8 @@
 										  </ui-select>
                                     </div>
                             	</div>
-                            	<br>
+                            	<br>                            	
+                            	
                             	<div ng-if="model.loadedReport" class="chartOverflow">
 	                            	<div  
 									    data-ac-chart="'line'" 
@@ -83,6 +84,8 @@
 									    ng-style="{ 'width' : model.chartWidth }">
 									  </div>
 								</div>
+								
+								<div ng-show="model.showErrorMessage" class="alert alert-danger" role="alert">{{model.loadTrainingMessage}}</div>
                             </div>
 				
                         </div>

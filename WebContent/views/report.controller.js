@@ -29,6 +29,8 @@
 			
 			vm.enableReportDownloadLink = false;
 			
+			vm.showErrorMessage = false;
+			
         }
         
         vm.reportConfigCorrectImage = {
@@ -109,23 +111,37 @@
         	.success(function(response){
         		
         		if(response.status == '200'){
-        			var len = response.results.avgImageCorrectReponses.data.length;
-        			if (len > 5){
-            			vm.chartWidth = (len * 140) + 'px';
+        			var len = response.results.avgImageCorrectReponses.sessionCount;
+        			
+        			if (len == 0){
+        				vm.showErrorMessage = true;
+        				vm.loadTrainingMessage = selectedParticipant.userName + " has no training sessions recorded.";
+        				vm.loadedReport = false;
         			}
-        			vm.reportConfigCorrectImage.title = 'Average Correct Image Response Time - ' + selectedParticipant.userName;
-        			vm.reportDataCorrectImageResponses = response.results.avgImageCorrectReponses;
-        			vm.reportDataWrongImageResponses = response.results.avgImageWrongReponses;
+        			else{
+        				vm.showErrorMessage = false;
+        				
+	        			if (len > 5){
+	            			vm.chartWidth = (len * 140) + 'px';
+	        			}
+	        			vm.reportConfigCorrectImage.title = 'Average Correct Image Response Time - ' + selectedParticipant.userName;
+	        			vm.reportDataCorrectImageResponses = response.results.avgImageCorrectReponses;
+	        			vm.reportDataWrongImageResponses = response.results.avgImageWrongReponses;
+	        			
+	        			vm.reportDataCorrectAndIncorrectCount = response.results.correctAndIncorrectCount;
+	        			
+	        			vm.reportConfigWrongImage.title = 'Average Incorrect Image Response Time - ' + selectedParticipant.userName;
+	        			
+	        			
+	        			vm.reportConfigResponseCount.title = 'Correct And Incorrect Image Response Count - ' + selectedParticipant.userName;
+	        			vm.loadedReport = true;
+        			}
         			
-        			vm.reportDataCorrectAndIncorrectCount = response.results.correctAndIncorrectCount;
         			
-        			vm.reportConfigWrongImage.title = 'Average Incorrect Image Response Time - ' + selectedParticipant.userName;
-        			
-        			
-        			vm.reportConfigResponseCount.title = 'Correct And Incorrect Image Response Count - ' + selectedParticipant.userName;;
-        			vm.loadedReport = true;
         		}
         		else{
+        			vm.loadTrainingMessage = "Could not load reports for " + selectedParticipant.userName;
+        			vm.showErrorMessage = true;
         			vm.loadedReport = false;
         			vm.reportDataCorrectImageResponses = [];
         			vm.reportDataWrongImageResponses = [];

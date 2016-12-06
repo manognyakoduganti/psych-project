@@ -85,7 +85,7 @@ public class ReportDAO {
 		
 		
 		JSONArray Y = new JSONArray();
-		int count = 1;
+		int count = 0;
 		
 		while (rows.next()){
 			String currentX = rows.getString("sessionId");
@@ -94,6 +94,7 @@ public class ReportDAO {
 			
 			
 			if(!currentX.equals(prevX) && !prevX.equals("No Sesssions Recorded")){
+				count++;
 				
 				if(series.indexOf(prevSeries) == -1){
 					series.add(prevSeries);
@@ -105,8 +106,6 @@ public class ReportDAO {
 				data.add(object);
 				
 				Y = new JSONArray();
-				
-				count++;
 			}
 			
 			Y.add(avg);
@@ -115,15 +114,20 @@ public class ReportDAO {
 			prevX = currentX;
 		}
 		
-		JSONObject object = new JSONObject();
-		object.put("x", "Session: " + count);
-		object.put("y", Y);
-		data.add(object);
+		if(count != 0){
+			count++;
+			JSONObject object = new JSONObject();
+			object.put("x", "Session: " + count);
+			object.put("y", Y);
+			data.add(object);
+		}
+		
 		
 		JSONObject results = new JSONObject();
 		
 		results.put(Constant.SERIES, series);
 		results.put(Constant.DATA, data);
+		results.put(Constant.NO_OF_SESSIONS, count);
 		
 		returnJSON.put(Constant.RESULTS, results);
 		connection.close();
