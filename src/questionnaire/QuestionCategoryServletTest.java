@@ -265,11 +265,11 @@ public class QuestionCategoryServletTest {
 		String newEndLabel = "Very happy";
 		
 		jsonObj.put(Constant.QUESTION_CATEGORY_ID, questionCategoryId);
-		jsonObj.put(Constant.NEW_QUESTION_CATEGORY_NAME, newQuestionCategoryName);
-		jsonObj.put(Constant.NEW_QUESTION_CATEGORY_DESCRIPTION, newQuestionCategoryDescription);
-		jsonObj.put(Constant.NEW_QUESTION_CATEGORY_RESPONSE_TYPE, newResponseType);
-		jsonObj.put(Constant.NEW_QUESTION_CATEGORY_START_LABEL, newStartLabel);
-		jsonObj.put(Constant.NEW_QUESTION_CATEGORY_END_LABEL, newEndLabel);
+		jsonObj.put(Constant.QUESTION_CATEGORY_NAME, newQuestionCategoryName);
+		jsonObj.put(Constant.QUESTION_CATEGORY_DESCRIPTION, newQuestionCategoryDescription);
+		jsonObj.put(Constant.QUESTION_CATEGORY_RESPONSE_TYPE, newResponseType);
+		jsonObj.put(Constant.QUESTION_CATEGORY_START_LABEL, newStartLabel);
+		jsonObj.put(Constant.QUESTION_CATEGORY_END_LABEL, newEndLabel);
 		
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		
@@ -311,11 +311,11 @@ public class QuestionCategoryServletTest {
 		String newEndLabel = "Very happy";
 		
 		jsonObj.put(Constant.QUESTION_CATEGORY_ID, questionCategoryId);
-		jsonObj.put(Constant.NEW_QUESTION_CATEGORY_NAME, newQuestionCategoryName);
-		jsonObj.put(Constant.NEW_QUESTION_CATEGORY_DESCRIPTION, newQuestionCategoryDescription);
-		jsonObj.put(Constant.NEW_QUESTION_CATEGORY_RESPONSE_TYPE, newResponseType);
-		jsonObj.put(Constant.NEW_QUESTION_CATEGORY_START_LABEL, newStartLabel);
-		jsonObj.put(Constant.NEW_QUESTION_CATEGORY_END_LABEL, newEndLabel);
+		jsonObj.put(Constant.QUESTION_CATEGORY_NAME, newQuestionCategoryName);
+		jsonObj.put(Constant.QUESTION_CATEGORY_DESCRIPTION, newQuestionCategoryDescription);
+		jsonObj.put(Constant.QUESTION_CATEGORY_RESPONSE_TYPE, newResponseType);
+		jsonObj.put(Constant.QUESTION_CATEGORY_START_LABEL, newStartLabel);
+		jsonObj.put(Constant.QUESTION_CATEGORY_END_LABEL, newEndLabel);
 		
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		
