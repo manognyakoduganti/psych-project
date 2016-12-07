@@ -267,7 +267,7 @@ public class ImageDAO {
 		String selectQuery = "select tim.imageCategoryId, tim.duration, tim.imageType, fl.fieldName, tim.noOfImages "
 				+ "from training as tr join targetgroup as tg on tr.id=tg.trainingId join trainingImageMap "
 				+ "as tim on tr.id=tim.trainingId join fieldlookup as "
-				+ "fl on fl.id = tim.imageType where tg.id=1 ORDER BY RAND()";
+				+ "fl on fl.id = tim.imageType where tg.id= ? ORDER BY RAND()";
 		
 		ArrayList<ImageInfo> results = new ArrayList<ImageInfo>();
 		Connection connection = null;
@@ -276,7 +276,7 @@ public class ImageDAO {
 			
 			connection = DBSource.getConnectionPool().getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
-			
+			preparedStatement.setLong(1, tgId);
 			// execute select SQL statement
 			ResultSet rs = preparedStatement.executeQuery();
 			while(rs.next()) {
