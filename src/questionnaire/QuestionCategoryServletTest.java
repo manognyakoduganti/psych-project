@@ -78,7 +78,8 @@ public class QuestionCategoryServletTest {
 		when(response.getWriter()).thenReturn(printWriter);
 		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
-		when(session.getAttribute(Constant.USER_ID)).thenReturn(4l);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
 		
 		questionCategoryServlet.doPost(request, response);
 		
@@ -126,7 +127,8 @@ public class QuestionCategoryServletTest {
 		when(response.getWriter()).thenReturn(printWriter);
 		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
-		when(session.getAttribute(Constant.USER_ID)).thenReturn(4l);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
 		
 		questionCategoryServlet.doPost(request, response);
 		
@@ -159,7 +161,8 @@ public class QuestionCategoryServletTest {
 		when(request.getParameter("name")).thenReturn("Fitness");
 		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
-		when(session.getAttribute(Constant.USER_ID)).thenReturn(4l);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
 		
 		questionCategoryServlet.doGet(request, response);
 		
@@ -192,7 +195,8 @@ public class QuestionCategoryServletTest {
 		when(request.getParameter("name")).thenReturn("adadfdf");
 		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
-		when(session.getAttribute(Constant.USER_ID)).thenReturn(4l);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
 		
 		questionCategoryServlet.doGet(request, response);
 		
@@ -224,7 +228,8 @@ public class QuestionCategoryServletTest {
 		when(response.getWriter()).thenReturn(printWriter);
 		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
-		when(session.getAttribute(Constant.USER_ID)).thenReturn(4l);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
 		
 		questionCategoryServlet.doGet(request, response);
 		
@@ -265,18 +270,19 @@ public class QuestionCategoryServletTest {
 		String newEndLabel = "Very happy";
 		
 		jsonObj.put(Constant.QUESTION_CATEGORY_ID, questionCategoryId);
-		jsonObj.put(Constant.NEW_QUESTION_CATEGORY_NAME, newQuestionCategoryName);
-		jsonObj.put(Constant.NEW_QUESTION_CATEGORY_DESCRIPTION, newQuestionCategoryDescription);
-		jsonObj.put(Constant.NEW_QUESTION_CATEGORY_RESPONSE_TYPE, newResponseType);
-		jsonObj.put(Constant.NEW_QUESTION_CATEGORY_START_LABEL, newStartLabel);
-		jsonObj.put(Constant.NEW_QUESTION_CATEGORY_END_LABEL, newEndLabel);
+		jsonObj.put(Constant.QUESTION_CATEGORY_NAME, newQuestionCategoryName);
+		jsonObj.put(Constant.QUESTION_CATEGORY_DESCRIPTION, newQuestionCategoryDescription);
+		jsonObj.put(Constant.QUESTION_CATEGORY_RESPONSE_TYPE, newResponseType);
+		jsonObj.put(Constant.QUESTION_CATEGORY_START_LABEL, newStartLabel);
+		jsonObj.put(Constant.QUESTION_CATEGORY_END_LABEL, newEndLabel);
 		
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		
 		when(response.getWriter()).thenReturn(printWriter);
 		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
-		when(session.getAttribute(Constant.USER_ID)).thenReturn(4l);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
 		
 		questionCategoryServlet.doPut(request, response);
 		
@@ -311,18 +317,19 @@ public class QuestionCategoryServletTest {
 		String newEndLabel = "Very happy";
 		
 		jsonObj.put(Constant.QUESTION_CATEGORY_ID, questionCategoryId);
-		jsonObj.put(Constant.NEW_QUESTION_CATEGORY_NAME, newQuestionCategoryName);
-		jsonObj.put(Constant.NEW_QUESTION_CATEGORY_DESCRIPTION, newQuestionCategoryDescription);
-		jsonObj.put(Constant.NEW_QUESTION_CATEGORY_RESPONSE_TYPE, newResponseType);
-		jsonObj.put(Constant.NEW_QUESTION_CATEGORY_START_LABEL, newStartLabel);
-		jsonObj.put(Constant.NEW_QUESTION_CATEGORY_END_LABEL, newEndLabel);
+		jsonObj.put(Constant.QUESTION_CATEGORY_NAME, newQuestionCategoryName);
+		jsonObj.put(Constant.QUESTION_CATEGORY_DESCRIPTION, newQuestionCategoryDescription);
+		jsonObj.put(Constant.QUESTION_CATEGORY_RESPONSE_TYPE, newResponseType);
+		jsonObj.put(Constant.QUESTION_CATEGORY_START_LABEL, newStartLabel);
+		jsonObj.put(Constant.QUESTION_CATEGORY_END_LABEL, newEndLabel);
 		
 		when(bufferedReader.readLine()).thenReturn(jsonObj.toString()).thenReturn(null);
 		
 		when(response.getWriter()).thenReturn(printWriter);
 		when(request.getSession(false)).thenReturn(session);
 		when(session.getAttribute(Constant.ROLE)).thenReturn(Constant.GLOBAL_ADMIN);
-		when(session.getAttribute(Constant.USER_ID)).thenReturn(4l);
+		when(session.getAttribute(Constant.EMAIL)).thenReturn("patel.dars@husky.neu.edu");
+		when(session.getAttribute(Constant.USER_ID)).thenReturn(1l);
 		
 		questionCategoryServlet.doPut(request, response);
 		

@@ -27,6 +27,12 @@
             }
         };
         
+        vm.resetMessages = function(){
+        	vm.addError = false;
+			vm.addSuccessMessage = '';
+			vm.addSuccess = false;
+        }
+        
         function resetTab(){
         	vm.isSelected = false;
         	vm.duplicateQuestionMessage = false;
@@ -41,8 +47,7 @@
 			vm.selectedTrainingDetails.trainingImages = [];
 			vm.selectedTrainingDetails.trainingQuestions = [];
 			
-			vm.addSuccess = false;
-			vm.addError = false;
+			vm.resetMessages();
         }
         
         function initSearchTab(){
@@ -110,6 +115,8 @@
         }
         
         vm.initTrainingQuestions = function(){
+        	vm.resetMessages();
+        	
         	vm.duplicateQuestionMessage = false;
         	vm.questionsDropDown = [];
         	
@@ -127,6 +134,7 @@
         }
         
         vm.populateQuestions = function(selectedQuestionCategory){
+        	vm.resetMessages();
         	vm.questionsDropDown = [];
         	vm.questions.forEach(function (question){
         		if (question.questionCategoryId == selectedQuestionCategory.questionCategoryId){
@@ -137,6 +145,8 @@
         
         vm.checkDuplicate = function(){
         	vm.duplicateQuestionMessage = false;
+        	
+        	vm.resetMessages();
     		
         	if(vm.selectedTrainingDetails.trainingQuestions !== undefined){
         		vm.selectedTrainingDetails.trainingQuestions.forEach(function (question){
@@ -178,6 +188,8 @@
         			vm.addError = false;
         			vm.addSuccessMessage = 'Question added successfully!';
         			vm.addSuccess = true;
+        			vm.questionsDropDown.selected = '';
+        			vm.questionCategories.selected = '';
         		}
         		else{
         			vm.addSuccess = false;
@@ -189,7 +201,7 @@
         }
         
         vm.initTrainingImages = function(){
-        	
+        	vm.resetMessages();
         	vm.addImageCount = undefined;
         	vm.addImageDuration = undefined;
         	vm.duplicateImageMessage = false;
@@ -244,6 +256,10 @@
         			vm.addSuccess = true;
         			vm.addError = false;
         			vm.addSuccessMessage = 'Images added successfully!';
+        			vm.imageCategories.selected = '';
+        			vm.imageTypes.selected = '';
+        			vm.addImageDuration = '';
+        			vm.addImageCount = '';
         		}
         		else{
         			vm.addSuccess = false;
