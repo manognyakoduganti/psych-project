@@ -62,7 +62,7 @@ Licensed under MIT
                                     <label for="inputEmail3" class="col-sm-2 control-label">Location:</label>
                                     <div class="col-sm-7">
                                     <select name="locations" ng-options='loc.locationId as loc.locationName for loc in model.locationList' class="form-control" id="inputEmail3"  ng-model="model.searchTg.tgLocation" required="required">
-                                        
+                                        <option value="">Select Location</option>
                                     </select>
                                     </div>
                                 </div>
@@ -71,7 +71,7 @@ Licensed under MIT
                                     <label for="inputEmail3" class="col-sm-2 control-label">Training:</label>
                                     <div class="col-sm-7">
                                    <select name="trainings" ng-options='tr.trainingId as tr.trainingName for tr in model.trainingList' class="form-control" id="inputEmail3"  ng-model="model.searchTg.tgTraining" required="required">
-                                        
+                                        <option value="">Select Training</option>
                                         </select>
                                         </div>
                                 </div>

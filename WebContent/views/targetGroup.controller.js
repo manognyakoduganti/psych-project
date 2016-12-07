@@ -106,6 +106,14 @@
         		.success(function(response) {
         			
         			targetGroupList = response.results;
+        			
+        			if(tg.tgLocation === undefined) {
+        				tg.tgLocation = '';
+        			}
+        			
+        			if(tg.tgTraining === undefined) {
+        				tg.tgTraining = '';
+        			}
         		
         			console.log(targetGroupList);
                 	var targetGroupParams = {

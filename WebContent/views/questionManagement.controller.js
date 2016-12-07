@@ -151,7 +151,10 @@
         		.getAllCategories()
         		.success(function(response) {
         			questionCategoriesList = response.results;
-        		
+        			
+        			if(searchQc.responseTypeFieldId === undefined)
+        				searchQc.responseTypeFieldId = '';
+        			
                 	var questionCategoryParams = {
                 			questionCategoryName : searchQc.questionCategoryName,
                 			questionCategoryDescription : searchQc.questionCategoryDescription,
@@ -176,7 +179,9 @@
         		.getAllQuestions()
         		.success(function(response) {
         			questionsList= response.results;
-        		
+        			
+        			if(q.questionCategoryId === undefined)
+        				q.questionCategoryId = '';
         			//console.log(locationSearch);
                 	var questionParams = {
                 			questionName : q.questionName,

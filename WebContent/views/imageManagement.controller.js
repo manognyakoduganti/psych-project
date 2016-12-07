@@ -187,7 +187,8 @@
            
             
             //the save method
-            vm.save = function() {
+            vm.save = function(img) {
+            	console.log(img);
             	/*var imageProp = {
                 		imageName : $scope.imageName,
                 		imageDescription : $scope.imageDescription,
@@ -217,11 +218,11 @@
                     transformRequest: function (data) {
                         var formData = new FormData();
                         
-                        formData.append('imageName', $scope.imageName);
-                        formData.append('imageDescription', $scope.imageDescription);
-                        formData.append('imageTypeId', $scope.imageTypeId);
-                        formData.append('imageIntensity', $scope.imageIntensity);
-                        formData.append('imageCategoryId', $scope.imageCategoryId);
+                        formData.append('imageName', img.imageName);
+                        formData.append('imageDescription', img.imageDescription);
+                        formData.append('imageTypeId', img.imageTypeId);
+                        formData.append('imageIntensity', img.imageIntensity);
+                        formData.append('imageCategoryId', img.imageCategoryId);
                         formData.append('imageFile', $scope.files[0]);
                         
                         
@@ -235,11 +236,14 @@
                 success(function (data, status, headers, config) {
                 	$window.alert('Image has been created successfully');
                 	$scope.files = [];
-                	$scope.imageName = '';
-                	$scope.imageDescription = '';
-                	$scope.imageTypeId = '';
-                	$scope.imageIntensity = '';
-                	$scope.imageCategoryId = '';
+                	vm.createI = {
+                			imageName : '',
+                			imageDescription : '',
+                			imageIntensity : '',
+                			imageTypeId : '',
+                			imageCategoryId : '',
+                	};
+                	
                 	
                 }).
                 error(function (data, status, headers, config) {
@@ -271,7 +275,20 @@
                 				imageList[img].imageTypeId = imageList[img].imageTypeId.toString();
                 			}
                 			console.log(imageList);
-                	
+                			
+                			if(searchI.imageIntensity === undefined) {
+                				searchI.imageIntensity = '';
+                			}
+                			
+                			if(searchI.imageTypeId === undefined) {
+                				searchI.imageTypeId = '';
+                			}
+                			
+                			
+                			if(searchI.imageCategoryId === undefined) {
+                				searchI.imageCategoryId = '';
+                			}
+                			
                         	var imageParams = {
                         			imageName : searchI.imageName,
                         			imageDescription : searchI.imageDescription,

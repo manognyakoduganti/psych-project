@@ -49,7 +49,7 @@
                                     <label for="inputEmail3" class="col-sm-2 control-label">Response Type:</label>
                                     <div class="col-sm-7">                                     
                                         <select name="states" class="form-control" id="inputEmail3" placeholder="State" ng-options='qc.fieldId as qc.fieldValue for qc in model.responseTypeList' ng-model="model.searchQc.responseTypeFieldId" required="required">
-                                        
+                                        <option value="">Select Response Type</option>
                                         </select>
                                     </div>
                                 </div>
@@ -117,10 +117,10 @@
                                 <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Category Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text"  class="form-control" id="inputEmail3" name ="cdx" ng-pattern="/^[a-zA-Z0-9\s-,]{0,150}$/" placeholder="Name of the category" ng-model="model.createQc.newQuestionCategoryName" required="required">
+                                        <input type="text"  class="form-control" id="inputEmail3" name ="cdx" ng-pattern="/^[a-zA-Z0-9\s-,]{0,50}$/" placeholder="Name of the category" ng-model="model.createQc.newQuestionCategoryName" required="required">
                                         <div ng-messages="model.locationCreateForm2.cdx.$dirty && model.locationCreateForm2.cdx.$error" style="color:maroon">									       
 									        <div ng-message="required">This field is required</div>
-									        <div ng-message="pattern">Can be alphanumeric with ',' '-' or space and max 150 characters</div>
+									        <div ng-message="pattern">Can be alphanumeric with ',' '-' or space and max 50 characters</div>
 									      
 									    </div>
                                     </div>
@@ -128,7 +128,10 @@
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the category" ng-model="model.createQc.newQuestionCategoryDescription"></textarea>
+                                        <textarea type="text" name="DescirptionCreate" class="form-control" id="inputName3" ng-maxlength="1000" placeholder="Description of the category" ng-model="model.createQc.newQuestionCategoryDescription"></textarea>
+                                   <div ng-messages = "model.locationCreateForm2.DescirptionCreate.$error" style="color:maroon">
+                                   <div ng-message="maxlength">Maximum length of this field is 1000 characters</div>
+                                    </div>
                                     </div>
                                 </div>
                                 <div class="form-group required">
@@ -258,7 +261,7 @@
                                     <label for="inputEmail3" class="col-sm-2 control-label">Question Name:</label>
                                     <div class="col-sm-7">
                                         <input type="text" name="createLocationCode" ng-pattern="/^[a-zA-Z0-9\s-,?]{0,300}$/" class="form-control" id="inputEmail3" placeholder="Enter a question" ng-model="model.createQ.newQuestionName" required="required">
-                                        <div ng-messages="model.locationCreateForm.createLocationCode.$dirty && model.locationCreateForm.createLocationCode.$error"style="color:maroon">
+                                        <div ng-messages="model.locationCreateForm.createLocationCode.$dirty && model.locationCreateForm.createLocationCode.$error" style="color:maroon">
 									       
 									        <div ng-message="required">This field is required </div>
 									        <div ng-message="pattern">Can be alphanumeric with ',' '-' or space and max 300 characters </div>
@@ -268,8 +271,11 @@
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description for the question" ng-model="model.createQ.newQuestionDescription"></textarea>
+                                        <textarea type="text" class="form-control" name="desc" id="inputName3" ng-maxlength="1000" placeholder="Description for the question" ng-model="model.createQ.newQuestionDescription"></textarea>
+                                   <div ng-messages="model.locationCreateForm.desc.$error" style="color:maroon">
+                                   <div ng-message="maxlength">Maximum of 1000 characters are allowed for Description</div>
                                     </div>
+                                </div>
                                 </div>
                                 
                                 <div class="form-group required">
@@ -314,16 +320,20 @@
                                 <div class="form-group required">
                                     <label for="inputName2" class="col-sm-4 control-label">Category Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" name="CsN" id="inputName2" placeholder="Name ! of the category" ng-model="model.updateQc.questionCategoryName" required="required">
+                                        <input type="text" class="form-control" name="CsN" id="inputName2" ng-maxlength ="50" placeholder="Name ! of the category" ng-model="model.updateQc.questionCategoryName" required="required">
                                   <div ng-messages="model.locationUpdateForm21.CsN.$error"  style="color:maroon">
 										<div ng-message="required">This is a required field</div>
+										<div ng-message="maxlength">Your field is too long . Maximum is 50 characters</div>
                                     </div>
                                 </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the category" ng-model="model.updateQc.questionCategoryDescription"></textarea>
+                                        <textarea type="text" name ="updateDesc" class="form-control" id="inputName3" ng-maxlength="1000" placeholder="Description of the category" ng-model="model.updateQc.questionCategoryDescription"></textarea>
+                                    <div ng-messages="model.locationUpdateForm21.updateDesc.$error"  style="color:maroon">
+                                  <div ng-message="maxlength">Your field is too long . Maximum is 1000 characters</div>
+                                    </div>
                                     </div>
                                 </div>
                                 <div class="form-group required">
@@ -337,13 +347,19 @@
                                 <div class="form-group required">
                                     <label for="inputName2" class="col-sm-4 control-label">Start Label:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Enter a start label" ng-model="model.updateQc.startLabel" required="required">
+                                        <input type="text" class="form-control" id="inputName2" name="slabel" ng-maxlength="30" placeholder="Enter a start label" ng-model="model.updateQc.startLabel" required="required">
+                                   <div ng-messages="model.locationUpdateForm21.slabel.$error"  style="color:maroon">
+                                  <div ng-message="maxlength">Your field is too long . Maximum is 30 characters</div>
+                                    </div>
                                     </div>
                                 </div>
                                 <div class="form-group required">
                                     <label for="inputName2" class="col-sm-4 control-label">End Label:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Enter an end label" ng-model="model.updateQc.endLabel" required="required">
+                                        <input type="text" class="form-control" name="elabel" id="inputName2" ng-maxlength="30"  placeholder="Enter an end label" ng-model="model.updateQc.endLabel" required="required">
+                                    <div ng-messages="model.locationUpdateForm21.elabel.$error"  style="color:maroon">
+                                  <div ng-message="maxlength">Your field is too long . Maximum is 30 characters</div>
+                                    </div>
                                     </div>
                                 </div>
                         
@@ -380,16 +396,20 @@
                                 <div class="form-group required">
                                     <label for="inputName2" class="col-sm-4 control-label">Question:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="inputName2" name = "questn" placeholder="Enter a question" ng-model="model.updateQ.questionName" required="required">
+                                        <input type="text" class="form-control" id="inputName2" name = "questn" ng-maxlength="200" placeholder="Enter a question" ng-model="model.updateQ.questionName" required="required">
                                         <div ng-messages="model.questionUpdateForm.questn.$dirty && model.questionUpdateForm.questn.$error" style="color:maroon">
                                         <div ng-message="required">This field is required.</div>
+                                        <div ng-message="maxlength">Max. length of this field is 200 characters</div>
                                     </div>
                                 </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the question" ng-model="model.updateQ.questionDescription"></textarea>
+                                        <textarea type="text" class="form-control" id="inputName3" ng-maxlength="1000" name="questionDesc" placeholder="Description of the question" ng-model="model.updateQ.questionDescription"></textarea>
+                                    <div ng-messages="model.questionUpdateForm.questionDesc.$error" style="color:maroon">
+                                    <div ng-message="maxlength">Max. length of this field is 1000 characters</div>
+                                    </div>
                                     </div>
                                 </div>
                                 
@@ -438,13 +458,18 @@
                                         {{model.selectedQc.questionCategoryName}}
                                     </div>
                                 </div>
-                                
+                                 <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Description:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedQc.questionDescription}}
+                                    </div>
+                                </div>
                                 
                               
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Response Type:</label>
                                     <div class="col-sm-7 label-padding">
-                                        {{model.selectedQc.questionCategoryDescription}}
+                                        {{model.selectedQc.responseType}}
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -484,7 +509,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Question Category Details</h4>
+                    <h4 class="modal-title">Question Details</h4>
                 </div>
                 <div class="modal-body">
                    <div class="form-horizontal" ng-form name="locationUpdateForm">
