@@ -275,7 +275,20 @@
                 				imageList[img].imageTypeId = imageList[img].imageTypeId.toString();
                 			}
                 			console.log(imageList);
-                	
+                			
+                			if(searchI.imageIntensity === undefined) {
+                				searchI.imageIntensity = '';
+                			}
+                			
+                			if(searchI.imageTypeId === undefined) {
+                				searchI.imageTypeId = '';
+                			}
+                			
+                			
+                			if(searchI.imageCategoryId === undefined) {
+                				searchI.imageCategoryId = '';
+                			}
+                			
                         	var imageParams = {
                         			imageName : searchI.imageName,
                         			imageDescription : searchI.imageDescription,

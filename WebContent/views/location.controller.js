@@ -177,7 +177,9 @@
         		.getAllLocations()
         		.success(function(response) {
         			locationsList = response.results;
-        		
+        			if(locationSearch.state === undefined) {
+        				locationSearch.state = '';
+        			}
                 	var locationParams = {
                 			locationName : locationSearch.name,
                     		locationDescription : locationSearch.description,
