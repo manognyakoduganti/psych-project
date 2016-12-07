@@ -115,6 +115,8 @@
         }
         
         vm.initTrainingQuestions = function(){
+        	vm.resetMessages();
+        	
         	vm.duplicateQuestionMessage = false;
         	vm.questionsDropDown = [];
         	
@@ -199,7 +201,7 @@
         }
         
         vm.initTrainingImages = function(){
-        	
+        	vm.resetMessages();
         	vm.addImageCount = undefined;
         	vm.addImageDuration = undefined;
         	vm.duplicateImageMessage = false;
