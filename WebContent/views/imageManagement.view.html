@@ -206,7 +206,7 @@
                                 <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Images Name:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" name="createImageName" class="form-control" id="inputEmail3" ng-pattern="/^[a-zA-Z0-9\s-,]{0,150}$/" placeholder="Image - Name" ng-model="imageName" required="required">
+                                        <input type="text" name="createImageName" class="form-control" id="inputEmail3" ng-pattern="/^[a-zA-Z0-9\s-,]{0,150}$/" placeholder="Image - Name" ng-model="model.createI.imageName" required="required">
                                         <div ng-messages="model.locationCreateForm.createImageName.$dirty && model.locationCreateForm.createImageName.$error"  style="color:maroon">
 										<div ng-message="required">This is a required field</div>
 										<div ng-message="pattern">Can be alphanumeric with ',' '-' or space and max 150 characters</div>
@@ -217,14 +217,14 @@
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Description:</label>
                                     <div class="col-sm-7">
-                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the Image" ng-model="imageDescription"></textarea>
+                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the Image" ng-model="model.createI.imageDescription"></textarea>
                                     </div>
                                 </div>
                                 
                                 <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Image Category:</label>
                                     <div class="col-sm-7">                                     
-                                        <select name="states" class="form-control" id="inputEmail3" placeholder="Category of the image" ng-model="imageCategoryId" ng-options='ic.imageCategoryId as ic.imageCategoryName for ic in model.imageCategoryList' required="required">
+                                        <select name="states" class="form-control" id="inputEmail3" placeholder="Category of the image" ng-model="model.createI.imageCategoryId" ng-options='ic.imageCategoryId as ic.imageCategoryName for ic in model.imageCategoryList' required="required">
                                         <option value="">Select Category</option>
                                         </select>
                                     </div>
@@ -232,7 +232,7 @@
                                   <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Intensity:</label>
                                     <div class="col-sm-7">                                     
-                                        <select name="Intensity" class="form-control" id="inputEmail3" placeholder="Intensity" ng-model="imageIntensity" required="required">
+                                        <select name="Intensity" class="form-control" id="inputEmail3" placeholder="Intensity" ng-model="model.createI.imageIntensity" required="required">
                                     	<option value="">Select Intensity</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -245,7 +245,7 @@
                                        <div class="form-group required">
                                     <label for="inputEmail3" class="col-sm-2 control-label">Image Type:</label>
                                     <div class="col-sm-7">                                     
-                                        <select name="imageType" class="form-control" id="inputEmail3" placeholder="Image Type" ng-model="imageTypeId" ng-options='ic.fieldId as ic.fieldValue for ic in model.imageTypeList' required="required">
+                                        <select name="imageType" class="form-control" id="inputEmail3" placeholder="Image Type" ng-model="model.createI.imageTypeId" ng-options='ic.fieldId as ic.fieldValue for ic in model.imageTypeList' required="required">
                                         <option value="">Select Type</option>
                                         <option value=""></option>
                                           
@@ -262,7 +262,7 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-7">
-                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.save()" ng-disabled="model.locationCreateForm.$invalid"  >Create</button>
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.save(model.createI)" ng-disabled="model.locationCreateForm.$invalid"  >Create</button>
                                     </div>
                                 </div>
                                 <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
@@ -285,7 +285,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Edit images Category</h4>
+                    <h4 class="modal-title">Edit Image Category</h4>
                 </div>
                 <div class="modal-body">
                    <div class="form-horizontal" ng-form name="model.UpdateForm44">
