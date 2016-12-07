@@ -41,7 +41,8 @@
         		    "position": "left"
         		  },
         		  "innerRadius": 20,
-        		  "lineLegend": "traditional"
+        		  "lineLegend": "traditional",
+        		  "colors" : [ '#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360']
         }
         
         vm.reportConfigWrongImage = {
@@ -52,7 +53,8 @@
       		    "position": "left"
       		  },
       		  "innerRadius": 0,
-      		  "lineLegend": "traditional"
+      		  "lineLegend": "traditional",
+      		  "colors" : [ '#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360']
       	}
         
         vm.reportConfigResponseCount = {
@@ -63,7 +65,8 @@
 			    "position": "left"
 			  },
 			  "innerRadius": 0,
-			  "lineLegend": "lineEnd"
+			  "lineLegend": "lineEnd",
+			  "colors": ['#DEB887', '#98FB98', '#f7464a']
         }
         
         function loadTargetGroups(){
