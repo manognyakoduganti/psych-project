@@ -239,10 +239,16 @@
         	QuestionManagementService
     			.updateQuestionCategory(qcUpdateParams)
     			.success(function(response) {
-    				console.log(response);
     				if(response.status =='200') {
     					vm.isUpdateSuccessful = true;
     					$window.alert('Question Category has been updated successfully');
+    					vm.responseTypeList.forEach(function(rT){
+    						if(rT.fieldId == qc.responseType){
+    							qcUpdateParams.responseType = rT.fieldValue;
+    							qcUpdateParams.responseTypeFieldId = qc.responseType;
+    						}
+    					});
+    					
     					vm.questionCategorySearchResults[selectedQuestionCategory] = qcUpdateParams;
     				}
     				
@@ -256,7 +262,7 @@
         vm.updateQuestion = updateQuestion;
         
         function updateQuestion(q) {
-        	
+        	console.log(q);
         	var questionUpdateParams = {
         			questionName : q.questionName,
         			questionDescription : q.questionDescription,
@@ -264,14 +270,20 @@
         			questionCategoryId : parseInt(q.questionCategoryId)
         	};
         	//console.log(locationUpdateParams);
-        	console.log(questionUpdateParams);
+        	//console.log(questionUpdateParams);
         	QuestionManagementService
     			.updateQuestion(questionUpdateParams)
     			.success(function(response) {
-    				console.log(response);
     				if(response.status =='200') {
     					vm.isUpdateSuccessful = true;
     					$window.alert('Question has been updated successfully');
+    					
+    					vm.questionCategoryList.forEach(function(qc){
+    						if(qc.questionCategoryId == q.questionCategoryId){
+    							questionUpdateParams.questionCategoryName = qc.questionCategoryName;
+    						}
+    					})
+    					 
     					vm.questionSearchResults[selectedQuestion] = questionUpdateParams;
     				}
     				
