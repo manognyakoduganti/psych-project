@@ -26,19 +26,29 @@
     			newEndLabel : ''
     	};
     	
-    	vm.searchQc = {
-    			questionCategoryName : '',
-    			questionCategoryDescription : '',
-    			responseTypeFieldId : '',
-    			startLabel : '',
-    			endLabel : ''
-    	};
     	
-    	vm.searchQ = {
-    			questionName : '',
-    			questionDescription : '',
-    			questionCategoryId : ''
-    	};
+    	
+    	
+    	
+    	function initSearchQc() {
+    		vm.searchQc = {
+        			questionCategoryName : '',
+        			questionCategoryDescription : '',
+        			responseTypeFieldId : '',
+        			startLabel : '',
+        			endLabel : ''
+        	};
+    	}
+    	initSearchQc();
+    	
+    	function initSearchQ() {
+    		vm.searchQ = {
+        			questionName : '',
+        			questionDescription : '',
+        			questionCategoryId : ''
+        	};
+    	}
+    	initSearchQ();
     	
     	vm.setTab = function (tabId) {
             //console.log("Setting tab to " + tabId);
@@ -54,6 +64,17 @@
         
         vm.setSubTab = function (tabId) {
         	vm.subTab = tabId;
+        	if(tabId === "searchQuestionCategories") {
+        		vm.questionCategorySearchResults = [];
+            	initSearchQc();
+            	vm.isSearchClicked = false;
+        	}
+        	
+        	if(tabId === "searchQuestions") {
+        		vm.questionSearchResults = [];
+            	initSearchQ();
+            	vm.isQuestionSearchClicked = false;
+        	}
         }
 
         vm.isSet = function (tabId) {
@@ -106,6 +127,13 @@
         		    	};
         				
         				$window.alert('Question Category has been created successfully');
+        				QuestionManagementService
+        	        	.getAllCategories()
+        	        	.success(function(response) {
+        	        		if(response.status === '200')
+        	        			vm.questionCategoryList = response.results;
+        	        	});
+        				
         			}
         			
         			else

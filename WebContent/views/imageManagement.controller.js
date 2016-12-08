@@ -17,10 +17,26 @@
     			imageCategoryDescription : ''
     	};
     	
-    	vm.searchIc = {
-    			imageCategoryName : '',
-    			imageCategoryDescription : ''
-    	};
+    	
+    	
+    	function initSearchIc() {
+    		vm.searchIc = {
+        			imageCategoryName : '',
+        			imageCategoryDescription : ''
+        	};
+    	}
+    	initSearchIc();
+    	
+    	function initSearchI() {
+    		vm.searchI = {
+        			imageName : '',
+        			imageDescription : '',
+        			imageIntensity : '',
+        			imageTypeId : '',
+        			imageCategoryId : '',
+        	};
+    	}
+    	initSearchI();
     	
     	vm.createI = {
     			imageName : '',
@@ -30,13 +46,7 @@
     			imageCategory : '',
     	};
     	
-    	vm.searchI = {
-    			imageName : '',
-    			imageDescription : '',
-    			imageIntensity : '',
-    			imageTypeId : '',
-    			imageCategoryId : '',
-    	};
+    	
     	
     	ImageManagementService
     	.getAllCategories()
@@ -60,15 +70,30 @@
             vm.tab = tabId;
             if(tabId === "imageCategories") {
         		vm.setSubTab("SearchImageCategories");
+        		
+                	
+                
         	}
             
             if(tabId === "images") {
         		vm.setSubTab("searchImages");
+        		
         	}
         };
         
         vm.setSubTab = function (tabId) {
         	vm.subTab = tabId;
+        	if(tabId === 'SearchImageCategories'){
+        		vm.imageCategorySearchResults = [];
+            	initSearchIc();
+            	vm.isSearchClicked = false;
+        	}
+        	if(tabId === 'searchImages'){
+        		vm.imageSearchResults = [];
+            	initSearchI();
+            	vm.isSearchImagesClicked = false;
+        	}
+        	
         }
 
         vm.isSet = function (tabId) {
@@ -103,6 +128,12 @@
         		    	};
         				
         				$window.alert('Image Category has been created successfully');
+        				ImageManagementService
+        		    	.getAllCategories()
+        		    	.success(function(response) {
+        		    		if(response.status === '200')
+        		    			vm.imageCategoryList = response.results;
+        		    	});
         			}
         			
         			else

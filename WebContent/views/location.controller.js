@@ -30,19 +30,22 @@
         		email : ''
         };
         
-        vm.searchLoc = {
-        		name : '',
-        		locationCode : '',
-        		description : '',
-        		keywords : '',
-        		address : '',
-        		city : '',
-        		state : '',
-        		zipcode : '',
-        		phoneNo : '',
-        		faxNo : '',
-        		email : ''
-        };
+        function initSearchLoc() {
+        	vm.searchLoc = {
+            		name : '',
+            		locationCode : '',
+            		description : '',
+            		keywords : '',
+            		address : '',
+            		city : '',
+            		state : '',
+            		zipcode : '',
+            		phoneNo : '',
+            		faxNo : '',
+            		email : ''
+            };
+        }
+        initSearchLoc();
         
        
 	    LocationService
@@ -54,6 +57,11 @@
         vm.setTab = function (tabId) {
             //console.log("Setting tab to " + tabId);
             vm.tab = tabId;
+            if(tabId === 'search') {
+            	vm.locationSearchResults = [];
+            	initSearchLoc();
+            	vm.isSearchClicked = false;
+            }
         };
 
         vm.isSet = function (tabId) {

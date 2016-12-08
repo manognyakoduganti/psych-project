@@ -19,18 +19,29 @@
     			training : ''
     	};
     	
-    	vm.searchTg = {
-    			tgName : '',
-    			tgDescription : '',
-    			tgKeywords : '',
-    			tgLocation : '',
-    			tgTraining : ''
-    	};
+    	
+    	
+    	function initSearchTg() {
+    		vm.searchTg = {
+        			tgName : '',
+        			tgDescription : '',
+        			tgKeywords : '',
+        			tgLocation : '',
+        			tgTraining : ''
+        	};
+    	}
+    	
+    	initSearchTg();
        
 
         vm.setTab = function (tabId) {
             //console.log("Setting tab to " + tabId);
             vm.tab = tabId;
+            if(tabId === 'search') {
+            	vm.locationSearchResults = [];
+            	initSearchTg();
+            	vm.isSearchClicked = false;
+            }
         };
 
         vm.isSet = function (tabId) {
