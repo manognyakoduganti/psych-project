@@ -7,8 +7,8 @@
     'use strict';
     angular
         .module("PsychWebApp")
-        //.constant("serverURL", { url : 'http://ec2-54-166-55-193.compute-1.amazonaws.com:8080/Psych-1/'})
-        .constant("serverURL", { url : 'http://localhost:8080/Psych-1/'})
+        .constant("serverURL", { url : 'http://ec2-52-32-245-49.us-west-2.compute.amazonaws.com:8080/Psych-1/'})
+        //.constant("serverURL", { url : 'http://localhost:8080/Psych-1/'})
         .directive('fileUpload', function () {
         	return {
         		scope: true,        //create a new scope

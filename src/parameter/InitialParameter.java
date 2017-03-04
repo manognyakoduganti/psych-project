@@ -59,7 +59,7 @@ public class InitialParameter extends HttpServlet {
 			uniqueSet = generateRandomUniqueNumber(maximum_number);
 			int j = 0;
 			for (Integer i : uniqueSet) {
-				if (j == uniqueSet.size()-1)
+				if (j == uniqueSet.size()-2)
 					numberColor = numberColor + i.toString();
 				else
 					numberColor = numberColor + i.toString() + ",";
@@ -69,7 +69,7 @@ public class InitialParameter extends HttpServlet {
 			String sqlColor = "select bgColor from background where backgroundId in (" + numberColor + ")";
 			
 			ResultSet rs1 = BuildStaticParameters.stmt.executeQuery(sqlColor);
-			String color[] = new String[2];
+			String color[] = new String[3];
 			int i = 0;
 			while(rs1.next()){
 				color[i] = rs1.getString(1);
@@ -105,16 +105,22 @@ public class InitialParameter extends HttpServlet {
 			sessionStmt.setString(3, sessionDate.toString());
 			sessionStmt.executeUpdate();
 			
-			String sql7 = "insert into parameter(paramUser, paramSessionId, paramSessionDate, paramColorOne, paramColorTwo, paramColorOneType, paramColorTwoType, paramTimeInterval) values (?, ?, ?, ?, ?, ?, ?, ?)";
+
+System.out.println("checking colours in parameter file "+color[0]);
+System.out.println("checking colour 2 in parameter file "+color[1]);
+System.out.println("checking colour 3 in parameter file "+color[2]);
+			String sql7 = "insert into parameter(paramUser, paramSessionId, paramSessionDate, paramColorOne, paramColorTwo, paramColorThree, paramColorOneType, paramColorTwoType, paramColorThreeType, paramTimeInterval) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement paramStmt = BuildStaticParameters.conn.prepareStatement(sql7);
 			paramStmt.setString(1, userID);
 			paramStmt.setInt(2, sessionID);
 			paramStmt.setString(3, sessionDate.toString());
 			paramStmt.setString(4, color[0]);
 			paramStmt.setString(5, color[1]);
-			paramStmt.setString(6, "positive");
-			paramStmt.setString(7, "negative");
-			paramStmt.setFloat(8, timeInterval);
+                        paramStmt.setString(6, color[2]);
+			paramStmt.setString(7, "positive");
+			paramStmt.setString(8, "negative");
+                        paramStmt.setString(9, "neutral");
+			paramStmt.setFloat(10, timeInterval);
 			paramStmt.executeUpdate();
 			
 			String result = getJSONStringParameters(color, timeInterval, sessionID);
@@ -135,7 +141,8 @@ public class InitialParameter extends HttpServlet {
 		String result = "";
 		String time = timeInterval.toString();
 			result = "{\"positiveColor\":\"" + colors[0] + 
-					"\",\"negativeColor\":\"" + colors[1] + 
+					"\",\"negativeColor\":\"" + colors[1] +
+                                        "\",\"neutralColor\":\"" + colors[2] + 
 					"\",\"timeInterval\":\"" + time +   
 					"\",\"totalGames\": \"7\"" +
 					",\"sessionID\":\"" + sessionId + "\"}";
@@ -143,7 +150,7 @@ public class InitialParameter extends HttpServlet {
 	}
 
 	private Set<Integer> generateRandomUniqueNumber(int maximum_number) {
-		int set_size_required = 2;
+		int set_size_required = 3;
 		int set_maximum_size = maximum_number;
 		
 		Random randomGen = new Random();

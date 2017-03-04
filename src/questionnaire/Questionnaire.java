@@ -83,8 +83,13 @@ public class Questionnaire extends HttpServlet {
 							//Fetch two color randomly
 							String[] colors = ColorDAO.getTwoRandomColors();
 							// Save into parameter table
+
+System.out.println("colours length in questionnaire file "+colors.length);
+System.out.println("colour1 in questionnaire "+colors[0]);
+System.out.println("colour2 in questionnaire "+colors[1]);
+System.out.println("colour3 in questionnaire "+colors[2]);
 							boolean parameterCreated = SessionDAO.createNewParameters(sessionId, participantId, colors);
-							if(colors.length != 2 || latestSessionNumber < 1 || parameterCreated == false){
+							if(colors.length != 3 || latestSessionNumber < 1 || parameterCreated == false){
 								returnJSON.put(Constant.SAVE, Constant.UNSUCCESSFUL);
 								return;
 							}else{
@@ -95,6 +100,7 @@ public class Questionnaire extends HttpServlet {
 									System.out.println("AFter entry session id is:"+sessionId);
 									returnJSON.put(Constant.POSITIVE_COLOR, colors[0]);
 									returnJSON.put(Constant.NEGATIVE_COLOR, colors[1]);
+                                                                        returnJSON.put(Constant.NEUTRAL_COLOR, colors[2]);
 									returnJSON.put(Constant.SESSION_ID, Long.toString(sessionId));
 								}
 							}

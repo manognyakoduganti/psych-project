@@ -21,7 +21,7 @@ public class ColorDAO {
 	public static String[] getTwoRandomColors(){
 		
 		String selectQuery = "select count(*) from background";
-		String color[] = new String[2];
+		String color[] = new String[3];
 		
 		Connection connection = null;
 		Object[] uniqueSet = null;
@@ -39,18 +39,24 @@ public class ColorDAO {
 				maxColors = rs.getInt(1);
 			}
 			uniqueSet = generateRandomUniqueNumber(maxColors);
-			PreparedStatement pstmt =  connection.prepareStatement("select * from background where backgroundId in (?, ?)");
+System.out.println("checking uniqueset1 in colourdao "+uniqueSet[0]);
+System.out.println("checking uniqueset2 in colourdao "+uniqueSet[1]);
+System.out.println("checking uniqueset3 in colourdao "+uniqueSet[2]);
+			PreparedStatement pstmt =  connection.prepareStatement("select * from background where backgroundId in (?, ?, ?)");
 			//Long[] values = new Long[] {, (Long) uniqueSet[1]};
 			//System.out.println("values :"+values.toString());
 			//Array array = connection.createArrayOf("BIGINT", values);
 			//System.out.println("array : "+array);
 			pstmt.setLong(1, (Long) uniqueSet[0]);
 			pstmt.setLong(2, (Long) uniqueSet[1]);
+                        pstmt.setLong(3, (Long) uniqueSet[2]);
 			int i = 0;
 			System.out.println("Color query :"+pstmt.toString());
 			ResultSet rs1 = pstmt.executeQuery();
 			while(rs1.next()){
 				color[i] = rs1.getString(2);
+System.out.println("rs1.get string in colourdao "+rs1.getString(2));
+System.out.println("colour in colourdao "+color[i]);
 				i++;
 			}
 			connection.close();
@@ -75,7 +81,7 @@ public class ColorDAO {
 	}
 	
 	public static Object[] generateRandomUniqueNumber(int maxColor) {
-		int setSizeRequired = 2;
+		int setSizeRequired = 3;
 		
 		Random randomGen = new Random();
 		Set<Long> set = new HashSet<Long>(setSizeRequired);

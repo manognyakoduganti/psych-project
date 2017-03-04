@@ -164,6 +164,7 @@ public class Constant {
     public static String IMAGES = "images";
 	public static String POSITIVE_COLOR = "positiveColor";
 	public static String NEGATIVE_COLOR = "negativeColor";
+	public static String NEUTRAL_COLOR = "neutralColor";
     public static String RESPONSE = "response";
     public static String RESPONSE_TYPE = "responseType";
     public static String QUESTION_SESSION = "questionSession";

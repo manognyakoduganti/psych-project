@@ -100,8 +100,12 @@ public class SessionDAO {
 	}
 	
 	public static boolean createNewParameters(Long sessionId, String participantId, String[] colors){
-		
-		String insertQuery = "INSERT INTO parameter (participantId, sessionId, posColor, negColor) VALUES (?, ?, ?, ?)";
+		System.out.println("colours length testing ..."+colors.length);
+System.out.println("testing colours 1 in session dao "+colors[0]);
+System.out.println("testing colours 2 in session dao "+colors[1]);
+System.out.println("testing colours 3 in session dao "+colors[2]);
+
+		String insertQuery = "INSERT INTO parameter (participantId, sessionId, posColor, negColor, neuColor) VALUES (?, ?, ?, ?, ?)";
 		Connection connection = null;
 		
 		try{
@@ -113,6 +117,7 @@ public class SessionDAO {
 			preparedStatement.setLong(2, sessionId);
 			preparedStatement.setString(3, colors[0]);
 			preparedStatement.setString(4, colors[1]);
+                        preparedStatement.setString(5, colors[2]);
 			
 			// execute select SQL statement
 			int inserted = preparedStatement.executeUpdate();
