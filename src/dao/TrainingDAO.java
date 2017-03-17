@@ -223,6 +223,8 @@ public class TrainingDAO {
 				returnJSON.put(Constant.TRAINING_NAME, training.getName());
 				returnJSON.put(Constant.TRAINING_DESCRIPTION, training.getDescription());
 				
+				//String location = getLocationfromTG_Map (training,lastId);
+				
 				boolean insertTrainingQuestionMap = createTrainingQuestionMap(training, lastId);
 				boolean insertTrainingImageMap = createTrainingImageMap(training, lastId);
 				

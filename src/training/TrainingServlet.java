@@ -39,7 +39,7 @@ import location.LocationServlet;
 @WebServlet("/training")
 public class TrainingServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static Logger slf4jLogger = LoggerFactory.getLogger(TrainingServlet.class);
+	private static final Logger slf4jLogger = LoggerFactory.getLogger(TrainingServlet.class);
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -121,14 +121,16 @@ public class TrainingServlet extends HttpServlet {
 				newDescrition = (String) jsonObject.get(Constant.TRAINING_DESCRIPTION);
 				newKeywords = (String) jsonObject.get(Constant.TRAINING_KEYWORDS);
 				JSONArray questionsArray = (JSONArray) jsonObject.get(Constant.TRAINING_QUESTIONS);
+				
+				slf4jLogger.info("questions array in training servlet "+questionsArray);
+				
 				JSONArray imageArray = (JSONArray) jsonObject.get(Constant.TRAINING_IMAGES);
 				
 				
 				if(QuestionCategoryFieldsVal.validateQuestionName(newName) 
 						&& CommonFieldsVal.validateDescription(newDescrition)
 						&& CommonFieldsVal.validateKeywords(newKeywords)){
-				
-						
+										
 					//System.out.println(newFirstName+ ":"+newLastName + ":"+newEmail + ":" + newPassword +" :" + email);
 					for (int i = 0; i < imageArray.size(); i++){
 						JSONObject image = (JSONObject) imageArray.get(i);
@@ -142,11 +144,11 @@ public class TrainingServlet extends HttpServlet {
 					
 					for (int j = 0; j < questionsArray.size(); j++){
 						JSONObject question = (JSONObject) questionsArray.get(j);
+						System.out.println("training servlet "+question);
 						Long questionId = Long.parseLong(question.get(Constant.QUESTION_ID).toString());
 						questions.add(questionId);
 					}
-					
-					
+
 					returnJSON  = TrainingDAO.createTraining(new Training(1, newName, newDescrition, newKeywords, questions, images));
 					//System.out.println("isUpdated : " + isUpdated);
 				}else{
@@ -237,6 +239,8 @@ public class TrainingServlet extends HttpServlet {
 					
 					for (int j = 0; j < questionsArray.size(); j++){
 						JSONObject question = (JSONObject) questionsArray.get(j);
+			
+						
 						Long questionId = Long.parseLong(question.get(Constant.QUESTION_ID).toString());
 						questions.add(questionId);
 					}

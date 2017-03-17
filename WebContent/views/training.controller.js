@@ -120,10 +120,21 @@
         	vm.duplicateQuestionMessage = false;
         	vm.questionsDropDown = [];
         	
+        	//adding location for questions
+        	
+        	//adding location service
+        	TrainingService
+    		.getQuestionLocations()
+    		.success(function(response){
+    			vm.questionLocations = response.results;
+    			console.log("in training controller ",vm.questionLocations);
+    		});
+        	
     		TrainingService
     		.getQuestionCategories()
     		.success(function(response){
     			vm.questionCategories = response.results;
+    			console.log("question categories ",vm.questionCategories);
     		});
     		
     		TrainingService
@@ -160,7 +171,8 @@
         }
         
         vm.addQuestionToTraining = function(){
-        	if (vm.questionCategories.selected != undefined && vm.questionsDropDown.selected != undefined){
+        	if (vm.questionCategories.selected != undefined && vm.questionsDropDown.selected != undefined 
+        			&& vm.questionLocations.selected != undefined){
         		var duplicate = false;
         		
         		if(vm.selectedTrainingDetails.trainingQuestions !== undefined){
@@ -180,7 +192,8 @@
         					questionCategoryName: vm.questionsDropDown.selected.questionCategoryName,
         					questionDescription: vm.questionsDropDown.selected.questionDescription,
         					questionCategoryId: vm.questionsDropDown.selected.questionCategoryId,
-        					questionName: vm.questionsDropDown.selected.questionName
+        					questionName: vm.questionsDropDown.selected.questionName,
+        					questionLocation : vm.questionLocations.selected.fieldValue
         			}
         			
         			vm.selectedTrainingDetails.trainingQuestions.push(newTrainingQuestion);
@@ -190,6 +203,7 @@
         			vm.addSuccess = true;
         			vm.questionsDropDown.selected = '';
         			vm.questionCategories.selected = '';
+        			vm.questionLocations.selected= '';
         		}
         		else{
         			vm.addSuccess = false;

@@ -6,7 +6,8 @@
   </welcome-file-list>
   <context-param>
     <param-name>ImageFolder</param-name>
-    <param-value>/home/ubuntu/Psych_Server/Images</param-value>
+    <!--> <param-value>/home/ubuntu/Psych_Server/Images</param-value> <-->
+	<param-value>D:\Psych_Server\Images</param-value>
   </context-param>
   <servlet>
     <servlet-name>AuthenticatingUser</servlet-name>
