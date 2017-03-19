@@ -105,6 +105,7 @@ public class TrainingServlet extends HttpServlet {
 		String newDescrition;
 		String newKeywords;
 		ArrayList<Long> questions = new ArrayList<Long>();
+		ArrayList<String> questionLocations = new ArrayList<String>();
 		ArrayList<TrainingImage> images = new ArrayList<TrainingImage>();
 		
 		HttpSession session = request.getSession(false);
@@ -146,10 +147,12 @@ public class TrainingServlet extends HttpServlet {
 						JSONObject question = (JSONObject) questionsArray.get(j);
 						System.out.println("training servlet "+question);
 						Long questionId = Long.parseLong(question.get(Constant.QUESTION_ID).toString());
+						String questionLocation = question.get(Constant.TRG_QUESTIONS_MAP_LOCATION).toString();
 						questions.add(questionId);
+						questionLocations.add(questionLocation);
 					}
 
-					returnJSON  = TrainingDAO.createTraining(new Training(1, newName, newDescrition, newKeywords, questions, images));
+					returnJSON  = TrainingDAO.createTraining(new Training(1, newName, newDescrition, newKeywords, questions, questionLocations, images));
 					//System.out.println("isUpdated : " + isUpdated);
 				}else{
 					returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
@@ -200,6 +203,7 @@ public class TrainingServlet extends HttpServlet {
 		String newDescrition;
 		String newKeywords;
 		ArrayList<Long> questions = new ArrayList<Long>();
+		ArrayList<String> questionLocations = new ArrayList<String>();
 		ArrayList<TrainingImage> images = new ArrayList<TrainingImage>();
 		
 		HttpSession session = request.getSession(false);
@@ -242,11 +246,14 @@ public class TrainingServlet extends HttpServlet {
 			
 						
 						Long questionId = Long.parseLong(question.get(Constant.QUESTION_ID).toString());
+						String questionLocation = question.get(Constant.TRG_QUESTIONS_MAP_LOCATION).toString();
 						questions.add(questionId);
+						questionLocations.add(questionLocation);
 					}
 					
 					
-					returnJSON  = TrainingDAO.updateTraining(new Training(id, newName, newDescrition, newKeywords, questions, images));
+					
+					returnJSON  = TrainingDAO.updateTraining(new Training(id, newName, newDescrition, newKeywords, questions, questionLocations, images));
 					//System.out.println("isUpdated : " + isUpdated);
 				}else{
 					returnJSON.put(Constant.STATUS, Constant.BADREQUEST_400);
