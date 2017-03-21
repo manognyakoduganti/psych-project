@@ -17,10 +17,25 @@
     			getQuestions: getQuestions,
     			getAllImageCategories: getAllImageCategories,
     			updateTraining: updateTraining,
-    			createTraining: createTraining
+    			createTraining: createTraining,
+    			
+    			// added location for questions
+    			getQuestionLocations:getQuestionLocations
     	};
     	
     	return service;
+    	
+    	
+    	// question location service
+    	function getQuestionLocations(){
+    		return $http ({
+    			method : 'GET',
+    			url : serverURL.url + 'FetchCommonFieldServlet?fieldName=LocationType',
+    			contentType: 'application/json'
+    		}); 
+    	}
+    	
+    	
     	
     	function getAllTrainings() {
     		return $http ({

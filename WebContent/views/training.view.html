@@ -79,19 +79,23 @@
                         </div>
            			
 	           			<h4>Questions asked in this training</h4>
+	           			<h2>Test statement</h2>
 	           			<table class="table table-striped table-bordered">
 					        <thead>
 					        <tr>
 					            <th> Question</th>
 					            <th> Question Category</th>
+					            <th> Question Location </th>
 					            <th> Actions</th>
 					        </tr>
 					        </thead>
 					        <tbody>
+					        
+					         <!-- adding location to table view -->
 					        <tr ng-repeat = "trainingQuestion in model.selectedTrainingDetails.trainingQuestions">
 					            <td> {{trainingQuestion.questionName}} </td>
 					            <td> {{trainingQuestion.questionCategoryName}} </td>
-					            
+					            <td> {{trainingQuestion.questionLocation}}</td>
 					            <td>
 					                <a><span class="glyphicon glyphicon-remove incrsize" ng-click="model.removeTrainingQuestion($index)"></span></a>
 					            </td>
@@ -183,14 +187,17 @@
 					        <tr>
 					            <th> Question</th>
 					            <th> Question Category</th>
+					            <th> Question Location </th>
 					            <th> Actions</th>
 					        </tr>
 					        </thead>
 					        <tbody>
+					        
+					       <!--  adding question location to table view -->
 					        <tr ng-repeat = "trainingQuestion in model.selectedTrainingDetails.trainingQuestions">
 					            <td> {{trainingQuestion.questionName}} </td>
 					            <td> {{trainingQuestion.questionCategoryName}} </td>
-					            
+					            <td> {{trainingQuestion.questionLocation}}</td>
 					            <td>
 					                <a><span class="glyphicon glyphicon-remove incrsize" ng-click="model.removeTrainingQuestion($index)"></span></a>
 					            </td>
@@ -278,6 +285,7 @@
                                         <ui-select name="trainingQuestionName" ng-model="model.questionsDropDown.selected" required="required" theme="select2" style="min-width: 300px;" title="Choose a question" ng-change="model.checkDuplicate()">
 										    <ui-select-match placeholder="Select a question from above category in the list...">{{$select.selected.questionName}}</ui-select-match>
 										    <ui-select-choices repeat="question in model.questionsDropDown | propsFilter: {questionName: $select.search}">
+								
 										      <div ng-bind-html="question.questionName | highlight: $select.search"></div>
 										    </ui-select-choices>
 										  </ui-select>
@@ -286,6 +294,26 @@
 									      </div>
                                     </div>
                                 </div>
+                                
+                              
+                               <!--  fetching locations from controller -->
+                                 <div class="form-group required">
+                                    <label for="inputName2" class="col-sm-4 control-label">Question Location:</label>
+                                    <div class="col-sm-7">
+                                        <ui-select name="trainingQuestionLocation" ng-model="model.questionLocations.selected" required="required" theme="select2" style="min-width: 300px;" title="Choose a question location" >
+										    <ui-select-match placeholder="Select a question location for above question...">{{$select.selected.fieldValue}}</ui-select-match>
+										    <ui-select-choices repeat="questionLocation in model.questionLocations | propsFilter: {fieldValue: $select.search}">
+							
+										      <div ng-bind-html="questionLocation.fieldValue | highlight: $select.search"></div>
+										    </ui-select-choices>
+										  </ui-select>
+										  <div ng-messages="trainingQuestionsAddForm.trainingQuestionLocation.$error" style="color:maroon">
+									        <div ng-message="required">This field is required.</div>
+									      </div>
+                                    </div>
+                                </div>
+                                
+                                
                                 <div class="form-group">
                                     <div class="col-sm-offset-4 col-sm-3">
                                         <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.addQuestionToTraining()" ng-disabled="trainingQuestionsAddForm.$invalid">Add</button>

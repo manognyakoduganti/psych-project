@@ -112,6 +112,8 @@ public class Constant {
 	public static String TRAINING_QUESTIONS = "trainingQuestions";
 	public static String TRAINING_IMAGES = "trainingImages";
 	
+	// training-question map location
+	public static String TRG_QUESTIONS_MAP_LOCATION = "questionLocation";
 	
 	public static String TRG_IMAGE_MAP_IMAGE_CAT = "imageCategoryId";
 	public static String TRG_IMAGE_MAP_IMAGE_TYPE = "imageTypeId";

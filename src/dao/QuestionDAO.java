@@ -283,7 +283,7 @@ public class QuestionDAO {
 	
 	public static JSONObject getAllQuestionsByTargetGroupId(Long targetGroupId){
 		
-		String selectQuery = "SELECT D.NAME AS questionName, F.FIELDNAME AS responseType, "
+		String selectQuery = "SELECT D.NAME AS questionName, F.FIELDNAME AS responseType, C.LOCATIONNAME as questionLocation, "
 				+ "D.ID AS questionId, E.STARTLABEL AS startLabel, E.ENDLABEL AS endLabel "
 				+ "FROM PSYCH.TARGETGROUP AS A INNER JOIN PSYCH.TRAINING AS B ON A.TRAININGID = B.ID "
 				+ "INNER JOIN PSYCH.TRAININGQUESTIONMAP AS C ON B.ID = C.TRAININGID "
@@ -317,6 +317,8 @@ public class QuestionDAO {
 				object.put(Constant.QUESTION_CATEGORY_START_LABEL, rows.getString("startLabel"));
 				object.put(Constant.QUESTION_CATEGORY_END_LABEL, rows.getString("endLabel"));
 				object.put(Constant.QUESTION_CATEGORY_RESPONSE_TYPE, rows.getString("responseType"));
+				object.put(Constant.TRG_QUESTIONS_MAP_LOCATION, rows.getString("questionLocation"));
+				
 				
 				results.add(object);
 			}

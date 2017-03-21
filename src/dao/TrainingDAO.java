@@ -222,6 +222,7 @@ public class TrainingDAO {
 				returnJSON.put(Constant.TRAINING_ID, lastId);
 				returnJSON.put(Constant.TRAINING_NAME, training.getName());
 				returnJSON.put(Constant.TRAINING_DESCRIPTION, training.getDescription());
+				System.out.println("******************** in Training DAO, getQuestions(): "+training.getQuestions());
 				
 				boolean insertTrainingQuestionMap = createTrainingQuestionMap(training, lastId);
 				boolean insertTrainingImageMap = createTrainingImageMap(training, lastId);
@@ -261,17 +262,21 @@ public class TrainingDAO {
 	
 	public static boolean createTrainingQuestionMap(Training training, Long trainingId){
 		Connection connection = null;
-		
-		for(Long questionId: training.getQuestions()){
-			String insertQuery = "INSERT INTO TRAININGQUESTIONMAP (TRAININGID, QUESTIONID) VALUES (?, ?)";
+		int questionsArraySize = training.getQuestions().size();
+		for(int i=0; i<questionsArraySize; ++i){
+			
+			Long questionId = training.getQuestions().get(i);
+			String questionLocation = training.getQuestionLocations().get(i);
+			
+			String insertQuery = "INSERT INTO TRAININGQUESTIONMAP (TRAININGID, QUESTIONID, LOCATIONNAME) VALUES (?, ?, ?)";
 			
 			PreparedStatement preparedStatement1;
 			try {
 				connection = DBSource.getConnectionPool().getConnection();
-				
 				preparedStatement1 = connection.prepareStatement(insertQuery);
 				preparedStatement1.setLong(1, trainingId);
 				preparedStatement1.setLong(2, questionId);
+				preparedStatement1.setString(3, questionLocation);
 				
 				int rowsAffected = preparedStatement1.executeUpdate();
 				
@@ -391,6 +396,7 @@ public class TrainingDAO {
 			returnJSON.put(Constant.TRAINING_ID, training.getId());
 			returnJSON.put(Constant.TRAINING_NAME, training.getName());
 			returnJSON.put(Constant.TRAINING_DESCRIPTION, training.getDescription());
+			System.out.println("*$$$$$$$$$$$$$$** in Training DAO update, getQuestions(): "+training.getQuestions());
 			
 			boolean insertTrainingQuestionMap = createTrainingQuestionMap(training, training.getId());
 			boolean insertTrainingImageMap = createTrainingImageMap(training, training.getId());
@@ -505,7 +511,7 @@ public class TrainingDAO {
 		Connection connection = null;
 		
 		
-		String selectQuery = "SELECT A.ID AS tId, C.ID AS qId, C.NAME AS qName, "
+		String selectQuery = "SELECT A.ID AS tId, C.ID AS qId, C.NAME AS qName, B.LocationName as qLocation,"
 				+ "IFNULL(C.DESCRIPTION, '') AS qDescription, D.NAME AS qCategory "
 				+ "FROM PSYCH.TRAINING AS A "
 				+ "INNER JOIN PSYCH.TRAININGQUESTIONMAP AS B ON A.ID = B.TRAININGID "
@@ -527,6 +533,7 @@ public class TrainingDAO {
 				jsonObject.put(Constant.QUESTION_NAME,rs.getString("qName"));
 				jsonObject.put(Constant.TRAINING_ID,rs.getLong("tId"));
 				jsonObject.put(Constant.QUESTION_ID,rs.getLong("qId"));
+				jsonObject.put(Constant.TRG_QUESTIONS_MAP_LOCATION, rs.getString("qLocation"));
 				jsonObject.put(Constant.QUESTION_DESCRIPTION, rs.getString("qDescription"));
 				jsonObject.put(Constant.QUESTION_CATEGORY_NAME, rs.getString("qCategory"));
 				results.add(jsonObject);
